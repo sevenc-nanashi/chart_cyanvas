@@ -1,0 +1,76 @@
+ja:
+  auth:
+    title: "Chart Cyanvas: ログインサーバー"
+    code_search:
+      option:
+        name: "コード"
+        placeholder: "8桁のコードを入力して下さい。"
+  levels:
+    _:
+      engine-title: "（メッセージ）"
+      author: "（メッセージ）"
+    dummy:
+      title: "このレベルはプレイできません！"
+      description: "一つ前のページに戻って、タイトルを読んで下さい。"
+    search:
+      unknown-user:
+        title: "不明な作者です！"
+        description: "ユーザーのハンドルが合っているか確認して下さい。"
+    like:
+      button:
+        to_on:
+          title: "この譜面を高評価する"
+          description: "タップで高評価します。"
+        to_off:
+          title: "この譜面の高評価を解除する"
+          description: "タップで高評価を解除します。"
+      message:
+        to_on:
+          title: "この譜面を高評価しました！"
+          description: "高評価した譜面はWebサイトのメニューから見ることができます。右上のボタンで前の画面に戻ります。"
+        to_off:
+          title: "この譜面の高評価を解除しました。"
+          description: "右上のボタンで前の画面に戻ります。"
+        already:
+          title: "この譜面は既に高評価されています。"
+          description: "右上のボタンで前の画面に戻ります。"
+        not:
+          title: "この譜面は高評価されていません。"
+          description: "右上のボタンで前の画面に戻ります。"
+
+    auth:
+      welcome:
+        title: "Chart Cyanvas ログインサーバーへようこそ！"
+        description: "下の [ 検索 ] ボタンを押してコードを入力して下さい。"
+      guide:
+        title: "下の [ 検索 ] ボタンを押してコードを入力して下さい。"
+        description: "他人から貰ったコードは使用しないで下さい！"
+      confirm:
+        title: "[ %{code} ] でログインしますか？"
+        description: "他人から貰ったコードは使用しないで下さい！"
+      invalid:
+        title: "コードが無効です！"
+        description: "コードは数字8桁で構成されています。"
+      expired:
+        title: "コードが無効です！"
+        description: "認証コードが見付かりませんでした。数字を間違えていないか確認して下さい。"
+      success:
+        title: "ログインしました！"
+        description: "ブラウザに戻ってください。"
+  sonolus:
+    title: "Chart Cyanvas"
+    tag_separator: "、"
+    levels:
+      description: |
+        高評価：%{likes}  /  タグ：%{tags}
+
+        %{description}
+    search:
+      title: "タイトル"
+      title_placeholder: "タイトルを入力して下さい..."
+      author: "作者"
+      author_placeholder: "作者のハンドルをスペース区切りで入力して下さい（例：0123 x456）..."
+      target: "表示対象"
+      targets:
+        - "公開"
+        - "テスト中"

@@ -1,0 +1,48 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
+  },
+  "dependencies": {
+    "@fluentui/react-icons": "^2.0.190",
+    "@mdx-js/mdx": "^2.2.1",
+    "@mdx-js/react": "^2.2.1",
+    "dotenv": "^16.0.3",
+    "jotai": "^1.11.2",
+    "js-yaml-loader": "^1.2.2",
+    "next": "13.0.5",
+    "next-translate": "^1.6.0",
+    "react": "18.2.0",
+    "react-dnd": "^14.0.5",
+    "react-dnd-html5-backend": "^14.1.0",
+    "react-dom": "18.2.0",
+    "react-intersection-observer": "^9.4.1",
+    "react-markdown": "^8.0.4",
+    "react-tag-input": "^6.8.1",
+    "sass": "^1.57.0",
+    "urlcat": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.10",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "@types/react-tag-input": "^6.6.1",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "autoprefixer": "^10.4.13",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "postcss": "^8.4.20",
+    "prettier": "^2.8.1",
+    "tailwindcss": "^3.2.4",
+    "typescript": "4.9.3"
+  }
+}

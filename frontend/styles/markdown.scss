@@ -1,0 +1,20 @@
+.markdown {
+  .heading {
+    @apply mb-1 pb-1 border-b-2 border-gray-200;
+  }
+  h1 {
+    @apply text-3xl font-bold;
+    @extend .heading;
+  }
+  h2 {
+    @apply text-2xl font-bold mt-4;
+    @extend .heading;
+  }
+  h3 {
+    @apply text-xl font-bold mt-4;
+  }
+
+  hr {
+    @apply my-1 border-gray-200;
+  }
+}

@@ -1,0 +1,13 @@
+author: Nanashi. (Forked from Burrito)
+background: "!asset:pjsekai"
+configuration: "!file:EngineConfiguration"
+data: "!file:EngineData"
+name: pjsekai.extended
+particle: "!asset:pjsekai"
+skin: "!asset:pjsekai-extended"
+effect: "!asset:pjsekai-fixed"
+description: PJSekai + Trace notes, custom judgement, etc.
+subtitle: From servers.sonolus.com/pjsekai
+thumbnail: "!file:EngineThumbnail"
+title: PJSekai+
+version: 7

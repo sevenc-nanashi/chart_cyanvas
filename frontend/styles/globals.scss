@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+  @apply text-blue-500;
+}
+
+.square {
+  aspect-ratio: 1/1;
+}
+
+.text-normal {
+  @apply text-slate-900 dark:text-white;
+}
+
+.bg-input {
+  @apply bg-white dark:bg-slate-900;
+}
+input,
+textarea {
+  @extend .bg-input;
+}
+
+.text-input {
+  @extend .bg-input;
+  @apply text-slate-900 dark:text-white p-2 rounded border-2 border-slate-300 dark:border-slate-700 focus-within:border-theme focus-within:outline-none transition-colors duration-200;
+}
+
+.text-input-error {
+  @apply border-red-500;
+}
+
+textarea {
+  @apply resize-none;
+}
+
+.tag-input {
+  .react-tags-wrapper {
+    @extend .text-input;
+    .ReactTags__selected {
+      @apply flex flex-wrap gap-1;
+    }
+
+    .tag-wrapper {
+      @apply bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white px-1 py-[2px] rounded;
+      button {
+        @apply outline-none ml-1;
+      }
+    }
+    .ReactTags__tagInput {
+      @apply flex-grow;
+    }
+    .ReactTags__tagInputField {
+      @apply bg-transparent outline-none w-full py-[2px] border-b border-slate-300 dark:border-slate-700;
+    }
+  }
+}
+
+[data-reached-max="true"] {
+  .ReactTags__tagInput {
+    @apply hidden;
+  }
+}

@@ -1,0 +1,30 @@
+upstream front {
+    server frontend:3000;
+}
+
+upstream back {
+    server backend:3000;
+}
+
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+    root /;
+
+    client_max_body_size 20M;
+
+    location @front {
+        proxy_pass   http://front;
+    }
+
+    location / {
+        try_files /app/backend-public$uri /app/frontend-public$uri @front;
+    }
+
+    location /auth/covers/ {
+        alias /app/backend-public/covers/;
+    }
+
+    # inject
+}

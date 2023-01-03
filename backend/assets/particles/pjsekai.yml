@@ -1,0 +1,9 @@
+author: Sonolus
+data: "!file:ParticleData"
+name: pjsekai
+subtitle: From servers.sonolus.com/pjsekai
+description: Nothing changed.
+texture: "!file:ParticleTexture"
+thumbnail: "!file:ParticleThumbnail"
+title: PJSekai
+version: 1

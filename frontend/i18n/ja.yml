@@ -1,0 +1,146 @@
+name: "Chart Cyanvas"
+close: "閉じる"
+cancel: "キャンセル"
+backToHome: "トップへ戻る"
+
+header:
+  login: "ログイン"
+home:
+  newCharts: "新着譜面"
+  welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
+login:
+  title: "ログイン"
+  step1: "1. 下のサーバーをSonolusに追加してください。"
+  step2: "2. ログインサーバー内でコードを入力してください。"
+  step2note: "このコードは90秒で失効します。"
+  alternative: "また、このデバイスにSonolusがインストールされている場合は、次のボタンを押すことでもログインできます。"
+  openSonolus: "Sonolusを開く"
+menu:
+  post: "譜面投稿"
+  my: "自分の譜面"
+  liked: "高評価した譜面"
+  guideline: "ガイドライン"
+  logout: "ログアウト"
+chart:
+  notFound: "譜面が見付かりませんでした。"
+  variants: "派生譜面"
+  sameAuthor: "同じ作者の譜面"
+  edit: "編集"
+  delete: "削除"
+
+  deletionModal:
+    title: "譜面を削除しますか？"
+    description: "削除した譜面は復元できません！"
+    ok: "削除"
+
+user:
+  totalCharts: "総譜面数：{{count}}"
+  totalLikes: "総高評価数：{{count}}"
+  userCharts: "この作者の譜面"
+
+chartSection:
+  notFound: "譜面が見付かりませんでした。"
+
+my:
+  title: "自分の譜面"
+  empty: "まだ譜面を投稿していません。<0>譜面投稿</0>から投稿してみましょう！"
+  description: "投稿した譜面はここに表示されます。鍵マークがついている譜面は、自分以外の人には見えません。"
+liked:
+  title: "高評価した譜面"
+  empty: "まだ高評価した譜面がありません。"
+  description: "高評価した譜面はここに表示されます。Sonolusで譜面を開いて、下にスクロールすると出てくるハートマークを押すことで高評価できます。"
+
+upload:
+  title: "譜面投稿"
+  titleEdit: "譜面編集：{{title}}"
+  description: |
+    譜面を投稿する前に、<0>投稿ガイドライン</0>を必ずお読みください。
+
+    ファイルはドラッグ＆ドロップでアップロードできます。
+
+  param:
+    title: "タイトル"
+    composer: "作曲者"
+    artist: "アーティスト"
+    rating: "難易度"
+
+    variant: "派生元譜面"
+    variantNote: "派生元譜面のIDを指定して下さい。派生元譜面の概要欄に表示されます。難易度差分などの譜面は派生元譜面を指定してください。"
+    description: "説明"
+
+    cover: "ジャケット画像"
+    coverNote: "画像は512x512pxの正方形にリサイズされます。"
+    chart: "譜面データ"
+    chartNote: ".sus形式でアップロードしてください。"
+    bgm: "音源"
+    bgmNote: "音源はステレオ128kbpsのmp3形式に変換されます。"
+
+    tags: "タグ"
+    tagsNote: "スペース、カンマ、改行でタグを追加できます。最大5個まで。"
+
+    author: "譜面作者"
+    isPublic: "一般公開する"
+
+  submit: "アップロード"
+  update: "更新"
+  publish: "公開"
+  unpublish: "非公開"
+
+  optional: "（任意）"
+  dropHere: "ドロップしてアップロード"
+  unUploadedFiles: "対応していないファイルがドロップされました。"
+  unUploadedFilesNote: ".sus、.mp3、.wav、.ogg、.png、.jpg、.jpegのみ対応しています。"
+
+  publishModal:
+    title: "以上の内容で公開しますか？"
+    description: "この譜面は…"
+    check0: "オリジナリティがあり、（公式譜面の丸写しなどは禁止されています）"
+    check1: "完成していて、（未完成の譜面は公開しないでください）"
+    check2: "宗教的・政治的・性的な内容を含まない"
+    description2: "譜面です。<0>ガイドライン</0>に違反する譜面は削除され、投稿者に対して警告が行われます。"
+    ok: "公開する"
+
+errors:
+  cannotBeEmpty: "この項目は空にできません。"
+  tooLong: "項目が長すぎます。"
+  variantNotFound: "派生元譜面が見付かりませんでした。"
+
+pages:
+  guideline: |
+    # 譜面投稿ガイドライン
+
+    これはChart Cyanvasでの譜面投稿ガイドラインです。
+
+    ## 譜面の制約
+
+    Chart Cyanvasで一般公開できる譜面は、以下のルールに従う必要があります。
+
+    ### オリジナリティがあること
+
+    公式譜面や他の譜面をコピーした物は投稿できません。リークなども同様です。
+
+    ### 完成していること
+
+    譜面は完成しているものを投稿してください。未完成の物は投稿できません！
+
+    ### 宗教的・政治的・性的な内容を含まないこと
+
+    譜面は宗教的・政治的・性的な内容を含まないものに限られます。
+
+    ### その他
+
+    また、運営が不適切と判断した譜面は削除される場合があります。
+    人に見せられない譜面は投稿しないでください。
+
+    ## 警告
+
+    譜面投稿ガイドラインに違反する譜面は削除され、投稿者に対して警告が行われます。
+
+    ## 不満がある場合
+
+    Chart Cyanvasはオープンソースです（[sevenc-nanashi/chart_cyanvas](https://github.com/sevenc-nanashi/chart_cyanvas)）。不満がある場合は、自分で新しくサーバーを立てて運営して下さい。
+
+  about: |
+    # Chart Cyanvasへようこそ！
+
+    Chart Cyanvasは、某セカイの創作譜面投稿サイトです。

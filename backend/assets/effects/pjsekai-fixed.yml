@@ -1,0 +1,9 @@
+audio: "!file:EffectAudio"
+author: Sonolus
+data: "!file:EffectData"
+name: pjsekai.fixed
+subtitle: From servers.sonolus.com/pjsekai
+description: PJSekai + Trace notes
+thumbnail: "!file:EffectThumbnail"
+title: PJSekai
+version: 4

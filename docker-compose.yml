@@ -1,0 +1,108 @@
+services:
+  backend:
+    build: backend
+
+    volumes:
+      - ./.env.prod:/app/.env
+    profiles:
+      - prod
+
+  frontend:
+    build:
+      context: frontend
+      args:
+        - BACKEND_HOST=${BACKEND_HOST}
+
+    volumes:
+      - ./.env.prod:/app/.env
+    profiles:
+      - prod
+
+  sub-sus:
+    build: sub-sus
+
+    volumes:
+      - ./.env.prod:/app/.env
+    profiles:
+      - prod
+
+  sub-audio:
+    build:
+      context: .
+      dockerfile: ./sub-audio/Dockerfile
+    volumes:
+      - ./.env.prod:/app/.env
+    profiles:
+      - prod
+
+  sub-image:
+    build: sub-image
+
+    volumes:
+      - ./.env.prod:/app/.env
+    profiles:
+      - prod
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "10401:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./backend/public:/app/backend-public
+    profiles:
+      - prod
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${PG_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    profiles:
+      - prod
+      - dev
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./data/redis:/data"
+    profiles:
+      - prod
+      - dev
+
+  minio:
+    image: minio/minio:latest
+    command: ["server", "/data", "--console-address", ":9001"]
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - "./data/minio:/data"
+    environment:
+      MINIO_ROOT_USER: "${S3_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"
+    profiles:
+      - dev
+  mc:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: sh
+    command: |
+      -c '
+        mc config host add myminio http://minio:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD; \
+        mc mb myminio/chcy-dev; \
+        mc policy set public myminio/chcy-dev; \
+      '
+    profiles:
+      - "init"
+    environment:
+      MINIO_ROOT_USER: "${S3_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"
