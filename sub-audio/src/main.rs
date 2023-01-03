@@ -99,7 +99,7 @@ async fn convert(url: String) -> Result<ConvertResponse, String> {
             "-i",
             input_path.as_str(),
             "-b:a",
-            "128k",
+            "192k",
             "-ac",
             "2",
             "-ar",

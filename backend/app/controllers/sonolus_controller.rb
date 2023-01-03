@@ -144,14 +144,4 @@ class SonolusController < ApplicationController
              expiration: ((Time.now.to_f + 5.minutes) * 1000).to_i
            }
   end
-
-  def revalidate(path)
-    HTTP.post(
-      "#{ENV["FRONTEND_URL"]}/api/next/revalidate",
-      json: {
-        path: path
-      }
-    )
-    Rails.cache.delete_matched(path)
-  end
 end

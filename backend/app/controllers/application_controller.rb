@@ -23,4 +23,14 @@ class ApplicationController < ActionController::API
   before_action do
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
   end
+
+  def revalidate(path)
+    HTTP.post(
+      "#{ENV["FRONTEND_HOST"]}/api/next/revalidate",
+      json: {
+        path: path
+      }
+    )
+    Rails.cache.delete_matched(path)
+  end
 end

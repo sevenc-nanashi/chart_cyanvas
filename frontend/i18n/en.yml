@@ -76,7 +76,7 @@ upload:
     chart: "Chart file"
     chartNote: ".sus file is required."
     bgm: "BGM file"
-    bgmNote: "This file will be reencoded to Stereo 128kbps MP3."
+    bgmNote: "This file will be reencoded to Stereo 192kbps MP3."
 
     tags: "Tags"
     tagsNote: "Separate tags with spaces, commas, or newlines. Maximum 5 tags."

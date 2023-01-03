@@ -73,7 +73,7 @@ upload:
     chart: "譜面データ"
     chartNote: ".sus形式でアップロードしてください。"
     bgm: "音源"
-    bgmNote: "音源はステレオ128kbpsのmp3形式に変換されます。"
+    bgmNote: "音源はステレオ192kbpsのmp3形式に変換されます。"
 
     tags: "タグ"
     tagsNote: "スペース、カンマ、改行でタグを追加できます。最大5個まで。"

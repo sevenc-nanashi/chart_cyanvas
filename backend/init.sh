@@ -2,7 +2,7 @@
 set -e
 
 echo "Deleting pid file"
-rm -f ./app/tmp/pids/server.pid
+rm -f /app/tmp/pids/server.pid
 
 echo "Setting up database..."
 rails db:create

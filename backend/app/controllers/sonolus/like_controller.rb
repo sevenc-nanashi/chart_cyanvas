@@ -30,6 +30,7 @@ class Sonolus::LikeController < SonolusController
     like = Like.new(chart: chart, user: current_user)
 
     like.save!
+    revalidate("/charts/#{chart.name}")
     render json: {
              item:
                dummy_level(
@@ -71,19 +72,17 @@ class Sonolus::LikeController < SonolusController
       return
     end
 
-    if like.destroy
-      render json: {
-               item:
-                 dummy_level(
-                   "like.message.to_off",
-                   "like-#{chart.name}",
-                   cover: "success"
-                 ),
-               description: "",
-               recommended: []
-             }
-    else
-      render json: { error: "Failed to unlike" }, status: :internal_server_error
-    end
+    like.destroy!
+    revalidate("/charts/#{chart.name}")
+    render json: {
+             item:
+               dummy_level(
+                 "like.message.to_off",
+                 "like-#{chart.name}",
+                 cover: "success"
+               ),
+             description: "",
+             recommended: []
+           }
   end
 end
