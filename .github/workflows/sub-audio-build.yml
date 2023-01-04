@@ -4,6 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       distinct_id:
+        description: "ID for return-dispatch"
+        required: true
+      image_name:
+        description: "Name of the image"
+        required: true
 
 jobs:
   lint:
@@ -27,19 +32,15 @@ jobs:
             ${{ runner.os }}-buildx-
       - name: Prepare Current Date Arg
         env:
-          TZ: 'Asia/Tokyo'
+          TZ: "Asia/Tokyo"
         run: echo "CURRENT_DATETIME=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
-      - name: Prepare Repository Name
-        run: |
-          echo "REPO_LC=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
-        env:
-          GITHUB_REPOSITORY: ${{ github.repository }}
-
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -48,9 +49,9 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}:${{ env.CURRENT_DATETIME }},ghcr.io/${{ env.REPO_LC }}:latest
+            ghcr.io/${{ github.event.inputs.name }}:${{ env.CURRENT_DATETIME }},ghcr.io/${{ github.event.inputs.name }}:latest
           labels: |
-            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+            org.opencontainers.image.source=${{ github.event.repository.clone_url }}/tree/${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 

@@ -17,6 +17,8 @@ jobs:
         with:
           components: |
             clippy
+      - name: Cache rust dependencies
+        uses: Swatinem/rust-cache@v2
       - name: Run sub-audio lint
         working-directory: ./sub-audio
         run: |
