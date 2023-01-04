@@ -31,6 +31,7 @@ jobs:
       - name: Run frontend lint
         working-directory: ./frontend
         run: |
+          cp ../.env.example .env
           pnpm i
           pnpm lint
 
