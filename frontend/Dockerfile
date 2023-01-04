@@ -11,9 +11,8 @@ COPY frontend/. .
 ENV IS_BUILDING true
 EXPOSE 3000
 
-ARG BACKEND_HOST
-ENV BACKEND_HOST=$BACKEND_HOST
+ARG ENV_FILE
 
-RUN pnpm build
+RUN . ./$ENV_FILE && pnpm run build
 
 CMD ["pnpm", "start"]
