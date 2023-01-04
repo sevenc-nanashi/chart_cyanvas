@@ -20,4 +20,5 @@ jobs:
       - name: Run sub-audio lint
         working-directory: ./sub-audio
         run: |
+          rustup component add clippy --toolchain 1.66.0-x86_64-unknown-linux-gnu
           cargo clippy
