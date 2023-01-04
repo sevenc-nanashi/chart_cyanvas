@@ -5,6 +5,7 @@ on:
     paths:
       - "sub-sus/**"
       - ".github/workflows/sub-sus-*.yml"
+  workflow_dispatch:
 
 jobs:
   lint:

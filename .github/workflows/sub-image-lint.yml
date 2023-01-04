@@ -5,6 +5,7 @@ on:
     paths:
       - "sub-image/**"
       - ".github/workflows/sub-image-*.yml"
+  workflow_dispatch:
 
 jobs:
   lint:
