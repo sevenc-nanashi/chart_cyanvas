@@ -34,3 +34,4 @@ jobs:
           repo: chart_cyanvas
           workflow: sub-audio-build.yml
           workflow_timeout_seconds: 120
+          workflow_inputs: '{"image_name": "sub-audio"}'

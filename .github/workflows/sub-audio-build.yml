@@ -1,4 +1,4 @@
-name: "[sub-audio] Build and push docker image"
+name: "Build and push docker image"
 
 on:
   workflow_dispatch:
@@ -27,9 +27,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-${{ github.event.inputs.image_name }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-
+            ${{ runner.os }}-buildx-${{ github.event.inputs.image_name }}-
       - name: Prepare Current Date Arg
         env:
           TZ: "Asia/Tokyo"
