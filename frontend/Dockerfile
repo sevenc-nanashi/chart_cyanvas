@@ -12,6 +12,7 @@ ENV IS_BUILDING true
 EXPOSE 3000
 
 ARG ENV_FILE
+COPY ${ENV_FILE} .env
 
 RUN . ./$ENV_FILE && pnpm run build
 
