@@ -11,7 +11,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for test
+      - name: Wait for lint
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
           ref: main
