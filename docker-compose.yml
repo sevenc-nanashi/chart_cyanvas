@@ -1,6 +1,8 @@
 services:
   backend:
-    build: backend
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
 
     volumes:
       - ./.env.prod:/app/.env
@@ -9,7 +11,8 @@ services:
 
   frontend:
     build:
-      context: frontend
+      context: .
+      dockerfile: ./frontend/Dockerfile
       args:
         - BACKEND_HOST=${BACKEND_HOST}
 
@@ -19,7 +22,9 @@ services:
       - prod
 
   sub-sus:
-    build: sub-sus
+    build:
+      context: .
+      dockerfile: ./sub-sus/Dockerfile
 
     volumes:
       - ./.env.prod:/app/.env
@@ -36,7 +41,9 @@ services:
       - prod
 
   sub-image:
-    build: sub-image
+    build:
+      context: .
+      dockerfile: ./sub-image/Dockerfile
 
     volumes:
       - ./.env.prod:/app/.env

@@ -2,11 +2,11 @@ FROM node:16-slim
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
 RUN npm install -g pnpm && pnpm install
 
-COPY . .
+COPY frontend/. .
 
 ENV IS_BUILDING true
 EXPOSE 3000
