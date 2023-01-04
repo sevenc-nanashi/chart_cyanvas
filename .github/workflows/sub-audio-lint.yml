@@ -1,0 +1,19 @@
+name: "[sub-audio] Lint with clippy"
+
+on:
+  push:
+    paths:
+      - "sub-audio/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup rust
+        uses: hecrj/setup-rust-action@v1
+      - name: Run sub-audio lint
+        working-directory: ./sub-audio
+        run: |
+          cargo clippy

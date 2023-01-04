@@ -95,7 +95,7 @@ async fn convert(url: String) -> Result<ConvertResponse, String> {
     let preview_path = format!("{}/{}.mp3", env::temp_dir().to_str().unwrap(), preview_id);
 
     let mut bgm_process = process::Command::new("ffmpeg")
-        .args(&[
+        .args([
             "-i",
             input_path.as_str(),
             "-b:a",
@@ -117,7 +117,7 @@ async fn convert(url: String) -> Result<ConvertResponse, String> {
         .map_err(|_| "failed_to_execute_ffmpeg")?;
 
     let mut preview_process = process::Command::new("ffmpeg")
-        .args(&[
+        .args([
             "-i",
             input_path.as_str(),
             "-b:a",
@@ -161,23 +161,21 @@ async fn convert(url: String) -> Result<ConvertResponse, String> {
 
     id_to_file_paths.insert(bgm_id.clone(), bgm_path);
     id_to_file_paths.insert(preview_id.clone(), preview_path);
-    return Ok(ConvertResponse {
+    Ok(ConvertResponse {
         code: "ok".to_string(),
         bgm_id: Some(bgm_id),
         preview_id: Some(preview_id),
-    });
+    })
 }
 
 #[get("/download/{id}")]
 async fn download(id: web::Path<String>) -> impl Responder {
     let path = {
         let id_to_file_paths = ID_TO_FILE_PATHS.lock().unwrap();
-        id_to_file_paths.get(id.as_str()).map(|s| s.clone())
+        id_to_file_paths.get(id.as_str()).cloned()
     };
     if path.is_none() {
-        return HttpResponse::NotFound().json(Root {
-            code: "not_found",
-        });
+        return HttpResponse::NotFound().json(Root { code: "not_found" });
     }
     info!("download: {} => {}", id, path.as_ref().unwrap());
     let file = File::open(path.unwrap()).await.unwrap();
@@ -192,12 +190,10 @@ async fn download(id: web::Path<String>) -> impl Responder {
 async fn cleanup(id: web::Path<String>) -> impl Responder {
     let path = {
         let mut id_to_file_paths = ID_TO_FILE_PATHS.lock().unwrap();
-        id_to_file_paths.remove(id.as_str()).map(|s| s.clone())
+        id_to_file_paths.remove(id.as_str())
     };
     if path.is_none() {
-        return web::Json(Root {
-            code: "not_found",
-        });
+        return web::Json(Root { code: "not_found" });
     }
 
     info!("removing {}", path.as_ref().unwrap());
