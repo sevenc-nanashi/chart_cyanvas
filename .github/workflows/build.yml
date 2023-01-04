@@ -56,7 +56,7 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ github.event.inputs.directory_name }}:${{ env.CURRENT_DATETIME }}
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Move cache
         run: |
