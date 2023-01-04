@@ -16,7 +16,7 @@ jobs:
         uses: hecrj/setup-rust-action@v1
         with:
           components: |
-            cargo-clippy
+            clippy
       - name: Run sub-audio lint
         working-directory: ./sub-audio
         run: |
