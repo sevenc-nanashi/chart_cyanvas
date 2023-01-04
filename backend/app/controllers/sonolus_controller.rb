@@ -144,4 +144,8 @@ class SonolusController < ApplicationController
              expiration: ((Time.now.to_f + 5.minutes) * 1000).to_i
            }
   end
+
+  after_action do
+    headers["Sonolus-Version"] = "0.6.5"
+  end
 end
