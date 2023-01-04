@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "sub-audio/**"
+      - ".github/workflows/sub-audio-*.yml"
 
 jobs:
   lint:
