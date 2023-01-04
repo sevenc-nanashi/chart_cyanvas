@@ -4,6 +4,7 @@ const nextTranslate = require("next-translate")
 /** @type {import('next').NextConfig} */
 const nextConfig = nextTranslate({
   reactStrictMode: true,
+  staticPageGenerationTimeout: 3600,
   webpack: function (config) {
     config.module.rules.push({
       test: /\.ya?ml$/,
