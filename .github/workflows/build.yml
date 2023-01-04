@@ -5,7 +5,8 @@ on:
     inputs:
       distinct_id:
         description: "ID for return-dispatch"
-        required: true
+        required: false
+        default: ""
       directory_name:
         description: "Name of the directory"
         required: true
@@ -15,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
+        if: github.event.inputs.distinct_id != ''
         run: echo ${{ github.event.inputs.distinct_id }}
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -50,7 +52,7 @@ jobs:
         with:
           context: .
           file: ./${{ github.event.inputs.directory_name }}/Dockerfile
-          args: |
+          build-args: |
             ENV_FILE=.env.build
           platforms: linux/amd64,linux/arm64
           push: true

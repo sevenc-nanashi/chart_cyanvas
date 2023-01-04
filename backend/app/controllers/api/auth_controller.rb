@@ -1,4 +1,6 @@
-class Api::AuthController < FrontendController
+# frozen_string_literal: true
+module Api
+  class AuthController < FrontendController
   def create_code
     code = SecureRandom.random_number(100_000_000 - 1).to_s.rjust(8, "0")
     Rails.logger.info("New auth code: #{code}")
@@ -58,5 +60,6 @@ class Api::AuthController < FrontendController
   def logout
     session[:user_id] = nil
     render json: { code: "ok" }
+  end
   end
 end

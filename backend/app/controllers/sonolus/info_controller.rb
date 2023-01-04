@@ -1,4 +1,6 @@
-class Sonolus::InfoController < SonolusController
+# frozen_string_literal: true
+module Sonolus
+  class InfoController < SonolusController
   def info
     render json:
              {
@@ -14,5 +16,6 @@ class Sonolus::InfoController < SonolusController
                  json[key] = { items: [], search: { options: [] } }
                end
              }
+  end
   end
 end

@@ -1,5 +1,7 @@
-class Sonolus::AuthController < SonolusController
-  DUMMY_SECTION = { items: [], search: { options: [] } }
+# frozen_string_literal: true
+module Sonolus
+  class AuthController < SonolusController
+  DUMMY_SECTION = { items: [], search: { options: [] } }.freeze
 
   def code_search
     {
@@ -38,19 +40,17 @@ class Sonolus::AuthController < SonolusController
       item = dummy_level("auth.guide", "auth-guide", cover: "info")
     elsif !params[:code].match?(/^[0-9]{8}$/)
       item = dummy_level("auth.invalid", "auth-invalid", cover: "error")
-    else
-      if session_data.nil?
-        render json: {}, status: :unauthorized
+    elsif session_data.nil?
+      render json: {}, status: :unauthorized
         return
       else
         item =
           dummy_level(
             "auth.confirm",
-            "auth-confirm-" + params[:code],
+            "auth-confirm-#{params[:code]}",
             cover: "warning",
             code: params[:code]
           )
-      end
     end
     render json: { items: [item], search: code_search, pageCount: 1 }
   end
@@ -103,7 +103,7 @@ class Sonolus::AuthController < SonolusController
         User.create(table_contents)
       end
 
-    Rails.cache.write("auth_token/#{token}", { user: user }, expires_in: 1.day)
+    Rails.cache.write("auth_token/#{token}", { user: }, expires_in: 1.day)
 
     Rails.cache.write(
       "auth_code/#{params[:code]}",
@@ -116,5 +116,6 @@ class Sonolus::AuthController < SonolusController
              description: "",
              recommended: []
            }
+  end
   end
 end

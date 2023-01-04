@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RemoveNonNullValidationFromChart < ActiveRecord::Migration[7.0]
   def change
     change_column_null :charts, :data_id, true

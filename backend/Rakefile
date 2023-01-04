@@ -5,3 +5,18 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+task :lint do
+  sh "rubocop"
+end
+
+task :start do
+  puts "Deleting pid file"
+  FileUtils.rm_f("tmp/pids/server.pid")
+
+  puts "Setting up database"
+  sh "rails db:create db:migrate"
+
+  puts "Starting server"
+  sh "rails s"
+end

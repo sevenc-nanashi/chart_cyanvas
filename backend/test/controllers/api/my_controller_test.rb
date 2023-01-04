@@ -1,7 +1,10 @@
+# frozen_string_literal: true
 require "test_helper"
 
-class Api::MyControllerTest < ActionDispatch::IntegrationTest
+module Api
+  class MyControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
+  end
 end

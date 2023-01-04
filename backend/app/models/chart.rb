@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Chart < ApplicationRecord
   has_many :co_authors, dependent: :destroy
   belongs_to :author, class_name: "User", foreign_key: "author_id"
@@ -32,15 +33,15 @@ class Chart < ApplicationRecord
     resources = with_resources ? self.resources : {}
     likes =
       begin
-        self.likes_count
+        likes_count
       rescue ActiveRecord::Precountable::NotPrecountedError, NameError
         self.likes.count
       end
     {
-      name: name,
-      title: title,
-      composer: composer,
-      artist: artist,
+      name:,
+      title:,
+      composer:,
+      artist:,
       author: author.to_frontend,
       authorName: author_name,
       coAuthors: co_authors.map(&:to_frontend),
@@ -52,10 +53,10 @@ class Chart < ApplicationRecord
       tags: tags.map(&:name),
       createdAt: created_at.to_i,
       updatedAt: updated_at.to_i,
-      rating: rating,
-      likes: likes,
-      liked: user ? likes.exists?(user: user) : false,
-      description: description,
+      rating:,
+      likes:,
+      liked: user ? likes.exists?(user:) : false,
+      description:,
       isPublic: is_public,
       variantOf: variant_id && Chart.find(variant_id)&.name
     }
@@ -65,7 +66,7 @@ class Chart < ApplicationRecord
     resources = self.resources
     {
       name: "chcy-#{name}",
-      title: title,
+      title:,
       artists: "#{composer} / #{artist.blank? ? "-" : artist}",
       author:
         "#{author_name.present? ? author_name : author.name}##{author.display_handle}",
@@ -73,7 +74,7 @@ class Chart < ApplicationRecord
       bgm: resources[:bgm]&.to_srl,
       preview: resources[:preview]&.to_srl,
       data: resources[:data]&.to_srl,
-      rating: rating,
+      rating:,
       version: 1,
       useSkin: {
         useDefault: true
@@ -112,12 +113,12 @@ class Chart < ApplicationRecord
     {
       name: "chcy-bg-#{name}",
       version: 2,
-      title: title,
+      title:,
       subtitle: "#{composer} / #{artist.blank? ? "-" : artist}",
       author:
         "#{author_name.present? ? author_name : author.name}##{author.display_handle}",
       thumbnail: resources[:cover]&.to_srl&.merge(type: "BackgroundThumbnail"),
-      data: data,
+      data:,
       image: resources[:background]&.to_srl,
       configuration: config
     }
@@ -129,7 +130,7 @@ class Chart < ApplicationRecord
       tags:
         tags.map(&:name).join(I18n.t("sonolus.tag_separator")).presence || "-",
       likes: likes.count,
-      description: description
+      description:
     )
   end
 end

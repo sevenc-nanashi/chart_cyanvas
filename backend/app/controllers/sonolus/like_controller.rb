@@ -1,4 +1,6 @@
-class Sonolus::LikeController < SonolusController
+# frozen_string_literal: true
+module Sonolus
+  class LikeController < SonolusController
   def to_on
     params.require(:name)
 
@@ -12,7 +14,7 @@ class Sonolus::LikeController < SonolusController
       render json: { error: "Chart not found" }, status: :not_found
       return
     end
-    like = Like.find_by(chart: chart, user: current_user)
+    like = Like.find_by(chart:, user: current_user)
     if like
       render json: {
                item:
@@ -27,7 +29,7 @@ class Sonolus::LikeController < SonolusController
       return
     end
 
-    like = Like.new(chart: chart, user: current_user)
+    like = Like.new(chart:, user: current_user)
 
     like.save!
     revalidate("/charts/#{chart.name}")
@@ -57,7 +59,7 @@ class Sonolus::LikeController < SonolusController
       render json: { error: "Chart not found" }, status: :not_found
       return
     end
-    like = Like.find_by(chart: chart, user: current_user)
+    like = Like.find_by(chart:, user: current_user)
     unless like
       render json: {
                item:
@@ -84,5 +86,6 @@ class Sonolus::LikeController < SonolusController
              description: "",
              recommended: []
            }
+  end
   end
 end

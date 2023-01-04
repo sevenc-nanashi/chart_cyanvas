@@ -1,0 +1,49 @@
+name: "[backend] Lint with rubocop"
+
+on:
+  push:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-*.yml"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+      - name: Cache gems
+        uses: actions/cache@v3
+        id: cache-gems
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-bundler-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bundler-
+      - name: Install gems
+        if: steps.cache-gems.outputs.cache-hit != 'true'
+        working-directory: ./backend
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Run backend lint
+        working-directory: ./backend
+        run: |
+          bundle exec rake lint
+
+      - name: Dispatch build action
+        if: github.ref_name == 'main'
+        uses: codex-/return-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+          owner: sevenc-nanashi
+          repo: chart_cyanvas
+          workflow: build.yml
+          workflow_timeout_seconds: 120
+          workflow_inputs: '{"directory_name": "backend"}'

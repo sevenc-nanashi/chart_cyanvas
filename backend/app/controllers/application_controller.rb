@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
   def redis
     @redis ||=
       ConnectionPool.new(
-        size: ENV.fetch("RAILS_MAX_THREADS") { 5 },
+        size: ENV.fetch("RAILS_MAX_THREADS", 5),
         timeout: 5
       ) { Redis.new(ENV.fetch("REDIS_URL")) }
   end
@@ -26,9 +26,9 @@ class ApplicationController < ActionController::API
 
   def revalidate(path)
     HTTP.post(
-      "#{ENV["FRONTEND_HOST"]}/api/next/revalidate",
+      "#{ENV.fetch("FRONTEND_HOST", nil)}/api/next/revalidate",
       json: {
-        path: path
+        path:
       }
     )
     Rails.cache.delete_matched(path)

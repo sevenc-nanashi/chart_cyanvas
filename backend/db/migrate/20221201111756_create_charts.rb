@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateCharts < ActiveRecord::Migration[7.0]
   def change
     create_table :charts do |t|

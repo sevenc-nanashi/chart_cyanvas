@@ -9,11 +9,11 @@
 user = User.create!(
   handle: 1073,
   name: "Nanashi.",
-  about_me: "I'm a admin."
+  about_me: "I'm a admin.",
   fg_color: "#fff",
   bg_color: "#48b0d5"
 )
-alt = user.create_user!(
+user.create_user!(
   handle: 740,
   name: "Nanatsuki Kuten",
   about_me: "Alt account of Nanashi.",

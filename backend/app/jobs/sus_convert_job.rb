@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "base64"
 require "http"
 require "json"
@@ -10,7 +11,7 @@ class SusConvertJob < ApplicationJob
     response =
       HTTP
         .post(
-          "#{ENV["SUB_SUS_HOST"]}/convert",
+          "#{ENV.fetch("SUB_SUS_HOST", nil)}/convert",
           json: {
             url: sus_resource.to_frontend
           }
@@ -18,7 +19,7 @@ class SusConvertJob < ApplicationJob
         .then { JSON.parse(_1.body.to_s, symbolize_names: true) }
     logger.info "SusConvertJob: #{sus_resource.id} done"
     raise "Failed to convert sus file!" if response[:code] != "ok"
-    sus_data = HTTP.get("#{ENV["SUB_SUS_HOST"]}/download/#{response[:id]}")
+    sus_data = HTTP.get("#{ENV.fetch("SUB_SUS_HOST", nil)}/download/#{response[:id]}")
     raise "Failed to download sus file!" if sus_data.status != 200
     FileResource.upload_from_string(
       sus_resource.chart,

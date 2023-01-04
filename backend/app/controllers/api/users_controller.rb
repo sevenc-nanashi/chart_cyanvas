@@ -1,4 +1,6 @@
-class Api::UsersController < FrontendController
+# frozen_string_literal: true
+module Api
+  class UsersController < FrontendController
   def show
     params.require(:handle)
     params.permit(:with_chart_count)
@@ -8,5 +10,6 @@ class Api::UsersController < FrontendController
     else
       render json: { code: "not_found" }, status: :not_found
     end
+  end
   end
 end

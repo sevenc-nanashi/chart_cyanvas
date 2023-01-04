@@ -1,7 +1,10 @@
+# frozen_string_literal: true
 require "test_helper"
 
-class Sonolus::LikeControllerTest < ActionDispatch::IntegrationTest
+module Sonolus
+  class LikeControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
+  end
 end

@@ -28,7 +28,7 @@ class SonolusController < ApplicationController
       next
     end
     begin
-      aes = OpenSSL::Cipher::AES256.new(:CBC)
+      aes = OpenSSL::Cipher.new("aes-256-cbc")
       aes.decrypt
       aes.key = session_data[:key]
       aes.iv = session_data[:iv]
@@ -79,7 +79,7 @@ class SonolusController < ApplicationController
       }
     end
     {
-      name: "chcys-" + name,
+      name: "chcys-#{name}",
       title: I18n.t("levels.#{key}.title", **kwargs),
       artists: I18n.t("levels.#{key}.description", **kwargs),
       author: I18n.t("levels._.author", **kwargs),

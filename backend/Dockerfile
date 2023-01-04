@@ -13,4 +13,4 @@ RUN bundle config set deployment 'true' \
 COPY backend/* .
 
 ENV RAILS_ENV production
-CMD ["bundle", "exec", "./init.sh"]
+CMD ["bundle", "exec", "rake", "start"]
