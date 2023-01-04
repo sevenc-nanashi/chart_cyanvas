@@ -16,6 +16,7 @@ BACKEND_HOST = os.getenv("BACKEND_HOST")
 if BACKEND_HOST is None:
     raise Exception("BACKEND_HOST is not set")
 print(f"BACKEND_HOST = {BACKEND_HOST}")
+SIZE = 512
 
 app = fastapi.FastAPI(docs_url=None, redoc_url=None)
 download_files = {}
@@ -39,12 +40,12 @@ def convert(param: ConvertParam):
     img = Image.open(base_file)
     img = img.convert("RGBA")
     if img.width > img.height:
-        img = img.resize((256, 256 * img.height // img.width))
+        img = img.resize((SIZE, SIZE * img.height // img.width))
     elif img.width < img.height:
-        img = img.resize((256 * img.width // img.height, 256))
-    img = img.resize((256, 256))
+        img = img.resize((SIZE * img.width // img.height, SIZE))
+    img = img.resize((SIZE, SIZE))
     img_color = img.resize((1, 1))
-    dist_img = img_color.resize((256, 256)).convert("RGBA")
+    dist_img = img_color.resize((SIZE, SIZE)).convert("RGBA")
     dist_file = NamedTemporaryFile(suffix=".png", delete=False)
     Image.alpha_composite(dist_img, img).save(dist_file.name)
     dist_file.close()

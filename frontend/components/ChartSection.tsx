@@ -25,8 +25,8 @@ const ChartSectionItem: React.FC<{
     if (section.isFinished) return
     if (isFetching.current) return
     if (!isFirstDummyChartInView) return
-    if (!section.items) return
-    if (section.items.length < section.itemsCountPerPage) return
+    if (section.items && section.items.length < section.itemsCountPerPage)
+      return
     isFetching.current = true
     section.fetchMore().finally(() => {
       setTimeout(() => {
@@ -37,7 +37,7 @@ const ChartSectionItem: React.FC<{
 
   return (
     <>
-      {section.items
+      {(section.items || [])
         .filter(
           (item, index) =>
             section.items.findIndex((i) => i.name === item.name) === index
@@ -68,14 +68,10 @@ const ChartSection: React.FC<{
           <h2 className="text-2xl font-bold">{section.title}</h2>
           <div className="overflow-x-scroll">
             <div className="flex flex-nowrap flex-shrink min-h-[208px] mt-4 gap-4 relative min-w-max">
-              {section.items != null ? (
-                section.items.length > 0 ? (
-                  <ChartSectionItem section={section as SectionItem} />
-                ) : (
-                  <p className="text-lg">{t("notFound")}</p>
-                )
+              {section.items == null || section.items.length > 0 ? (
+                <ChartSectionItem section={section as SectionItem} />
               ) : (
-                [...Array(5)].map((_, i) => <ChartCard key={i} />)
+                <p className="text-lg">{t("notFound")}</p>
               )}
             </div>
           </div>

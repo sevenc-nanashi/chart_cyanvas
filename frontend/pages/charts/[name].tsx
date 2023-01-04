@@ -101,12 +101,6 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({ chartData }) => {
     isSameAuthorChartsFinished.current = false
   }, [name, router])
 
-  useEffect(() => {
-    if (!chartData) return
-    if (sameAuthorCharts) return
-    fetchSameAuthorCharts()
-  }, [chartData, sameAuthorCharts, fetchSameAuthorCharts])
-
   const [waitForDeletionConfirm, setWaitForDeletionConfirm] =
     useState<CallableFunction | null>(null)
 

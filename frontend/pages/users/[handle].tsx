@@ -66,6 +66,7 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
   const isFinished = useRef(false)
 
   const fetchUserCharts = useCallback(async () => {
+    console.log("fetching user charts")
     const res = await fetch(
       urlcat(process.env.BACKEND_HOST!, `/api/charts`, {
         author: user.handle,
@@ -76,7 +77,11 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
     const data = await res.json()
 
     if (data.code === "ok") {
-      setUserCharts((prev) => [...(prev || []), ...data.charts])
+      setUserCharts((prev) =>
+        [...(prev || []), ...data.charts].filter(
+          (e, i, a) => a.findIndex((f) => f.id === e.id) === i
+        )
+      )
       if (data.charts.length < 5) {
         isFinished.current = true
       }
@@ -140,7 +145,7 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
             {
               title: t("userCharts"),
               items: userCharts,
-              fetchMore: () => fetchUserCharts(),
+              fetchMore: fetchUserCharts,
               itemsCountPerPage: 5,
               isFinished: isFinished.current,
             },

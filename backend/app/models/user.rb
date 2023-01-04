@@ -14,7 +14,7 @@ class User < ApplicationRecord
       aboutMe: about_me,
       bgColor: bg_color,
       fgColor: fg_color,
-      chartCount: with_chart_count ? charts.count : nil
+      chartCount: with_chart_count ? charts.where(is_public: true).count : nil
     }
   end
 end
