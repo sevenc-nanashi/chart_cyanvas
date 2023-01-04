@@ -1,24 +1,16 @@
 name: "[sub-audio] Build and push docker image"
 
 on:
-  push:
-    paths:
-      - "sub-audio/**"
-      - ".github/workflows/sub-audio-*.yml"
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      distinct_id:
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for lint
-        uses: lewagon/wait-on-check-action@v1.2.0
-        with:
-          ref: main
-          check-name: sub-audio-lint
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
+      - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
+        run: echo ${{ github.event.inputs.distinct_id }}
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Set up QEMU

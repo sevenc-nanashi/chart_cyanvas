@@ -22,3 +22,13 @@ jobs:
         run: |
           rustup component add clippy
           cargo clippy
+      - name: Dispatch build action
+        if: github.ref_name == 'main'
+        uses: codex-/return-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+          owner: sevenc-nanashi
+          repo: chart_cyanvas
+          workflow: sub-audio-build.yml
+          workflow_timeout_seconds: 120
