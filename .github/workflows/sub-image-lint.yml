@@ -1,0 +1,52 @@
+name: "[sub-image] Lint with black"
+
+on:
+  push:
+    paths:
+      - "sub-image/**"
+      - ".github/workflows/sub-image-*.yml"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup python
+        uses: actions/setup-python@v3
+        with:
+          version: 3.9
+      - name: Install poetry
+        uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: 1.3.1
+      - name: Config poetry
+        run: poetry config virtualenvs.create false
+      - name: Cache venv
+        uses: actions/cache@v3
+        id: cache-venv
+        with:
+          path: .venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+      - name: Install dependencies
+        if: steps.cache-venv.outputs.cache-hit != 'true'
+        run: poetry install
+
+      - name: Run sub-image lint
+        working-directory: ./sub-image
+        run: |
+          poetry run poe lint
+
+      - name: Dispatch build action
+        if: github.ref_name == 'main'
+        uses: codex-/return-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+          owner: sevenc-nanashi
+          repo: chart_cyanvas
+          workflow: build.yml
+          workflow_timeout_seconds: 120
+          workflow_inputs: '{"directory_name": "sub-image"}'

@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["sevenc-nanashi <sevenc7c@sevenc7c.com>"]
 readme = "README.md"
-packages = [{ include = "sub_image" }]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -16,10 +15,18 @@ gunicorn = "^20.1.0"
 python-dotenv = "^0.21.0"
 poethepoet = "^0.17.1"
 
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.black]
+target-version = ['py39']
+line-length = 120
+
 [tool.poe.tasks]
 start = "gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3203 main:app"
 dev = "uvicorn main:app --reload --port 3203"
+lint = "black . -c"
