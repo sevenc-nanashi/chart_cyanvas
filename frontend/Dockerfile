@@ -14,6 +14,6 @@ EXPOSE 3000
 ARG ENV_FILE
 COPY ${ENV_FILE} .env
 
-RUN . ./$ENV_FILE && pnpm run build
+RUN . ./.env && pnpm run build
 
 CMD ["pnpm", "start"]
