@@ -15,9 +15,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
-        if: github.event.inputs.distinct_id != ''
-        run: echo ${{ github.event.inputs.distinct_id }}
+      - name: Echo information
+        run: |
+          echo distinct id: ${{ github.event.inputs.distinct_id }}
+          echo directory name: ${{ github.event.inputs.directory_name }}
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Set up QEMU
