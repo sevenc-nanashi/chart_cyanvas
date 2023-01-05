@@ -47,6 +47,8 @@ group :development do
   # gem "spring"
   gem "rubocop", "~> 1.42", require: false
   gem "rubocop-rails", "~> 2.17", require: false
+  gem "rubocop-discourse", "~> 3.0", require: false
+
   gem "syntax_tree", "~> 5.1", require: false
 end
 

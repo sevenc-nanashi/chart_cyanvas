@@ -9,6 +9,7 @@ require:
 
 inherit_gem:
   syntax_tree: config/rubocop.yml
+  rubocop-discourse: default.yml
 
 Layout/EndOfLine:
   EnforcedStyle: lf
