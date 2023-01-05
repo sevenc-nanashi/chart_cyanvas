@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
 
+    depends_on:
+      - postgres
     volumes:
       - ./${ENV_FILE}:/app/.env
     profiles:

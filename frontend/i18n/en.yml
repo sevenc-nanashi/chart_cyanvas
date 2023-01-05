@@ -3,6 +3,11 @@ close: "Close"
 cancel: "Cancel"
 backToHome: "Return to top page"
 
+serverError: "An error occurred on the server!"
+serverErrorNote: "Please let us know <0>on our Discord server</0>."
+
+openInSonolus: "Sonolus"
+
 header:
   login: "Log in"
 home:

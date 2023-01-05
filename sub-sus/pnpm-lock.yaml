@@ -19,6 +19,7 @@ specifiers:
   tempy: ^3.0.0
   ts-node: ^10.9.1
   typescript: ^4.9.4
+  url-join: ^5.0.0
 
 dependencies:
   axios: 1.2.1
@@ -26,9 +27,10 @@ dependencies:
   express: 4.18.2
   morgan: 1.10.0
   nodemon: 2.0.20
-  sonolus-pjsekai-engine-extended: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/d32f572bc26fb7a1bbaac8fed287c5aa4e47cad7_4rn6lb3rjzp7ladrji3gobrx3a
+  sonolus-pjsekai-engine-extended: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/be69d6c03e131e8804f5a0167c30de69982860b8_4rn6lb3rjzp7ladrji3gobrx3a
   tempy: 3.0.0
   ts-node: 10.9.1_rmyookn2hbqnnqjamditnjqvjq
+  url-join: 5.0.0
 
 devDependencies:
   '@types/express': 4.17.15
@@ -1846,6 +1848,11 @@ packages:
       punycode: 2.1.1
     dev: true
 
+  /url-join/5.0.0:
+    resolution: {integrity: sha512-n2huDr9h9yzd6exQVnH/jU5mr+Pfx08LRXXZhkLLetAMESRj+anQsTAh940iMrIetKAmry9coFuZQ2jY8/p3WA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
   /utils-merge/1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
@@ -1895,9 +1902,9 @@ packages:
     resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
     dev: false
 
-  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/d32f572bc26fb7a1bbaac8fed287c5aa4e47cad7_4rn6lb3rjzp7ladrji3gobrx3a:
-    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/d32f572bc26fb7a1bbaac8fed287c5aa4e47cad7}
-    id: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/d32f572bc26fb7a1bbaac8fed287c5aa4e47cad7
+  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/be69d6c03e131e8804f5a0167c30de69982860b8_4rn6lb3rjzp7ladrji3gobrx3a:
+    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/be69d6c03e131e8804f5a0167c30de69982860b8}
+    id: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/be69d6c03e131e8804f5a0167c30de69982860b8
     name: sonolus-pjsekai-engine-extended
     version: 0.2.0
     requiresBuild: true

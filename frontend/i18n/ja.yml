@@ -4,7 +4,9 @@ cancel: "キャンセル"
 backToHome: "トップへ戻る"
 
 serverError: "サーバーでエラーが発生しました！"
-serverErrorNote: "Discordからお問い合わせ下さい。"
+serverErrorNote: "<0>Discordサーバー</0>に報告してください。"
+
+openInSonolus: "Sonolus"
 
 header:
   login: "ログイン"

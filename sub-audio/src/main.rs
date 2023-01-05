@@ -18,6 +18,7 @@ use actix_web::middleware::Logger;
 use actix_web::{get, post, web, App, HttpServer, Responder};
 
 use serde::{Deserialize, Serialize};
+use url::Url;
 
 static BACKEND_HOST: Lazy<String> = Lazy::new(|| env::var("BACKEND_HOST").unwrap());
 static ID_TO_FILE_PATHS: Lazy<Mutex<HashMap<String, String>>> =
@@ -49,7 +50,12 @@ async fn root() -> impl Responder {
 
 #[post("/convert")]
 async fn convert_web(params: web::Json<ConvertParam>) -> impl Responder {
-    let result = convert(params.url.to_string()).await;
+    let url = Url::parse(BACKEND_HOST.as_str())
+        .unwrap()
+        .join(params.url.as_str())
+        .unwrap()
+        .to_string();
+    let result = convert(url).await;
     if let Ok(response) = result {
         web::Json(response)
     } else {

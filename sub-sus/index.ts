@@ -9,6 +9,7 @@ import morgan from "morgan"
 import { fromSus } from "sonolus-pjsekai-engine-extended"
 import dotenv from "dotenv"
 import axios from "axios"
+import urlJoin from "url-join"
 
 dotenv.config({ path: ".env" })
 dotenv.config({ path: "../.env" })
@@ -19,6 +20,8 @@ const app = Express()
 
 const files = new Map<string, { path: string; date: Date }>()
 
+const BACKEND_HOST = process.env.BACKEND_HOST!
+
 app.use(jsonHandler())
 app.use(morgan("dev"))
 app.get("/", (_req, res) => {
@@ -26,7 +29,8 @@ app.get("/", (_req, res) => {
 })
 
 app.post("/convert", async (req, res) => {
-  const { url } = req.body as { url: string }
+  const { url: originalUrl } = req.body as { url: string }
+  const url = urlJoin(BACKEND_HOST, originalUrl)
 
   try {
     const sus = await axios.get(url, {
@@ -74,6 +78,6 @@ app.get("/download/:id", async (req, res) => {
 })
 
 app.listen(3201, () => {
-  console.log(`BACKEND_HOST = ${process.env.BACKEND_HOST}`)
+  console.log(`BACKEND_HOST = ${BACKEND_HOST}`)
   console.log("Listening on port 3201")
 })

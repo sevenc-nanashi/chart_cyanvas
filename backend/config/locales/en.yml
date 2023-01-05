@@ -1,33 +1,76 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   "true": "foo"
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  auth:
+    title: "Chart Cyanvas: Login Server"
+    code_search:
+      option:
+        name: "Code"
+        placeholder: "Please enter 8 digits code"
+  levels:
+    _:
+      engine-title: "(Message)"
+      author: "System"
+    dummy:
+      title: "This level cannot be played!"
+      description: "This level is not playable. This level is meant to be used as a message."
+    search:
+      unknown-user:
+        title: "Unknown author!"
+        description: "Make sure the author with the given Handle exists."
+    like:
+      button:
+        to_on:
+          title: "Like this chart"
+          description: "Tap to like this chart."
+        to_off:
+          title: "Unlike this chart"
+          description: "Tap to unlike this chart."
+      message:
+        to_on:
+          title: "Liked!"
+          description: "You can see this chart in \"Liked charts\" section in web app. Please tap the upper right button to go back."
+        to_off:
+          title: "Unliked."
+          description: "Please tap the upper right button to go back."
+        already:
+          title: "Already liked."
+          description: "You have already liked this chart. Please tap the upper right button to go back."
+        not:
+          title: "Not liked."
+          description: "You have not liked this chart. Please tap the upper right button to go back."
+
+    auth:
+      welcome:
+        title: "Welcome to Chart Cyanvas!"
+        description: "Please tap the [ Search ] button to enter the code."
+      guide:
+        title: "Please tap the [ Search ] button below to enter the code."
+        description: "Do not use code by other people!"
+      confirm:
+        title: "Login with [ %{code} ]?"
+        description: "Do not use code by other people!"
+      invalid:
+        title: "Invalid code!"
+        description: "The code should be 8 digits."
+      expired:
+        title: "Unknown code!"
+        description: "The code has expired or you have typo'd. Please try again."
+      success:
+        title: "Login successful!"
+        description: "Please go back to your browser."
+  sonolus:
+    title: "Chart Cyanvas"
+    tag_separator: ", "
+    levels:
+      description: |
+        Likes: %{likes}  /  Tag(s): %{tags}
+
+        %{description}
+    search:
+      title: "Title"
+      title_placeholder: "Please enter the title..."
+      author: "Author"
+      author_placeholder: "Please enter the handle of the author..."
+      target: "Target"
+      targets:
+        - "Public"
+        - "Testing"

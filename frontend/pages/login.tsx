@@ -6,6 +6,7 @@ import useTranslation from "next-translate/useTranslation"
 import { isDev } from "lib/index"
 import { useSession } from "lib/atom"
 import urlcat from "urlcat"
+import { host } from "lib/utils"
 
 const Login: NextPage<{ host: string }> = () => {
   const { t } = useTranslation("login")
@@ -30,10 +31,6 @@ const Login: NextPage<{ host: string }> = () => {
     regenerateNonce()
   }, [])
 
-  const host = useRef("")
-  useEffect(() => {
-    host.current = window.location.protocol + "//" + window.location.host
-  })
   const intervalStrictCall = useRef(true)
   useEffect(() => {
     if (intervalStrictCall.current && isDev) {
@@ -59,8 +56,6 @@ const Login: NextPage<{ host: string }> = () => {
     return () => clearInterval(interval)
   }, [authCode, setSession, router])
 
-  const getHost = (host: string) => host && new URL(host).host
-
   return (
     <>
       <Head>
@@ -71,9 +66,7 @@ const Login: NextPage<{ host: string }> = () => {
         <div className="">
           {t("step1")}
           <div className="mx-8 my-4 p-4 rounded text-center bg-slate-200 dark:bg-slate-900">
-            <div className="text-3xl">
-              {process.env.NEXT_PUBLIC_SONOLUS_HOST || host.current}/auth
-            </div>
+            <div className="text-3xl">{host}/auth</div>
           </div>
           {t("step2")}
           <div className="mx-8 my-4 p-8 rounded text-center bg-slate-200 dark:bg-slate-900">
@@ -86,9 +79,7 @@ const Login: NextPage<{ host: string }> = () => {
           <div className="mt-4">
             <a
               className="p-3 px-6 bg-slate-900 rounded cursor-pointer text-white"
-              href={`sonolus://${getHost(
-                process.env.NEXT_PUBLIC_SONOLUS_HOST || host.current
-              )}/auth/levels/chcy-auth-confirm-${authCode}`}
+              href={`sonolus://${host}/auth/levels/chcy-auth-confirm-${authCode}`}
             >
               {t("openSonolus")}
             </a>

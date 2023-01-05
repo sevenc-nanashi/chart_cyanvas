@@ -24,7 +24,8 @@
     "nodemon": "^2.0.20",
     "sonolus-pjsekai-engine-extended": "github:sevenc-nanashi/sonolus-pjsekai-engine-extended",
     "tempy": "^3.0.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "url-join": "^5.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.15",

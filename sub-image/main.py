@@ -9,6 +9,7 @@ from secrets import token_urlsafe
 from pjsekai_background_gen_pillow import Generator
 from dotenv import load_dotenv
 import logging
+import urllib.parse
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -38,7 +39,7 @@ class ConvertParam(BaseModel):
 
 @app.post("/convert")
 def convert(param: ConvertParam):
-    url = param.url
+    url = urllib.parse.urljoin(BACKEND_HOST, param.url)
 
     logger.info(f"convert: url={url}")
     base_file = io.BytesIO(requests.get(url).content)
@@ -59,7 +60,7 @@ def convert(param: ConvertParam):
     logger.info(f"convert: nonce={nonce}")
 
     background = bg_gen.generate(dist_img)
-    background_file = NamedTemporaryFile(suffix=".png", delete=False)
+    background_file = NamedTemporaryFile(suffix=".jpg", delete=False)
     background.save(background_file.name)
     background_file.close()
     bg_nonce = token_urlsafe(16)

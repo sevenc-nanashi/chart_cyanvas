@@ -10,7 +10,7 @@ RUN bundle config set deployment 'true' \
     && bundle config set without 'development test' \
     && bundle install
 
-COPY backend/* .
+COPY backend/. .
 
 ENV RAILS_ENV production
 CMD ["bundle", "exec", "rake", "start"]

@@ -25,3 +25,5 @@ export const isMine = (session: Session, chart: Chart) => {
     ...session.altUsers.map((u) => u.handle),
   ].includes(chart.author.handle)
 }
+
+export const host = typeof window !== "undefined" ? location.host : ""

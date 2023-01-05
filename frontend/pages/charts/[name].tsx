@@ -7,6 +7,7 @@ import {
   DeleteRegular,
   ClockRegular,
   TagRegular,
+  OpenRegular,
 } from "@fluentui/react-icons"
 import { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import Head from "next/head"
@@ -18,7 +19,7 @@ import urlcat from "urlcat"
 import ChartSection from "components/ChartSection"
 import OptionalImage from "components/OptionalImage"
 import { useSession } from "lib/atom"
-import { getRatingColor, randomize, className, isMine } from "lib/utils"
+import { getRatingColor, randomize, className, isMine, host } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -75,6 +76,8 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({ chartData }) => {
     setRandom(Math.random())
   }, [])
 
+  const isMobile =
+    typeof window !== "undefined" ? navigator.maxTouchPoints > 0 : false
   const [sameAuthorCharts, setSameAuthorCharts] = useState<Chart[] | null>(null)
 
   const isSameAuthorChartsFinished = useRef(false)
@@ -126,6 +129,8 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({ chartData }) => {
       router.push("/charts/my")
     })
   }, [name, router])
+
+  const showManageButton = session?.loggedIn && isMine(session, chartData)
   return (
     <>
       <Head>
@@ -281,42 +286,54 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({ chartData }) => {
               )}
             </div>
 
-            {session?.loggedIn && isMine(session, chartData) && (
-              <div className="flex flex-col w-30 md:w-40 mt-4 text-center gap-2">
-                {[
-                  (item: {
-                    icon: React.FC<{ className: string }>
-                    text: string
-                  }) => (
-                    <>
-                      {createElement(item.icon, {
-                        className: "h-5 w-5 mr-1",
-                      })}
+            <div className="flex flex-col w-30 md:w-40 mt-4 text-center gap-2">
+              {[
+                (item: {
+                  icon: React.FC<{ className: string }>
+                  text: string
+                }) => (
+                  <>
+                    {createElement(item.icon, {
+                      className: "h-5 w-5 mr-1",
+                    })}
 
-                      {item.text}
-                    </>
-                  ),
-                ].map((inner) =>
-                  [
-                    {
-                      href: `/charts/${name}/edit`,
-                      icon: EditRegular,
-                      text: t("edit"),
-                    },
-                    {
-                      text: t("delete"),
-                      icon: DeleteRegular,
-                      isDanger: true,
-                      onClick: deleteChart,
-                    },
-                  ].map((item, i) =>
+                    {item.text}
+                  </>
+                ),
+              ].map((inner) =>
+                [
+                  ...(showManageButton
+                    ? [
+                        {
+                          href: `/charts/${name}/edit`,
+                          icon: EditRegular,
+                          className: "bg-theme text-white",
+                          text: t("edit"),
+                        },
+                        {
+                          text: t("delete"),
+                          icon: DeleteRegular,
+                          className: "bg-red-500 text-white",
+                          onClick: deleteChart,
+                        },
+                      ]
+                    : []),
+                  isMobile && {
+                    text: rootT("openInSonolus"),
+                    icon: OpenRegular,
+                    className: "bg-black text-white",
+                    href: `sonolus://${host}/levels/chcy-${chartData.name}`,
+                  },
+                ]
+                  .flatMap((e) => (e ? [e] : []))
+                  .map((item, i) =>
                     item.href ? (
                       <Link
                         href={item.href}
                         key={i}
                         className={className(
-                          "text-center text-white p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
-                          item.isDanger ? "bg-red-500" : "bg-theme"
+                          "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
+                          item.className
                         )}
                         onClick={item.onClick}
                       >
@@ -326,8 +343,8 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({ chartData }) => {
                       <div
                         key={i}
                         className={className(
-                          "text-center text-white p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer",
-                          item.isDanger ? "bg-red-500" : "bg-theme"
+                          "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer",
+                          item.className
                         )}
                         onClick={item.onClick}
                       >
@@ -335,9 +352,8 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({ chartData }) => {
                       </div>
                     )
                   )
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
         <ChartSection
