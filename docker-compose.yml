@@ -5,7 +5,7 @@ services:
       dockerfile: ./backend/Dockerfile
 
     volumes:
-      - ./.env.prod:/app/.env
+      - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
 
@@ -14,10 +14,10 @@ services:
       context: .
       dockerfile: ./frontend/Dockerfile
       args:
-        - BACKEND_HOST=${BACKEND_HOST}
+        - ENV_FILE=${ENV_FILE}
 
     volumes:
-      - ./.env.prod:/app/.env
+      - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
 
@@ -27,7 +27,7 @@ services:
       dockerfile: ./sub-sus/Dockerfile
 
     volumes:
-      - ./.env.prod:/app/.env
+      - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
 
@@ -36,7 +36,7 @@ services:
       context: .
       dockerfile: ./sub-audio/Dockerfile
     volumes:
-      - ./.env.prod:/app/.env
+      - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
 
@@ -46,7 +46,7 @@ services:
       dockerfile: ./sub-image/Dockerfile
 
     volumes:
-      - ./.env.prod:/app/.env
+      - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
 

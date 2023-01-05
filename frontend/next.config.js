@@ -1,6 +1,8 @@
 require("dotenv").config({ path: "../.env" })
 const nextTranslate = require("next-translate")
 
+console.log("INFO: BACKEND_HOST =", process.env.BACKEND_HOST)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = nextTranslate({
   reactStrictMode: true,
@@ -23,10 +25,12 @@ const nextConfig = nextTranslate({
         source: String.raw`/api/:path((?!next).*)`,
         destination: `${process.env.BACKEND_HOST}/api/:path*`,
       },
-      ...["auth/sonolus", "auth/covers", "sonolus", "covers", "rails"].map((dir) => ({
-        source: String.raw`/${dir}/:path*`,
-        destination: `${process.env.BACKEND_HOST}/${dir}/:path*`,
-      })),
+      ...["auth/sonolus", "auth/covers", "sonolus", "covers", "rails"].map(
+        (dir) => ({
+          source: String.raw`/${dir}/:path*`,
+          destination: `${process.env.BACKEND_HOST}/${dir}/:path*`,
+        })
+      ),
       {
         source: "/levels/chcy-:name",
         destination: `/charts/:name`,
@@ -40,7 +44,5 @@ const nextConfig = nextTranslate({
     NEXT_PUBLIC_BACKEND_HOST: process.env.BACKEND_HOST,
   },
 })
-
-console.log("INFO: BACKEND_HOST =", process.env.BACKEND_HOST)
 
 module.exports = nextConfig
