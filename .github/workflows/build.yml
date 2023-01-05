@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo information (distinct id: ${{ github.event.inputs.distinct_id }})
+      - name: "Echo information (distinct id: ${{ github.event.inputs.distinct_id }})"
         run: |
           echo distinct id: ${{ github.event.inputs.distinct_id }}
           echo directory name: ${{ github.event.inputs.directory_name }}
