@@ -13,7 +13,7 @@ import {
 } from "@fluentui/react-icons"
 
 import urlcat from "urlcat"
-import { useSession } from "lib/atom"
+import { useServerError, useSession } from "lib/atom"
 import { useRouter } from "next/router"
 
 import FileInput from "components/FileInput"
@@ -46,6 +46,7 @@ const UploadChart: NextPage<
   const router = useRouter()
 
   const [session] = useSession()
+  const setServerError = useServerError()
 
   const fields = useMemo(
     () =>
@@ -309,6 +310,9 @@ const UploadChart: NextPage<
       method: "POST",
       body: formData,
     }).then(async (res) => {
+      if (res.status === 500) {
+        setServerError(true)
+      }
       const data = await res.json()
       if (data.code !== "ok") {
         handleErrors(data.errors)
@@ -318,7 +322,7 @@ const UploadChart: NextPage<
       }
       router.push(`/charts/${data.chart.name}`)
     })
-  }, [router, createFormData, handleErrors])
+  }, [router, createFormData, handleErrors, setServerError])
 
   const updateChart = useCallback(() => {
     const formData = createFormData()
@@ -336,6 +340,9 @@ const UploadChart: NextPage<
         body: formData,
       }
     ).then(async (res) => {
+      if (res.status === 500) {
+        setServerError(true)
+      }
       const data = await res.json()
       if (data.code !== "ok") {
         handleErrors(data.errors)
@@ -345,7 +352,7 @@ const UploadChart: NextPage<
       }
       router.push(`/charts/${data.chart.name}`)
     })
-  }, [router, createFormData, handleErrors])
+  }, [router, createFormData, handleErrors, setServerError])
 
   const publishConfirms = [useState(false), useState(false), useState(false)]
   const isAllPublicConfirmsChecked = publishConfirms.every(([value]) => value)
@@ -371,6 +378,9 @@ const UploadChart: NextPage<
         method: "PUT",
         body: formData,
       }).then(async (res) => {
+        if (res.status === 500) {
+          setServerError(true)
+        }
         const data = (await res.json()) as {
           code: string
           chart: Chart
@@ -378,7 +388,6 @@ const UploadChart: NextPage<
         }
         if (data.code !== "ok") {
           handleErrors(data.errors)
-
           setIsSubmitting(false)
           return
         }
@@ -449,6 +458,7 @@ const UploadChart: NextPage<
       setUnUploadedFiles(unUploaded)
     }
   }, [])
+
   if (!session?.loggedIn) {
     if (typeof window !== "undefined") {
       router.replace("/login")
@@ -478,6 +488,7 @@ const UploadChart: NextPage<
           </div>
         </div>
       </ModalPortal>
+
       <ModalPortal isOpen={waitForPublishConfirm !== null}>
         <h1 className="text-xl font-bold text-normal mb-2">
           {t("publishModal.title")}

@@ -1,7 +1,7 @@
 base = File.read("./nginx.conf.base")
 
 inject = +""
-%w[api auth/sonolus sonolus rails].each do |route|
+%w[api auth/covers auth/sonolus sonolus rails].each do |route|
   if route.is_a?(Array)
     from = route[0]
     to = route[1]

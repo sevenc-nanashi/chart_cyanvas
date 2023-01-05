@@ -3,13 +3,19 @@ import type { AppProps } from "next/app"
 import Header from "components/Header"
 import "i18n"
 import { useEffect } from "react"
-import { useSession } from "lib/atom"
+import { serverErrorAtom, useSession } from "lib/atom"
 import urlcat from "urlcat"
 
 import "styles/markdown.scss"
+import ModalPortal from "components/ModalPortal"
+import { useAtom } from "jotai"
+import useTranslation from "next-translate/useTranslation"
 
 function App({ Component, pageProps }: AppProps) {
   const [session, setSession] = useSession()
+  const [serverError, setServerError] = useAtom(serverErrorAtom)
+  const { t } = useTranslation()
+
   useEffect(() => {
     if (session) return
     fetch(urlcat(process.env.BACKEND_HOST!, `/api/auth/session`), {
@@ -29,6 +35,18 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <div className="bg-white dark:bg-slate-800 text-normal min-h-screen">
       <Header />
+      <ModalPortal isOpen={serverError}>
+        <h1 className="text-xl font-bold mb-2">{t("serverError")}</h1>
+        <p className="text-sm text-gray-500">{t("serverErrorNote")}</p>
+        <div className="flex justify-end mt-4">
+          <div
+            className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
+            onClick={() => setServerError(false)}
+          >
+            {t("close")}
+          </div>
+        </div>
+      </ModalPortal>
       {session && (
         <div className="p-4 md:px-40">
           <Component {...pageProps} />

@@ -3,6 +3,9 @@ close: "閉じる"
 cancel: "キャンセル"
 backToHome: "トップへ戻る"
 
+serverError: "サーバーでエラーが発生しました！"
+serverErrorNote: "Discordからお問い合わせ下さい。"
+
 header:
   login: "ログイン"
 home:

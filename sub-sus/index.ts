@@ -29,7 +29,7 @@ app.post("/convert", async (req, res) => {
   const { url } = req.body as { url: string }
 
   try {
-    const sus = await axios.get(process.env.BACKEND_HOST + url, {
+    const sus = await axios.get(url, {
       responseType: "text",
     })
     if (sus.status !== 200) {

@@ -23,7 +23,7 @@ const nextConfig = nextTranslate({
         source: String.raw`/api/:path((?!next).*)`,
         destination: `${process.env.BACKEND_HOST}/api/:path*`,
       },
-      ...["auth/sonolus", "sonolus", "covers", "rails"].map((dir) => ({
+      ...["auth/sonolus", "auth/covers", "sonolus", "covers", "rails"].map((dir) => ({
         source: String.raw`/${dir}/:path*`,
         destination: `${process.env.BACKEND_HOST}/${dir}/:path*`,
       })),

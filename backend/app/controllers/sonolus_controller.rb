@@ -79,7 +79,7 @@ class SonolusController < ApplicationController
       }
     end
     {
-      name: "chcys-#{name}",
+      name: "chcy-sys-#{name}",
       title: I18n.t("levels.#{key}.title", **kwargs),
       artists: I18n.t("levels.#{key}.description", **kwargs),
       author: I18n.t("levels._.author", **kwargs),

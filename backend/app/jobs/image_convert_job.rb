@@ -39,6 +39,7 @@ class ImageConvertJob < ApplicationJob
     )
     HTTP.delete("#{ENV.fetch("SUB_IMAGE_HOST", nil)}/download/#{response[:background_id]}")
 
+    ApplicationController.revalidate("/charts/#{image_resource.chart.name}")
     image_resource.destroy
   end
 end

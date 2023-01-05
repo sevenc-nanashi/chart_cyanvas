@@ -63,10 +63,8 @@ async fn convert_web(params: web::Json<ConvertParam>) -> impl Responder {
 
 async fn convert(url: String) -> Result<ConvertResponse, String> {
     let client = reqwest::Client::new();
-    let original_url = format!("{}{}", BACKEND_HOST.as_str(), url);
-    info!("original_url: {}", original_url);
     let res = client
-        .get(original_url)
+        .get(url)
         .send()
         .await
         .map_err(|_| "failed_to_fetch")?;

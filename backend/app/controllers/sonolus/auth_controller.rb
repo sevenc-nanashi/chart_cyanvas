@@ -21,7 +21,7 @@ module Sonolus
              title: I18n.t("auth.title"),
              levels: {
                items: [
-                 dummy_level("auth.welcome", "auth-welcome", cover: "info")
+                 dummy_level("auth.welcome", "auth-welcome", cover: "logo")
                ],
                search: code_search
              },

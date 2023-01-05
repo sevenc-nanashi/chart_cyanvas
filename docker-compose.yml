@@ -104,12 +104,13 @@ services:
     entrypoint: sh
     command: |
       -c '
-        mc config host add myminio http://minio:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD; \
-        mc mb myminio/chcy-dev; \
-        mc policy set public myminio/chcy-dev; \
+      mc config host add minio http://minio:9000 ${S3_ROOT_USER} ${S3_ROOT_PASSWORD} &&
+      mc mb minio/${S3_BUCKET} &&
+      mc policy set public minio/${S3_BUCKET}
       '
     profiles:
       - "init"
     environment:
-      MINIO_ROOT_USER: "${S3_ROOT_USER}"
-      MINIO_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"
+      S3_ROOT_USER: "${S3_ROOT_USER}"
+      S3_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"
+      S3_BUCKET: "${S3_BUCKET}"

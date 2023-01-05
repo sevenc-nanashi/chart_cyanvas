@@ -24,7 +24,7 @@ class ApplicationController < ActionController::API
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
   end
 
-  def revalidate(path)
+  def self.revalidate(path)
     HTTP.post(
       "#{ENV.fetch("FRONTEND_HOST", nil)}/api/next/revalidate",
       json: {
@@ -32,5 +32,9 @@ class ApplicationController < ActionController::API
       }
     )
     Rails.cache.delete_matched(path)
+  end
+
+  def revalidate(path)
+    self.class.revalidate(path)
   end
 end

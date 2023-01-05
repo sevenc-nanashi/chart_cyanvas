@@ -15,7 +15,7 @@ s3:
   region: <%= ENV["S3_REGION"] %>
   bucket: <%= ENV["S3_BUCKET"] %>
   force_path_style: true
-  public: true
+  public: <%= ENV["S3_PUBLIC"] == "true" %>
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:

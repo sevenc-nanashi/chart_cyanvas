@@ -26,8 +26,8 @@ Rails.application.routes.draw do
   scope "/sonolus" do
     get "/info", to: "sonolus/info#info"
     get "/levels/list", to: "sonolus/levels#list"
-    get "/levels/chcys-like-on-:name", to: "sonolus/like#to_on"
-    get "/levels/chcys-like-off-:name", to: "sonolus/like#to_off"
+    get "/levels/chcy-sys-like-on-:name", to: "sonolus/like#to_on"
+    get "/levels/chcy-sys-like-off-:name", to: "sonolus/like#to_off"
     get "/levels/chcy-:name", to: "sonolus/levels#show"
     post "/authenticate", to: "sonolus#authenticate"
 
@@ -43,10 +43,10 @@ Rails.application.routes.draw do
       get "/levels/list", to: "sonolus/auth#sonolus_levels_list"
       post "/authenticate", to: "sonolus#authenticate"
 
-      get "/levels/chcys-auth-confirm-:code", to: "sonolus/auth#sonolus_confirm"
-      get "/levels/chcys-:id", to: "sonolus#dummy_level_info"
+      get "/levels/chcy-sys-auth-confirm-:code", to: "sonolus/auth#sonolus_confirm"
+      get "/levels/chcy-sys-:id", to: "sonolus#dummy_level_info"
     end
-    get "/covers/:name" => redirect("/covers/%<name>s"), :format => false
-    get "/covers/:name" => redirect("/covers/%<name>s.%<format>s")
+    get "/covers/:name" => redirect("/covers/%{name}"), format: false
+    get "/covers/:name" => redirect("/covers/%{name}.%{format}")
   end
 end

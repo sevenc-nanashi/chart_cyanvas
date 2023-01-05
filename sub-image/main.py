@@ -8,6 +8,10 @@ import io
 from secrets import token_urlsafe
 from pjsekai_background_gen_pillow import Generator
 from dotenv import load_dotenv
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
 load_dotenv(dotenv_path="../.env")
@@ -36,7 +40,8 @@ class ConvertParam(BaseModel):
 def convert(param: ConvertParam):
     url = param.url
 
-    base_file = io.BytesIO(requests.get(BACKEND_HOST + url).content)
+    logger.info(f"convert: url={url}")
+    base_file = io.BytesIO(requests.get(url).content)
     img = Image.open(base_file)
     img = img.convert("RGBA")
     if img.width > img.height:
@@ -51,6 +56,7 @@ def convert(param: ConvertParam):
     dist_file.close()
     nonce = token_urlsafe(16)
     download_files[nonce] = dist_file.name
+    logger.info(f"convert: nonce={nonce}")
 
     background = bg_gen.generate(dist_img)
     background_file = NamedTemporaryFile(suffix=".png", delete=False)
@@ -58,6 +64,7 @@ def convert(param: ConvertParam):
     background_file.close()
     bg_nonce = token_urlsafe(16)
     download_files[bg_nonce] = background_file.name
+    logger.info(f"convert: bg_nonce={bg_nonce}")
 
     return {
         "code": "ok",
@@ -69,6 +76,7 @@ def convert(param: ConvertParam):
 @app.get("/download/{nonce}")
 def download(nonce: str):
     if nonce in download_files:
+        logger.info(f"download: nonce={nonce}")
         return fastapi.responses.FileResponse(download_files[nonce])
     else:
         return {"code": "error"}
@@ -77,6 +85,7 @@ def download(nonce: str):
 @app.delete("/download/{nonce}")
 def delete(nonce: str):
     if nonce in download_files:
+        logger.info(f"delete: nonce={nonce}")
         os.remove(download_files[nonce])
         del download_files[nonce]
         return {"code": "ok"}

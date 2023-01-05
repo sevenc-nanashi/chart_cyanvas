@@ -49,14 +49,7 @@ class FileResource < ApplicationRecord
   end
 
   def to_frontend
-    if ENV["RAILS_ENABLE_PROXY"] == "true"
-      Rails.application.routes.url_helpers.rails_blob_path(
-        file,
-        only_path: true
-      )
-    else
-      file.url
-    end
+    file.url
   end
 
   def to_srl

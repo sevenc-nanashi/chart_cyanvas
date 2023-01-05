@@ -5,6 +5,9 @@ AllCops:
 inherit_gem:
   syntax_tree: config/rubocop.yml
 
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
 Naming/VariableNumber:
   Enabled: false
 
