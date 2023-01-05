@@ -6,7 +6,7 @@ require "request_store_rails"
 class SonolusController < ApplicationController
   SONOLUS_PUBLIC_KEY =
     OpenSSL::PKey::RSA.new(
-      File.read(Rails.root.join("config", "sonolus_public_key.pub"))
+      Rails.root.join("config/sonolus_public_key.pub").read
     ).freeze
 
   around_action do |_, action|
@@ -70,7 +70,7 @@ class SonolusController < ApplicationController
     if cover.nil?
       cover_data = { type: "LevelCover", url: "" }
     else
-      cover_path = Rails.root.join("public", "covers", "#{cover}.png")
+      cover_path = Rails.public_path.join("covers", "#{cover}.png")
       raise "Cover not found: #{cover_path}" unless File.exist?(cover_path)
       cover_data = {
         type: "LevelCover",

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 class Chart < ApplicationRecord
   has_many :co_authors, dependent: :destroy
-  belongs_to :author, class_name: "User", foreign_key: "author_id"
+  belongs_to :author, class_name: "User"
   has_many :file_resources, dependent: :destroy
   has_many :variants,
            class_name: "Chart",
            foreign_key: "variant_id",
-           dependent: :nullify
+           dependent: :nullify,
+           inverse_of: :variant_of
   has_many :likes, dependent: :destroy
   has_many :tags, dependent: :destroy
 
@@ -67,9 +68,9 @@ class Chart < ApplicationRecord
     {
       name: "chcy-#{name}",
       title:,
-      artists: "#{composer} / #{artist.blank? ? "-" : artist}",
+      artists: "#{composer} / #{artist.presence || "-"}",
       author:
-        "#{author_name.present? ? author_name : author.name}##{author.display_handle}",
+        "#{author_name.presence || author.name}##{author.display_handle}",
       cover: resources[:cover]&.to_srl,
       bgm: resources[:bgm]&.to_srl,
       preview: resources[:preview]&.to_srl,
@@ -97,7 +98,7 @@ class Chart < ApplicationRecord
     config = {
       hash:
         Digest::SHA1.file(
-          Rails.root.join("assets", "backgrounds", "BackgroundConfiguration")
+          Rails.root.join("assets/backgrounds/BackgroundConfiguration")
         ).hexdigest,
       url: "/sonolus/assets/backgrounds/BackgroundConfiguration",
       type: "BackgroundConfiguration"
@@ -105,7 +106,7 @@ class Chart < ApplicationRecord
     data = {
       hash:
         Digest::SHA1.file(
-          Rails.root.join("assets", "backgrounds", "BackgroundData")
+          Rails.root.join("assets/backgrounds/BackgroundData")
         ).hexdigest,
       url: "/sonolus/assets/backgrounds/BackgroundData",
       type: "BackgroundData"
@@ -114,9 +115,9 @@ class Chart < ApplicationRecord
       name: "chcy-bg-#{name}",
       version: 2,
       title:,
-      subtitle: "#{composer} / #{artist.blank? ? "-" : artist}",
+      subtitle: "#{composer} / #{artist.presence || "-"}",
       author:
-        "#{author_name.present? ? author_name : author.name}##{author.display_handle}",
+        "#{author_name.presence || author.name}##{author.display_handle}",
       thumbnail: resources[:cover]&.to_srl&.merge(type: "BackgroundThumbnail"),
       data:,
       image: resources[:background]&.to_srl,

@@ -197,7 +197,7 @@ module Api
         return
       end
       variant = nil
-      if !data_parsed[:variant].blank? &&
+      if data_parsed[:variant].present? &&
            !variant =
              Chart.find_by(name: data_parsed[:variant], author_id: author.id)
         render json: {

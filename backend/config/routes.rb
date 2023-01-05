@@ -46,7 +46,7 @@ Rails.application.routes.draw do
       get "/levels/chcy-sys-auth-confirm-:code", to: "sonolus/auth#sonolus_confirm"
       get "/levels/chcy-sys-:id", to: "sonolus#dummy_level_info"
     end
-    get "/covers/:name" => redirect("/covers/%{name}"), format: false
-    get "/covers/:name" => redirect("/covers/%{name}.%{format}")
+    get "/covers/:name" => redirect("/covers/%<name>s"), format: false
+    get "/covers/:name" => redirect("/covers/%<name>s.%<format>s")
   end
 end

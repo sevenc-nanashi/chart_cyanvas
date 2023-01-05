@@ -1,6 +1,11 @@
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.2
+  Exclude:
+    - db/migrate/*.rb
+
+require:
+  - rubocop-rails
 
 inherit_gem:
   syntax_tree: config/rubocop.yml
@@ -42,4 +47,7 @@ Layout/LineLength:
   Enabled: false
 
 Lint/ScriptPermission:
+  Enabled: false
+
+Rails/I18nLocaleTexts:
   Enabled: false

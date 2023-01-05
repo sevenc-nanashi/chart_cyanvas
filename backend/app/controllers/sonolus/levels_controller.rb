@@ -104,7 +104,7 @@ module Sonolus
               }
             ).find_by(name: params[:name])
           end
-      user_faved = level.likes.where(user_id: current_user&.id).exists?
+      user_faved = level.likes.exists?(user_id: current_user&.id)
       if level
         render json: {
                  item: level.to_sonolus,

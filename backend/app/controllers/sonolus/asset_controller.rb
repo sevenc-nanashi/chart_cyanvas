@@ -7,8 +7,7 @@ module Sonolus
       params.permit(:type)
       type = params[:type]
       names =
-        Dir
-          .glob(Rails.root.join("assets", type, "*.yml"))
+        Rails.root.glob("assets/#{type}/*.yml")
           .map { |path| File.basename(path).delete_suffix(".yml") }
       render json: {
                items:
