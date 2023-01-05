@@ -4,20 +4,31 @@ import useTranslation from "next-translate/useTranslation"
 import { useSession } from "../lib/atom"
 import SideMenu from "./SideMenu"
 
+import LogoCF from "public/logo-cf.svg"
+
 const Header = () => {
   const { t } = useTranslation("header")
-  const { t: rootT } = useTranslation()
 
   const [session] = useSession()
   const [showMenu, setShowMenu] = useState(false)
 
   return (
     <>
-      <header className="bg-theme dark:bg-slate-900 flex items-center px-8 h-20 shadow-sm shadow-[#83ccd288]">
-        <Link href="/">
-          <h1 className="text-4xl text-white dark:text-theme font-extrabold">
-            {rootT("name")}
-          </h1>
+      <header className="bg-theme dark:bg-slate-900 flex items-center pl-4 pr-8 h-20 shadow-sm shadow-[#83ccd288]">
+        <Link href="/" className="flex items-center">
+          <LogoCF
+            alt="logo"
+            className="text-white dark:text-theme"
+            width="56px"
+            height="56px"
+            viewBox="0 0 512 512"
+          />
+          <span className="text-2xl md:text-4xl text-white dark:text-theme font-extrabold">
+            Chart
+            <br className="block md:hidden" />
+            <span className="hidden md:inline"> </span>
+            Cyanvas
+          </span>
         </Link>
         <div className="flex-grow" />
 
@@ -40,7 +51,7 @@ const Header = () => {
             </div>
           ) : (
             <Link href="/login">
-              <div className="p-2 px-4 rounded font-bold bg-white dark:bg-theme text-theme dark:text-slate-900">
+              <div className="p-2 px-4 rounded font-bold bg-white dark:bg-theme text-theme dark:text-slate-900 ml-2">
                 {t("login")}
               </div>
             </Link>
