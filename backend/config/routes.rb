@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Style/FormatStringToken
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -46,7 +47,8 @@ Rails.application.routes.draw do
       get "/levels/chcy-sys-auth-confirm-:code", to: "sonolus/auth#sonolus_confirm"
       get "/levels/chcy-sys-:id", to: "sonolus#dummy_level_info"
     end
-    get "/covers/:name" => redirect("/covers/%<name>s"), format: false
-    get "/covers/:name" => redirect("/covers/%<name>s.%<format>s")
+    get "/assets/:name" => redirect("/assets/%{name}"), format: false
+    get "/assets/:name" => redirect("/assets/%{name}.%{format}")
   end
 end
+# rubocop:enable Style/FormatStringToken

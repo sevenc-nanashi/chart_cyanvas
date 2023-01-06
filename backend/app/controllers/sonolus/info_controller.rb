@@ -1,21 +1,30 @@
 # frozen_string_literal: true
 module Sonolus
   class InfoController < SonolusController
-  def info
-    render json:
-             {
-               title: I18n.t("sonolus.title"),
-               levels: {
-                 items: [],
-                 search: {
-                   options: Sonolus::LevelsController.search_options
+    def info
+      render json:
+               {
+                 title: I18n.t("sonolus.title"),
+                 banner: banner("banner"),
+                 levels: {
+                   items:
+                     Chart
+                       .order(updated_at: :desc)
+                       .limit(5)
+                       .includes(:author)
+                       .eager_load(file_resources: { file_attachment: :blob })
+                       .where(is_public: true)
+                       .sonolus_listed
+                       .map(&:to_sonolus),
+                   search: {
+                     options: Sonolus::LevelsController.search_options
+                   }
                  }
+               }.tap { |json|
+                 %i[backgrounds skins effects particles engines].each do |key|
+                   json[key] = { items: [], search: { options: [] } }
+                 end
                }
-             }.tap { |json|
-               %i[backgrounds skins effects particles engines].each do |key|
-                 json[key] = { items: [], search: { options: [] } }
-               end
-             }
-  end
+    end
   end
 end

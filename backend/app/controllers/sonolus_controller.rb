@@ -70,11 +70,11 @@ class SonolusController < ApplicationController
     if cover.nil?
       cover_data = { type: "LevelCover", url: "" }
     else
-      cover_path = Rails.public_path.join("covers", "#{cover}.png")
+      cover_path = Rails.public_path.join("assets", "#{cover}.png")
       raise "Cover not found: #{cover_path}" unless File.exist?(cover_path)
       cover_data = {
         type: "LevelCover",
-        url: "/covers/#{cover}.png",
+        url: "/assets/#{cover}.png",
         hash: Digest::SHA1.file(cover_path).hexdigest
       }
     end
@@ -99,6 +99,16 @@ class SonolusController < ApplicationController
         type: "LevelData",
         url: ""
       }
+    }
+  end
+
+  def banner(name)
+    banner_path = Rails.public_path.join("assets", "#{name}.png")
+    raise "Banner not found: #{cover_path}" unless File.exist?(banner_path)
+    {
+      type: "ServerBanner",
+      url: "/assets/#{name}.png",
+      hash: Digest::SHA1.file(banner_path).hexdigest
     }
   end
 
@@ -145,7 +155,5 @@ class SonolusController < ApplicationController
            }
   end
 
-  after_action do
-    headers["Sonolus-Version"] = "0.6.5"
-  end
+  after_action { headers["Sonolus-Version"] = "0.6.5" }
 end

@@ -1,5 +1,5 @@
 upstream front {
-    server frontend:3000;
+    server frontend:3100;
 }
 
 upstream back {
@@ -22,8 +22,8 @@ server {
         try_files /app/backend-public$uri /app/frontend-public$uri @front;
     }
 
-    location /auth/covers/ {
-        alias /app/backend-public/covers/;
+    location /auth/assets/ {
+        alias /app/backend-public/assets/;
     }
 
     # inject

@@ -33,7 +33,8 @@ class ApplicationController < ActionController::API
         }
       )
     end
-    Rails.cache.delete_matched(path)
+    deleted = Rails.cache.delete(path)
+    logger.info "Revalidate: #{path}, deleted: #{deleted}"
   end
 
   def revalidate(path)

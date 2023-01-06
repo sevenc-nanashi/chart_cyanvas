@@ -144,7 +144,10 @@ module Api
         Rails
           .cache
           .fetch("/charts/#{params[:name]}", expires_in: 1.day) do
-            Chart.include_all.find_by(name: params[:name])
+            Chart
+              .include_all
+              .eager_load(file_resources: { file_attachment: :blob })
+              .find_by(name: params[:name])
           end
       if chart
         render json: {

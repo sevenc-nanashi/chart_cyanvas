@@ -20,7 +20,7 @@ class Chart < ApplicationRecord
         }
   scope :sonolus_listed, -> { where(variant_id: nil) }
   def resources
-    base = file_resources
+    base = file_resources.all.eager_load(file_attachment: :blob)
     {
       sus: base.find(&:sus?),
       bgm: base.find(&:bgm?),

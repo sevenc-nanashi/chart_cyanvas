@@ -1,29 +1,16 @@
-# syntax=docker/dockerfile:1
-
-FROM rust:1 AS builder
+FROM python:3.9-slim-buster
 
 WORKDIR /app
 
-## -- Magic for caching dependencies -------------------------------------------
-COPY sub-audio/Cargo.toml .
-COPY Cargo.lock .
-RUN mkdir -p src && echo "fn main() {}" > dummy.rs && cp dummy.rs src/main.rs
-RUN cargo build --release
+RUN apt-get update && apt-get install -y \
+    ffmpeg
 
-## -- Actual build -------------------------------------------------------------
-COPY sub-audio/src src
+COPY sub-audio/pyproject.toml sub-audio/poetry.lock ./
 
-RUN bash -c "if cmp --silent dummy.rs src/main.rs; then echo 'dummy.rs and src/main.rs are the same!'; exit 1; fi"
-RUN rm dummy.rs /app/target/release/deps/sub_audio* && cargo build --release
+RUN pip install poetry && poetry config virtualenvs.create false && poetry install --only main --no-root
 
-# ## == Runtime image ===========================================================
-FROM ubuntu:20.04 AS runtime
+COPY sub-audio/* .
 
-WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates ffmpeg
-COPY --from=builder /app/target/release/sub-audio /app/sub-audio
+EXPOSE 3203
 
-EXPOSE 3202
-
-CMD [ "/app/sub-audio" ]
+CMD [ "poetry", "run", "poe", "start" ]

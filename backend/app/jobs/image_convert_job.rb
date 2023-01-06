@@ -34,5 +34,6 @@ class ImageConvertJob < ApplicationJob
       ImageConvertJob.perform_later(resource, :background)
       image_resource.destroy
     end
+    ApplicationController.revalidate("/charts/#{image_resource.chart.name}")
   end
 end
