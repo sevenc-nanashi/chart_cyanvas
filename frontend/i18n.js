@@ -22,7 +22,7 @@ module.exports = {
   },
 
   pages: {
-    "*": ["common", "header", "menu", "chartSection"],
+    "*": ["common", "header", "menu", "chartSection", "errors"],
     "/": ["home"],
     "/login": ["login"],
 
