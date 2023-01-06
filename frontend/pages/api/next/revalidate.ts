@@ -5,12 +5,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).end()
     return
   }
-  const body = JSON.parse(req.body)
   try {
-    await res.revalidate(body.path)
+    await res.revalidate(req.body.path)
+    console.log("Revalidated", req.body.path)
     return res.json({ revalidated: true })
   } catch (err) {
-    return console.log(err)
+    return res.status(500).json({ revalidated: false })
   }
 }
 

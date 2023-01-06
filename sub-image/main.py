@@ -10,6 +10,7 @@ from pjsekai_background_gen_pillow import Generator
 from dotenv import load_dotenv
 import logging
 import urllib.parse
+import redis
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -24,7 +25,7 @@ print(f"BACKEND_HOST = {BACKEND_HOST}")
 SIZE = 512
 
 app = fastapi.FastAPI(docs_url=None, redoc_url=None)
-download_files = {}
+redis = redis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
 bg_gen = Generator()
 
 
@@ -35,6 +36,7 @@ def read_root():
 
 class ConvertParam(BaseModel):
     url: str
+    type: str
 
 
 @app.post("/convert")
@@ -45,53 +47,53 @@ def convert(param: ConvertParam):
     base_file = io.BytesIO(requests.get(url).content)
     img = Image.open(base_file)
     img = img.convert("RGBA")
-    if img.width > img.height:
-        img = img.resize((SIZE, SIZE * img.height // img.width))
-    elif img.width < img.height:
-        img = img.resize((SIZE * img.width // img.height, SIZE))
-    img = img.resize((SIZE, SIZE))
-    img_color = img.resize((1, 1))
-    dist_img = img_color.resize((SIZE, SIZE)).convert("RGBA")
-    dist_file = NamedTemporaryFile(suffix=".png", delete=False)
-    Image.alpha_composite(dist_img, img).save(dist_file.name)
-    dist_file.close()
-    nonce = token_urlsafe(16)
-    download_files[nonce] = dist_file.name
-    logger.info(f"convert: nonce={nonce}")
-
-    background = bg_gen.generate(dist_img)
-    background_file = NamedTemporaryFile(suffix=".jpg", delete=False)
-    background.save(background_file.name)
-    background_file.close()
-    bg_nonce = token_urlsafe(16)
-    download_files[bg_nonce] = background_file.name
-    logger.info(f"convert: bg_nonce={bg_nonce}")
+    if param.type == "cover":
+        if img.width > img.height:
+            img = img.resize((SIZE, SIZE * img.height // img.width))
+        elif img.width < img.height:
+            img = img.resize((SIZE * img.width // img.height, SIZE))
+        img = img.resize((SIZE, SIZE))
+        img_color = img.resize((1, 1))
+        dist_img = img_color.resize((SIZE, SIZE)).convert("RGBA")
+        dist_file = NamedTemporaryFile(suffix=".png", delete=False)
+        Image.alpha_composite(dist_img, img).save(dist_file.name)
+        dist_file.close()
+        nonce = token_urlsafe(16)
+        redis.set("image:" + nonce, dist_file.name)
+        logger.info(f"convert(cover): nonce={nonce}")
+    elif param.type == "background":
+        background = bg_gen.generate(img)
+        background_file = NamedTemporaryFile(suffix=".jpg", delete=False)
+        background.save(background_file.name)
+        background_file.close()
+        nonce = token_urlsafe(16)
+        redis.set("image:" + nonce, background_file.name)
+        logger.info(f"convert(background): nonce={nonce}")
 
     return {
         "code": "ok",
-        "cover_id": nonce,
-        "background_id": bg_nonce,
+        "id": nonce,
     }
 
 
 @app.get("/download/{nonce}")
 def download(nonce: str):
-    if nonce in download_files:
+    if path := redis.get("image:" + nonce):
         logger.info(f"download: nonce={nonce}")
-        return fastapi.responses.FileResponse(download_files[nonce])
+        return fastapi.responses.FileResponse(path)
     else:
-        return {"code": "error"}
+        return {"code": "error"}, 404
 
 
 @app.delete("/download/{nonce}")
 def delete(nonce: str):
-    if nonce in download_files:
+    if path := redis.get("image:" + nonce):
         logger.info(f"delete: nonce={nonce}")
-        os.remove(download_files[nonce])
-        del download_files[nonce]
+        os.remove(path)
+        redis.delete("image:" + nonce)
         return {"code": "ok"}
     else:
-        return {"code": "error"}
+        return {"code": "error"}, 404
 
 
 @app.exception_handler(Exception)

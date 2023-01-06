@@ -8,6 +8,7 @@ class Chart < ApplicationRecord
            foreign_key: "variant_id",
            dependent: :nullify,
            inverse_of: :variant_of
+  belongs_to :variant_of, class_name: "Chart", optional: true, inverse_of: :variants
   has_many :likes, dependent: :destroy
   has_many :tags, dependent: :destroy
 

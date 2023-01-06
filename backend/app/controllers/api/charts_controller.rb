@@ -243,11 +243,12 @@ module Api
       SusConvertJob.perform_later(
         FileResource.upload(chart, :sus, params[:chart])
       )
-      ImageConvertJob.perform_later(
-        FileResource.upload(chart, :base_cover, params[:cover])
-      )
       BgmConvertJob.perform_later(
         FileResource.upload(chart, :base_bgm, params[:bgm])
+      )
+      ImageConvertJob.perform_now(
+        FileResource.upload(chart, :base_cover, params[:cover]),
+        :cover
       )
 
       revalidate("/charts/#{chart.name}")
@@ -258,9 +259,9 @@ module Api
       params.permit(%i[data chart cover bgm])
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
-           %i[chart cover bgm].all? do |k|
+           %i[chart cover bgm].all? { |k|
              hash[k].nil? || hash[k].is_a?(ActionDispatch::Http::UploadedFile)
-           end
+           }
         render json: {
                  code: "invalid_request",
                  error: "Invalid request"
@@ -308,17 +309,17 @@ module Api
           FileResource.upload(chart, :sus, params[:chart])
         )
       end
-      if params[:cover]
-        ImageConvertJob.perform_later(
-          FileResource.upload(chart, :base_cover, params[:cover])
-        )
-      end
       if params[:bgm]
         BgmConvertJob.perform_later(
           FileResource.upload(chart, :base_bgm, params[:bgm])
         )
       end
-
+      if params[:cover]
+        ImageConvertJob.perform_now(
+          FileResource.upload(chart, :base_cover, params[:cover]),
+          :cover
+        )
+      end
       revalidate("/charts/#{chart.name}")
       render json: { code: "ok", chart: chart.to_frontend }
     end

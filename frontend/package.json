@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3100",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3100",
     "lint": "next lint",
     "lint:fix": "next lint --fix"
   },
@@ -26,6 +26,7 @@
     "react-markdown": "^8.0.4",
     "react-tag-input": "^6.8.1",
     "sass": "^1.57.0",
+    "sharp": "^0.31.3",
     "urlcat": "^3.0.0"
   },
   "devDependencies": {

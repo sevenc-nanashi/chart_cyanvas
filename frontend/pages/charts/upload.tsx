@@ -312,6 +312,8 @@ const UploadChart: NextPage<
     }).then(async (res) => {
       if (res.status === 500) {
         setServerError(true)
+        setIsSubmitting(false)
+        return
       }
       const data = await res.json()
       if (data.code !== "ok") {
@@ -342,6 +344,8 @@ const UploadChart: NextPage<
     ).then(async (res) => {
       if (res.status === 500) {
         setServerError(true)
+        setIsSubmitting(false)
+        return
       }
       const data = await res.json()
       if (data.code !== "ok") {
@@ -380,6 +384,8 @@ const UploadChart: NextPage<
       }).then(async (res) => {
         if (res.status === 500) {
           setServerError(true)
+          setIsSubmitting(false)
+          return
         }
         const data = (await res.json()) as {
           code: string

@@ -25,12 +25,14 @@ class ApplicationController < ActionController::API
   end
 
   def self.revalidate(path)
-    HTTP.post(
-      "#{ENV.fetch("FRONTEND_HOST", nil)}/api/next/revalidate",
-      json: {
-        path:
-      }
-    )
+    %w[ja en].each do |lang|
+      HTTP.post(
+        "#{ENV.fetch("FRONTEND_HOST", nil)}/api/next/revalidate",
+        json: {
+          path: "/#{lang}#{path}"
+        }
+      )
+    end
     Rails.cache.delete_matched(path)
   end
 

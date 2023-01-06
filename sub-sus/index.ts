@@ -23,7 +23,7 @@ const files = new Map<string, { path: string; date: Date }>()
 const BACKEND_HOST = process.env.BACKEND_HOST!
 
 app.use(jsonHandler())
-app.use(morgan("dev"))
+app.use(morgan("combined"))
 app.get("/", (_req, res) => {
   res.json({ code: "ok", name: "sub-sus" })
 })
@@ -33,6 +33,7 @@ app.post("/convert", async (req, res) => {
   const url = urlJoin(BACKEND_HOST, originalUrl)
 
   try {
+    console.log("Converting", url)
     const sus = await axios.get(url, {
       responseType: "text",
     })

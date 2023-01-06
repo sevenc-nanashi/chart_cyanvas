@@ -40,6 +40,7 @@ class BgmConvertJob < ApplicationJob
     )
     HTTP.delete("#{ENV.fetch("SUB_AUDIO_HOST", nil)}/download/#{response[:preview_id]}")
 
+    ApplicationController.revalidate("/charts/#{bgm_resource.chart.name}")
     bgm_resource.destroy
   end
 end

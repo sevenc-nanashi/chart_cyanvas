@@ -10,9 +10,6 @@ gem "rails", "~> 7.0.4"
 # Use sqlite3 as the database for Active Record
 # gem "sqlite3", "~> 1.4"
 
-# Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.0"
-
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
@@ -49,7 +46,12 @@ group :development do
   gem "rubocop-rails", "~> 2.17", require: false
   gem "rubocop-discourse", "~> 3.0", require: false
 
+  gem "webrick", "~> 1.7"
   gem "syntax_tree", "~> 5.1", require: false
+end
+
+group :production do
+  gem "puma", "~> 5.0"
 end
 
 gem "shortuuid", "~> 0.6.0"

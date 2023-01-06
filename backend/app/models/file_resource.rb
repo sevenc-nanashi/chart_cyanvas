@@ -52,10 +52,7 @@ class FileResource < ApplicationRecord
     if ENV["RAILS_DISABLE_PROXY"] == "true"
       file.url
     else
-      Rails.application.routes.url_helpers.rails_blob_path(
-        file,
-        only_path: true
-      )
+      Rails.application.routes.url_helpers.rails_blob_path(file, host: ENV["BACKEND_HOST"])
     end
   end
 
