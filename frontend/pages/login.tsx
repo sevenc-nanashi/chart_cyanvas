@@ -66,11 +66,11 @@ const Login: NextPage<{ host: string }> = () => {
         <div className="">
           {t("step1")}
           <div className="mx-8 my-4 p-4 rounded text-center bg-slate-200 dark:bg-slate-900">
-            <div className="text-3xl">{host}/auth</div>
+            <div className="text-xl md:text-3xl">{host}/auth</div>
           </div>
           {t("step2")}
           <div className="mx-8 my-4 p-8 rounded text-center bg-slate-200 dark:bg-slate-900">
-            <div className="text-6xl font-monospace tracking-widest">
+            <div className="text-6xl md:text-6xl font-monospace tracking-widest">
               {authCode || "--------"}
             </div>
             <div className="text-sm text-gray-500">{t("step2note")}</div>
