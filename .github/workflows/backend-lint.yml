@@ -36,6 +36,7 @@ jobs:
       - name: Run backend lint
         working-directory: ./backend
         run: |
+          pwd
           bundle exec rake lint
 
       - name: Dispatch build action
