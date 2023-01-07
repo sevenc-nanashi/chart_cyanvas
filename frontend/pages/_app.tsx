@@ -55,7 +55,7 @@ function App({ Component, pageProps }: AppProps) {
         </div>
       </ModalPortal>
       {session ? (
-        <div className="p-4 md:px-40 flex-grow">
+        <div className="p-4 md:px-40 lg:px-60 flex-grow">
           <Component {...pageProps} />
         </div>
       ) : (
