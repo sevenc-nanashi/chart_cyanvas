@@ -21,6 +21,7 @@ import OptionalImage from "components/OptionalImage"
 import { useSession } from "lib/atom"
 import { getRatingColor, randomize, className, isMine, host } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
+import { chartWithCookie } from "lib/chart"
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -63,7 +64,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
     revalidate: 300,
   }
 }
-const ChartPage: React.FC<{ chartData: Chart }> = ({ chartData }) => {
+const ChartPage: React.FC<{ chartData: Chart }> = ({
+  chartData: baseChartData,
+}) => {
+  const chartData = chartWithCookie(baseChartData)
   const { t: rootT } = useTranslation()
   const { t } = useTranslation("chart")
 

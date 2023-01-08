@@ -20,6 +20,7 @@ import FileInput from "components/FileInput"
 import { className } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import Checkbox from "components/Checkbox"
+import { saveChart } from "lib/chart"
 
 type FormData = {
   title: string
@@ -322,6 +323,7 @@ const UploadChart: NextPage<
         setIsSubmitting(false)
         return
       }
+      saveChart(data.chart)
       router.push(`/charts/${data.chart.name}`)
     })
   }, [router, createFormData, handleErrors, setServerError])
@@ -354,6 +356,7 @@ const UploadChart: NextPage<
         setIsSubmitting(false)
         return
       }
+      saveChart(data.chart)
       router.push(`/charts/${data.chart.name}`)
     })
   }, [router, createFormData, handleErrors, setServerError])

@@ -17,6 +17,7 @@ specifiers:
   eslint-config-next: 13.0.5
   eslint-config-prettier: ^8.6.0
   eslint-plugin-prettier: ^4.2.1
+  eslint-plugin-react: ^7.31.11
   jotai: ^1.12.1
   js-yaml-loader: ^1.2.2
   next: 13.1.1
@@ -69,6 +70,7 @@ devDependencies:
   eslint-config-next: 13.0.5_hsf322ms6xhhd4b5ne6lb74y4a
   eslint-config-prettier: 8.6.0_eslint@8.28.0
   eslint-plugin-prettier: 4.2.1_w74u6qsmq5jw3pgxzlylzaskfq
+  eslint-plugin-react: 7.31.11_eslint@8.28.0
   postcss: 8.4.21
   prettier: 2.8.1
   tailwindcss: 3.2.4_postcss@8.4.21

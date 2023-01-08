@@ -5,6 +5,8 @@
     "next/core-web-vitals",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "prettier"
   ],
   "ignorePatterns": ["*.config.js", "dist"],
@@ -19,6 +21,7 @@
         "destructuredArrayIgnorePattern": "^_"
       }
     ],
-    "no-control-regex": "off"
+    "no-control-regex": "off",
+    "react/prop-types": "off"
   }
 }
