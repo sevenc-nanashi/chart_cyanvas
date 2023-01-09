@@ -79,7 +79,7 @@ const Login: NextPage<{ host: string }> = () => {
           <div className="mt-4">
             <a
               className="p-3 px-6 bg-slate-900 rounded cursor-pointer text-white"
-              href={`sonolus://${host}/auth/levels/chcy-auth-confirm-${authCode}`}
+              href={`sonolus://${host}/auth/levels/chcy-sys-auth-confirm-${authCode}`}
             >
               {t("openSonolus")}
             </a>

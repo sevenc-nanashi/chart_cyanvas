@@ -52,11 +52,14 @@ def convert(param: ConvertParam):
             img = img.resize((SIZE, SIZE * img.height // img.width))
         elif img.width < img.height:
             img = img.resize((SIZE * img.width // img.height, SIZE))
-        img = img.resize((SIZE, SIZE))
+        else:
+            img = img.resize((SIZE, SIZE))
         img_color = img.resize((1, 1))
         dist_img = img_color.resize((SIZE, SIZE)).convert("RGBA")
         dist_file = NamedTemporaryFile(suffix=".png", delete=False)
-        Image.alpha_composite(dist_img, img).save(dist_file.name)
+        extended_img = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+        extended_img.paste(img, (SIZE // 2 - img.width // 2, SIZE // 2 - img.height // 2))
+        Image.alpha_composite(dist_img, extended_img).save(dist_file.name)
         dist_file.close()
         nonce = token_urlsafe(16)
         redis.set("image:" + nonce, dist_file.name)
