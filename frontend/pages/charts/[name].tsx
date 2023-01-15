@@ -361,6 +361,7 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
           </div>
         </div>
         <ChartSection
+          key={chartData?.name}
           items={[
             {
               title: t("variants"),

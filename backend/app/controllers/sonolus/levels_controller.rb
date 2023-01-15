@@ -36,7 +36,7 @@ module Sonolus
           .sonolus_listed
           .offset(params[:page].to_i * 20)
       if params[:q_title].present?
-        levels = levels.where("name LIKE ?", "%#{params[:q_title]}%")
+        levels = levels.where("title LIKE ?", "%#{params[:q_title]}%")
       end
       if params[:q_author].present?
         authors =

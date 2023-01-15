@@ -141,6 +141,7 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
           />
         </div>
         <ChartSection
+          key={user?.name}
           items={[
             {
               title: t("userCharts"),

@@ -7,6 +7,6 @@ class ApplicationRecord < ActiveRecord::Base
   UUID_CHARS = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".chars.freeze
 
   def self.uuid
-    ShortUUID.shorten(SecureRandom.uuid, UUID_CHARS)
+    ShortUUID.shorten(SecureRandom.uuid, UUID_CHARS).rjust(23, "A")
   end
 end

@@ -31,9 +31,14 @@ const nextConfig = nextTranslate({
           destination: `${process.env.BACKEND_HOST}/${dir}/:path*`,
         })
       ),
+    ]
+  },
+  async redirects() {
+    return [
       {
-        source: "/levels/chcy-:name",
-        destination: `/charts/:name`,
+        source: String.raw`/levels/chcy-:name`,
+        destination: String.raw`/charts/:name`,
+        permanent: true,
       },
     ]
   },
