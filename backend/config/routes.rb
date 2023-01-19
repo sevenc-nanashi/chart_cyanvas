@@ -36,6 +36,10 @@ Rails.application.routes.draw do
       get "/:type/chcy-:name", to: "sonolus/asset#show"
       get "/:type/:name", to: "sonolus/asset#show_static"
     end
+
+    types = %w[backgrounds effects particles engines skins]
+    get "/:type/list", to: "sonolus/asset#list", constraints: { type: Regexp.new(types.join("|")) }
+    get "/:type/chcy-:name", to: "sonolus/asset#show", constraints: { type: Regexp.new(types.join("|")) }
   end
 
   scope "/auth" do
@@ -44,10 +48,11 @@ Rails.application.routes.draw do
       get "/levels/list", to: "sonolus/auth#sonolus_levels_list"
       post "/authenticate", to: "sonolus#authenticate"
 
-      get "/levels/chcy-sys-auth-confirm-:code", to: "sonolus/auth#sonolus_confirm"
+      get "/levels/chcy-sys-auth-confirm-:code",
+          to: "sonolus/auth#sonolus_confirm"
       get "/levels/chcy-sys-:id", to: "sonolus#dummy_level_info"
     end
-    get "/assets/:name" => redirect("/assets/%{name}"), format: false
+    get "/assets/:name" => redirect("/assets/%{name}"), :format => false
     get "/assets/:name" => redirect("/assets/%{name}.%{format}")
   end
 end

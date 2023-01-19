@@ -2,7 +2,7 @@ author: Nanashi. (Forked from Burrito)
 background: "!asset:pjsekai"
 configuration: "!file:EngineConfiguration"
 data: "!file:EngineData"
-name: pjsekai.extended
+name: pjsekai-extended
 particle: "!asset:pjsekai"
 skin: "!asset:pjsekai-extended"
 effect: "!asset:pjsekai-fixed"

@@ -7,7 +7,9 @@ module Sonolus
       params.permit(:type)
       type = params[:type]
       names =
-        Rails.root.glob("assets/#{type}/*.yml")
+        Rails
+          .root
+          .glob("assets/#{type}/*.yml")
           .map { |path| File.basename(path).delete_suffix(".yml") }
       render json: {
                items:
@@ -26,15 +28,12 @@ module Sonolus
       type = params[:type]
       name = params[:name]
       name += ".#{params[:format]}" if params[:format].present?
-      render json: {
-               item:
-                 Sonolus::AssetController.asset_get(
-                   type.delete_suffix("s"),
-                   name
-                 ),
-               description: "",
-               recommended: []
-             }
+      item = Sonolus::AssetController.asset_get(type.delete_suffix("s"), name)
+      if item.nil?
+        render json: { error: "Not Found" }, status: 404
+      else
+        render json: { item:, description: "", recommended: [] }
+      end
     end
 
     def show_static
@@ -49,14 +48,22 @@ module Sonolus
     def self.asset_get(type, name)
       begin
         data =
-          YAML.load_file(Rails.root.join("assets", "#{type}s", "#{name}.yml"))
+          YAML.load_file(
+            Rails.root.join(
+              "assets",
+              "#{type}s",
+              "#{name.sub("chcy-", "")}.yml"
+            )
+          )
       rescue Errno::ENOENT
         return nil
       end
       data.to_h do |k, v|
         next k, v unless v.is_a?(String)
 
-        if v.start_with?("!asset:")
+        if k == "name"
+          v = "chcy-#{v}"
+        elsif v.start_with?("!asset:")
           v = asset_get(k, v.delete_prefix("!asset:"))
         elsif v.start_with?("!file:")
           v = {
