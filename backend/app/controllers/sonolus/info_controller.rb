@@ -2,9 +2,12 @@
 module Sonolus
   class InfoController < SonolusController
     def info
+      title = I18n.t("sonolus.title")
+      title += " (dev)" if ENV["RAILS_ENV"] != "production"
+
       render json:
                {
-                 title: I18n.t("sonolus.title"),
+                 title:,
                  banner: banner("banner"),
                  levels: {
                    items:
