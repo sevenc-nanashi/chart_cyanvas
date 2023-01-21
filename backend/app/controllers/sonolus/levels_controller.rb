@@ -10,10 +10,40 @@ module Sonolus
           placeholder: I18n.t("sonolus.search.title_placeholder")
         },
         {
+          query: :q_composer,
+          name: I18n.t("sonolus.search.composer"),
+          type: "text",
+          placeholder: I18n.t("sonolus.search.composer_placeholder")
+        },
+        {
+          query: :q_artist,
+          name: I18n.t("sonolus.search.artist"),
+          type: "text",
+          placeholder: I18n.t("sonolus.search.artist_placeholder")
+        },
+        {
           query: :q_author,
           name: I18n.t("sonolus.search.author"),
           type: "text",
           placeholder: I18n.t("sonolus.search.author_placeholder")
+        },
+        {
+          query: :q_rating_min,
+          name: I18n.t("sonolus.search.rating_min"),
+          type: "slider",
+          def: 1,
+          min: 1,
+          max: 99,
+          step: 1
+        },
+        {
+          query: :q_rating_max,
+          name: I18n.t("sonolus.search.rating_max"),
+          type: "slider",
+          def: 99,
+          min: 1,
+          max: 99,
+          step: 1
         },
         {
           query: :q_target,
@@ -21,22 +51,58 @@ module Sonolus
           type: "select",
           def: 0,
           values: I18n.t("sonolus.search.targets")
+        },
+        {
+          query: :q_sort,
+          name: I18n.t("sonolus.search.sort"),
+          type: "select",
+          def: 0,
+          values: I18n.t("sonolus.search.sorts")
         }
       ]
     end
     def list
-      params.permit(:page, :q_title, :q_author, :q_target)
+      params.permit(:page, *(self.class.search_options.map { |o| o[:query] }))
 
-      levels =
+      charts =
         Chart
-          .order(updated_at: :desc)
-          .limit(20)
           .includes(:author)
           .eager_load(file_resources: { file_attachment: :blob })
           .sonolus_listed
-          .offset(params[:page].to_i * 20)
+
+      charts =
+        charts.where("charts.rating >= ?", params[:q_rating_min]) if params[
+        :q_rating_min
+      ].present?
+      charts =
+        charts.where("charts.rating <= ?", params[:q_rating_max]) if params[
+        :q_rating_max
+      ].present?
+      case params[:q_sort].to_i
+      when 0
+        charts = charts.order(updated_at: :desc)
+      when 1
+        charts = charts.order(published_at: :desc)
+      when 2
+        charts = charts.order(likes_count: :desc)
+      end
       if params[:q_title].present?
-        levels = levels.where("title LIKE ?", "%#{params[:q_title]}%")
+        charts =
+          charts.where("LOWER(title) LIKE ?", "%#{params[:q_title].downcase}%")
+      end
+      if params[:q_composer].present?
+        charts =
+          charts.where(
+            "LOWER(composer) LIKE ?",
+            "%#{params[:q_composer].downcase}%"
+          )
+      end
+      if params[:q_artist].present?
+        charts =
+          charts.where(
+            "LOWER(artist) LIKE ?",
+            "%#{params[:q_artist].downcase}%"
+          )
       end
       if params[:q_author].present?
         authors =
@@ -65,31 +131,34 @@ module Sonolus
                  }
           return
         end
-        levels = levels.where(author_id: authors)
+        charts = charts.where(author_id: authors)
       end
       if !params[:q_target] || params[:q_target].to_i.zero?
-        levels = levels.where(is_public: true)
+        charts = charts.where(is_public: true)
       else
         case params[:q_target].to_i
         when 1
           unless current_user
             render json: {
                      code: "not_logged_in",
-                     error: "You must be logged in to view your levels."
+                     error: "You must be logged in to view your charts."
                    },
                    status: :unauthorized
             return
           end
-          levels = levels.where(is_public: false, author_id: current_user.id)
+          charts = charts.where(is_public: false, author_id: current_user.id)
         end
       end
+      page_count = (charts.count / 20.0).ceil
+
+      charts = charts.offset((params[:page].to_i) * 20).limit(20)
 
       render json: {
-               items: levels.map(&:to_sonolus),
+               items: charts.map(&:to_sonolus),
                search: {
                  options: self.class.search_options
                },
-               pageCount: (Chart.count / 20.0).ceil
+               pageCount: page_count
              }
     end
     def show

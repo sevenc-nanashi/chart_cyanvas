@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
         timeout: 5
       ) { Redis.new(ENV.fetch("REDIS_URL")) }
   end
-  before_action do
+  after_action do
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
   end
 

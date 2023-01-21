@@ -131,7 +131,6 @@ module Api
           .where(**cond)
           .order(updated_at: :desc)
           .include_all
-          .tap { |c| ActiveRecord::Precounter.new(c).precount(:likes) }
           .map do |chart|
             chart.to_frontend(user: session_data && session_data[:user])
           end
@@ -304,7 +303,11 @@ module Api
         variant_id: variant&.id,
         is_public: data_parsed[:is_public]
       }.compact
+      if data_parsed[:is_public] && !chart.published_at
+        args[:published_at] = Time.now
+      end
       chart.update!(args)
+
       chart.tags.delete_all
       chart.tags.create!(data_parsed[:tags].map { |t| { name: t } })
       if params[:chart]

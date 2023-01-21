@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require "counter_culture"
+
 class Chart < ApplicationRecord
   has_many :co_authors, dependent: :destroy
   belongs_to :author, class_name: "User"
@@ -8,7 +10,10 @@ class Chart < ApplicationRecord
            foreign_key: "variant_id",
            dependent: :nullify,
            inverse_of: :variant_of
-  belongs_to :variant_of, class_name: "Chart", optional: true, inverse_of: :variants
+  belongs_to :variant_of,
+             class_name: "Chart",
+             optional: true,
+             inverse_of: :variants
   has_many :likes, dependent: :destroy
   has_many :tags, dependent: :destroy
 
@@ -33,12 +38,7 @@ class Chart < ApplicationRecord
 
   def to_frontend(user: nil, with_resources: true)
     resources = with_resources ? self.resources : {}
-    likes =
-      begin
-        likes_count
-      rescue ActiveRecord::Precountable::NotPrecountedError, NameError
-        self.likes.count
-      end
+    likes = likes_count
     {
       name:,
       title:,
@@ -70,8 +70,7 @@ class Chart < ApplicationRecord
       name: "chcy-#{name}",
       title:,
       artists: "#{composer} / #{artist.presence || "-"}",
-      author:
-        "#{author_name.presence || author.name}##{author.display_handle}",
+      author: "#{author_name.presence || author.name}##{author.display_handle}",
       cover: resources[:cover]&.to_srl,
       bgm: resources[:bgm]&.to_srl,
       preview: resources[:preview]&.to_srl,
@@ -117,8 +116,7 @@ class Chart < ApplicationRecord
       version: 2,
       title:,
       subtitle: "#{composer} / #{artist.presence || "-"}",
-      author:
-        "#{author_name.presence || author.name}##{author.display_handle}",
+      author: "#{author_name.presence || author.name}##{author.display_handle}",
       thumbnail: resources[:cover]&.to_srl&.merge(type: "BackgroundThumbnail"),
       data:,
       image: resources[:background]&.to_srl,

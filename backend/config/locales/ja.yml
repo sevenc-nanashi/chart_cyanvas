@@ -68,9 +68,21 @@ ja:
     search:
       title: "タイトル"
       title_placeholder: "タイトルを入力して下さい..."
+      composer: "作曲者"
+      composer_placeholder: "作曲者を入力して下さい..."
+      artist: "アーティスト"
+      artist_placeholder: "アーティストを入力して下さい..."
       author: "作者"
       author_placeholder: "作者のハンドルをスペース区切りで入力して下さい（例：0123 x456）..."
       target: "表示対象"
       targets:
         - "公開"
         - "テスト中"
+      sort: "並び替え"
+      sorts:
+        - "更新順"
+        - "投稿順"
+        - "高評価順"
+      rating_max: "難易度（最高）"
+      rating_min: "難易度（最低）"
+

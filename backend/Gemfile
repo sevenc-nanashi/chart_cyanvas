@@ -68,10 +68,10 @@ gem "aws-sdk-s3", "~> 1.117"
 
 gem "bullet", group: "development"
 
-gem "activerecord-precounter", "~> 0.4.0"
-
 gem "http", "~> 5.1"
 
 gem "pg", "~> 1.4"
 
 gem "nokogiri", "~> 1.14.0.rc1"
+
+gem "counter_culture", "~> 3.2"
