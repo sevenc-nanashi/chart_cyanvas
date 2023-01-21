@@ -52,8 +52,8 @@ def convert(param: ConvertParam):
     )
     preview_args = (
         ffmpeg.input(url)
-        .audio.filter("atrim", start=0, end=30)
-        .filter("afade", t="out", st=25, d=5)
+        .audio.filter("atrim", start=0, end=15)
+        .filter("afade", t="out", st=13, d=2)
         .output(dist_preview_file.name, **{"c:a": "libmp3lame", "b:a": "96k", "ac": 1, "ar": 24000})
         .overwrite_output()
     )
