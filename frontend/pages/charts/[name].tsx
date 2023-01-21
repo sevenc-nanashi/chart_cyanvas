@@ -80,9 +80,12 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
     setRandom(Math.random())
   }, [])
 
-  const isMobile =
-    typeof window !== "undefined" ? navigator.maxTouchPoints > 0 : false
   const [sameAuthorCharts, setSameAuthorCharts] = useState<Chart[] | null>(null)
+
+  const isMobile = useRef(true)
+  useEffect(() => {
+    isMobile.current = window.navigator.maxTouchPoints > 0
+  })
 
   const isSameAuthorChartsFinished = useRef(false)
   const fetchSameAuthorCharts = useCallback(async () => {
@@ -141,7 +144,7 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
         <title>{chartData.title + " | " + rootT("name")}</title>
       </Head>
       <ModalPortal isOpen={!!waitForDeletionConfirm}>
-        <h1 className="text-xl font-bold text-normal mb-2">
+        <h1 className="text-xl font-bold text-normal mb-2 break-word">
           {t("deletionModal.title")}
         </h1>
         <p className="text-sm text-gray-500 text-normal mb-1">
@@ -171,12 +174,12 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
 
       <div className="flex flex-col">
         <div className="min-h-[300px] w-full flex relative">
-          <div className="flex flex-col flex-grow">
+          <div className="flex flex-col flex-grow max-w-[calc(100%_-_128px)]">
             {chartData ? (
               <>
                 <h1
                   className={className(
-                    "text-4xl font-bold",
+                    "text-4xl font-bold break-words",
                     !!chartData.data || "text-yellow-700"
                   )}
                 >
@@ -270,11 +273,11 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
           </div>
 
           <div className="flex flex-col">
-            <div className="md:h-40 md:w-40 rounded-xl square w-30 h-30 max-w-[30vw] max-h-[30vw] relative">
+            <div className="md:h-40 md:w-40 rounded-xl square w-32 h-32 relative">
               <OptionalImage
                 src={chartData?.cover}
                 alt={chartData?.title}
-                className="md:h-40 md:w-40 h-30 w-30 rounded-xl"
+                className="md:h-40 md:w-40 h-32 w-32 rounded-xl"
                 width={160}
                 height={160}
               />
@@ -290,7 +293,7 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
               )}
             </div>
 
-            <div className="flex flex-col w-30 md:w-40 mt-4 text-center gap-2">
+            <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">
               {[
                 (item: {
                   icon: React.FC<{ className: string }>

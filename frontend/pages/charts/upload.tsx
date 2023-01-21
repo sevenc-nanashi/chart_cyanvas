@@ -242,6 +242,7 @@ const UploadChart: NextPage<
   )
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showFileSizeError, setShowFileSizeError] = useState(false)
   const createFormData = useCallback(
     (extra: object = {}) => {
       const emptyFields: string[] = []
@@ -300,6 +301,29 @@ const UploadChart: NextPage<
     },
     [form, fields]
   )
+  const handleResponse = useCallback(
+    async (res: Response) => {
+      if (res.status === 500) {
+        setServerError(true)
+        setIsSubmitting(false)
+        return
+      } else if (res.status === 413) {
+        setShowFileSizeError(true)
+        setIsSubmitting(false)
+        return
+      }
+      const data = await res.json()
+      if (data.code !== "ok") {
+        handleErrors(data.errors)
+
+        setIsSubmitting(false)
+        return
+      }
+
+      return data
+    },
+    [handleErrors, setServerError]
+  )
   const submitChart = useCallback(() => {
     const formData = createFormData()
     if (!formData) {
@@ -311,22 +335,14 @@ const UploadChart: NextPage<
       method: "POST",
       body: formData,
     }).then(async (res) => {
-      if (res.status === 500) {
-        setServerError(true)
-        setIsSubmitting(false)
-        return
-      }
-      const data = await res.json()
-      if (data.code !== "ok") {
-        handleErrors(data.errors)
-
-        setIsSubmitting(false)
+      const data = await handleResponse(res)
+      if (!data) {
         return
       }
       saveChart(data.chart)
       router.push(`/charts/${data.chart.name}`)
     })
-  }, [router, createFormData, handleErrors, setServerError])
+  }, [createFormData, handleResponse, router])
 
   const updateChart = useCallback(() => {
     const formData = createFormData()
@@ -344,28 +360,21 @@ const UploadChart: NextPage<
         body: formData,
       }
     ).then(async (res) => {
-      if (res.status === 500) {
-        setServerError(true)
-        setIsSubmitting(false)
-        return
-      }
-      const data = await res.json()
-      if (data.code !== "ok") {
-        handleErrors(data.errors)
-
-        setIsSubmitting(false)
+      const data = await handleResponse(res)
+      if (!data) {
         return
       }
       saveChart(data.chart)
       router.push(`/charts/${data.chart.name}`)
     })
-  }, [router, createFormData, handleErrors, setServerError])
+  }, [createFormData, router, handleResponse])
 
   const publishConfirms = [useState(false), useState(false), useState(false)]
   const isAllPublicConfirmsChecked = publishConfirms.every(([value]) => value)
 
   const [waitForPublishConfirm, setWaitForPublishConfirm] =
     useState<CallableFunction | null>(null)
+
   const publishChart = useCallback(() => {
     publishConfirms.forEach(([_, setter]) => setter(false))
     new Promise<boolean>((resolve) => {
@@ -385,19 +394,8 @@ const UploadChart: NextPage<
         method: "PUT",
         body: formData,
       }).then(async (res) => {
-        if (res.status === 500) {
-          setServerError(true)
-          setIsSubmitting(false)
-          return
-        }
-        const data = (await res.json()) as {
-          code: string
-          chart: Chart
-          errors: Partial<Record<keyof FormData, string>>
-        }
-        if (data.code !== "ok") {
-          handleErrors(data.errors)
-          setIsSubmitting(false)
+        const data = await handleResponse(res)
+        if (!data) {
           return
         }
         router.push(`/charts/${data.chart.name}`)
@@ -412,6 +410,15 @@ const UploadChart: NextPage<
       method: "PUT",
       body: formData,
     }).then(async (res) => {
+      if (res.status === 500) {
+        setServerError(true)
+        setIsSubmitting(false)
+        return
+      } else if (res.status === 413) {
+        setShowFileSizeError(true)
+        setIsSubmitting(false)
+        return
+      }
       const data = (await res.json()) as {
         code: string
         chart: Chart
@@ -425,7 +432,13 @@ const UploadChart: NextPage<
       }
       router.push(`/charts/${data.chart.name}`)
     })
-  }, [router, createFormData, handleErrors])
+  }, [
+    router,
+    createFormData,
+    handleErrors,
+    setShowFileSizeError,
+    setServerError,
+  ])
 
   const [isDragOver, setIsDragOver] = useState(false)
   const [unUploadedFiles, setUnUploadedFiles] = useState<File[]>([])
@@ -492,6 +505,20 @@ const UploadChart: NextPage<
           <div
             className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
             onClick={() => setUnUploadedFiles([])}
+          >
+            {rootT("close")}
+          </div>
+        </div>
+      </ModalPortal>
+
+      <ModalPortal isOpen={showFileSizeError}>
+        <h1 className="text-xl font-bold mb-2">{t("filesTooLarge")}</h1>
+        <p className="text-sm text-gray-500">{t("filesTooLargeNote")}</p>
+
+        <div className="flex justify-end mt-4">
+          <div
+            className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
+            onClick={() => setShowFileSizeError(false)}
           >
             {rootT("close")}
           </div>
