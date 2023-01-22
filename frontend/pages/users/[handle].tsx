@@ -1,11 +1,12 @@
-import { MusicNote2Regular } from "@fluentui/react-icons"
+import { MusicNote2Regular, OpenRegular } from "@fluentui/react-icons"
 import { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import Head from "next/head"
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, createElement } from "react"
 import useTranslation from "next-translate/useTranslation"
 import urlcat from "urlcat"
 import ChartSection from "components/ChartSection"
-import { randomize } from "lib/utils"
+import { className, randomize } from "lib/utils"
+import Link from "next/link"
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -63,6 +64,11 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
     setUserCharts(null)
   }, [user])
 
+  const isMobile = useRef(true)
+  useEffect(() => {
+    isMobile.current = window.navigator.maxTouchPoints > 0
+  })
+
   const isFinished = useRef(false)
 
   const fetchUserCharts = useCallback(async () => {
@@ -94,8 +100,8 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
         <title>{user.name + "#" + user.handle + " | " + rootT("name")}</title>
       </Head>
       <div className="flex flex-col">
-        <div className="min-h-40 w-full flex">
-          <div className="flex flex-col flex-grow">
+        <div className="min-h-[300px] w-full flex relative">
+          <div className="flex flex-col flex-grow max-w-[calc(100%_-_128px)]">
             {user ? (
               <>
                 <h1 className="text-4xl font-bold">
@@ -107,7 +113,7 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
                   <MusicNote2Regular className="mr-1 w-6 h-6" />
                   {t("totalCharts", { count: user.chartCount })}
                 </p>
-                <p className="flex-grow mt-4 whitespace-pre break-all">
+                <p className="flex-grow mt-4 mr-4 whitespace-pre-wrap break-words w-full">
                   {user.aboutMe}
                 </p>
               </>
@@ -135,10 +141,78 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
             )}
           </div>
 
-          <div
-            className="md:h-40 md:w-40 rounded-xl bg-gray-300 square w-30 h-30 max-w-[30vw] max-h-[30vw] ml-4"
-            style={{ backgroundColor: user?.bgColor }}
-          />
+          <div className="flex flex-col">
+            <div
+              className="md:h-40 md:w-40 rounded-xl bg-gray-300 square w-32 h-32"
+              style={{ backgroundColor: user?.bgColor }}
+            />
+            <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">
+              {[
+                (item: {
+                  icon: React.FC<{ className: string }>
+                  text: string
+                }) => (
+                  <>
+                    {createElement(item.icon, {
+                      className: "h-5 w-5 mr-1",
+                    })}
+
+                    {item.text}
+                  </>
+                ),
+              ].map((inner) =>
+                [
+                  // ...(showManageButton
+                  //   ? [
+                  //       {
+                  //         href: `/charts/${name}/edit`,
+                  //         icon: EditRegular,
+                  //         className: "bg-theme text-white",
+                  //         text: t("edit"),
+                  //       },
+                  //       {
+                  //         text: t("delete"),
+                  //         icon: DeleteRegular,
+                  //         className: "bg-red-500 text-white",
+                  //         onClick: deleteChart,
+                  //       },
+                  //     ]
+                  //   : []),
+                  isMobile && {
+                    text: rootT("openInSonolus"),
+                    icon: OpenRegular,
+                    className: "bg-black text-white",
+                    href: `sonolus://players/id/${user.handle}`,
+                  },
+                ]
+                  .flatMap((e) => (e ? [e] : []))
+                  .map((item, i) =>
+                    item.href ? (
+                      <Link
+                        href={item.href}
+                        key={i}
+                        className={className(
+                          "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
+                          item.className
+                        )}
+                      >
+                        {inner(item)}
+                      </Link>
+                    ) : (
+                      <div
+                        key={i}
+                        className={className(
+                          "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer",
+                          item.className
+                        )}
+                      >
+                        {inner(item)}
+                      </div>
+                    )
+                  )
+              )}
+            </div>
+          </div>
         </div>
         <ChartSection
           key={user?.name}

@@ -163,7 +163,7 @@ module Sonolus
     end
     def show
       params.require(:name)
-      level =
+      chart =
         Rails
           .cache
           .fetch("/charts/#{params[:name]}", expires_in: 1.hour) do
@@ -173,28 +173,30 @@ module Sonolus
               }
             ).find_by(name: params[:name])
           end
-      user_faved = level.likes.exists?(user_id: current_user&.id)
-      if level
+      user_faved = chart.likes.exists?(user_id: current_user&.id)
+      if chart
         render json: {
-                 item: level.to_sonolus,
+                 item: chart.to_sonolus,
                  recommended: [
                    (
                      if user_faved
                        dummy_level(
                          "like.button.to_off",
-                         "like-off-#{level.name}",
+                         "like-off-#{chart.name}",
                          cover: "like_on"
                        )
                      else
                        dummy_level(
                          "like.button.to_on",
-                         "like-on-#{level.name}",
+                         "like-on-#{chart.name}",
                          cover: "like_off"
                        )
                      end
-                   )
-                 ],
-                 description: level.sonolus_description
+                   ),
+                   chart.variant_of&.to_sonolus,
+                   chart.variants.map(&:to_sonolus)
+                 ].flatten.compact,
+                 description: chart.sonolus_description
                }
       else
         render json: {

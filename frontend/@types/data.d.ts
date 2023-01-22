@@ -13,7 +13,7 @@ interface Chart {
   sus: string | null
   data: string | null
   variants: Chart[]
-  variantOf: string | null
+  variantOf: Chart | null
   tags: string[]
   isPublic: boolean
   rating: number

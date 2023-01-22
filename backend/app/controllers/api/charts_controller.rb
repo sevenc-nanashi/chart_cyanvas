@@ -122,15 +122,17 @@ module Api
         end
         cond.delete(:is_public)
         cond[:author_id] = user_id
+      else
+        cond[:variant_id] = nil
       end
 
       charts =
         Chart
+          .include_all
           .limit(length)
           .offset(params[:offset].to_i || 0)
           .where(**cond)
           .order(updated_at: :desc)
-          .include_all
           .map do |chart|
             chart.to_frontend(user: session_data && session_data[:user])
           end
@@ -143,10 +145,7 @@ module Api
         Rails
           .cache
           .fetch("/charts/#{params[:name]}", expires_in: 1.day) do
-            Chart
-              .include_all
-              .eager_load(file_resources: { file_attachment: :blob })
-              .find_by(name: params[:name])
+            Chart.include_all.find_by(name: params[:name])
           end
       if chart
         render json: {
@@ -200,8 +199,13 @@ module Api
       end
       variant = nil
       if data_parsed[:variant].present? &&
-           !variant =
-             Chart.find_by(name: data_parsed[:variant], author_id: author.id)
+           !(
+             variant =
+               Chart.find_by(
+                 name: data_parsed[:variant],
+                 author_id: [author.id, author.owner_id]
+               )
+           )
         render json: {
                  code: "invalid_request",
                  errors: {
@@ -239,7 +243,7 @@ module Api
           description: data_parsed[:description],
           rating: data_parsed[:rating],
           author_name: data_parsed[:author_name],
-          variant_id: variant&.id
+          variant:
         )
       chart.tags.create!(data_parsed[:tags].map { |t| { name: t } })
       SusConvertJob.perform_later(
@@ -258,7 +262,7 @@ module Api
     end
 
     def update
-      params.permit(%i[data chart cover bgm])
+      params.permit(%i[data chart cover bgm name])
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
            %i[chart cover bgm].all? { |k|
@@ -327,6 +331,7 @@ module Api
         )
       end
       revalidate("/charts/#{chart.name}")
+      revalidate("/charts/#{chart.variant_of.name}") if chart.variant_of
       render json: { code: "ok", chart: chart.to_frontend }
     end
 
@@ -354,6 +359,7 @@ module Api
 
       chart.destroy!
       revalidate("/charts/#{chart.name}")
+      revalidate("/charts/#{chart.variant_of}") if chart.variant_of
       render json: { code: "ok" }
     end
   end

@@ -8,6 +8,8 @@ import {
   ClockRegular,
   TagRegular,
   OpenRegular,
+  NumberSymbolFilled,
+  ArrowTurnLeftDownFilled,
 } from "@fluentui/react-icons"
 import { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import Head from "next/head"
@@ -177,6 +179,14 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
           <div className="flex flex-col flex-grow max-w-[calc(100%_-_128px)]">
             {chartData ? (
               <>
+                {chartData.variantOf && (
+                  <Link href={`/charts/${chartData.variantOf.name}`}>
+                    <h4 className="text-gray-500">
+                      <ArrowTurnLeftDownFilled />
+                      {chartData.variantOf.title}{" "}
+                    </h4>
+                  </Link>
+                )}
                 <h1
                   className={className(
                     "text-4xl font-bold break-words",
@@ -231,7 +241,12 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
                   {chartData.likes}
                 </p>
 
-                <p className="flex-grow mt-4 whitespace-pre">
+                <p className="text-gray-500 font-monospace text-sm">
+                  <NumberSymbolFilled className="mr-1 h-4 w-4" />
+                  {name}
+                </p>
+
+                <p className="flex-grow mt-4 whitespace-pre-wrap">
                   {chartData.description}
                 </p>
               </>
@@ -258,6 +273,11 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
                   className="h-5 bg-red-300 rounded animate-pulse mt-2 mb-2 opacity-75"
                   style={{ width: `${150 + randomize(random, 7) * 100}px` }}
                 />
+
+                <p className="text-gray-500 font-monospace text-sm">
+                  <NumberSymbolFilled className="mr-1 h-4 w-4" />
+                  {name}
+                </p>
 
                 {[...Array(5)].map((_, i) => (
                   <p

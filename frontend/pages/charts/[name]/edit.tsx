@@ -49,7 +49,7 @@ const EditChart: NextPage<{ chartData: Chart }> = ({ chartData }) => {
         authorHandle: chartData.author.handle,
         authorName: chartData.author.name,
         isPublic: chartData.isPublic,
-        variant: chartData.variantOf || "",
+        variant: chartData.variantOf?.name || "",
 
         chart: null,
         bgm: null,

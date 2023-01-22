@@ -88,7 +88,7 @@ const UploadChart: NextPage<
         [
           {
             name: "variant",
-            max: 22,
+            max: 23,
             prefix: "#",
             monospace: true,
             optional: true,

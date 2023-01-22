@@ -13,19 +13,20 @@ class Chart < ApplicationRecord
   belongs_to :variant_of,
              class_name: "Chart",
              optional: true,
+             foreign_key: "variant_id",
              inverse_of: :variants
   has_many :likes, dependent: :destroy
   has_many :tags, dependent: :destroy
 
-  scope :include_all,
-        -> {
-          preload(%i[author co_authors variants tags]).eager_load(
-            { file_resources: { file_attachment: :blob } }
-          )
-        }
+  def self.include_all
+    preload(%i[author co_authors variants tags file_resources]).merge(
+      FileResource.with_attached_file
+    )
+  end
+
   scope :sonolus_listed, -> { where(variant_id: nil) }
   def resources
-    base = file_resources.all.eager_load(file_attachment: :blob)
+    base = file_resources.with_attached_file
     {
       sus: base.find(&:sus?),
       bgm: base.find(&:bgm?),
@@ -36,7 +37,7 @@ class Chart < ApplicationRecord
     }
   end
 
-  def to_frontend(user: nil, with_resources: true)
+  def to_frontend(user: nil, with_resources: true, with_variants: true)
     resources = with_resources ? self.resources : {}
     likes = likes_count
     {
@@ -51,7 +52,7 @@ class Chart < ApplicationRecord
       bgm: resources[:bgm]&.to_frontend,
       sus: is_sus_public ? resources[:sus]&.to_frontend : nil,
       data: resources[:data]&.to_frontend,
-      variants: variants.map(&:to_frontend),
+      variants: with_variants ? variants.map{ |v| v.to_frontend(with_variants: false) } : [],
       tags: tags.map(&:name),
       createdAt: created_at.to_i,
       updatedAt: updated_at.to_i,
@@ -60,7 +61,7 @@ class Chart < ApplicationRecord
       liked: user ? likes.exists?(user:) : false,
       description:,
       isPublic: is_public,
-      variantOf: variant_id && Chart.find(variant_id)&.name
+      variantOf: variant_id && Chart.find(variant_id).to_frontend(with_variants: false)
     }
   end
 

@@ -75,6 +75,11 @@ services:
     profiles:
       - prod
       - dev
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:latest
@@ -85,6 +90,11 @@ services:
     profiles:
       - prod
       - dev
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   minio:
     image: minio/minio:latest
@@ -99,6 +109,11 @@ services:
       MINIO_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"
     profiles:
       - dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   mc:
     image: minio/mc:latest
     depends_on:
