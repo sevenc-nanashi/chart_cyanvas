@@ -10,6 +10,11 @@ services:
       - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   frontend:
     build:
@@ -22,6 +27,11 @@ services:
       - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   sub-sus:
     build:
@@ -32,6 +42,11 @@ services:
       - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3201"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   sub-audio:
     build:
@@ -41,6 +56,11 @@ services:
       - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3202"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   sub-image:
     build:
@@ -51,6 +71,11 @@ services:
       - ./${ENV_FILE}:/app/.env
     profiles:
       - prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3203"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   nginx:
     image: nginx:latest
