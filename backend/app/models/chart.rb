@@ -52,16 +52,24 @@ class Chart < ApplicationRecord
       bgm: resources[:bgm]&.to_frontend,
       sus: is_sus_public ? resources[:sus]&.to_frontend : nil,
       data: resources[:data]&.to_frontend,
-      variants: with_variants ? variants.map{ |v| v.to_frontend(with_variants: false) } : [],
+      variants:
+        (
+          if with_variants
+            variants.map { |v| v.to_frontend(with_variants: false) }
+          else
+            []
+          end
+        ),
       tags: tags.map(&:name),
-      createdAt: created_at.to_i,
-      updatedAt: updated_at.to_i,
+      publishedAt: published_at&.iso8601,
+      updatedAt: updated_at.iso8601,
       rating:,
       likes:,
       liked: user ? likes.exists?(user:) : false,
       description:,
       isPublic: is_public,
-      variantOf: variant_id && Chart.find(variant_id).to_frontend(with_variants: false)
+      variantOf:
+        variant_id && Chart.find(variant_id).to_frontend(with_variants: false)
     }
   end
 
@@ -116,7 +124,7 @@ class Chart < ApplicationRecord
       name: "chcy-bg-#{name}",
       version: 2,
       title:,
-      subtitle: "#{composer} / #{artist.presence || "-"}",
+      subtitle: "#{composer}#{artist.presence ? " / #{artist}" : ""}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
       thumbnail: resources[:cover]&.to_srl&.merge(type: "BackgroundThumbnail"),
       data:,
@@ -130,7 +138,7 @@ class Chart < ApplicationRecord
       "sonolus.levels.description",
       tags:
         tags.map(&:name).join(I18n.t("sonolus.tag_separator")).presence || "-",
-      likes: likes.count,
+      likes: likes_count,
       description:
     )
   end

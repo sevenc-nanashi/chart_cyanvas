@@ -21,7 +21,7 @@ import urlcat from "urlcat"
 import ChartSection from "components/ChartSection"
 import OptionalImage from "components/OptionalImage"
 import { useSession } from "lib/atom"
-import { getRatingColor, randomize, className, isMine, host } from "lib/utils"
+import { getRatingColor, className, isMine, host } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import { chartWithCookie } from "lib/chart"
 
@@ -56,6 +56,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         chartData: null,
       },
       revalidate: 60,
+      notFound: true,
     }
   }
 
@@ -66,7 +67,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     revalidate: 300,
   }
 }
-const ChartPage: React.FC<{ chartData: Chart }> = ({
+const ChartPage: NextPage<{ chartData: Chart }> = ({
   chartData: baseChartData,
 }) => {
   const chartData = chartWithCookie(baseChartData)
@@ -76,11 +77,6 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
   const router = useRouter()
   const [session] = useSession()
   const { name } = router.query as { name: string }
-
-  const [random, setRandom] = useState(0)
-  useEffect(() => {
-    setRandom(Math.random())
-  }, [])
 
   const [sameAuthorCharts, setSameAuthorCharts] = useState<Chart[] | null>(null)
 
@@ -140,10 +136,60 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
   }, [name, router])
 
   const showManageButton = session?.loggedIn && isMine(session, chartData)
+
+  let wrappedDescription: string
+  if (chartData.description.split(/\n/g).length > 3) {
+    wrappedDescription =
+      chartData.description
+        .split(/\n/g)
+        .splice(0, 3)
+        .join("\n")
+        .substring(0, 100) + "\n..."
+  } else {
+    wrappedDescription = chartData.description
+  }
+
   return (
     <>
       <Head>
         <title>{chartData.title + " | " + rootT("name")}</title>
+        <meta name="og:type" content="article" />
+        <meta
+          name="og:article:published_time"
+          content={chartData.publishedAt}
+        />
+        <meta name="og:article:modified_time" content={chartData.updatedAt} />
+        {/*<meta
+          name="og:article:author:first_name"
+          content={chartData.authorName || chartData.author.name}
+        />
+        <meta
+          name="og:article:author:last_name"
+          content={`#${chartData.author.handle}`}
+        />*/}
+
+        <meta
+          name="og:site_name"
+          content={`Chart Cyanvas - ${
+            chartData.authorName || chartData.author.name
+          }#${chartData.author.handle}`}
+        />
+        <meta name="og:description" content={wrappedDescription} />
+        <meta
+          name="og:title"
+          content={`${chartData.title} - ${chartData.composer}${
+            chartData.artist ? ` / ${chartData.artist}` : ""
+          }（Lv. ${chartData.rating}、♡${chartData.likes}）`}
+        />
+        <meta name="og:url" content={`${host}/charts/${chartData.name}`} />
+        <meta
+          name="og:image"
+          content={
+            process.env.NEXT_PUBLIC_S3_PUBLIC === "true"
+              ? chartData.cover
+              : `${process.env.NEXT_PUBLIC_HOST}${chartData.cover}`
+          }
+        />
       </Head>
       <ModalPortal isOpen={!!waitForDeletionConfirm}>
         <h1 className="text-xl font-bold text-normal mb-2 break-word">
@@ -177,119 +223,76 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
       <div className="flex flex-col">
         <div className="min-h-[300px] w-full flex relative">
           <div className="flex flex-col flex-grow max-w-[calc(100%_-_128px)]">
-            {chartData ? (
-              <>
-                {chartData.variantOf && (
-                  <Link href={`/charts/${chartData.variantOf.name}`}>
-                    <h4 className="text-gray-500">
-                      <ArrowTurnLeftDownFilled />
-                      {chartData.variantOf.title}{" "}
-                    </h4>
-                  </Link>
-                )}
-                <h1
-                  className={className(
-                    "text-4xl font-bold break-words",
-                    !!chartData.data || "text-yellow-700"
-                  )}
-                >
-                  {chartData.title}
-                  {chartData.isPublic || (
-                    <span className="ml-2 text-slate-900 dark:text-white">
-                      <LockClosedRegular />
-                    </span>
-                  )}
-                  {!!chartData.data || (
-                    <span className="ml-2 text-yellow-700">
-                      <ClockRegular />
-                    </span>
-                  )}
-                </h1>
-
-                <p className="text-lg mt-4">
-                  <MusicNote2Regular className="mr-1 h-6 w-6" />
-                  {chartData.composer}
-                </p>
-                <p className="text-lg">
-                  <MicRegular className="mr-1 h-6 w-6" />
-                  {chartData.artist || "-"}
-                </p>
-
-                <p className="text-lg">
-                  {chartData.tags.length > 0 ? (
-                    <>
-                      <TagRegular className="mr-1 w-6 h-6" />
-                      {chartData.tags.join("、")}
-                    </>
-                  ) : (
-                    <>
-                      <TagRegular className="mr-1 w-6 h-6 text-slate-400 dark:text-slate-500" />
-                      -
-                    </>
-                  )}
-                </p>
-                <Link href={`/users/${chartData.author.handle}`}>
-                  <p className="text-lg">
-                    <EditRegular className="mr-1 h-6 w-6" />
-                    {chartData.authorName || chartData.author.name}
-                    <span className="text-xs">#{chartData.author.handle}</span>
-                  </p>
-                </Link>
-
-                <p className="text-lg text-red-400">
-                  <HeartRegular className="mr-1 h-6 w-6" />
-                  {chartData.likes}
-                </p>
-
-                <p className="text-gray-500 font-monospace text-sm">
-                  <NumberSymbolFilled className="mr-1 h-4 w-4" />
-                  {name}
-                </p>
-
-                <p className="flex-grow mt-4 whitespace-pre-wrap">
-                  {chartData.description}
-                </p>
-              </>
-            ) : (
-              <>
-                <h1
-                  className="h-10 bg-gray-300 rounded animate-pulse"
-                  style={{ width: `${150 + randomize(random, 1) * 100}px` }}
-                />
-
-                <p
-                  className="h-5 bg-gray-300 rounded animate-pulse mt-6 opacity-75"
-                  style={{ width: `${150 + randomize(random, 1) * 100}px` }}
-                />
-                <p
-                  className="h-5 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
-                  style={{ width: `${150 + randomize(random, 3) * 100}px` }}
-                />
-                <p
-                  className="h-5 bg-blue-300 rounded animate-pulse mt-2 opacity-75"
-                  style={{ width: `${150 + randomize(random, 5) * 100}px` }}
-                />
-                <p
-                  className="h-5 bg-red-300 rounded animate-pulse mt-2 mb-2 opacity-75"
-                  style={{ width: `${150 + randomize(random, 7) * 100}px` }}
-                />
-
-                <p className="text-gray-500 font-monospace text-sm">
-                  <NumberSymbolFilled className="mr-1 h-4 w-4" />
-                  {name}
-                </p>
-
-                {[...Array(5)].map((_, i) => (
-                  <p
-                    className="h-4 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
-                    style={{
-                      width: `${150 + randomize(random, 10 + i) * 300}px`,
-                    }}
-                    key={i}
-                  />
-                ))}
-              </>
+            {chartData.variantOf && (
+              <Link href={`/charts/${chartData.variantOf.name}`}>
+                <h4 className="text-gray-500">
+                  <ArrowTurnLeftDownFilled />
+                  {chartData.variantOf.title}{" "}
+                </h4>
+              </Link>
             )}
+            <h1
+              className={className(
+                "text-4xl font-bold break-words",
+                !!chartData.data || "text-yellow-700"
+              )}
+            >
+              {chartData.title}
+              {chartData.isPublic || (
+                <span className="ml-2 text-slate-900 dark:text-white">
+                  <LockClosedRegular />
+                </span>
+              )}
+              {!!chartData.data || (
+                <span className="ml-2 text-yellow-700">
+                  <ClockRegular />
+                </span>
+              )}
+            </h1>
+
+            <p className="text-lg mt-4">
+              <MusicNote2Regular className="mr-1 h-6 w-6" />
+              {chartData.composer}
+            </p>
+            <p className="text-lg">
+              <MicRegular className="mr-1 h-6 w-6" />
+              {chartData.artist || "-"}
+            </p>
+
+            <p className="text-lg">
+              {chartData.tags.length > 0 ? (
+                <>
+                  <TagRegular className="mr-1 w-6 h-6" />
+                  {chartData.tags.join("、")}
+                </>
+              ) : (
+                <>
+                  <TagRegular className="mr-1 w-6 h-6 text-slate-400 dark:text-slate-500" />
+                  -
+                </>
+              )}
+            </p>
+            <Link href={`/users/${chartData.author.handle}`}>
+              <p className="text-lg">
+                <EditRegular className="mr-1 h-6 w-6" />
+                {chartData.authorName || chartData.author.name}
+                <span className="text-xs">#{chartData.author.handle}</span>
+              </p>
+            </Link>
+
+            <p className="text-lg text-red-400">
+              <HeartRegular className="mr-1 h-6 w-6" />
+              {chartData.likes}
+            </p>
+
+            <p className="text-gray-500 font-monospace text-sm">
+              <NumberSymbolFilled className="mr-1 h-4 w-4" />
+              {name}
+            </p>
+
+            <p className="flex-grow mt-4 whitespace-pre-wrap">
+              {chartData.description}
+            </p>
           </div>
 
           <div className="flex flex-col">
@@ -409,25 +412,4 @@ const ChartPage: React.FC<{ chartData: Chart }> = ({
   )
 }
 
-const NotFound = () => {
-  const { t } = useTranslation("chart")
-
-  return (
-    <div>
-      <p className="text-xl">{t("notFound")}</p>
-      <Link href="/">{t("backToHome")}</Link>
-    </div>
-  )
-}
-
-const ChartPageCheck: NextPage<{ chartData: Chart | undefined }> = ({
-  chartData,
-}) => {
-  if (chartData) {
-    return <ChartPage chartData={chartData} />
-  } else {
-    return <NotFound />
-  }
-}
-
-export default ChartPageCheck
+export default ChartPage

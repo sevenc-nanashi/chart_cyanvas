@@ -35,7 +35,7 @@ const Header = () => {
         </Link>
         <div className="flex-grow" />
 
-        {session ? (
+        {session.loggedIn !== undefined ? (
           session.loggedIn ? (
             <div
               className="flex items-end text-white bg-white p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer"

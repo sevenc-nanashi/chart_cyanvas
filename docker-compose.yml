@@ -6,6 +6,9 @@ services:
 
     depends_on:
       - postgres
+      - sub-sus
+      - sub-audio
+      - sub-image
     volumes:
       - ./${ENV_FILE}:/app/.env
     profiles:
@@ -81,6 +84,9 @@ services:
     image: nginx:latest
     ports:
       - "10401:80"
+    depends_on:
+      - backend
+      - frontend
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./backend/public:/app/backend-public

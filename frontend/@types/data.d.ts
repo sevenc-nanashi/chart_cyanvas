@@ -6,8 +6,8 @@ interface Chart {
   author: User
   authorName: string
   coAuthors: User[]
-  createdAt: number
-  updatedAt: number
+  publishedAt: string
+  updatedAt: string
   cover: string
   bgm: string
   sus: string | null
@@ -33,3 +33,4 @@ interface User {
 type Session =
   | { loggedIn: true; user: User; altUsers: User[] }
   | { loggedIn: false }
+  | { loggedIn: undefined }

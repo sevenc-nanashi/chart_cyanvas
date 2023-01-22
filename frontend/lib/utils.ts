@@ -26,4 +26,4 @@ export const isMine = (session: Session, chart: Chart) => {
   ].includes(chart.author.handle)
 }
 
-export const host = typeof window !== "undefined" ? location.host : ""
+export const host = new URL(process.env.NEXT_PUBLIC_HOST!).hostname

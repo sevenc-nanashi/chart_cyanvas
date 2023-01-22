@@ -19,7 +19,9 @@ function App({ Component, pageProps }: AppProps) {
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (session) return
+    if (session.loggedIn !== undefined) {
+      return
+    }
     fetch(urlcat(process.env.BACKEND_HOST!, `/api/auth/session`), {
       method: "GET",
     }).then(async (res) => {
@@ -54,13 +56,9 @@ function App({ Component, pageProps }: AppProps) {
           </div>
         </div>
       </ModalPortal>
-      {session ? (
-        <div className="p-4 md:px-40 lg:px-60 flex-grow">
-          <Component {...pageProps} />
-        </div>
-      ) : (
-        <div className="flex-grow" />
-      )}
+      <div className="p-4 md:px-40 lg:px-60 flex-grow">
+        <Component {...pageProps} />
+      </div>
       <Footer />
     </div>
   )
