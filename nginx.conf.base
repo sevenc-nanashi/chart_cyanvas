@@ -18,6 +18,10 @@ server {
         proxy_pass   http://front;
     }
 
+    location /sonolus/assets {
+        try_files /app/backend-assets$uri @front;
+    }
+
     location / {
         try_files /app/backend-public$uri /app/frontend-public$uri @front;
     }
