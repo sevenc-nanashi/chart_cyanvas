@@ -39,6 +39,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
+          cache-dependency-path: ./${{ github.event.inputs.directory_name }}/pnpm-lock.yaml
 
       - name: Check if build.sh exists
         id: check_build_sh
