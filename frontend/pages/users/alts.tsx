@@ -37,7 +37,7 @@ const MyAlts: NextPage = () => {
     }
 
     setIsSending(true)
-    const result = await fetch("/api/my/altUsers", {
+    const result = await fetch("/api/my/alt_users", {
       method: "POST",
       body: JSON.stringify({ name }),
       headers: {
@@ -83,7 +83,7 @@ const MyAlts: NextPage = () => {
 
     setIsSending(true)
     const result = await fetch(
-      urlcat("/api/my/altUsers/:handle", { handle: editingUsersHandle }),
+      urlcat("/api/my/alt_users/:handle", { handle: editingUsersHandle }),
       {
         method: "PUT",
         body: JSON.stringify({ name }),
@@ -130,7 +130,7 @@ const MyAlts: NextPage = () => {
     setErrorText(undefined)
     setIsSending(true)
     const result = await fetch(
-      urlcat("/api/my/altUsers/:handle", { handle: deletingUsersHandle }),
+      urlcat("/api/my/alt_users/:handle", { handle: deletingUsersHandle }),
       {
         method: "DELETE",
       }

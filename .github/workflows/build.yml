@@ -21,6 +21,32 @@ jobs:
           echo directory name: ${{ github.event.inputs.directory_name }}
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Parse build config
+        id: parse_build_config
+        run: |
+          if [ -f ./${{ github.event.inputs.directory_name }}/build_config.env ]; then
+            cat ./${{ github.event.inputs.directory_name }}/build_config.env | tr -d '\r' >> $GITHUB_ENV
+          fi
+      - name: Set up node if needed
+        if: ${{ env.NEED_NODEJS == 'true' }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Check if build.sh exists
+        id: check_build_sh
+        run: |
+          if [ -f ./${{ github.event.inputs.directory_name }}/build.sh ]; then
+            echo BUILD_SH_EXISTS=true >> $GITHUB_ENV
+          else
+            echo BUILD_SH_EXISTS=false >> $GITHUB_ENV
+          fi
+      - name: Run build.sh if exists
+        if: ${{ env.BUILD_SH_EXISTS == 'true' }}
+        run: |
+          cd ./${{ github.event.inputs.directory_name }}
+          ./build.sh
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx

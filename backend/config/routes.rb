@@ -21,10 +21,10 @@ Rails.application.routes.draw do
     get "/auth/session", to: "api/auth#restore_session"
     delete "/auth/session", to: "api/auth#logout"
 
-    get "/my/altUsers", to: "api/my#alt_users"
-    post "/my/altUsers", to: "api/my#create_alt_user"
-    put "/my/altUsers/:handle", to: "api/my#update_alt_user"
-    delete "/my/altUsers/:handle", to: "api/my#delete_alt_user"
+    get "/my/alt_users", to: "api/my#alt_users"
+    post "/my/alt_users", to: "api/my#create_alt_user"
+    put "/my/alt_users/:handle", to: "api/my#update_alt_user"
+    delete "/my/alt_users/:handle", to: "api/my#delete_alt_user"
   end
 
   scope "/sonolus" do
