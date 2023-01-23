@@ -24,7 +24,9 @@ import { useSession } from "lib/atom"
 import { getRatingColor, className, isMine, host } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import { chartWithCookie } from "lib/chart"
+import getConfig from "next/config"
 
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
@@ -34,7 +36,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const chartData = await fetch(
-    urlcat(process.env.BACKEND_HOST!, "/api/charts/:name", {
+    urlcat(serverRuntimeConfig.backendHost!, "/api/charts/:name", {
       name: context.params!.name,
     }),
     {
@@ -89,7 +91,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({
   const fetchSameAuthorCharts = useCallback(async () => {
     if (!chartData) return
     const res = await fetch(
-      urlcat(process.env.BACKEND_HOST!, `/api/charts`, {
+      urlcat(`/api/charts`, {
         author: chartData.author.handle,
         count: 5,
         offset: sameAuthorCharts?.length || 0,
@@ -124,7 +126,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({
         return
       }
       await fetch(
-        urlcat(process.env.BACKEND_HOST!, `/api/charts/:name`, {
+        urlcat(`/api/charts/:name`, {
           name,
         }),
         {
@@ -185,9 +187,9 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({
         <meta
           name="og:image"
           content={
-            process.env.NEXT_PUBLIC_S3_PUBLIC === "true"
-              ? chartData.cover
-              : `${process.env.NEXT_PUBLIC_HOST}${chartData.cover}`
+            chartData.cover.startsWith("/")
+              ? `${publicRuntimeConfig.host}${chartData.cover}`
+              : chartData.cover
           }
         />
       </Head>

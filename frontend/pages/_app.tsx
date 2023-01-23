@@ -4,7 +4,6 @@ import Header from "components/Header"
 import "i18n"
 import { useEffect } from "react"
 import { serverErrorAtom, useSession } from "lib/atom"
-import urlcat from "urlcat"
 
 import "styles/markdown.scss"
 import ModalPortal from "components/ModalPortal"
@@ -22,14 +21,14 @@ function App({ Component, pageProps }: AppProps) {
     if (session.loggedIn !== undefined) {
       return
     }
-    fetch(urlcat(process.env.BACKEND_HOST!, `/api/auth/session`), {
+    fetch(`/api/auth/session`, {
       method: "GET",
     }).then(async (res) => {
       const json = await res.json()
       if (json.code === "ok") {
-        const altUsers = await fetch(
-          urlcat(process.env.BACKEND_HOST!, `/api/my/alt_users`)
-        ).then(async (res) => (await res.json()).users)
+        const altUsers = await fetch(`/api/my/alt_users`).then(
+          async (res) => (await res.json()).users
+        )
         setSession({ loggedIn: true, user: json.user, altUsers })
       } else {
         setSession({ loggedIn: false })

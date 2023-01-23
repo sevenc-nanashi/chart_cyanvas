@@ -1,11 +1,14 @@
 import { GetServerSideProps, NextPage } from "next"
+import getConfig from "next/config"
 import urlcat from "urlcat"
 import UploadChart from "../upload"
 
+const { serverRuntimeConfig } = getConfig()
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const chartData = await fetch(
-    process.env.BACKEND_HOST +
-      urlcat("/api/charts/:name", { name: context.params!.name }),
+    urlcat(serverRuntimeConfig.backendHost!, "/api/charts/:name", {
+      name: context.params!.name,
+    }),
     {
       method: "GET",
     }

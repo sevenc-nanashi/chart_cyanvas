@@ -337,7 +337,7 @@ const UploadChart: NextPage<
     }
 
     setIsSubmitting(true)
-    fetch(urlcat(process.env.BACKEND_HOST!, "/api/charts"), {
+    fetch("/api/charts", {
       method: "POST",
       body: formData,
     }).then(async (res) => {
@@ -358,7 +358,7 @@ const UploadChart: NextPage<
 
     setIsSubmitting(true)
     fetch(
-      urlcat(process.env.BACKEND_HOST!, `/api/charts/:name`, {
+      urlcat(`/api/charts/:name`, {
         name: router.query.name,
       }),
       {

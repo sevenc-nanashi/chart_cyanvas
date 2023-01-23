@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     if (isFetching.current) return
     isFetching.current = true
     fetch(
-      urlcat(process.env.BACKEND_HOST!, `/api/charts`, {
+      urlcat(`/api/charts`, {
         offset: newCharts.length,
         count: 20,
       })

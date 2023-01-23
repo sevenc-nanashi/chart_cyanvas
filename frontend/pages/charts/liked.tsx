@@ -22,7 +22,7 @@ const LikedCharts: NextPage = () => {
     if (isFetching.current) return
     isFetching.current = true
     fetch(
-      urlcat(process.env.BACKEND_HOST!, "/api/charts", {
+      urlcat("/api/charts", {
         count: 20,
         offset: likedCharts.length,
         liked: true,

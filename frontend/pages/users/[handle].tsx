@@ -7,7 +7,9 @@ import urlcat from "urlcat"
 import ChartSection from "components/ChartSection"
 import { className, randomize } from "lib/utils"
 import Link from "next/link"
+import getConfig from "next/config"
 
+const { serverRuntimeConfig } = getConfig()
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
@@ -17,7 +19,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const userData = await fetch(
-    urlcat(process.env.BACKEND_HOST!, "/api/users/:handle", {
+    urlcat(serverRuntimeConfig.backendHost!, "/api/users/:handle", {
       handle: context.params!.handle,
       with_chart_count: true,
     }),
@@ -74,7 +76,7 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
   const fetchUserCharts = useCallback(async () => {
     console.log("fetching user charts")
     const res = await fetch(
-      urlcat(process.env.BACKEND_HOST!, `/api/charts`, {
+      urlcat(`/api/charts`, {
         author: user.handle,
         count: 5,
         offeset: userCharts?.length || 0,

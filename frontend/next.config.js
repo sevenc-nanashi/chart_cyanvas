@@ -19,6 +19,13 @@ const nextConfig = nextTranslate({
     })
     return config
   },
+  serverRuntimeConfig: {
+    backendHost: process.env.BACKEND_HOST,
+  },
+  publicRuntimeConfig: {
+    host: process.env.HOST,
+  },
+
   async rewrites() {
     return [
       {
@@ -47,11 +54,6 @@ const nextConfig = nextTranslate({
       new URL(process.env.BACKEND_HOST).hostname,
       new URL(process.env.S3_ENDPOINT).hostname,
     ],
-  },
-  env: {
-    NEXT_PUBLIC_BACKEND_HOST: process.env.BACKEND_HOST,
-    NEXT_PUBLIC_S3_PUBLIC: process.env.S3_PUBLIC,
-    NEXT_PUBLIC_HOST: process.env.HOST,
   },
 })
 

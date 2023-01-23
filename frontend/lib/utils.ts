@@ -1,3 +1,5 @@
+import getConfig from "next/config"
+
 export const getRatingColor = (difficulty: number) => {
   if (difficulty < 9) return "bg-green-500 dark:bg-green-400"
   if (difficulty < 15) return "bg-blue-400"
@@ -25,5 +27,5 @@ export const isMine = (session: Session, chart: Chart) => {
     ...session.altUsers.map((u) => u.handle),
   ].includes(chart.author.handle)
 }
-
-export const host = new URL(process.env.NEXT_PUBLIC_HOST!).hostname
+const { publicRuntimeConfig } = getConfig()
+export const host = new URL(publicRuntimeConfig.host!).hostname

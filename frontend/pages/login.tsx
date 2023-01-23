@@ -17,7 +17,7 @@ const Login: NextPage<{ host: string }> = () => {
   const [_session, setSession] = useSession()
   const fetchStrictCall = useRef(true)
   const regenerateNonce = () => {
-    fetch(urlcat(process.env.BACKEND_HOST!, "/api/auth"), { method: "POST" })
+    fetch("/api/auth", { method: "POST" })
       .then((res) => res.json())
       .then((json) => {
         setAuthCode(json.authCode)
@@ -39,10 +39,7 @@ const Login: NextPage<{ host: string }> = () => {
     }
     const interval = setInterval(() => {
       if (!authCode) return
-      fetch(
-        urlcat(process.env.BACKEND_HOST!, `/api/auth`, { code: authCode }),
-        { method: "GET" }
-      )
+      fetch(urlcat(`/api/auth`, { code: authCode }), { method: "GET" })
         .then((res) => res.json())
         .then(async (json) => {
           if (json.code === "ok") {
