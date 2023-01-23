@@ -29,13 +29,13 @@ jobs:
           fi
       - name: Set up pnpm if needed
         if: ${{ env.NEED_NODEJS == 'true' }}
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v2
         with:
           version: 7
           run_install: false
       - name: Set up node if needed
         if: ${{ env.NEED_NODEJS == 'true' }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
