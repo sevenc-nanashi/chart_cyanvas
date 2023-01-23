@@ -58,7 +58,7 @@ module Api
         render json: { code: "bad_request", error: "tooLong" }, status: 400
         return
       end
-      user.update!(name: name)
+      user.update!(name:)
       render json: { code: "ok", data: user.to_frontend }
     end
 
