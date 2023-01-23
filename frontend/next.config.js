@@ -20,7 +20,7 @@ const nextConfig = nextTranslate({
     return config
   },
   serverRuntimeConfig: {
-    backendHost: process.env.BACKEND_HOST,
+    backendHost: process.env.BACKEND_HOST || "http://backend:3000",
   },
   publicRuntimeConfig: {
     host: process.env.HOST,
