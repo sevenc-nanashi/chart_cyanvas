@@ -175,12 +175,15 @@ const MyAlts: NextPage = () => {
         </h1>
         <p className="text-sm text-gray-500 text-normal mb-1">
           {t("deletionModal.description")}
-          {deletingUser &&
-            deletingUser.chartCount > 0 &&
-            t("deletionModal.nameChangeWarning", {
-              count: deletingUser.chartCount,
-              currentUser: `${session.user.name}#${session.user.handle}`,
-            })}
+          {deletingUser && deletingUser.chartCount > 0 && (
+            <>
+              <br />
+              {t("deletionModal.nameChangeWarning", {
+                count: deletingUser.chartCount,
+                currentUser: `${session.user.name}#${session.user.handle}`,
+              })}
+            </>
+          )}
         </p>
         <p className="text-sm text-red-500">
           {errorText && deletingUsersHandle && t("errors." + errorText)}
@@ -207,6 +210,7 @@ const MyAlts: NextPage = () => {
         <p>
           {t("description")}
           <span className="text-red-500 inline md:hidden">
+            <br />
             {t("mobileDescription")}
           </span>
         </p>
@@ -228,7 +232,7 @@ const MyAlts: NextPage = () => {
                   <input
                     type="text"
                     className={className(
-                      "text-input w-64",
+                      "text-input w-80",
                       errorText && "border-red-500"
                     )}
                     maxLength={16}
@@ -307,7 +311,7 @@ const MyAlts: NextPage = () => {
           >
             <input
               type="text"
-              className={className("text-input w-64")}
+              className={className("text-input w-80")}
               maxLength={16}
               placeholder={t("namePlaceholder")}
               ref={newNameInput}

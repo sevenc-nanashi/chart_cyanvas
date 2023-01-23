@@ -24,6 +24,7 @@ menu:
   post: "Post chart"
   my: "My charts"
   liked: "Liked charts"
+  myAlts: "My alts"
   guideline: "Guideline"
   logout: "Log out"
 chart:
@@ -53,8 +54,9 @@ my:
 liked:
   title: "Liked charts"
   empty: "You haven't liked any charts yet. "
-  description: "Charts you liked are listed below. \
-    You can like a chart by clicking the heart icon in \"Recommended\" section in sonolus."
+  description: |
+    Charts you liked are listed below.
+    You can like a chart by clicking the heart icon in "Recommended" section in sonolus.
 
 upload:
   title: "Post chart"
@@ -71,11 +73,11 @@ upload:
     rating: "Difficulty"
 
     variant: "Variant of"
-    variantNote: "If this chart is a variant of another chart, select it here. \
-      Your chart will be linked to the original chart. \
-      You should set if the chart is a another difficulty of the original chart."
+    variantNote: |
+      If this chart is a variant of another chart, select it here.
+      Your chart will be linked to the original chart.
+      You should set if the chart is a another difficulty of the original chart.
     description: "Description"
-
     cover: "Cover image"
     coverNote: "This image will be resized to 512x512."
     chart: "Chart file"
@@ -114,6 +116,38 @@ errors:
   tooLong: "This field is too long."
   variantNotFound: "Couldn't find the chart you selected as variant."
 
+myAlts:
+  title: "My alts"
+  description: "Your alt users are listed below."
+  mobileDescription: |
+    Due to technical limitations, you cannot edit your alt users on mobile devices.
+    Please use a desktop browser to edit your alt users.
+  empty: "You haven't registered any alt users yet."
+  add: "Add"
+  delete: "Delete"
+  edit: "Edit"
+  save: "Save"
+  cancel: "Cancel"
+
+  namePlaceholder: "Type name here... (4-16 characters)"
+
+  deletionModal:
+    title: "Delete this alt user?"
+    description: "Deleted alt users cannot be restored!"
+    nameChangeWarning:
+      one: |
+        You have {{count}} chart that uses this alt user.
+        If you delete this alt user, the chart will be changed to your main user.
+      other: |
+        You have {{count}} charts that use this alt user.
+        If you delete this alt user, the charts will be changed to your main user.
+
+    ok: "Delete"
+
+  errors:
+    tooShort: "The name is too short."
+    tooLong: "The name is too long."
+
 pages:
   guideline: |
     # Guideline
@@ -140,19 +174,86 @@ pages:
 
     You must not post a chart that contains inappropriate content, such as religious, political, sexual, or other inappropriate content.
 
-    ### Other rules
+    ### Others
 
-    Moderators may delete a chart th
+    All of these rules may be enforced at moderator's discretion.
 
-    ## 警告
+    ## Warnings
 
-    譜面投稿ガイドラインに違反する譜面は削除され、投稿者に対して警告が行われます。
+    You will be warned if you violate the rules above, or any other rules that are not listed here.
 
-    ## 不満がある場合
+    ## Having any complaints?
 
-    Chart Cyanvasはオープンソースです（[sevenc-nanashi/chart_cyanvas](https://github.com/sevenc-nanashi/chart_cyanvas)）。不満がある場合は、自分で新しくサーバーを立てて運営して下さい。
+    Chart Cyanvas is open source ([sevenc-nanashi/chart_cyanvas](https://github.com/sevenc-nanashi/chart_cyanvas)),
+    You can host your own Chart Cyanvas instance with your own rules. If you have any complaints, please host your own instance.
 
   about: |
-    # Chart Cyanvasへようこそ！
+    # Welcome to Chart Cyanvas!
 
-    Chart Cyanvasは、某セカイの創作譜面投稿サイトです。
+    Chart Cyanvas is a sekai fanmade chart sharing site.
+
+    ## Getting started
+
+    You must install [Sonolus](https://sonolus.com/) on your device to play / make charts on Chart Cyanvas.  
+    **Note: ** We are not affiliated with Sonolus. We will not provide any support for Sonolus.
+
+    ### Play charts
+
+    Add `https://cc.sevenc7c.com` as a custom server in Sonolus, and you can play charts on Chart Cyanvas.
+    You can use search function to find charts.
+
+    #### Play shared private charts
+
+    You can tap "Sonolus" button in Chart Cyanvas to play shared private charts.
+
+    ### Make charts
+
+    ### 1. Register a Sonolus account
+
+    You can register a Sonolus account on Sonolus, by clicking "Account" button in first screen.
+
+    ### 2. Log in to Chart Cyanvas
+
+    You can log in to Chart Cyanvas by clicking "Log in" button in top right corner.
+    You should see 8-digit code. Add `https://cc.sevenc7c.com/auth` as a custom server in Sonolus, and enter the code.
+
+    ### 3. Make a chart
+
+    You can make a chart by using some editors, Please refer [SweetPotato wiki](https://wiki-en.purplepalette.net/create-charts)
+    Note that there are some extended features in Chart Cyanvas, please refer [extended features](/info/extended-features).
+
+    ### 4. Upload your chart
+
+    You can upload your chart by clicking your name in top right corner, and clicking "Post chart" button.
+
+    ### 5. Test your chart
+
+    You can test your chart by searching chart with "Testing" target on Sonolus.
+
+    ### 6. Improve your chart
+
+    You can find your chart in "My charts" page, and you can edit your chart by clicking "Edit" button.
+
+    ### 7. Publish your chart
+
+    You can publish your chart by checking "Public" checkbox in "Edit chart" page.
+
+  extended-features: |
+    # Extended features
+
+    This page describes extended SUS features in Chart Cyanvas.
+
+    ## Damage notes
+
+    DAMAGE notes in ched are converted to damage notes in your chart.
+
+    ## Trace notes
+
+    FLICK notes in ched are converted to trace notes in your chart.
+    Trace notes are like Drag notes in Phigros, or Slide notes in Rotaeno.
+    You can make them critical-trace by placing ExTAP note in the same column.
+    Also, you can make them flick-trace by placing AIR note in the same column.
+
+    ## "side_lane" REQUEST
+
+    You can use side 2 extra lane by typing `#REQUEST "side_lane true"` in your sus file.
