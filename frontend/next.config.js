@@ -27,6 +27,9 @@ const nextConfig = nextTranslate({
   },
 
   async rewrites() {
+    if (!process.env.BACKEND_HOST) {
+      return []
+    }
     return [
       {
         source: String.raw`/api/:path((?!next).*)`,
