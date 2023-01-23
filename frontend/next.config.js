@@ -53,7 +53,7 @@ const nextConfig = nextTranslate({
     domains: [
       process.env.BACKEND_HOST && new URL(process.env.BACKEND_HOST).hostname,
       process.env.S3_ENDPOINT && new URL(process.env.S3_ENDPOINT).hostname,
-    ],
+    ].filter(Boolean),
   },
 })
 
