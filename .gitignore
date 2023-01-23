@@ -2,3 +2,4 @@ target
 data
 .env
 .env.prod
+rails_master.key

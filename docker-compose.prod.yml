@@ -10,6 +10,7 @@ services:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/backend:latest"
     volumes:
       - ./.env.prod:/app/.env
+      - ./rails_master.key:/app/config/master.key
 
   sub-audio:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-audio:latest"
