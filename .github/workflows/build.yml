@@ -27,16 +27,18 @@ jobs:
           if [ -f ./${{ github.event.inputs.directory_name }}/build-config.env ]; then
             cat ./${{ github.event.inputs.directory_name }}/build-config.env | tr -d '\r' >> $GITHUB_ENV
           fi
+      - name: Set up pnpm if needed
+        if: ${{ env.NEED_NODEJS == 'true' }}
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
       - name: Set up node if needed
         if: ${{ env.NEED_NODEJS == 'true' }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-      - name: Install pnpm if needed
-        if: ${{ env.NEED_NODEJS == 'true' }}
-        run: |
-          npm install -g pnpm
+          cache: "pnpm"
 
       - name: Check if build.sh exists
         id: check_build_sh
