@@ -46,6 +46,7 @@ jobs:
         if: ${{ env.BUILD_SH_EXISTS == 'true' }}
         run: |
           cd ./${{ github.event.inputs.directory_name }}
+          chmod +x ./build.sh
           ./build.sh
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
