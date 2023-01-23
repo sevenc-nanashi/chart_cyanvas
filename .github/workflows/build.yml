@@ -33,6 +33,10 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+      - name: Install pnpm if needed
+        if: ${{ env.NEED_NODEJS == 'true' }}
+        run: |
+          npm install -g pnpm
 
       - name: Check if build.sh exists
         id: check_build_sh
