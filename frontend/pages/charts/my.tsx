@@ -8,14 +8,13 @@ import { useInView } from "react-intersection-observer"
 
 import ChartCard from "components/ChartCard"
 import urlcat from "urlcat"
-import { useRouter } from "next/router"
+import requireLogin from "lib/requireLogin"
 
 const MyCharts: NextPage = () => {
   const { t } = useTranslation("my")
   const { t: rootT } = useTranslation()
   const [likedCharts, setLikedCharts] = useState<Chart[]>([])
   const [reachedBottom, setReachedBottom] = useState(false)
-  const router = useRouter()
 
   const likedChartsRef = useRef<HTMLDivElement>(null)
   const isFetching = useRef(false)
@@ -31,10 +30,6 @@ const MyCharts: NextPage = () => {
       })
     )
       .then(async (res) => {
-        if (res.status === 401) {
-          router.replace("/login")
-          return
-        }
         const data = await res.json()
         if (data.code === "ok") {
           setLikedCharts((prev) => [...prev, ...data.charts])
@@ -48,7 +43,7 @@ const MyCharts: NextPage = () => {
           isFetching.current = false
         }, 0)
       })
-  }, [setLikedCharts, setReachedBottom, likedCharts, router])
+  }, [setLikedCharts, setReachedBottom, likedCharts])
 
   useEffect(() => {
     if (likedCharts.length) return
@@ -79,10 +74,9 @@ const MyCharts: NextPage = () => {
       </Head>
 
       <div>
-        <Trans i18nKey="my:description" />
-      </div>
-      <div>
         <h1 className="text-2xl font-bold mb-2">{t("title")}</h1>
+        <Trans i18nKey="my:description" />
+        <div className="h-4" />
         {likedCharts.length === 0 && reachedBottom ? (
           <div className="text-center">
             <Trans
@@ -117,4 +111,4 @@ const MyCharts: NextPage = () => {
   )
 }
 
-export default MyCharts
+export default requireLogin(MyCharts)

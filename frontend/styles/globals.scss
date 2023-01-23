@@ -63,3 +63,39 @@ textarea {
     @apply hidden;
   }
 }
+
+.button {
+  @apply transition-colors duration-200 box-border rounded text-center;
+
+  &:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  &:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+.button-danger {
+  @extend .button;
+  @apply bg-red-500 text-white bg-opacity-100;
+  &:not(:disabled) {
+    @apply hover:bg-opacity-80 focus:bg-opacity-80;
+  }
+}
+
+.button-primary {
+  @extend .button;
+  @apply bg-theme text-white bg-opacity-100;
+  &:not(:disabled) {
+    @apply hover:bg-opacity-80 focus:bg-opacity-80;
+  }
+}
+
+.button-secondary {
+  @extend .button;
+  @apply text-theme border-2 border-theme bg-theme bg-opacity-0;
+
+  &:not(:disabled) {
+    @apply hover:bg-opacity-10 focus:bg-opacity-10;
+  }
+}

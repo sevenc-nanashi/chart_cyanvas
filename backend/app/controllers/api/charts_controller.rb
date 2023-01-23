@@ -191,10 +191,10 @@ module Api
       unless author.id == session[:user_id] ||
                author.owner_id == session[:user_id]
         render json: {
-                 code: "not_authorized",
-                 error: "Not authorized"
+                 code: "forbidden",
+                 error: "You are not allowed to upload charts as this user"
                },
-               status: :unauthorized
+               status: :forbidden
         return
       end
       variant = nil
@@ -243,7 +243,7 @@ module Api
           description: data_parsed[:description],
           rating: data_parsed[:rating],
           author_name: data_parsed[:author_name],
-          variant:
+          variant_of: variant
         )
       chart.tags.create!(data_parsed[:tags].map { |t| { name: t } })
       SusConvertJob.perform_later(
@@ -288,15 +288,6 @@ module Api
         return
       end
 
-      unless chart.author_id == author.id || chart.author.owner_id == author.id
-        render json: {
-                 code: "not_authorized",
-                 error: "Not authorized"
-               },
-               status: :unauthorized
-        return
-      end
-
       args = {
         title: data_parsed[:title],
         composer: data_parsed[:composer],
@@ -304,6 +295,7 @@ module Api
         description: data_parsed[:description],
         rating: data_parsed[:rating],
         author_name: data_parsed[:author_name],
+        author_id: author.id,
         variant_id: variant&.id,
         is_public: data_parsed[:is_public]
       }.compact

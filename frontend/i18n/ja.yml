@@ -24,6 +24,7 @@ menu:
   post: "譜面投稿"
   my: "自分の譜面"
   liked: "高評価した譜面"
+  myAlts: "名義の管理"
   guideline: "ガイドライン"
   logout: "ログアウト"
 chart:
@@ -109,6 +110,30 @@ errors:
   cannotBeEmpty: "この項目は空にできません。"
   tooLong: "項目が長すぎます。"
   variantNotFound: "派生元譜面が見付かりませんでした。"
+
+myAlts:
+  title: 別名義一覧
+  description: ここから別名義を管理できます。
+  mobileDescription: 技術的な理由により、追加・編集・削除はPCから行う必要があります。
+  empty: まだ名義がありません。
+
+  add: 作成
+  delete: 削除
+  edit: 編集
+  save: 保存
+  cancel: キャンセル
+
+  namePlaceholder: 名前を入力（4～16文字）
+
+  deletionModal:
+    title: 名義を削除
+    description: この名義を削除しますか？
+    nameChangeWarning: この名義で投稿された{{count}}個の譜面の名義は「{{currentUser}}」に変更されます。
+    ok: 削除
+
+  errors:
+    tooShort: 名前が短すぎます。
+    tooLong: 名前が長すぎます。
 
 pages:
   guideline: |

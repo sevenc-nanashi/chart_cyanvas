@@ -47,10 +47,10 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
       {data ? (
         <>
           <div
-            className={
-              "absolute text-xs top-2 left-2 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white " +
+            className={className(
+              "absolute text-xs top-2 left-2 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white",
               getRatingColor(data.rating)
-            }
+            )}
           >
             Lv. {data.rating}
           </div>

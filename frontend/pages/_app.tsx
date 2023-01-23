@@ -28,7 +28,7 @@ function App({ Component, pageProps }: AppProps) {
       const json = await res.json()
       if (json.code === "ok") {
         const altUsers = await fetch(
-          urlcat(process.env.BACKEND_HOST!, `/api/my/alt_users`)
+          urlcat(process.env.BACKEND_HOST!, `/api/my/altUsers`)
         ).then(async (res) => (await res.json()).users)
         setSession({ loggedIn: true, user: json.user, altUsers })
       } else {

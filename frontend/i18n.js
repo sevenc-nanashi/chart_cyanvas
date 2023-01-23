@@ -33,6 +33,7 @@ module.exports = {
     "/charts/liked": ["liked"],
 
     "/users/[handle]": ["user"],
+    "/users/alts": ["myAlts"],
 
     "/info/[file]": ["pages"],
   },

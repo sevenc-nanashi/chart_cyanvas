@@ -4,6 +4,7 @@ require "counter_culture"
 class Chart < ApplicationRecord
   has_many :co_authors, dependent: :destroy
   belongs_to :author, class_name: "User"
+  counter_culture :author, column_name: "charts_count"
   has_many :file_resources, dependent: :destroy
   has_many :variants,
            class_name: "Chart",

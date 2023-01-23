@@ -146,7 +146,12 @@ module Sonolus
                    status: :unauthorized
             return
           end
-          charts = charts.where(is_public: false, author_id: current_user.id)
+          alt_users = User.where(owner_id: current_user.id)
+          charts =
+            charts.where(
+              is_public: false,
+              author_id: [current_user.id] + alt_users.map(&:id)
+            )
         end
       end
       page_count = (charts.count / 20.0).ceil

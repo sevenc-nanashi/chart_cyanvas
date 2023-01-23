@@ -4,6 +4,7 @@ import {
   DocumentTextRegular,
   HeartRegular,
   SignOutRegular,
+  TagRegular,
 } from "@fluentui/react-icons"
 import Link from "next/link"
 import router from "next/router"
@@ -66,6 +67,16 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
               icon: HeartRegular,
 
               href: `/charts/liked`,
+            },
+            {
+              type: "line",
+            },
+            {
+              type: "button",
+              text: t("myAlts"),
+              icon: TagRegular,
+
+              href: "/users/alts",
             },
             {
               type: "space",

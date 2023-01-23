@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_20_142643) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_23_102008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -111,6 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_142643) do
     t.string "fg_color"
     t.string "bg_color"
     t.bigint "owner_id"
+    t.integer "charts_count", default: 0, null: false
     t.index ["handle"], name: "index_users_on_handle"
     t.index ["name"], name: "index_users_on_name"
     t.index ["owner_id"], name: "index_users_on_owner_id"

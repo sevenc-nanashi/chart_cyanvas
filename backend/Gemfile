@@ -74,4 +74,6 @@ gem "pg", "~> 1.4"
 
 gem "nokogiri", "~> 1.14.0.rc1"
 
+gem "color-generator", "~> 0.0.4"
+
 gem "counter_culture", "~> 3.2"

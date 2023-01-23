@@ -89,6 +89,7 @@ GEM
     bullet (7.0.4)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
+    color-generator (0.0.4)
     concurrent-ruby (1.1.10)
     connection_pool (2.3.0)
     counter_culture (3.3.0)
@@ -253,6 +254,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk-s3 (~> 1.117)
   bullet
+  color-generator (~> 0.0.4)
   connection_pool (~> 2.3)
   counter_culture (~> 3.2)
   debug

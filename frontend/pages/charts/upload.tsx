@@ -21,6 +21,8 @@ import { className } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import Checkbox from "components/Checkbox"
 import { saveChart } from "lib/chart"
+import DisablePortal from "components/DisablePortal"
+import requireLogin from "lib/requireLogin"
 
 type FormData = {
   title: string
@@ -48,6 +50,10 @@ const UploadChart: NextPage<
 
   const [session] = useSession()
   const setServerError = useServerError()
+
+  if (!session.loggedIn) {
+    throw new Error("Not logged in")
+  }
 
   const fields = useMemo(
     () =>
@@ -481,14 +487,9 @@ const UploadChart: NextPage<
     }
   }, [])
 
-  if (!session?.loggedIn) {
-    if (typeof window !== "undefined") {
-      router.replace("/login")
-    }
-    return null
-  }
-
-  const user = session.user
+  const user = [session.user, ...session.altUsers].find(
+    (user) => user.handle === form.authorHandle
+  )
 
   const hasNote = (name: keyof FormData) =>
     t("param." + name + "Note") !== "param." + name + "Note"
@@ -602,10 +603,7 @@ const UploadChart: NextPage<
           onDragLeave={onDragLeave}
           onDrop={onDrop}
         >
-          <div
-            className="absolute top-0 left-0 w-full h-full bg-white dark:bg-slate-800 !bg-opacity-50 z-20"
-            style={{ display: isSubmitting ? "block" : "none" }}
-          />
+          <DisablePortal isShown={isSubmitting} />
 
           <div
             className={
@@ -668,13 +666,12 @@ const UploadChart: NextPage<
                         <div
                           key={i}
                           className={className(
-                            "p-2 w-full box-border rounded cursor-pointer text-center",
-                            "transition-colors transition-200",
+                            "p-2 w-full",
                             button.isDanger
-                              ? "bg-red-500 text-white bg-opacity-100 hover:bg-opacity-80 focus:bg-opacity-80"
+                              ? "button-danger"
                               : button.isPrimary
-                              ? "bg-theme text-white bg-opacity-100 hover:bg-opacity-80 focus:bg-opacity-80"
-                              : "text-theme border-2 border-theme bg-theme bg-opacity-0 hover:bg-opacity-10 focus:bg-opacity-10 py-[6px]"
+                              ? "button-primary"
+                              : "button-secondary"
                           )}
                           onClick={button.onClick}
                         >
@@ -802,7 +799,7 @@ const UploadChart: NextPage<
                               display: isAltUserSelectorOpen ? "block" : "none",
                             }}
                           >
-                            {session.altUsers.map((user) => (
+                            {[session.user, ...session.altUsers].map((user) => (
                               <div
                                 className={
                                   "p-2 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-700 " +
@@ -892,4 +889,4 @@ const UploadChart: NextPage<
   )
 }
 
-export default UploadChart
+export default requireLogin(UploadChart)
