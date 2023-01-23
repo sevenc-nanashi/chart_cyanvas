@@ -487,9 +487,10 @@ const UploadChart: NextPage<
     }
   }, [])
 
-  const user = [session.user, ...session.altUsers].find(
-    (user) => user.handle === form.authorHandle
-  )
+  const user =
+    [session.user, ...session.altUsers].find(
+      (user) => user.handle === form.authorHandle
+    ) || session.user
 
   const hasNote = (name: keyof FormData) =>
     t("param." + name + "Note") !== "param." + name + "Note"
