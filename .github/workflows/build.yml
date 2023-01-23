@@ -24,8 +24,8 @@ jobs:
       - name: Parse build config
         id: parse_build_config
         run: |
-          if [ -f ./${{ github.event.inputs.directory_name }}/build_config.env ]; then
-            cat ./${{ github.event.inputs.directory_name }}/build_config.env | tr -d '\r' >> $GITHUB_ENV
+          if [ -f ./${{ github.event.inputs.directory_name }}/build-config.env ]; then
+            cat ./${{ github.event.inputs.directory_name }}/build-config.env | tr -d '\r' >> $GITHUB_ENV
           fi
       - name: Set up node if needed
         if: ${{ env.NEED_NODEJS == 'true' }}
