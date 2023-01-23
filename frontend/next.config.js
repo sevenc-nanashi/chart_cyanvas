@@ -51,8 +51,8 @@ const nextConfig = nextTranslate({
   },
   images: {
     domains: [
-      new URL(process.env.BACKEND_HOST).hostname,
-      new URL(process.env.S3_ENDPOINT).hostname,
+      process.env.BACKEND_HOST && new URL(process.env.BACKEND_HOST).hostname,
+      process.env.S3_ENDPOINT && new URL(process.env.S3_ENDPOINT).hostname,
     ],
   },
 })
