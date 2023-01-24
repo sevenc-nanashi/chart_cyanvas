@@ -50,7 +50,9 @@ class FileResource < ApplicationRecord
 
   def to_frontend
     begin
-      if ENV["RAILS_DISABLE_PROXY"] == "true"
+      if ENV["S3_PUBLIC_HOST"].present?
+        "#{ENV["S3_PUBLIC_HOST"]}/#{ENV["S3_BUCKET"]}/#{file.key}"
+      elsif ENV["BACKEND_HOST"].blank?
         file.url
       else
         Rails.application.routes.url_helpers.rails_blob_path(
