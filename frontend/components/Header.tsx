@@ -27,7 +27,7 @@ const Header = () => {
             Chart
             <br className="block md:hidden" />
             <span className="hidden md:inline"> </span>
-            Cyanvas
+            Cyanvas β
             {process.env.NODE_ENV !== "production" && (
               <span className="ml-2 opacity-50">(dev)</span>
             )}
