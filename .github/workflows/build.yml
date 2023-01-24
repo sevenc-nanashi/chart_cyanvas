@@ -60,7 +60,7 @@ jobs:
         run: |
           if [ -f ./${{ github.event.inputs.directory_name }}/build-cache.txt ]; then
             echo BUILD_CACHE_EXISTS=true >> $GITHUB_ENV
-            echo BUILD_CACHE=$(cat ./${{ github.event.inputs.directory_name }}/build-cache.txt) >> $GITHUB_ENV
+            echo BUILD_CACHE=$(cat ./${{ github.event.inputs.directory_name }}/build-cache.txt | sed -e 's!^!./${{ github.event.inputs.directory_name }}/!') >> $GITHUB_ENV
           else
             echo BUILD_CACHE_EXISTS=false >> $GITHUB_ENV
           fi
