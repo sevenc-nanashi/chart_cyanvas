@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY sub-sus/package.json sub-sus/pnpm-lock.yaml ./
 
-RUN npm install -g pnpm && pnpm install
+RUN npm install -g pnpm && pnpm install --prod
 
 COPY sub-sus/* .
 
