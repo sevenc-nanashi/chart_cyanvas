@@ -3,29 +3,34 @@
 services:
   frontend:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/frontend:latest"
+    pull_policy: always
     volumes:
       - ./.env.prod:/app/.env
 
   backend:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/backend:latest"
+    pull_policy: always
     volumes:
       - ./.env.prod:/app/.env
       - ./rails_master.key:/app/config/master.key
 
   sub-audio:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-audio:latest"
+    pull_policy: always
     restart: always
     volumes:
       - ./.env.prod:/app/.env
 
   sub-image:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-image:latest"
+    pull_policy: always
     restart: always
     volumes:
       - ./.env.prod:/app/.env
 
   sub-sus:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-sus:latest"
+    pull_policy: always
     restart: always
     volumes:
       - ./.env.prod:/app/.env
