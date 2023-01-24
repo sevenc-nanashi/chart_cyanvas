@@ -258,6 +258,7 @@ module Api
       )
 
       revalidate("/charts/#{chart.name}")
+      revalidate("/users/#{chart.author.handle}")
       render json: { code: "ok", chart: chart.to_frontend }
     end
 
@@ -352,6 +353,7 @@ module Api
       chart.destroy!
       revalidate("/charts/#{chart.name}")
       revalidate("/charts/#{chart.variant_of}") if chart.variant_of
+      revalidate("/users/#{chart.author.handle}")
       render json: { code: "ok" }
     end
   end
