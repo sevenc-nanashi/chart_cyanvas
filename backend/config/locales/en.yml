@@ -68,9 +68,20 @@ en:
     search:
       title: "Title"
       title_placeholder: "Please enter the title..."
+      composer: "Composer"
+      composer_placeholder: "Please enter the name of the composer..."
+      artist: "Artist"
+      artist_placeholder: "Please enter the name of the artist..."
       author: "Author"
-      author_placeholder: "Please enter the handle of the author..."
+      author_placeholder: "Please enter the handle of the author, with space separated..."
       target: "Target"
       targets:
         - "Public"
         - "Testing"
+      sort: "Sort"
+      sorts:
+        - "Newest"
+        - "Last updated"
+        - "Most liked"
+      rating_max: "Difficulty (Max)"
+      rating_min: "Difficulty (Min)"
