@@ -12,7 +12,11 @@ class SonolusController < ApplicationController
   around_action do |_, action|
     params.permit(:localization)
     locale = params[:localization] || I18n.default_locale
-    I18n.with_locale(locale, &action)
+    begin
+      I18n.with_locale(locale, &action)
+    rescue I18n::InvalidLocale
+      I18n.with_locale(:en, &action)
+    end
   end
 
   around_action do |_, action|
