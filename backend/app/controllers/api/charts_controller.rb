@@ -54,7 +54,7 @@ class UploadValidator
   validates :author_handle,
             presence: PRESENCE,
             length: {
-              is: 4,
+              minimum: 4,
               message: "invalid"
             }
   validates :author_name,
