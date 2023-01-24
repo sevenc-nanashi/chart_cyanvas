@@ -55,6 +55,24 @@ jobs:
           cd ./${{ github.event.inputs.directory_name }}
           chmod +x ./build.sh
           ./build.sh
+      - name: Check if build-cache.txt exists
+        id: check_build_cache
+        run: |
+          if [ -f ./${{ github.event.inputs.directory_name }}/build-cache.txt ]; then
+            echo BUILD_CACHE_EXISTS=true >> $GITHUB_ENV
+            echo BUILD_CACHE=$(cat ./${{ github.event.inputs.directory_name }}/build-cache.txt) >> $GITHUB_ENV
+          else
+            echo BUILD_CACHE_EXISTS=false >> $GITHUB_ENV
+          fi
+      - name: Cache build cache if exists
+        if: ${{ env.BUILD_CACHE_EXISTS == 'true' }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.BUILD_CACHE }}
+          key: ${{ runner.os }}-build-cache-${{ github.event.inputs.directory_name }}-${{ hashFiles('.${{ github.event.inputs.directory_name }}/build-cache.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-build-cache-${{ github.event.inputs.directory_name }}-
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
