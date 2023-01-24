@@ -2,4 +2,5 @@
 
 pnpm i
 
+cp ../.env.build .env
 pnpm run build
