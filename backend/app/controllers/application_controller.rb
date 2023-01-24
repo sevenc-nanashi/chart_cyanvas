@@ -15,10 +15,9 @@ class ApplicationController < ActionController::API
 
   def redis
     @redis ||=
-      ConnectionPool.new(
-        size: ENV.fetch("RAILS_MAX_THREADS", 5),
-        timeout: 5
-      ) { Redis.new(ENV.fetch("REDIS_URL")) }
+      ConnectionPool.new(size: ENV.fetch("RAILS_MAX_THREADS", 5), timeout: 5) do
+        Redis.new(ENV.fetch("REDIS_URL"))
+      end
   end
   after_action do
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -33,6 +32,12 @@ class ApplicationController < ActionController::API
         }
       )
     end
+    HTTP.post(
+      "#{ENV.fetch("FRONTEND_HOST", nil)}/api/next/revalidate",
+      json: {
+        path: "/#{path}"
+      }
+    )
     deleted = Rails.cache.delete(path)
     logger.info "Revalidate: #{path}, deleted: #{deleted}"
   end
