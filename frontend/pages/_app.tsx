@@ -18,7 +18,7 @@ function App({ Component, pageProps }: AppProps) {
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (session.loggedIn !== undefined) {
+    if (session && session.loggedIn !== undefined) {
       return
     }
     fetch(`/api/auth/session`, {
