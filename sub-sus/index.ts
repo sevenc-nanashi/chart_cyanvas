@@ -30,7 +30,9 @@ app.get("/", (_req, res) => {
 
 app.post("/convert", async (req, res) => {
   const { url: originalUrl } = req.body as { url: string }
-  const url = urlJoin(BACKEND_HOST, originalUrl)
+  const url = originalUrl.startsWith("http")
+    ? originalUrl
+    : urlJoin(BACKEND_HOST, originalUrl)
 
   try {
     console.log("Converting", url)
