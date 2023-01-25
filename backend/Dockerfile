@@ -13,4 +13,5 @@ RUN bundle config set deployment 'true' \
 COPY backend/. .
 
 ENV RAILS_ENV production
+ENV RUBY_YJIT_ENABLE 1
 CMD ["bundle", "exec", "rake", "start"]
