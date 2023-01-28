@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.2.2",
+    "axios": "^1.2.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "morgan": "^1.10.0",
@@ -27,12 +27,12 @@
     "url-join": "^5.0.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.15",
+    "@types/express": "^4.17.16",
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^5.48.1",
-    "@typescript-eslint/parser": "^5.48.1",
-    "eslint": "^8.31.0",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "nodemon": "^2.0.20",
