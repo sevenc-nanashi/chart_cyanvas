@@ -187,7 +187,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({
         <meta
           name="og:image"
           content={
-            chartData.cover.startsWith("/")
+            chartData.cover && chartData.cover.startsWith("/")
               ? `${publicRuntimeConfig.host}${chartData.cover}`
               : chartData.cover
           }
