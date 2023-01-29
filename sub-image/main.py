@@ -2,7 +2,7 @@ import os
 import fastapi
 from pydantic import BaseModel
 from tempfile import NamedTemporaryFile
-from PIL import Image
+from PIL import Image, ImageFile
 import requests
 import io
 from secrets import token_urlsafe
@@ -17,6 +17,8 @@ logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
 load_dotenv(dotenv_path="../.env")
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 BACKEND_HOST = os.getenv("BACKEND_HOST")
 if BACKEND_HOST is None:
