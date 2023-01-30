@@ -1,16 +1,20 @@
-import os
-import fastapi
-from pydantic import BaseModel
-from tempfile import NamedTemporaryFile
-from PIL import Image, ImageFile
-import requests
+from __future__ import annotations
+
+import asyncio
 import io
-from secrets import token_urlsafe
-from pjsekai_background_gen_pillow import Generator
-from dotenv import load_dotenv
 import logging
+import os
 import urllib.parse
-import redis
+from secrets import token_urlsafe
+from tempfile import NamedTemporaryFile
+
+import aiohttp
+import aioredis
+import fastapi
+from dotenv import load_dotenv
+from PIL import Image, ImageFile
+from pjsekai_background_gen_pillow import Generator
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -27,12 +31,12 @@ print(f"BACKEND_HOST = {BACKEND_HOST}")
 SIZE = 512
 
 app = fastapi.FastAPI(docs_url=None, redoc_url=None)
-redis = redis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
+redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
 bg_gen = Generator()
 
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {"code": "ok"}
 
 
@@ -42,11 +46,27 @@ class ConvertParam(BaseModel):
 
 
 @app.post("/convert")
-def convert(param: ConvertParam):
+async def convert(param: ConvertParam):
     url = urllib.parse.urljoin(BACKEND_HOST, param.url)
 
     logger.info(f"convert: url={url}")
-    base_file = io.BytesIO(requests.get(url).content)
+    content: bytes | None = None
+    async with aiohttp.ClientSession() as session:
+        for i in range(5):
+            try:
+                async with session.get(url) as resp:
+                    resp.raise_for_status()
+                    content = await resp.read()
+
+                    break
+            except Exception as e:
+                logger.error(f"convert: url={url} error={e} try={i}/5")
+                await asyncio.sleep(2 ** i)
+
+    if content is None:
+        logger.error(f"convert: url={url} error=failed to get image")
+        return {"code": "error"}, 500
+    base_file = io.BytesIO(content)
     img = Image.open(base_file)
     img = img.convert("RGBA")
     if param.type == "cover":
@@ -64,7 +84,7 @@ def convert(param: ConvertParam):
         Image.alpha_composite(dist_img, extended_img).save(dist_file.name)
         dist_file.close()
         nonce = token_urlsafe(16)
-        redis.set("image:" + nonce, dist_file.name)
+        await redis.set("image:" + nonce, dist_file.name)
         logger.info(f"convert(cover): nonce={nonce}")
     elif param.type == "background":
         background = bg_gen.generate(img)
@@ -72,8 +92,10 @@ def convert(param: ConvertParam):
         background.save(background_file.name)
         background_file.close()
         nonce = token_urlsafe(16)
-        redis.set("image:" + nonce, background_file.name)
+        await redis.set("image:" + nonce, background_file.name)
         logger.info(f"convert(background): nonce={nonce}")
+    else:
+        return {"code": "unknown_type"}, 400
 
     return {
         "code": "ok",
@@ -82,8 +104,8 @@ def convert(param: ConvertParam):
 
 
 @app.get("/download/{nonce}")
-def download(nonce: str):
-    if path := redis.get("image:" + nonce):
+async def download(nonce: str):
+    if path := await redis.get("image:" + nonce):
         logger.info(f"download: nonce={nonce}")
         return fastapi.responses.FileResponse(path)
     else:
@@ -91,11 +113,11 @@ def download(nonce: str):
 
 
 @app.delete("/download/{nonce}")
-def delete(nonce: str):
-    if path := redis.get("image:" + nonce):
+async def delete(nonce: str):
+    if path := await redis.get("image:" + nonce):
         logger.info(f"delete: nonce={nonce}")
         os.remove(path)
-        redis.delete("image:" + nonce)
+        await redis.delete("image:" + nonce)
         return {"code": "ok"}
     else:
         return {"code": "error"}, 404

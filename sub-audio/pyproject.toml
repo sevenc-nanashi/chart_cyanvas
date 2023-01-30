@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "sub-audio"
+name = "sub-image"
 version = "0.1.0"
 description = ""
 authors = ["sevenc-nanashi <sevenc7c@sevenc7c.com>"]
@@ -12,11 +12,12 @@ uvicorn = "^0.20.0"
 gunicorn = "^20.1.0"
 python-dotenv = "^0.21.0"
 poethepoet = "^0.17.1"
-redis = "^4.4.0"
+aioredis = "^2.0.1"
 ffmpeg-python = "^0.2.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.12.0"
+isort = "^5.12.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -27,6 +28,11 @@ target-version = ['py39']
 line-length = 120
 
 [tool.poe.tasks]
-start = "gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3202 main:app"
-dev = "uvicorn main:app --reload --port 3202"
-lint = "black . --check"
+start = "gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3203 main:app"
+dev = "uvicorn main:app --reload --port 3203"
+lint-black = "black . --check"
+lint-isort = "isort . --check-only"
+lint = ["lint-black", "lint-isort"]
+format-black = "black ."
+format-isort = "isort ."
+format = ["format-black", "format-isort"]

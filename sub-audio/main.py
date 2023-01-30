@@ -6,7 +6,8 @@ from secrets import token_urlsafe
 from dotenv import load_dotenv
 import logging
 import urllib.parse
-import redis
+import aioredis
+import asyncio
 import ffmpeg
 import subprocess
 
@@ -23,11 +24,11 @@ print(f"BACKEND_HOST = {BACKEND_HOST}")
 SIZE = 512
 
 app = fastapi.FastAPI(docs_url=None, redoc_url=None)
-redis = redis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
+redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
 
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {"code": "ok"}
 
 
@@ -36,7 +37,7 @@ class ConvertParam(BaseModel):
 
 
 @app.post("/convert")
-def convert(param: ConvertParam):
+async def convert(param: ConvertParam):
     url = urllib.parse.urljoin(BACKEND_HOST, param.url)
 
     logger.info(f"convert: url={url}")
@@ -59,18 +60,18 @@ def convert(param: ConvertParam):
     )
 
     logger.info(f"convert: bgm_args={bgm_args.compile()}, preview_args={preview_args.compile()}")
-    bgm_process = subprocess.Popen(bgm_args.compile(), stdout=subprocess.PIPE)
-    preview_process = subprocess.Popen(preview_args.compile(), stdout=subprocess.PIPE)
-    bgm_process.wait()
-    preview_process.wait()
+    bgm_process = await asyncio.subprocess.create_subprocess_shell(bgm_args.compile(), stdout=subprocess.PIPE)
+    preview_process = await asyncio.subprocess.create_subprocess_shell(preview_args.compile(), stdout=subprocess.PIPE)
+    await bgm_process.wait()
+    await preview_process.wait()
     logger.info(f"convert: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}")
     if bgm_process.returncode != 0 or preview_process.returncode != 0:
         raise Exception("ffmpeg process failed")
 
     nonce = token_urlsafe(16)
 
-    redis.set(f"audio:{nonce}:bgm", dist_bgm_file.name)
-    redis.set(f"audio:{nonce}:preview", dist_preview_file.name)
+    await redis.set(f"audio:{nonce}:bgm", dist_bgm_file.name)
+    await redis.set(f"audio:{nonce}:preview", dist_preview_file.name)
 
     return {
         "code": "ok",
@@ -79,8 +80,8 @@ def convert(param: ConvertParam):
 
 
 @app.get("/download/{nonce}:{type}")
-def download(nonce: str, type: str):
-    if path := redis.get(f"audio:{nonce}:{type}"):
+async def download(nonce: str, type: str):
+    if path := await redis.get(f"audio:{nonce}:{type}"):
         logger.info(f"download: nonce={nonce}, type={type}")
         return fastapi.responses.FileResponse(path)
     else:
@@ -88,11 +89,11 @@ def download(nonce: str, type: str):
 
 
 @app.delete("/download/{nonce}:{type}")
-def delete(nonce: str, type: str):
-    if path := redis.get(f"audio:{nonce}:{type}"):
+async def delete(nonce: str, type: str):
+    if path := await redis.get(f"audio:{nonce}:{type}"):
         logger.info(f"delete: nonce={nonce}, type={type}")
         os.remove(path)
-        redis.delete("image:" + nonce)
+        await redis.delete("image:" + nonce)
         return {"code": "ok"}
     else:
         return {"code": "error"}, 404
