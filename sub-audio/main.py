@@ -1,15 +1,15 @@
-import os
-import fastapi
-from pydantic import BaseModel
-from tempfile import NamedTemporaryFile
-from secrets import token_urlsafe
-from dotenv import load_dotenv
-import logging
-import urllib.parse
-import aioredis
 import asyncio
-import ffmpeg
+import logging
+import os
 import subprocess
+import urllib.parse
+from secrets import token_urlsafe
+from tempfile import NamedTemporaryFile
+
+import aioredis
+import fastapi
+from dotenv import load_dotenv
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -46,22 +46,38 @@ async def convert(param: ConvertParam):
     dist_preview_file = NamedTemporaryFile(delete=False, suffix=".mp3")
     dist_preview_file.close()
 
-    bgm_args = (
-        ffmpeg.input(url)
-        .audio.output(dist_bgm_file.name, **{"c:a": "libmp3lame", "b:a": "192k", "ac": 2, "ar": 44100})
-        .overwrite_output()
+    bgm_process = await asyncio.subprocess.create_subprocess_exec(
+        "ffmpeg",
+        "-y",
+        "-i",
+        url,
+        "-c:a",
+        "libmp3lame",
+        "-b:a",
+        "192k",
+        "-ac",
+        "2",
+        "-ar",
+        "44100",
+        dist_bgm_file.name,
     )
-    preview_args = (
-        ffmpeg.input(url)
-        .audio.filter("atrim", start=0, end=15)
-        .filter("afade", t="out", st=13, d=2)
-        .output(dist_preview_file.name, **{"c:a": "libmp3lame", "b:a": "96k", "ac": 1, "ar": 24000})
-        .overwrite_output()
+    preview_process = await asyncio.subprocess.create_subprocess_exec(
+        "ffmpeg",
+        "-y",
+        "-i",
+        url,
+        "-c:a",
+        "libmp3lame",
+        "-b:a",
+        "96k",
+        "-ac",
+        "1",
+        "-ar",
+        "24000",
+        "-af",
+        "atrim=start=0:end=15,afade=t=out:st=13:d=2",
+        dist_preview_file.name,
     )
-
-    logger.info(f"convert: bgm_args={bgm_args.compile()}, preview_args={preview_args.compile()}")
-    bgm_process = await asyncio.subprocess.create_subprocess_shell(bgm_args.compile(), stdout=subprocess.PIPE)
-    preview_process = await asyncio.subprocess.create_subprocess_shell(preview_args.compile(), stdout=subprocess.PIPE)
     await bgm_process.wait()
     await preview_process.wait()
     logger.info(f"convert: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}")
