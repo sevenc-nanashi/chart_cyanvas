@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pip.outputs.cache-hit != 'true'
         working-directory: ./sub-audio
-        run: poetry install --group dev,test
+        run: poetry install --with dev,test
 
       - name: Run sub-image lint
         working-directory: ./sub-audio
