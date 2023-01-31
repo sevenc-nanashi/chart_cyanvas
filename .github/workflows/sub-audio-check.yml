@@ -1,4 +1,4 @@
-name: "[sub-audio] Lint with black"
+name: "[sub-audio] Lint, test"
 
 on:
   push:
@@ -40,6 +40,11 @@ jobs:
         working-directory: ./sub-audio
         run: |
           poetry run poe lint
+
+      - name: Run sub-image test
+        working-directory: ./sub-audio
+        run: |
+          poetry run poe test
 
       - name: Dispatch build action
         if: github.ref_name == 'main'
