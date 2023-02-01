@@ -19,7 +19,7 @@ jobs:
 
       - name: Setup ffmpeg
         run: |
-          curl https://github.com/FedericoCarboni/setup-ffmpeg/releases/download/ffmpeg-4.4.1-20220101/ffmpeg-linux-x64.tar.gz -o ffmpeg.tar.gz
+          curl https://github.com/FedericoCarboni/setup-ffmpeg/releases/download/ffmpeg-4.4.1-20220101/ffmpeg-linux-x64.tar.gz -Lo ffmpeg.tar.gz
           tar -xzf ffmpeg.tar.gz
           echo "$(pwd)/ffmpeg" >> $GITHUB_PATH
 
