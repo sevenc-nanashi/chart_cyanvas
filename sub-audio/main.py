@@ -82,7 +82,7 @@ async def convert(param: ConvertParam):
     await preview_process.wait()
     logger.info(f"convert: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}")
     if bgm_process.returncode != 0 or preview_process.returncode != 0:
-        raise Exception("ffmpeg process failed")
+        raise Exception(f"ffmpeg failed: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}")
 
     nonce = token_urlsafe(16)
 
