@@ -18,12 +18,7 @@ jobs:
         run: cp .env.example .env
 
       - name: Setup ffmpeg
-        run: |
-          curl https://github.com/FedericoCarboni/setup-ffmpeg/releases/download/ffmpeg-4.4.1-20220101/ffmpeg-linux-x64.tar.gz -Lo ffmpeg.tar.gz
-          mkdir ffmpeg
-          tar -xzf ffmpeg.tar.gz -C ffmpeg
-          chmod +x ffmpeg/ffmpeg
-          echo "$(pwd)/ffmpeg" >> $GITHUB_PATH
+        uses: FedericoCarboni/setup-ffmpeg@v1
 
       - name: Setup python
         uses: actions/setup-python@v4
