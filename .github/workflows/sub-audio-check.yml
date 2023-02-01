@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Copy .env
+        run: cp .env.example .env
+
       - name: Setup python
         uses: actions/setup-python@v4
         with:
