@@ -6,7 +6,7 @@ import urllib.parse
 from secrets import token_urlsafe
 from tempfile import NamedTemporaryFile
 
-import aioredis
+from redis import asyncio as aioredis
 import fastapi
 from dotenv import load_dotenv
 from pydantic import BaseModel
@@ -24,7 +24,7 @@ print(f"BACKEND_HOST = {BACKEND_HOST}")
 SIZE = 512
 
 app = fastapi.FastAPI(docs_url=None, redoc_url=None)
-redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
+redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True, loop=asyncio.get_event_loop())
 
 
 @app.get("/")

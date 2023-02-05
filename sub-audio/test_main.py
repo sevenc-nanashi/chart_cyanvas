@@ -16,6 +16,7 @@ def test_read_main():
     assert response.json() == {"code": "ok"}
 
 
+@pytest.mark.skip("SEGV on GitHub Actions")
 def test_process_bgm(simple_server):
     response = client.post("/convert", json={"url": f"http://localhost:{simple_server.server_port}/bgm.mp3"})
     assert response.status_code == 200

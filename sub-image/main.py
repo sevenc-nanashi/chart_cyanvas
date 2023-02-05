@@ -9,7 +9,7 @@ from secrets import token_urlsafe
 from tempfile import NamedTemporaryFile
 
 import aiohttp
-import aioredis
+from redis import asyncio as aioredis
 import fastapi
 from dotenv import load_dotenv
 from PIL import Image, ImageFile
@@ -31,7 +31,10 @@ print(f"BACKEND_HOST = {BACKEND_HOST}")
 SIZE = 512
 
 app = fastapi.FastAPI(docs_url=None, redoc_url=None)
-redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
+redis = aioredis.from_url(
+    os.getenv("REDIS_URL"),
+    decode_responses=True,
+)
 bg_gen = Generator()
 
 
@@ -61,7 +64,7 @@ async def convert(param: ConvertParam):
                     break
             except Exception as e:
                 logger.error(f"convert: url={url} error={e} try={i}/5")
-                await asyncio.sleep(2 ** i)
+                await asyncio.sleep(2**i)
 
     if content is None:
         logger.error(f"convert: url={url} error=failed to get image")
