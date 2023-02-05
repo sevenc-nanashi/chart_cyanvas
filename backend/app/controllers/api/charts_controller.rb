@@ -199,13 +199,7 @@ module Api
       end
       variant = nil
       if data_parsed[:variant].present? &&
-           !(
-             variant =
-               Chart.find_by(
-                 name: data_parsed[:variant],
-                 author_id: [author.id, author.owner_id]
-               )
-           )
+           !(variant = Chart.find_by(name: data_parsed[:variant]))
         render json: {
                  code: "invalid_request",
                  errors: {
