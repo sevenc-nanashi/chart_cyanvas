@@ -1,8 +1,8 @@
-import pytest
-import http.server
 import http.server
 import os
 import threading
+
+import pytest
 
 
 @pytest.fixture()

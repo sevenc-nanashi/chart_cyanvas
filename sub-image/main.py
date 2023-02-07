@@ -9,12 +9,12 @@ from secrets import token_urlsafe
 from tempfile import NamedTemporaryFile
 
 import aiohttp
-from redis import asyncio as aioredis
 import fastapi
 from dotenv import load_dotenv
 from PIL import Image, ImageFile
 from pjsekai_background_gen_pillow import Generator
 from pydantic import BaseModel
+from redis import asyncio as aioredis
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)

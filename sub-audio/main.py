@@ -6,10 +6,10 @@ import urllib.parse
 from secrets import token_urlsafe
 from tempfile import NamedTemporaryFile
 
-from redis import asyncio as aioredis
 import fastapi
 from dotenv import load_dotenv
 from pydantic import BaseModel
+from redis import asyncio as aioredis
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
