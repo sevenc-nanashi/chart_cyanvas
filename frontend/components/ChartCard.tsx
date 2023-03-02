@@ -7,6 +7,7 @@ import {
   TagRegular,
 } from "@fluentui/react-icons"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { useState, useEffect, forwardRef } from "react"
 import { className, getRatingColor, randomize } from "../lib/utils"
 import OptionalImage from "./OptionalImage"
@@ -18,6 +19,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
   ref
 ) {
   const [random, setRandom] = useState(0)
+  const router = useRouter()
   useEffect(() => {
     setRandom(Math.random())
   }, [])
@@ -90,7 +92,10 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
                 </>
               )}
             </p>
-            <Link href={`/users/${data.author.handle}`}>
+            <Link
+              href={`/users/${data.author.handle}`}
+              onClick={(e) => e.stopPropagation()}
+            >
               <p className="text-xs hover:text-blue-400 transition-colors duration-200">
                 <EditRegular className="mr-1 w-4 h-4" />
                 {data.authorName || data.author.name}
@@ -135,9 +140,12 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
   )
   if (data) {
     return (
-      <Link href={`/charts/${data.name}`} className="text-normal">
+      <div
+        className="text-normal cursor-pointer"
+        onClick={() => router.push(`/charts/${data.name}`)}
+      >
         {retvar}
-      </Link>
+      </div>
     )
   } else {
     return retvar

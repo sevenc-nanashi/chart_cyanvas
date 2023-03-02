@@ -11,7 +11,7 @@ import {
   NumberSymbolFilled,
   ArrowTurnLeftDownFilled,
 } from "@fluentui/react-icons"
-import { GetStaticPaths, GetStaticProps, NextPage } from "next"
+import { GetServerSideProps, NextPage } from "next"
 import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -23,18 +23,11 @@ import OptionalImage from "components/OptionalImage"
 import { useSession } from "lib/atom"
 import { getRatingColor, className, isMine, host } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
-import { chartWithCookie } from "lib/chart"
 import getConfig from "next/config"
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  }
-}
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const chartData = await fetch(
     urlcat(serverRuntimeConfig.backendHost!, "/api/charts/:name", {
       name: context.params!.name,
@@ -57,7 +50,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       props: {
         chartData: null,
       },
-      revalidate: 60,
       notFound: true,
     }
   }
@@ -66,13 +58,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       chartData,
     },
-    revalidate: 300,
   }
 }
-const ChartPage: NextPage<{ chartData: Chart }> = ({
-  chartData: baseChartData,
-}) => {
-  const chartData = chartWithCookie(baseChartData)
+const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
   const { t: rootT } = useTranslation()
   const { t } = useTranslation("chart")
 
@@ -226,12 +214,12 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({
         <div className="min-h-[300px] w-full flex relative">
           <div className="flex flex-col flex-grow max-w-[calc(100%_-_128px)]">
             {chartData.variantOf && (
-              <Link href={`/charts/${chartData.variantOf.name}`}>
-                <h4 className="text-gray-500">
+              <h4 className="text-gray-500">
+                <Link href={`/charts/${chartData.variantOf.name}`}>
                   <ArrowTurnLeftDownFilled />
                   {chartData.variantOf.title}{" "}
-                </h4>
-              </Link>
+                </Link>
+              </h4>
             )}
             <h1
               className={className(
@@ -274,13 +262,13 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({
                 </>
               )}
             </p>
-            <Link href={`/users/${chartData.author.handle}`}>
-              <p className="text-lg">
+            <p className="text-lg">
+              <Link href={`/users/${chartData.author.handle}`}>
                 <EditRegular className="mr-1 h-6 w-6" />
                 {chartData.authorName || chartData.author.name}
                 <span className="text-xs">#{chartData.author.handle}</span>
-              </p>
-            </Link>
+              </Link>
+            </p>
 
             <p className="text-lg text-red-400">
               <HeartRegular className="mr-1 h-6 w-6" />

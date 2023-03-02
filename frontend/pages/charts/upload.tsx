@@ -20,7 +20,6 @@ import FileInput from "components/FileInput"
 import { className } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import Checkbox from "components/Checkbox"
-import { saveChart } from "lib/chart"
 import DisablePortal from "components/DisablePortal"
 import requireLogin from "lib/requireLogin"
 
@@ -345,7 +344,6 @@ const UploadChart: NextPage<
       if (!data) {
         return
       }
-      saveChart(data.chart)
       router.push(`/charts/${data.chart.name}`)
     })
   }, [createFormData, handleResponse, router])
@@ -370,7 +368,6 @@ const UploadChart: NextPage<
       if (!data) {
         return
       }
-      saveChart(data.chart)
       router.push(`/charts/${data.chart.name}`)
     })
   }, [createFormData, router, handleResponse])

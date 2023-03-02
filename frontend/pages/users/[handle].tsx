@@ -1,5 +1,5 @@
 import { MusicNote2Regular, OpenRegular } from "@fluentui/react-icons"
-import { GetStaticPaths, GetStaticProps, NextPage } from "next"
+import { GetServerSideProps, NextPage } from "next"
 import Head from "next/head"
 import { useState, useEffect, useRef, useCallback, createElement } from "react"
 import useTranslation from "next-translate/useTranslation"
@@ -10,14 +10,8 @@ import Link from "next/link"
 import getConfig from "next/config"
 
 const { serverRuntimeConfig } = getConfig()
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  }
-}
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const userData = await fetch(
     urlcat(serverRuntimeConfig.backendHost!, "/api/users/:handle", {
       handle: context.params!.handle,
@@ -49,7 +43,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       user: userData,
     },
-    revalidate: 300,
   }
 }
 const UserPage: NextPage<{ user: User }> = ({ user }) => {
@@ -79,7 +72,7 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
       urlcat(`/api/charts`, {
         author: user.handle,
         count: 5,
-        offeset: userCharts?.length || 0,
+        offset: userCharts?.length || 0,
       })
     )
     const data = await res.json()
@@ -87,7 +80,7 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
     if (data.code === "ok") {
       setUserCharts((prev) =>
         [...(prev || []), ...data.charts].filter(
-          (e, i, a) => a.findIndex((f) => f.id === e.id) === i
+          (e, i, a) => a.findIndex((f) => f.name === e.name) === i
         )
       )
       if (data.charts.length < 5) {

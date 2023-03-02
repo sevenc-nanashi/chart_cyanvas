@@ -101,7 +101,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: ${PG_DATABASE}
     ports:
-      - "5432:5432"
+      - "${PG_PORT:-5432}:5432"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     profiles:
