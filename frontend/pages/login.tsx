@@ -3,9 +3,9 @@ import Head from "next/head"
 import { useRouter } from "next/router"
 import { useState, useRef, useEffect } from "react"
 import useTranslation from "next-translate/useTranslation"
+import urlcat from "urlcat"
 import { isDev } from "lib/index"
 import { useSession } from "lib/atom"
-import urlcat from "urlcat"
 import { host } from "lib/utils"
 
 const Login: NextPage<{ host: string }> = () => {

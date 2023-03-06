@@ -9,8 +9,8 @@ import {
 import Link from "next/link"
 import router from "next/router"
 import useTranslation from "next-translate/useTranslation"
-import { useSession } from "lib/atom"
 import { createElement } from "react"
+import { useSession } from "lib/atom"
 
 const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
   const [session, setSession] = useSession()

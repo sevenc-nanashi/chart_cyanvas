@@ -1,5 +1,5 @@
-import { className } from "lib/utils"
 import { createPortal } from "react-dom"
+import { className } from "lib/utils"
 
 const DisablePortal: React.FC<{ isShown: boolean }> = ({ isShown }) => {
   return createPortal(

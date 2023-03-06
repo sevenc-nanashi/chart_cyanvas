@@ -2,8 +2,8 @@ import {
   CheckboxCheckedFilled,
   CheckboxUncheckedRegular,
 } from "@fluentui/react-icons"
-import { className } from "lib/utils"
 import { useRef } from "react"
+import { className } from "lib/utils"
 
 const Checkbox: React.FC<
   Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> & {

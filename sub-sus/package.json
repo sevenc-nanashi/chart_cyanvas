@@ -12,7 +12,8 @@
     "dev": "nodemon -I --exec node --experimental-specifier-resolution=node  --loader ts-node/esm index.ts",
     "build": "tsc",
     "start": "node ./dist/index.js",
-    "lint": "eslint --ext .ts ."
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --ext .ts . --fix"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +35,7 @@
     "@typescript-eslint/parser": "^5.49.0",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.3",

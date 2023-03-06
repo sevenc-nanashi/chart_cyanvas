@@ -1,8 +1,8 @@
 import { gzip as gzipBase } from "zlib"
 import { promisify } from "util"
 import { randomUUID } from "crypto"
-import { temporaryWrite } from "tempy"
 import { promises as fs } from "fs"
+import { temporaryWrite } from "tempy"
 
 import Express, { json as jsonHandler } from "express"
 import morgan from "morgan"

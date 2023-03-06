@@ -1,10 +1,9 @@
 import Link from "next/link"
 import { useState } from "react"
 import useTranslation from "next-translate/useTranslation"
+import LogoCF from "public/logo-cf.svg"
 import { useSession } from "../lib/atom"
 import SideMenu from "./SideMenu"
-
-import LogoCF from "public/logo-cf.svg"
 
 const Header = () => {
   const { t } = useTranslation("header")

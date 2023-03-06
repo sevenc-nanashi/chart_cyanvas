@@ -1,16 +1,16 @@
 import "styles/globals.scss"
 import type { AppProps } from "next/app"
+import Trans from "next-translate/Trans"
+import useTranslation from "next-translate/useTranslation"
+import { useAtom } from "jotai"
+import { useEffect } from "react"
 import Header from "components/Header"
 import "i18n"
-import { useEffect } from "react"
 import { serverErrorAtom, useSession } from "lib/atom"
 
 import "styles/markdown.scss"
 import ModalPortal from "components/ModalPortal"
-import { useAtom } from "jotai"
-import useTranslation from "next-translate/useTranslation"
 import Footer from "components/Footer"
-import Trans from "next-translate/Trans"
 
 function App({ Component, pageProps }: AppProps) {
   const [session, setSession] = useSession()

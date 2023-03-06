@@ -6,8 +6,8 @@ import useTranslation from "next-translate/useTranslation"
 import Trans from "next-translate/Trans"
 import { useInView } from "react-intersection-observer"
 
-import ChartCard from "components/ChartCard"
 import urlcat from "urlcat"
+import ChartCard from "components/ChartCard"
 import requireLogin from "lib/requireLogin"
 
 const MyCharts: NextPage = () => {

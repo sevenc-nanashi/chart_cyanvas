@@ -2,13 +2,13 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import useTranslation from "next-translate/useTranslation"
 
+import { useCallback, useEffect, useRef, useState } from "react"
+import Link from "next/link"
+import urlcat from "urlcat"
 import requireLogin from "lib/requireLogin"
 import { useServerError, useSession } from "lib/atom"
 import { className } from "lib/utils"
-import { useCallback, useEffect, useRef, useState } from "react"
 import DisablePortal from "components/DisablePortal"
-import Link from "next/link"
-import urlcat from "urlcat"
 import ModalPortal from "components/ModalPortal"
 
 const MyAlts: NextPage = () => {

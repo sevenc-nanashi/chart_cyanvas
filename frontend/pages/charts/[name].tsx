@@ -18,12 +18,12 @@ import { useRouter } from "next/router"
 import { useState, useEffect, useCallback, useRef, createElement } from "react"
 import useTranslation from "next-translate/useTranslation"
 import urlcat from "urlcat"
+import getConfig from "next/config"
 import ChartSection from "components/ChartSection"
 import OptionalImage from "components/OptionalImage"
 import { useSession } from "lib/atom"
 import { getRatingColor, className, isMine, host } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
-import getConfig from "next/config"
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 

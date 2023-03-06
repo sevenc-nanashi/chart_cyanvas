@@ -1,7 +1,7 @@
-import { useSession } from "lib/atom"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
 import { createElement } from "react"
+import { useSession } from "lib/atom"
 
 const requireLogin = <T,>(component: NextPage<T>) => {
   const Inner: NextPage<T> = (props) => {

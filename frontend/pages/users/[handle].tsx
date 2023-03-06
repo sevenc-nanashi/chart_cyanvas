@@ -4,10 +4,10 @@ import Head from "next/head"
 import { useState, useEffect, useRef, useCallback, createElement } from "react"
 import useTranslation from "next-translate/useTranslation"
 import urlcat from "urlcat"
-import ChartSection from "components/ChartSection"
-import { className, randomize } from "lib/utils"
 import Link from "next/link"
 import getConfig from "next/config"
+import ChartSection from "components/ChartSection"
+import { className, randomize } from "lib/utils"
 
 const { serverRuntimeConfig } = getConfig()
 
