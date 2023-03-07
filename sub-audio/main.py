@@ -24,7 +24,7 @@ print(f"BACKEND_HOST = {BACKEND_HOST}")
 SIZE = 512
 
 app = fastapi.FastAPI(docs_url=None, redoc_url=None)
-redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True, loop=asyncio.get_event_loop())
+redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
 
 
 @app.get("/")
