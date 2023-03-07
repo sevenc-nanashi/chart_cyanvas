@@ -31,7 +31,7 @@ target-version = ['py39']
 line-length = 120
 
 [tool.poe.tasks]
-start = "gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3203 main:app"
+start = "gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3202 main:app"
 dev = "uvicorn main:app --reload --port 3203"
 lint-black = "black . --check"
 lint-isort = "isort . --check-only"
