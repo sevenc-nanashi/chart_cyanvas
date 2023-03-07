@@ -32,7 +32,6 @@ jobs:
 
       - name: Cache packages
         uses: actions/cache@v3
-        id: cache-pip
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-poetry-${{ hashFiles('./sub-audio/poetry.lock') }}
@@ -40,7 +39,6 @@ jobs:
             ${{ runner.os }}-poetry-
 
       - name: Install dependencies
-        if: steps.cache-pip.outputs.cache-hit != 'true'
         working-directory: ./sub-audio
         run: poetry install --with dev,test
 

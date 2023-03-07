@@ -25,14 +25,12 @@ jobs:
         run: poetry config virtualenvs.create false
       - name: Cache venv
         uses: actions/cache@v3
-        id: cache-venv
         with:
           path: .venv
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-poetry-
       - name: Install dependencies
-        if: steps.cache-venv.outputs.cache-hit != 'true'
         working-directory: ./sub-image
         run: poetry install
 
