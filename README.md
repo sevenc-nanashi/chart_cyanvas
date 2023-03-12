@@ -5,7 +5,9 @@ Chart Cyanvas is a sekai custom charts platform.
 > **Warning**
 > This project is still in development!
 
-## Directory Structure
+## Architecture
+
+![Architecture](./architecture.svg)
 
 - `frontend/` - Frontend. Built with Next.js and Tailwind CSS.
 - `backend/` - Backend. Built with Rails.
