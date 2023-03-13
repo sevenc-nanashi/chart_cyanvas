@@ -117,12 +117,21 @@ admin:
     title: "統計"
     users: "ユーザー"
     charts: "譜面"
+    files: "ファイル"
     storage: "ストレージ"
     db: "データベースサイズ"
+    jobs:
+      title: "ジョブ"
+      details: "成功：{{success}} / 失敗：{{error}}"
 
   actions:
     title: "コマンド"
-    regenerate_sus: "譜面データを再生成"
+    reconvert_sus:
+      title: "譜面データを再生成"
+      description: |
+        すべてのSUSをLevelDataに変換します。エンジンの更新により、譜面データの仕様が変更された場合に使用します。
+      button: "再生成"
+      success: "{{count}}個の譜面の再生成を開始しました。"
 
 myAlts:
   title: 別名義一覧

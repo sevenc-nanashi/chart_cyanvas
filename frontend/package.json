@@ -25,6 +25,7 @@
     "react-intersection-observer": "^9.4.1",
     "react-markdown": "^8.0.4",
     "react-tag-input": "^6.8.1",
+    "react-use": "^17.4.0",
     "sass": "^1.57.1",
     "sharp": "^0.31.3",
     "urlcat": "^3.0.0"

@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     post "/my/alt_users", to: "api/my#create_alt_user"
     put "/my/alt_users/:handle", to: "api/my#update_alt_user"
     delete "/my/alt_users/:handle", to: "api/my#delete_alt_user"
+
+    get "/admin", to: "api/admin#data"
+    post "/admin/reconvert_sus", to: "api/admin#reconvert_sus"
   end
 
   scope "/sonolus" do

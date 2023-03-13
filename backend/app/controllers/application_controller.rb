@@ -12,13 +12,6 @@ class ApplicationController < ActionController::API
   def not_found
     render json: { code: "not_found" }, status: :not_found
   end
-
-  def redis
-    @redis ||=
-      ConnectionPool.new(size: ENV.fetch("RAILS_MAX_THREADS", 5), timeout: 5) do
-        Redis.new(ENV.fetch("REDIS_URL"))
-      end
-  end
   after_action do
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
   end

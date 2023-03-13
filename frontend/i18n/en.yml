@@ -148,6 +148,28 @@ myAlts:
     tooShort: "The name is too short."
     tooLong: "The name is too long."
 
+admin:
+  title: "Admin"
+  stats:
+    title: "Stats"
+    users: "Users"
+    charts: "Charts"
+    files: "Files"
+    storage: "Storage"
+    db: "Database"
+    jobs:
+      title: "Jobs"
+      details: "Success: {{success}}, Error: {{error}}"
+
+  actions:
+    title: "Commands"
+    reconvert_sus:
+      title: "Reconvert all SUS"
+      description: |
+        Reconvert all SUS to LevelData. Use this when the specification of chart data is changed by engine update.
+      button: "Reconvert"
+      success: "{{count}} charts were reconverted."
+
 pages:
   guideline: |
     # Guideline
