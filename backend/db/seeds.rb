@@ -6,13 +6,14 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-user = User.create!(
-  handle: 1073,
-  name: "Nanashi.",
-  about_me: "I'm a admin.",
-  fg_color: "#fff",
-  bg_color: "#48b0d5"
-)
+user =
+  User.create!(
+    handle: 1073,
+    name: "Nanashi.",
+    about_me: "I'm a admin.",
+    fg_color: "#fff",
+    bg_color: "#48b0d5"
+  )
 user.create_user!(
   handle: 740,
   name: "Nanatsuki Kuten",

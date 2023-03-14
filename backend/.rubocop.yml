@@ -14,7 +14,7 @@ inherit_gem:
   rubocop-discourse: default.yml
 
 Layout/EndOfLine:
-  EnforcedStyle: lf
+  Enabled: false
 
 Naming/VariableNumber:
   Enabled: false

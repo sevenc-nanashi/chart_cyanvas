@@ -44,8 +44,16 @@ Rails.application.routes.draw do
     end
 
     types = %w[backgrounds effects particles engines skins]
-    get "/:type/list", to: "sonolus/asset#list", constraints: { type: Regexp.new(types.join("|")) }
-    get "/:type/chcy-:name", to: "sonolus/asset#show", constraints: { type: Regexp.new(types.join("|")) }
+    get "/:type/list",
+        to: "sonolus/asset#list",
+        constraints: {
+          type: Regexp.new(types.join("|"))
+        }
+    get "/:type/chcy-:name",
+        to: "sonolus/asset#show",
+        constraints: {
+          type: Regexp.new(types.join("|"))
+        }
   end
 
   scope "/auth" do

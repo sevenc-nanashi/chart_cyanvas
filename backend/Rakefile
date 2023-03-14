@@ -6,11 +6,11 @@ require_relative "config/application"
 
 Rails.application.load_tasks
 
-task lint: :environment do
+task :lint do
   sh "rubocop"
 end
 
-task start: :environment do
+task :start do
   puts "Deleting pid file"
   FileUtils.rm_f("tmp/pids/server.pid")
 
@@ -19,4 +19,9 @@ task start: :environment do
 
   puts "Starting server"
   sh "rails s"
+end
+
+task :format do
+  sh "stree write ./**/*.rb"
+  sh "rubocop -a"
 end

@@ -10,7 +10,11 @@ class CreateCharts < ActiveRecord::Migration[7.0]
 
       t.references :data, null: true, foreign_key: { to_table: :file_resources }
 
-      t.references :cover, null: false, foreign_key: { to_table: :file_resources }
+      t.references :cover,
+                   null: false,
+                   foreign_key: {
+                     to_table: :file_resources
+                   }
       t.references :bgm, null: false, foreign_key: { to_table: :file_resources }
       t.references :sus, null: false, foreign_key: { to_table: :file_resources }
 

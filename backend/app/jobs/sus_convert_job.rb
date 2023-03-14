@@ -19,7 +19,8 @@ class SusConvertJob < ApplicationJob
         .then { JSON.parse(_1.body.to_s, symbolize_names: true) }
     logger.info "SusConvertJob: #{sus_resource.id} done"
     raise "Failed to convert level data!" if response[:code] != "ok"
-    sus_data = HTTP.get("#{ENV.fetch("SUB_SUS_HOST", nil)}/download/#{response[:id]}")
+    sus_data =
+      HTTP.get("#{ENV.fetch("SUB_SUS_HOST", nil)}/download/#{response[:id]}")
     raise "Failed to download level data!" if sus_data.status != 200
     FileResource.upload_from_string(
       sus_resource.chart,

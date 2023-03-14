@@ -3,9 +3,9 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   config.after_initialize do
-    Bullet.enable        = true
-    Bullet.rails_logger  = true
-    Bullet.add_footer    = true
+    Bullet.enable = true
+    Bullet.rails_logger = true
+    Bullet.add_footer = true
   end
 
   # Settings specified here will take precedence over those in config/application.rb.
@@ -33,7 +33,9 @@ Rails.application.configure do
   else
     config.action_controller.perform_caching = false
   end
-  config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_URL", nil), expires_in: 1.week }
+  config.cache_store =
+    :redis_cache_store,
+    { url: ENV.fetch("REDIS_URL", nil), expires_in: 1.week }
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :s3
