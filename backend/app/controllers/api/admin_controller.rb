@@ -36,7 +36,7 @@ module Api
     end
 
     around_action do |controller, action|
-      unless current_user&.handle == ENV["ADMIN_HANDLE"]
+      if !ENV["ADMIN_HANDLE"] || current_user&.handle != ENV["ADMIN_HANDLE"]
         render json: { code: "forbidden" }, status: :forbidden
         next
       end
