@@ -32,7 +32,7 @@ dependencies:
   dotenv: 16.0.3
   express: 4.18.2
   morgan: 1.10.0
-  sonolus-pjsekai-engine-extended: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/4e2c27580dc3dfdfdd0845a875becebb6a6fd297_bb4xy6jsz35sxajqjnuyvokvei
+  sonolus-pjsekai-engine-extended: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/b1436c8b4cd1de9a87aca89cd54a1b3d10e4eff5_bb4xy6jsz35sxajqjnuyvokvei
   tempy: 3.0.0
   url-join: 5.0.0
 
@@ -2599,9 +2599,9 @@ packages:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false
 
-  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/4e2c27580dc3dfdfdd0845a875becebb6a6fd297_bb4xy6jsz35sxajqjnuyvokvei:
-    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/4e2c27580dc3dfdfdd0845a875becebb6a6fd297}
-    id: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/4e2c27580dc3dfdfdd0845a875becebb6a6fd297
+  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/b1436c8b4cd1de9a87aca89cd54a1b3d10e4eff5_bb4xy6jsz35sxajqjnuyvokvei:
+    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/b1436c8b4cd1de9a87aca89cd54a1b3d10e4eff5}
+    id: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/b1436c8b4cd1de9a87aca89cd54a1b3d10e4eff5
     name: sonolus-pjsekai-engine-extended
     version: 0.2.0
     requiresBuild: true
