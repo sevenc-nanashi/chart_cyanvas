@@ -169,7 +169,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
           name="og:title"
           content={`${chartData.title} - ${chartData.composer}${
             chartData.artist ? ` / ${chartData.artist}` : ""
-          }（Lv. ${chartData.rating}、♡${chartData.likes}）`}
+          } (Lv. ${chartData.rating}, \u{2661}${chartData.likes})`}
         />
         <meta name="og:url" content={`${host}/charts/${chartData.name}`} />
         <meta
