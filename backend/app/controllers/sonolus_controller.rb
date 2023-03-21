@@ -44,16 +44,17 @@ class SonolusController < ApplicationController
           symbolize_names: true
         )
       self.session_data = { user: user_data[:userProfile] }
+      user_profile = user_data[:userProfile]
       table_contents = {
-        handle: session_data[:user][:handle],
-        name: session_data[:user][:name],
-        about_me: session_data[:user][:aboutMe],
-        fg_color: session_data[:user][:avatarForegroundColor],
-        bg_color: session_data[:user][:avatarBackgroundColor]
+        handle: user_profile[:handle],
+        name: user_profile[:name],
+        about_me: user_profile[:aboutMe],
+        fg_color: user_profile[:avatarForegroundColor],
+        bg_color: user_profile[:avatarBackgroundColor]
       }
 
       user =
-        if (u = User.find_by(handle: session_data[:user][:handle]))
+        if (u = User.find_by(handle: user_profile[:handle]))
           if table_contents.each_pair.any? { |k, v| u[k] != v }
             logger.info "User #{u.handle} updated, updating table"
             revalidate("/users/#{u.handle}")
@@ -68,7 +69,8 @@ class SonolusController < ApplicationController
 
       self.current_user = user
     rescue StandardError => e
-      logger.warn "Invalid session data: #{e}"
+      logger.warn "Invalid session data:"
+      logger.warn e
       render json: { error: "Invalid session" }, status: :unauthorized
       next
     else
