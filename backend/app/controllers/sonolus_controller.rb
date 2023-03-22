@@ -33,7 +33,12 @@ class SonolusController < ApplicationController
       next
     end
     begin
-      session_data = JSON.parse(session_data_raw, symbolize_names: true)
+      session_data_encoded = JSON.parse(session_data_raw, symbolize_names: true)
+      seasion_data = {
+        id: session_data_encoded[:id],
+        key: Base64.strict_decode64(session_data_encoded[:key]),
+        iv: Base64.strict_decode64(session_data_encoded[:iv])
+      }
       aes = OpenSSL::Cipher.new("aes-256-cbc")
       aes.decrypt
       aes.key = session_data[:key]
@@ -157,19 +162,20 @@ class SonolusController < ApplicationController
       key: SecureRandom.random_bytes(32),
       iv: SecureRandom.random_bytes(16)
     }
+    auth_data_encoded = {
+      id: auth_data[:id],
+      key: Base64.strict_encode64(auth_data[:key]),
+      iv: Base64.strict_encode64(auth_data[:iv])
+    }
     encrypted =
       SONOLUS_PUBLIC_KEY.public_encrypt_oaep(
-        {
-          id: auth_data[:id],
-          key: Base64.strict_encode64(auth_data[:key]),
-          iv: Base64.strict_encode64(auth_data[:iv])
-        }.to_json
+        auth_data_encoded.to_json
       )
 
     $redis.with do |conn|
       conn.set(
         "sonolus_auth_session/#{auth_data[:id]}",
-        auth_data.to_json,
+        auth_data_encoded.to_json,
         ex: 5.minutes
       )
     end
