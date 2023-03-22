@@ -4,7 +4,7 @@ class User < ApplicationRecord
            foreign_key: :author_id,
            dependent: :destroy,
            inverse_of: :author
-  belongs_to :user, optional: true, foreign_key: :owner_id, inverse_of: :users
+  belongs_to :user, optional: true, foreign_key: :owner_id, inverse_of: :alt_users
   has_many :alt_users,
            foreign_key: :owner_id,
            dependent: :destroy,
