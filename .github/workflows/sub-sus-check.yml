@@ -1,4 +1,4 @@
-name: "[sub-sus] Lint with ESLint"
+name: "[sub-sus] Lint and Test"
 
 on:
   push:
@@ -34,6 +34,11 @@ jobs:
         run: |
           pnpm i
           pnpm lint
+      - name: Run sub-sus test
+        working-directory: ./sub-sus
+        run: |
+          pnpm i
+          pnpm test
 
       - name: Dispatch build action
         if: github.ref_name == 'main'

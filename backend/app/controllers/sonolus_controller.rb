@@ -4,18 +4,10 @@ require "openssl/oaep"
 require "request_store_rails"
 
 class SonolusController < ApplicationController
-  def public_key
-    @@public_key =
-      if Rails.env.test?
-        OpenSSL::PKey::RSA.new(
-          Rails.root.join("spec/fixtures/files/test_rsa_key.pub").read
-        ).freeze
-      else
-        OpenSSL::PKey::RSA.new(
-          Rails.root.join("config/sonolus_key.pub").read
-        ).freeze
-      end
-  end
+  SONOLUS_PUBLIC_KEY =
+    OpenSSL::PKey::RSA.new(
+      Rails.root.join("config/sonolus_key.pub").read
+    ).freeze
 
   around_action do |_, action|
     params.permit(:localization)
@@ -165,7 +157,7 @@ class SonolusController < ApplicationController
       iv: SecureRandom.random_bytes(16)
     }
     encrypted =
-      public_key.public_encrypt_oaep(
+      SONOLUS_PUBLIC_KEY.public_encrypt_oaep(
         {
           id: auth_data[:id],
           key: Base64.strict_encode64(auth_data[:key]),

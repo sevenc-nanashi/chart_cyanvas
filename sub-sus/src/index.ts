@@ -2,7 +2,7 @@ import { gzip as gzipBase } from "zlib"
 import { promisify } from "util"
 import { randomUUID } from "crypto"
 import { promises as fs } from "fs"
-import { temporaryWrite } from "tempy"
+import { write as temporaryWrite } from "tempy"
 
 import Express, { json as jsonHandler } from "express"
 import morgan from "morgan"
@@ -25,7 +25,7 @@ const BACKEND_HOST = process.env.BACKEND_HOST!
 app.use(jsonHandler())
 app.use(morgan("combined"))
 app.get("/", (_req, res) => {
-  res.json({ code: "ok", name: "sub-sus" })
+  res.json({ code: "ok" })
 })
 
 app.post("/convert", async (req, res) => {
@@ -80,7 +80,11 @@ app.get("/download/:id", async (req, res) => {
   })
 })
 
-app.listen(3201, () => {
-  console.log(`BACKEND_HOST = ${BACKEND_HOST}`)
-  console.log("Listening on port 3201")
-})
+if (require.main === module) {
+  app.listen(3201, () => {
+    console.log(`BACKEND_HOST = ${BACKEND_HOST}`)
+    console.log("Listening on port 3201")
+  })
+}
+
+export default app

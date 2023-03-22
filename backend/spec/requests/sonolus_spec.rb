@@ -12,6 +12,14 @@ RSpec.describe "Sonolus", type: :request do
     )
   end
   describe "POST /sonolus/authenticate" do
+    before do
+      stub_const(
+        "SonolusController::SONOLUS_PUBLIC_KEY",
+        OpenSSL::PKey::RSA.new(
+          Rails.root.join("spec/fixtures/files/test_rsa_key.pub").read
+        )
+      )
+    end
     it "returns in right schema" do
       post authenticate_path
       expect(response).to have_http_status(:ok)
