@@ -82,29 +82,11 @@ module Sonolus
       auth_data[:token] = token
       auth_data[:user_handle] = session_data[:user][:handle]
 
-      table_contents = {
-        handle: session_data[:user][:handle],
-        name: session_data[:user][:name],
-        about_me: session_data[:user][:aboutMe],
-        fg_color: session_data[:user][:avatarForegroundColor],
-        bg_color: session_data[:user][:avatarBackgroundColor]
-      }
-
-      user =
-        if (u = User.find_by(handle: session_data[:user][:handle]))
-          if table_contents.each_pair.any? { |k, v| u[k] != v }
-            logger.info "User #{u.handle} updated, updating table"
-            revalidate("/users/#{u.handle}")
-            u.update!(table_contents)
-          else
-            logger.info "User #{u.handle} not updated, skipping table update"
-          end
-          u
-        else
-          User.create(table_contents)
-        end
-
-      Rails.cache.write("auth_token/#{token}", { user: }, expires_in: 1.day)
+      Rails.cache.write(
+        "auth_token/#{token}",
+        { user: self.current_user },
+        expires_in: 1.day
+      )
 
       Rails.cache.write(
         "auth_code/#{params[:code]}",

@@ -69,7 +69,7 @@ upload:
   param:
     title: "Title"
     composer: "Composer"
-    artist: "Artist"
+    artist: "Vocal"
     rating: "Difficulty"
 
     variant: "Variant of"

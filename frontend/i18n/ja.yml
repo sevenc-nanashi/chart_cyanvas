@@ -67,7 +67,7 @@ upload:
   param:
     title: "タイトル"
     composer: "作曲者"
-    artist: "アーティスト"
+    artist: "ボーカル"
     rating: "難易度"
 
     variant: "派生元譜面"
