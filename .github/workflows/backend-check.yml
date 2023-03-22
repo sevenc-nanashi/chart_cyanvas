@@ -54,11 +54,8 @@ jobs:
           pwd
           docker compose --env-file ../.env.test --profile test up -d
           cp ../.env.test ../.env
-          chmod +x ./bin/rails
-          sed -i 's/ruby\.exe/ruby/g' ./bin/rails
-          bundle exec rails db:create
-          bundle exec rails parallel:setup
-          bundle exec rails parallel:spec
+          bundle exec rake parallel:setup
+          bundle exec rake parallel:spec
 
       - name: Dispatch build action
         if: github.ref_name == 'main'
