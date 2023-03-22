@@ -107,6 +107,7 @@ services:
     profiles:
       - prod
       - dev
+      - test
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 10s
@@ -122,6 +123,7 @@ services:
     profiles:
       - prod
       - dev
+      - test
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -141,6 +143,7 @@ services:
       MINIO_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"
     profiles:
       - dev
+      - test
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 10s
@@ -159,6 +162,7 @@ services:
       '
     profiles:
       - "init"
+      - test
     environment:
       S3_ROOT_USER: "${S3_ROOT_USER}"
       S3_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"

@@ -37,7 +37,14 @@ jobs:
         working-directory: ./backend
         run: |
           pwd
+          docker compose --env-file .env.test --profile test up -d
           bundle exec rake lint
+      - name: Run backend test
+        working-directory: ./backend
+        run: |
+          pwd
+          bundle exec rake parallel:create parallel:prepare
+          bundle exec rake parallel:spec
 
       - name: Dispatch build action
         if: github.ref_name == 'main'

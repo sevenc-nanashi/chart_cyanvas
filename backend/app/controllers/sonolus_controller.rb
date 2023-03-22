@@ -4,10 +4,18 @@ require "openssl/oaep"
 require "request_store_rails"
 
 class SonolusController < ApplicationController
-  SONOLUS_PUBLIC_KEY =
-    OpenSSL::PKey::RSA.new(
-      Rails.root.join("config/sonolus_public_key.pub").read
-    ).freeze
+  def public_key
+    @@public_key =
+      if Rails.env.test?
+        OpenSSL::PKey::RSA.new(
+          Rails.root.join("spec/fixtures/files/test_rsa_key.pub").read
+        ).freeze
+      else
+        OpenSSL::PKey::RSA.new(
+          Rails.root.join("config/sonolus_key.pub").read
+        ).freeze
+      end
+  end
 
   around_action do |_, action|
     params.permit(:localization)
@@ -26,7 +34,8 @@ class SonolusController < ApplicationController
       next
     end
     session_id = request.headers["Sonolus-Session-Id"]
-    unless session_data = Rails.cache.read("sonolus_auth_session/#{session_id}")
+    unless session_data =
+             $redis.with { |c| c.get("sonolus_auth_session/#{session_id}") }
       logger.warn "Invalid session id: #{session_id}"
       render json: { error: "Session expired" }, status: :unauthorized
       next
@@ -132,18 +141,21 @@ class SonolusController < ApplicationController
       iv: SecureRandom.random_bytes(16)
     }
     encrypted =
-      SONOLUS_PUBLIC_KEY.public_encrypt_oaep(
+      public_key.public_encrypt_oaep(
         {
           id: auth_data[:id],
           key: Base64.strict_encode64(auth_data[:key]),
           iv: Base64.strict_encode64(auth_data[:iv])
         }.to_json
       )
-    Rails.cache.write(
-      "sonolus_auth_session/#{auth_data[:id]}",
-      auth_data,
-      expires_in: 5.minutes
-    )
+
+    $redis.with do |conn|
+      conn.set(
+        "sonolus_auth_session/#{auth_data[:id]}",
+        auth_data,
+        ex: 5.minutes
+      )
+    end
 
     address =
       ENV.fetch(
