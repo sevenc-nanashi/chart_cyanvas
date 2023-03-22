@@ -42,7 +42,7 @@ jobs:
         working-directory: ./backend
         run: |
           pwd
-          docker compose --env-file .env.test --profile test up -d
+          docker compose --env-file ../.env.test --profile test up -d
           bundle exec rake parallel:create parallel:prepare
           bundle exec rake parallel:spec
 
