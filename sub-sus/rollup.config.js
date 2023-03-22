@@ -4,7 +4,7 @@ import pluginTypescript from "@rollup/plugin-typescript";
 import pluginJson from "@rollup/plugin-json";
 
 /** @type {import('rollup').RollupOptions} */
-export default {
+module.exports = {
   input: "src/index.ts",
   output: {
     file: "dist/index.cjs",
