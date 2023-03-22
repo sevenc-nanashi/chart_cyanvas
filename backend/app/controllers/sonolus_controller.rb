@@ -77,7 +77,7 @@ class SonolusController < ApplicationController
       self.current_user = user
     rescue StandardError => e
       logger.warn "Invalid session data:"
-      logger.warn e
+      logger.warn [e, *e.backtrace].join("\n")
       render json: { error: "Invalid session" }, status: :unauthorized
       next
     else
