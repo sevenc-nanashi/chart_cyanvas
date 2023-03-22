@@ -55,6 +55,7 @@ jobs:
           docker compose --env-file ../.env.test --profile test up -d
           cp ../.env.test ../.env
           chmod +x ./bin/rails
+          sed -i 's/ruby\.exe/ruby/g' ./bin/rails
           bundle exec rails parallel:setup
           bundle exec rails parallel:spec
 
