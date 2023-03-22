@@ -1,7 +1,7 @@
-import pluginNodeResolve from "@rollup/plugin-node-resolve";
-import pluginCommonjs from "@rollup/plugin-commonjs";
-import pluginTypescript from "@rollup/plugin-typescript";
-import pluginJson from "@rollup/plugin-json";
+const pluginNodeResolve = require("@rollup/plugin-node-resolve");
+const pluginCommonjs = require("@rollup/plugin-commonjs");
+const pluginTypescript = require("@rollup/plugin-typescript");
+const pluginJson = require("@rollup/plugin-json");
 
 /** @type {import('rollup').RollupOptions} */
 module.exports = {
