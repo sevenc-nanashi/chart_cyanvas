@@ -38,11 +38,22 @@ jobs:
         run: |
           pwd
           bundle exec rake lint
+
+      - name: Cache docker images
+        uses: actions/cache@v3
+        id: cache-docker
+        with:
+          path: ~/.docker
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/docker-compose*.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
       - name: Run backend test
         working-directory: ./backend
         run: |
           pwd
           docker compose --env-file ../.env.test --profile test up -d
+          cp ../.env.test ../.env
           bundle exec rake parallel:create parallel:prepare
           bundle exec rake parallel:spec
 
