@@ -34,15 +34,15 @@ class SonolusController < ApplicationController
     end
     begin
       session_data_encoded = JSON.parse(session_data_raw, symbolize_names: true)
-      seasion_data = {
+      sonolus_seasion_data = {
         id: session_data_encoded[:id],
         key: Base64.strict_decode64(session_data_encoded[:key]),
         iv: Base64.strict_decode64(session_data_encoded[:iv])
       }
       aes = OpenSSL::Cipher.new("aes-256-cbc")
       aes.decrypt
-      aes.key = session_data[:key]
-      aes.iv = session_data[:iv]
+      aes.key = sonolus_seasion_data[:key]
+      aes.iv = sonolus_seasion_data[:iv]
       user_data =
         JSON.parse(
           aes.update(
