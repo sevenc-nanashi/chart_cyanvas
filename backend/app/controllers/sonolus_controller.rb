@@ -26,13 +26,14 @@ class SonolusController < ApplicationController
       next
     end
     session_id = request.headers["Sonolus-Session-Id"]
-    unless session_data =
+    unless session_data_raw =
              $redis.with { |c| c.get("sonolus_auth_session/#{session_id}") }
       logger.warn "Invalid session id: #{session_id}"
       render json: { error: "Session expired" }, status: :unauthorized
       next
     end
     begin
+      session_data = JSON.parse(session_data_raw, symbolize_names: true)
       aes = OpenSSL::Cipher.new("aes-256-cbc")
       aes.decrypt
       aes.key = session_data[:key]
@@ -168,7 +169,7 @@ class SonolusController < ApplicationController
     $redis.with do |conn|
       conn.set(
         "sonolus_auth_session/#{auth_data[:id]}",
-        auth_data,
+        auth_data.to_json,
         ex: 5.minutes
       )
     end
