@@ -39,15 +39,6 @@ jobs:
           pwd
           bundle exec rake lint
 
-      - name: Cache docker images
-        uses: actions/cache@v3
-        id: cache-docker
-        with:
-          path: ~/.docker
-          key: ${{ runner.os }}-docker-${{ hashFiles('**/docker-compose.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-docker-
-
       - name: Run backend test
         working-directory: ./backend
         run: |
