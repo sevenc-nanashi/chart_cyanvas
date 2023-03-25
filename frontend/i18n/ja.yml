@@ -33,6 +33,7 @@ chart:
   sameAuthor: "同じ作者の譜面"
   edit: "編集"
   delete: "削除"
+  download: "譜面をDL"
 
   deletionModal:
     title: "譜面を削除しますか？"
@@ -78,6 +79,7 @@ upload:
     coverNote: "画像は512x512pxの正方形にリサイズされます。"
     chart: "譜面データ"
     chartNote: ".sus形式でアップロードしてください。"
+    isSusPublic: "譜面ファイルを公開する"
     bgm: "音源"
     bgmNote: "音源はステレオ192kbpsのmp3形式に変換されます。"
 

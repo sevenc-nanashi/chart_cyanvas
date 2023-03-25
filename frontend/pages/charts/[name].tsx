@@ -10,6 +10,7 @@ import {
   OpenRegular,
   NumberSymbolFilled,
   ArrowTurnLeftDownFilled,
+  ArrowDownloadRegular,
 } from "@fluentui/react-icons"
 import { GetServerSideProps, NextPage } from "next"
 import Head from "next/head"
@@ -125,7 +126,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
     })
   }, [name, router])
 
-  const showManageButton = session?.loggedIn && isMine(session, chartData)
+  const doesUserOwn = session?.loggedIn && isMine(session, chartData)
 
   let wrappedDescription: string
   if (chartData.description.split(/\n/g).length > 3) {
@@ -322,7 +323,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                 ),
               ].map((inner) =>
                 [
-                  ...(showManageButton
+                  ...(doesUserOwn
                     ? [
                         {
                           href: `/charts/${name}/edit`,
@@ -335,6 +336,15 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                           icon: DeleteRegular,
                           className: "bg-red-500 text-white",
                           onClick: deleteChart,
+                        },
+                      ]
+                    : chartData.sus
+                    ? [
+                        {
+                          href: chartData.sus,
+                          icon: ArrowDownloadRegular,
+                          className: "bg-theme text-white",
+                          text: t("download"),
                         },
                       ]
                     : []),

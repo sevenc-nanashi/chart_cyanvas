@@ -10,7 +10,9 @@ class UploadValidator
               :rating,
               :tags,
               :author_handle,
-              :author_name
+              :author_name,
+              :is_sus_public,
+              :is_public
 
   PRESENCE = { message: "cannotBeEmpty" }.freeze
 
@@ -63,6 +65,19 @@ class UploadValidator
               maximum: 50,
               message: "tooLong"
             }
+  validates :is_sus_public,
+            inclusion: {
+              in: [true, false],
+              message: "invalid"
+            },
+            if: -> { is_sus_public.present? }
+
+  validates :is_public,
+            inclusion: {
+              in: [true, false],
+              message: "invalid"
+            },
+            if: -> { is_public.present? }
 
   def initialize(params, user_id)
     @title = params[:title]
@@ -73,6 +88,8 @@ class UploadValidator
     @tags = params[:tags]
     @author_handle = params[:author_handle]
     @author_name = params[:author_name]
+    @is_sus_public = params[:is_sus_public]
+    @is_public = params[:is_public]
     @user_id = user_id
   end
 end
@@ -237,7 +254,8 @@ module Api
           description: data_parsed[:description],
           rating: data_parsed[:rating],
           author_name: data_parsed[:author_name],
-          variant_of: variant
+          variant_of: variant,
+          is_sus_public: data_parsed[:is_sus_public]
         )
       chart.tags.create!(data_parsed[:tags].map { |t| { name: t } })
       SusConvertJob.perform_later(
@@ -292,7 +310,8 @@ module Api
         author_name: data_parsed[:author_name],
         author_id: author.id,
         variant_id: variant&.id,
-        is_public: data_parsed[:is_public]
+        is_public: data_parsed[:is_public],
+        is_sus_public: data_parsed[:is_sus_public]
       }.compact
       if data_parsed[:is_public] && !chart.published_at
         args[:published_at] = Time.now

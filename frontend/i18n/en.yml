@@ -33,6 +33,7 @@ chart:
   sameAuthor: "Charts by the same author"
   edit: "Edit"
   delete: "Delete"
+  download: "Download chart"
 
   deletionModal:
     title: "Delete this chart?"
@@ -82,6 +83,7 @@ upload:
     coverNote: "This image will be resized to 512x512."
     chart: "Chart file"
     chartNote: ".sus file is required."
+    isSusPublic: "Let users download .sus file"
     bgm: "BGM file"
     bgmNote: "This file will be reencoded to Stereo 192kbps MP3."
 

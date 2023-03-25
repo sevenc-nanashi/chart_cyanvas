@@ -37,6 +37,7 @@ type FormData = {
   chart: File | null
   bgm: File | null
   cover: File | null
+  isSusPublic: boolean
 }
 
 const UploadChart: NextPage<
@@ -124,6 +125,10 @@ const UploadChart: NextPage<
             optional: isEdit,
           },
           {
+            name: "isSusPublic",
+            type: "checkbox",
+          },
+          {
             name: "isPublic",
             type: "checkbox",
             disabled: !isEdit,
@@ -169,6 +174,7 @@ const UploadChart: NextPage<
         authorHandle: (session?.loggedIn && session.user.handle) || "",
         authorName: "",
         variant: "",
+        isSusPublic: false,
         isPublic: false,
         chart: null,
         bgm: null,
@@ -296,6 +302,8 @@ const UploadChart: NextPage<
           author_handle: form.authorHandle,
           author_name: form.authorName,
           variant: form.variant,
+          is_sus_public: form.isSusPublic,
+          is_public: form.isPublic,
           ...extra,
         })
       )
