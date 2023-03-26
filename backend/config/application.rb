@@ -31,5 +31,7 @@ module Backend
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CacheStore
     config.middleware.use ActionDispatch::Flash
+
+    config.paths.add "lib", eager_load: true
   end
 end

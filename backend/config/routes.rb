@@ -69,5 +69,7 @@ Rails.application.routes.draw do
     get "/assets/:name" => redirect("/assets/%{name}"), :format => false
     get "/assets/:name" => redirect("/assets/%{name}.%{format}")
   end
+
+  get "/tempfile/:id", to: "temporary_file#read"
 end
 # rubocop:enable Style/FormatStringToken

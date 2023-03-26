@@ -3,7 +3,7 @@
 require "redis"
 
 $redis ||=
-  ConnectionPool.new(size: ENV.fetch("RAILS_MAX_THREADS", 5), timeout: 5) do
+  ConnectionPool.new(size: ENV.fetch("RAILS_MAX_THREADS", 10), timeout: 5) do
     Redis.new(url: ENV.fetch("REDIS_URL"))
   end
 $redis.with do |conn|

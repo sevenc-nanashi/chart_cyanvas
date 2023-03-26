@@ -15,4 +15,11 @@ sub-sus:
 	cd frontend && ${SHELL} ./build.sh
 	docker compose --env-file $(ENV_FILE) --profile $(PROFILE) up --build -d
 
-.PHONY: frontend backend sub-audio sub-image sub-sus
+install:
+	cd frontend && pnpm install
+	cd backend && bundle install
+	cd sub-audio && poetry install
+	cd sub-image && poetry install
+	cd sub-sus && pnpm install
+
+.PHONY: frontend backend sub-audio sub-image sub-sus install

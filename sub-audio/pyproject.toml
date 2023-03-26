@@ -32,7 +32,7 @@ line-length = 120
 
 [tool.poe.tasks]
 start = "gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3202 main:app"
-dev = "uvicorn main:app --reload --port 3203"
+dev = "uvicorn main:app --reload --port 3202"
 lint-black = "black . --check"
 lint-isort = "isort . --check-only"
 lint = ["lint-black", "lint-isort"]

@@ -34,8 +34,9 @@ class FileResource < ApplicationRecord
     uploaded
   end
 
-  def self.upload_from_string(chart, kind, string)
+  def self.upload_from_string(chart_name, kind, string)
     file = StringIO.new(string)
+    chart = Chart.find_by(name: chart_name)
 
     FileResource.where(chart:, kind:).destroy_all
     uploaded =
@@ -64,6 +65,8 @@ class FileResource < ApplicationRecord
       nil
     end
   end
+
+  alias url to_frontend
 
   def to_srl
     { hash: sha1, type: TYPES[kind.to_sym], url: to_frontend }

@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby.exe
 # frozen_string_literal: true
+load File.expand_path("spring", __dir__) unless Gem.win_platform?
 require_relative "../config/boot"
 require "rake"
 Rake.application.run

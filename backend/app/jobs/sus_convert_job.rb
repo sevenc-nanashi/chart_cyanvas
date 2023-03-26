@@ -23,7 +23,7 @@ class SusConvertJob < ApplicationJob
       HTTP.get("#{ENV.fetch("SUB_SUS_HOST", nil)}/download/#{response[:id]}")
     raise "Failed to download level data!" if sus_data.status != 200
     FileResource.upload_from_string(
-      sus_resource.chart,
+      sus_resource.chart.name,
       :data,
       sus_data.body.to_s
     )

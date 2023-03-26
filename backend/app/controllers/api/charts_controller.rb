@@ -262,10 +262,12 @@ module Api
         FileResource.upload(chart, :sus, params[:chart])
       )
       BgmConvertJob.perform_later(
-        FileResource.upload(chart, :base_bgm, params[:bgm])
+        chart.name,
+        TemporaryFile.new(params[:bgm]).id
       )
-      ImageConvertJob.perform_now(
-        FileResource.upload(chart, :base_cover, params[:cover]),
+      ImageConvertJob.perform_later(
+        chart.name,
+        TemporaryFile.new(params[:cover]).id,
         :cover
       )
 
@@ -302,17 +304,21 @@ module Api
       end
 
       args = {
-        title: data_parsed[:title],
-        composer: data_parsed[:composer],
-        artist: data_parsed[:artist],
-        description: data_parsed[:description],
-        rating: data_parsed[:rating],
-        author_name: data_parsed[:author_name],
-        author_id: author.id,
-        variant_id: variant&.id,
-        is_public: data_parsed[:is_public],
-        is_sus_public: data_parsed[:is_sus_public]
-      }.compact
+        **(
+          {
+            title: data_parsed[:title],
+            composer: data_parsed[:composer],
+            artist: data_parsed[:artist],
+            description: data_parsed[:description],
+            rating: data_parsed[:rating],
+            author_name: data_parsed[:author_name],
+            author_id: author.id,
+            is_public: data_parsed[:is_public],
+            is_sus_public: data_parsed[:is_sus_public]
+          }.compact
+        ),
+        variant_id: variant&.id
+      }
       if data_parsed[:is_public] && !chart.published_at
         args[:published_at] = Time.now
       end
@@ -327,12 +333,14 @@ module Api
       end
       if params[:bgm]
         BgmConvertJob.perform_later(
-          FileResource.upload(chart, :base_bgm, params[:bgm])
+          chart.name,
+          TemporaryFile.new(params[:bgm]).id
         )
       end
       if params[:cover]
-        ImageConvertJob.perform_now(
-          FileResource.upload(chart, :base_cover, params[:cover]),
+        ImageConvertJob.perform_later(
+          chart.name,
+          TemporaryFile.new(params[:cover]).id,
           :cover
         )
       end

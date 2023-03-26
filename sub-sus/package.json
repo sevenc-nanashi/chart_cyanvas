@@ -7,7 +7,7 @@
     ".": "./dist/index.js"
   },
   "scripts": {
-    "dev": "nodemon -I --exec node --experimental-specifier-resolution=node  --loader ts-node/esm src/index.ts",
+    "dev": "nodemon --ext json,ts --exec ts-node ./src/index.ts",
     "build": "rollup -c",
     "start": "node ./dist/index.cjs",
     "lint": "eslint --ext .ts .",

@@ -6,34 +6,38 @@ require "json"
 class ImageConvertJob < ApplicationJob
   queue_as :default
 
-  def perform(image_resource, type)
-    logger.info "ImageConvertJob: #{image_resource.id}, #{type}"
+  def perform(chart_name, image_file_id, type)
+    image_file =
+      (
+        if image_file_id.is_a?(String)
+          TemporaryFile.find(image_file_id)
+        else
+          image_file_id
+        end
+      )
+    logger.info "ImageConvertJob: #{image_file.id}, #{type}"
     response =
       HTTP
         .post(
           "#{ENV.fetch("SUB_IMAGE_HOST", nil)}/convert",
           json: {
-            url: image_resource.to_frontend,
+            url: image_file.url,
             type:
           }
         )
         .then { JSON.parse(_1.body.to_s, symbolize_names: true) }
     raise "Failed to convert image file!" if response[:code] != "ok"
-    logger.info "ImageConvertJob: #{image_resource.id}: downloading image: #{response[:id]}"
+    logger.info "ImageConvertJob: #{image_file.id}: downloading image: #{response[:id]}"
     image_data =
       HTTP.get("#{ENV.fetch("SUB_IMAGE_HOST", nil)}/download/#{response[:id]}")
     raise "Failed to download image file!" if image_data.status != 200
     resource =
-      FileResource.upload_from_string(
-        image_resource.chart,
-        type,
-        image_data.body.to_s
-      )
+      FileResource.upload_from_string(chart_name, type, image_data.body.to_s)
     HTTP.delete("#{ENV.fetch("SUB_IMAGE_HOST", nil)}/download/#{response[:id]}")
     if type == :cover
-      ImageConvertJob.perform_later(resource, :background)
-      image_resource.destroy
+      ImageConvertJob.perform_later(chart_name, resource, :background)
+      image_file.delete
     end
-    ApplicationController.revalidate("/charts/#{image_resource.chart.name}")
+    ApplicationController.revalidate("/charts/#{chart_name}")
   end
 end

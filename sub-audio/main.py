@@ -46,40 +46,44 @@ async def convert(param: ConvertParam):
     dist_preview_file = NamedTemporaryFile(delete=False, suffix=".mp3")
     dist_preview_file.close()
 
-    bgm_process = await asyncio.subprocess.create_subprocess_exec(
-        "ffmpeg",
-        "-y",
-        "-i",
-        url,
-        "-c:a",
-        "libmp3lame",
-        "-b:a",
-        "192k",
-        "-ac",
-        "2",
-        "-ar",
-        "44100",
-        dist_bgm_file.name,
+    bgm_process = subprocess.Popen(
+        [
+            "ffmpeg",
+            "-y",
+            "-i",
+            url,
+            "-c:a",
+            "libmp3lame",
+            "-b:a",
+            "192k",
+            "-ac",
+            "2",
+            "-ar",
+            "44100",
+            dist_bgm_file.name,
+        ]
     )
-    preview_process = await asyncio.subprocess.create_subprocess_exec(
-        "ffmpeg",
-        "-y",
-        "-i",
-        url,
-        "-c:a",
-        "libmp3lame",
-        "-b:a",
-        "96k",
-        "-ac",
-        "1",
-        "-ar",
-        "24000",
-        "-af",
-        "atrim=start=0:end=15,afade=t=out:st=13:d=2",
-        dist_preview_file.name,
+    preview_process = subprocess.Popen(
+        [
+            "ffmpeg",
+            "-y",
+            "-i",
+            url,
+            "-c:a",
+            "libmp3lame",
+            "-b:a",
+            "96k",
+            "-ac",
+            "1",
+            "-ar",
+            "24000",
+            "-af",
+            "atrim=start=0:end=15,afade=t=out:st=13:d=2",
+            dist_preview_file.name,
+        ]
     )
-    await bgm_process.wait()
-    await preview_process.wait()
+    while bgm_process.poll() is None or preview_process.poll() is None:
+        await asyncio.sleep(0.1)
     logger.info(f"convert: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}")
     if bgm_process.returncode != 0 or preview_process.returncode != 0:
         raise Exception(

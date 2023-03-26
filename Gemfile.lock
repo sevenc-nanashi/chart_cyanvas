@@ -85,6 +85,8 @@ GEM
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
+    bootsnap (1.16.0)
+      msgpack (~> 1.2)
     builder (3.2.4)
     bullet (7.0.4)
       activesupport (>= 3.0.0)
@@ -144,6 +146,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.17.0)
+    msgpack (1.6.1)
     net-imap (0.3.4)
       date
       net-protocol
@@ -158,6 +161,8 @@ GEM
       racc (~> 1.4)
     openssl-oaep (0.1.0)
     parallel (1.22.1)
+    parallel_tests (4.2.0)
+      parallel
     parser (3.2.0.0)
       ast (~> 2.4.1)
     pg (1.4.5)
@@ -251,6 +256,7 @@ GEM
       rubocop-capybara (~> 2.17)
     ruby-progressbar (1.11.0)
     shortuuid (0.6.0)
+    spring (4.1.1)
     syntax_tree (5.2.0)
       prettier_print (>= 1.2.0)
     thor (1.2.1)
@@ -272,9 +278,11 @@ GEM
 
 PLATFORMS
   x64-mingw-ucrt
+  x86_64-linux
 
 DEPENDENCIES
   aws-sdk-s3 (~> 1.117)
+  bootsnap
   bullet
   color-generator (~> 0.0.4)
   connection_pool (~> 2.3)
@@ -284,6 +292,7 @@ DEPENDENCIES
   http (~> 5.1)
   nokogiri (~> 1.14.0.rc1)
   openssl-oaep (~> 0.1.0)
+  parallel_tests (~> 4.2)
   pg (~> 1.4)
   puma (~> 5.0)
   rails (~> 7.0.4)
@@ -295,6 +304,7 @@ DEPENDENCIES
   rubocop-discourse (~> 3.0)
   rubocop-rails (~> 2.17)
   shortuuid (~> 0.6.0)
+  spring
   syntax_tree (~> 5.1)
   tzinfo-data
   webrick (~> 1.7)
