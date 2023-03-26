@@ -8,7 +8,13 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Dotenv.load("../.env", "../.env.local")
+Dotenv.load(
+  *(
+    %w[../.env ../.env.local ../../.env ../../.env.local].map do |f|
+      __dir__ + f
+    end
+  )
+)
 
 module Backend
   class Application < Rails::Application

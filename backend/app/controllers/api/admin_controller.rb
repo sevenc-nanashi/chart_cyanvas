@@ -6,7 +6,10 @@ module Api
                code: "ok",
                data: {
                  stats: {
-                   charts: Chart.count,
+                   charts: {
+                     public: Chart.where(is_public: true).count,
+                     private: Chart.where(is_public: false).count
+                   },
                    users: User.count,
                    files:
                      FileResource
@@ -37,9 +40,11 @@ module Api
 
     around_action do |controller, action|
       if !ENV["ADMIN_HANDLE"] || current_user&.handle != ENV["ADMIN_HANDLE"]
+        logger.warn "Unauthorized admin access attempt by #{current_user&.handle} (Admin handle: #{ENV["ADMIN_HANDLE"]})"
         render json: { code: "forbidden" }, status: :forbidden
         next
       end
+
       action.call
     end
   end

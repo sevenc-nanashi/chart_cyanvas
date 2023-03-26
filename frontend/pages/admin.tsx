@@ -2,7 +2,7 @@ import { NextPage } from "next"
 import Head from "next/head"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import requireLogin from "lib/requireLogin"
 import { className } from "lib/utils"
 
@@ -11,23 +11,29 @@ const Admin: NextPage = () => {
   const { t: rootT } = useTranslation()
   const router = useRouter()
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetch("/api/admin").then(async (res) => {
-        const json = await res.json()
-        if (json.code === "forbidden") {
-          router.push("/")
-        }
+  const fetchAdmin = useCallback(() => {
+    fetch("/api/admin").then(async (res) => {
+      const json = await res.json()
+      if (json.code === "forbidden") {
+        router.push("/")
+      }
 
-        setData(json.data)
-      })
-    }, 10000)
-    return () => clearInterval(interval)
+      setData(json.data)
+    })
   }, [router])
+  useEffect(() => {
+    fetchAdmin()
+    const interval = setInterval(fetchAdmin, 10000)
+    return () => clearInterval(interval)
+  }, [fetchAdmin])
 
   const [data, setData] = useState<{
     stats: {
-      charts: number
+      charts: {
+        public: number
+        private: number
+      }
+
       users: number
       files: Record<string, number>
       jobs: {
@@ -58,8 +64,20 @@ const Admin: NextPage = () => {
             <p className="text-4xl font-bold">{data.stats.users}</p>
           </div>
           <div className={statCard}>
-            <h2 className="text-xl font-bold">{t("stats.charts")}</h2>
-            <p className="text-4xl font-bold">{data.stats.charts}</p>
+            <h2 className="text-xl font-bold">{t("stats.charts.title")}</h2>
+            <p className="text-4xl font-bold">
+              {data.stats.charts.public + data.stats.charts.private}
+            </p>
+            <div className="flex flex-col">
+              <div className="flex">
+                <p className="flex-1">{t("stats.charts.public")}</p>
+                <p className="flex-1 text-right">{data.stats.charts.public}</p>
+              </div>
+              <div className="flex">
+                <p className="flex-1">{t("stats.charts.private")}</p>
+                <p className="flex-1 text-right">{data.stats.charts.private}</p>
+              </div>
+            </div>
           </div>
           <div className={statCard}>
             <h2 className="text-xl font-bold">{t("stats.files")}</h2>

@@ -118,7 +118,10 @@ admin:
   stats:
     title: "統計"
     users: "ユーザー"
-    charts: "譜面"
+    charts:
+      title: "譜面"
+      public: "公開"
+      private: "非公開"
     files: "ファイル"
     storage: "ストレージ"
     db: "データベースサイズ"

@@ -155,7 +155,10 @@ admin:
   stats:
     title: "Stats"
     users: "Users"
-    charts: "Charts"
+    charts:
+      title: "Charts"
+      public: "Public"
+      private: "Private"
     files: "Files"
     storage: "Storage"
     db: "Database"
