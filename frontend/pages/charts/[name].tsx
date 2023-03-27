@@ -343,6 +343,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                         {
                           href: chartData.sus,
                           icon: ArrowDownloadRegular,
+                          download: true,
                           className: "bg-theme text-white",
                           text: t("download"),
                         },
@@ -361,6 +362,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                       <Link
                         href={item.href}
                         key={i}
+                        download={item.download}
                         className={className(
                           "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
                           item.className
