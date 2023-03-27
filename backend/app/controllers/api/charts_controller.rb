@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "http"
+
 class UploadValidator
   include ActiveModel::Validations
 
@@ -376,6 +378,47 @@ module Api
       revalidate("/charts/#{chart.variant_of}") if chart.variant_of
       revalidate("/users/#{chart.author.handle}")
       render json: { code: "ok" }
+    end
+
+    def download_chart
+      params.require(:name)
+
+      chart = Chart.find_by(name: params[:name])
+      unless chart
+        render json: {
+                 code: "not_found",
+                 error: "Chart not found"
+               },
+               status: :not_found
+        return
+      end
+
+      unless chart.is_public && chart.is_sus_public
+        render json: {
+                 code: "forbidden",
+                 error: "Chart is not public"
+               },
+               status: :forbidden
+        return
+      end
+
+      url = chart.resources[:sus].file.url
+      unless url
+        render json: {
+                 code: "not_found",
+                 error: "Chart not found"
+               },
+               status: :not_found
+        return
+      end
+
+      content = HTTP.get(url).to_s
+
+      send_data(
+        content,
+        filename: "#{chart.name}.sus",
+        type: "plain/text"
+      )
     end
   end
 end

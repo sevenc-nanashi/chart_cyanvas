@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get "/charts/:name", to: "api/charts#show"
     put "/charts/:name", to: "api/charts#update"
     delete "/charts/:name", to: "api/charts#delete"
+    get "/charts/:name/download_chart", to: "api/charts#download_chart"
     post "/charts", to: "api/charts#create"
 
     post "/auth", to: "api/auth#create_code"

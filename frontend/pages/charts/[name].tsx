@@ -341,9 +341,9 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                     : chartData.sus
                     ? [
                         {
-                          href: chartData.sus,
+                          href: `/api/charts/${name}/download_chart`,
                           icon: ArrowDownloadRegular,
-                          download: true,
+                          download: `${chartData.name}.sus`,
                           className: "bg-theme text-white",
                           text: t("download"),
                         },
