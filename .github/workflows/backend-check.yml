@@ -22,7 +22,8 @@ jobs:
         id: cache-gems
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-bundler-${{ hashFiles('**/Gemfile.lock') }}
+          # https://github.com/actions/runner/issues/449#issuecomment-1057832222
+          key: ${{ runner.os }}-bundler-${{ hashFiles('../../**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-bundler-
       - name: Install gems
