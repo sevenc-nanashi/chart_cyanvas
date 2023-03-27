@@ -17,7 +17,18 @@ Chart Cyanvas is a sekai custom charts platform.
 
 ## Development
 
-You need to install `make`, [Docker](https://www.docker.com/), and [`goreman` CLI](https://github.com/mattn/goreman) first.
+### Requirements
+
+- `make`
+- [Ruby 3.2](https://ruby-lang.org)
+  - [Bundler](https://bundler.io)
+- [Python 3.9](https://python.org)
+  - [Poetry](https://python-poetry.org/)
+    - [poethepoet](https://github.com/nat-n/poethepoet) as a Poetry plugin
+- [Node.js 16](https://nodejs.org)
+  - [pnpm](https://pnpm.io)
+- [Docker](https://www.docker.com/)
+- [`goreman` CLI](https://github.com/mattn/goreman)
 
 ### Install dependencies
 
@@ -35,7 +46,7 @@ docker compose --profile dev up -d
 
 ```
 goreman start
- ```
+```
 
  
  
