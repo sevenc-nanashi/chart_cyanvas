@@ -1,4 +1,4 @@
-name: "[frontend] Lint with ESLint"
+name: "[frontend] Lint, Typecheck"
 
 on:
   push:
@@ -35,6 +35,11 @@ jobs:
           cp ../.env.example .env
           pnpm i
           pnpm lint
+
+      - name: Run frontend typecheck
+        working-directory: ./frontend
+        run: |
+          pnpm typecheck
 
       - name: Dispatch build action
         if: github.ref_name == 'main'

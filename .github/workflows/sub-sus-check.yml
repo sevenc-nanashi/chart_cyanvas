@@ -1,4 +1,4 @@
-name: "[sub-sus] Lint and Test"
+name: "[sub-sus] Lint, Test, Typecheck"
 
 on:
   push:
@@ -37,8 +37,11 @@ jobs:
       - name: Run sub-sus test
         working-directory: ./sub-sus
         run: |
-          pnpm i
           pnpm test
+      - name: Run sub-sus typecheck
+        working-directory: ./sub-sus
+        run: |
+          pnpm typecheck
 
       - name: Dispatch build action
         if: github.ref_name == 'main'
