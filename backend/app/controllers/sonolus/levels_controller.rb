@@ -80,9 +80,9 @@ module Sonolus
       ].present?
       case params[:q_sort].to_i
       when 0
-        charts = charts.order(updated_at: :desc)
-      when 1
         charts = charts.order(published_at: :desc)
+      when 1
+        charts = charts.order(updated_at: :desc)
       when 2
         charts = charts.order(likes_count: :desc)
       end
@@ -138,20 +138,21 @@ module Sonolus
       else
         case params[:q_target].to_i
         when 1
-          unless current_user
-            render json: {
-                     code: "not_logged_in",
-                     error: "You must be logged in to view your charts."
-                   },
-                   status: :unauthorized
-            return
-          end
+          require_login!
           alt_users = User.where(owner_id: current_user.id)
           charts =
             charts.where(
               is_public: false,
               author_id: [current_user.id] + alt_users.map(&:id)
             )
+        when 2
+          require_login!
+          likes =
+            Like
+              .where(user_id: current_user.id)
+              .select(:chart_id)
+              .order(created_at: :desc)
+          charts = charts.where(id: likes.map(&:chart_id))
         end
       end
       page_count = (charts.count / 20.0).ceil

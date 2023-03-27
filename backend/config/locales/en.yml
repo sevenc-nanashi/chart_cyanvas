@@ -78,6 +78,7 @@ en:
       targets:
         - "Public"
         - "Testing"
+        - "Liked"
       sort: "Sort"
       sorts:
         - "Newest"

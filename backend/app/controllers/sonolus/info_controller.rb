@@ -12,7 +12,7 @@ module Sonolus
                  levels: {
                    items:
                      Chart
-                       .order(updated_at: :desc)
+                       .order(published_at: :desc)
                        .limit(5)
                        .includes(:author)
                        .eager_load(file_resources: { file_attachment: :blob })

@@ -168,9 +168,7 @@ class SonolusController < ApplicationController
       iv: Base64.strict_encode64(auth_data[:iv])
     }
     encrypted =
-      SONOLUS_PUBLIC_KEY.public_encrypt_oaep(
-        auth_data_encoded.to_json
-      )
+      SONOLUS_PUBLIC_KEY.public_encrypt_oaep(auth_data_encoded.to_json)
 
     $redis.with do |conn|
       conn.set(
@@ -195,4 +193,23 @@ class SonolusController < ApplicationController
   end
 
   after_action { headers["Sonolus-Version"] = "0.6.5" }
+
+  around_action do |_controller, action|
+    success = false
+    catch :unauthorized do
+      action.call
+      success = true
+    end
+    unless success
+      render json: {
+               code: "not_logged_in",
+               error: "You are not logged in"
+             },
+             status: :unauthorized
+    end
+  end
+
+  def require_login!
+    throw :unauthorized unless current_user
+  end
 end
