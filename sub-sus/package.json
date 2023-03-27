@@ -2,14 +2,14 @@
   "name": "sub-sus",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "exports": {
     ".": "./dist/index.js"
   },
   "scripts": {
     "dev": "nodemon --ext json,ts --exec ts-node ./src/index.ts",
     "build": "ts-node --transpileOnly ./build.ts",
-    "start": "node ./dist/index.cjs",
+    "start": "node ./dist/index.js",
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts . --fix",
     "test": "jest",
