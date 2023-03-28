@@ -7,7 +7,6 @@ export function middleware(req: NextRequest) {
       req.nextUrl.pathname.startsWith(path)
     )
   ) {
-    console.log("middleware", req.nextUrl.pathname)
     return NextResponse.next()
   }
   if (req.nextUrl.locale === "default") {
