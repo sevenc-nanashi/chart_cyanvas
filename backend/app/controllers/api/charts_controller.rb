@@ -154,14 +154,19 @@ module Api
           .order(published_at: :desc)
       chart_ids = charts.map(&:id)
       file_resources =
-        FileResource.where(chart_id: chart_ids).eager_load(file_attachment: :blob).to_a
+        FileResource
+          .where(chart_id: chart_ids)
+          .eager_load(file_attachment: :blob)
+          .to_a
       file_resources_by_chart_id = file_resources.group_by(&:chart_id)
       charts =
-        charts.map do |chart|
-          file_resources = file_resources_by_chart_id[chart.id]
-          chart.define_singleton_method(:file_resources) { file_resources }
-          chart.to_frontend(user: session_data && session_data[:user])
-        end
+        charts
+          .sort_by { |chart| chart.published_at || chart.updated_at }
+          .map do |chart|
+            file_resources = file_resources_by_chart_id[chart.id]
+            chart.define_singleton_method(:file_resources) { file_resources }
+            chart.to_frontend(user: session_data && session_data[:user])
+          end
       render json: { code: "ok", charts: }
     end
 
