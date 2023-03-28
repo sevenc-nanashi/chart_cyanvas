@@ -33,7 +33,7 @@ class Chart < ApplicationRecord
 
   scope :sonolus_listed, -> { where(variant_id: nil) }
   def resources
-    base = file_resources.with_attached_file
+    base = file_resources
     {
       sus: base.find(&:sus?),
       bgm: base.find(&:bgm?),

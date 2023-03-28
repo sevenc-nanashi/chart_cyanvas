@@ -147,14 +147,21 @@ module Api
 
       charts =
         Chart
-          .include_all
+          .preload(%i[author co_authors variants tags])
           .limit(length)
           .offset(params[:offset].to_i || 0)
           .where(**cond)
           .order(updated_at: :desc)
-          .map do |chart|
-            chart.to_frontend(user: session_data && session_data[:user])
-          end
+      chart_ids = charts.map(&:id)
+      file_resources =
+        FileResource.where(chart_id: chart_ids).eager_load(file_attachment: :blob).to_a
+      file_resources_by_chart_id = file_resources.group_by(&:chart_id)
+      charts =
+        charts.map do |chart|
+          file_resources = file_resources_by_chart_id[chart.id]
+          chart.define_singleton_method(:file_resources) { file_resources }
+          chart.to_frontend(user: session_data && session_data[:user])
+        end
       render json: { code: "ok", charts: }
     end
 
@@ -414,11 +421,7 @@ module Api
 
       content = HTTP.get(url).to_s
 
-      send_data(
-        content,
-        filename: "#{chart.name}.sus",
-        type: "plain/text"
-      )
+      send_data(content, filename: "#{chart.name}.sus", type: "plain/text")
     end
   end
 end
