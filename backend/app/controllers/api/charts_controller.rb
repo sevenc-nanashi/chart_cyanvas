@@ -151,7 +151,7 @@ module Api
           .limit(length)
           .offset(params[:offset].to_i || 0)
           .where(**cond)
-          .order(updated_at: :desc)
+          .order(published_at: :desc)
       chart_ids = charts.map(&:id)
       file_resources =
         FileResource.where(chart_id: chart_ids).eager_load(file_attachment: :blob).to_a
