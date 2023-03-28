@@ -22,6 +22,7 @@ jobs:
         with:
           node-version-file: sub-sus/.node-version
           cache: 'pnpm'
+          cache-dependency-path: sub-sus/pnpm-lock.yaml
 
       - name: Run sub-sus lint
         working-directory: ./sub-sus
