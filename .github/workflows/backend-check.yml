@@ -13,8 +13,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Get ruby version
+        id: ruby-version
+        run: |
+          echo RUBY_VERSION=$(cat backend/.ruby-version) >> $GITHUB_OUTPUT
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ steps.ruby-version.outputs.RUBY_VERSION }}
+          bundler-cache: true
       - name: Cache gems
         uses: actions/cache@v3
         id: cache-gems
