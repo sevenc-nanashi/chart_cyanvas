@@ -16,7 +16,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7.20.0
+          version: 8.0.0
       - name: Cache pnpm store
         uses: actions/cache@v3
         with:
@@ -27,7 +27,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: frontend/.node-version
 
       - name: Run frontend lint
         working-directory: ./frontend
