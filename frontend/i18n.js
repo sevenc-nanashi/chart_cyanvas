@@ -13,8 +13,8 @@ return m.default[ns]
 
 /** @type {import("next-translate").I18nConfig} */
 module.exports = {
-  locales: ["en", "ja"],
-  defaultLocale: "en",
+  locales: ["default", "en", "ja"],
+  defaultLocale: "default",
   localeDetection: true,
   defaultNS: "common",
   logger: () => {
