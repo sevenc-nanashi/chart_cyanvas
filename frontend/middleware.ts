@@ -2,7 +2,6 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 export function middleware(req: NextRequest) {
-  console.log(req.nextUrl.pathname)
   if (
     ["/api", "/_next", "/favicon.svg"].some((path) =>
       req.nextUrl.pathname.startsWith(path)
