@@ -7,7 +7,7 @@ echo "Setting up database"
 rails db:create db:migrate
 
 echo "Starting sidekiq"
-sidekiq -C config/sidekiq.yml &
+sidekiq &
 
 echo "Starting rails server"
 rails s
