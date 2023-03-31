@@ -279,7 +279,7 @@ module Api
         chart.name,
         TemporaryFile.new(params[:bgm]).id
       )
-      ImageConvertJob.perform_later(
+      ImageConvertJob.perform_now(
         chart.name,
         TemporaryFile.new(params[:cover]).id,
         :cover
@@ -352,7 +352,7 @@ module Api
         )
       end
       if params[:cover]
-        ImageConvertJob.perform_later(
+        ImageConvertJob.perform_now(
           chart.name,
           TemporaryFile.new(params[:cover]).id,
           :cover
