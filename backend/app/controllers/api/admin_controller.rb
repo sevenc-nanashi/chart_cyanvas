@@ -16,15 +16,6 @@ module Api
                        .all
                        .group_by(&:kind)
                        .transform_values(&:count),
-                   jobs:
-                     $redis.with { |conn|
-                       {
-                         active: conn.get("job_count").to_i,
-                         total: conn.get("total_job_count").to_i,
-                         success: conn.get("success_job_count").to_i,
-                         error: conn.get("error_job_count").to_i
-                       }
-                     }
                  }
                }
              }

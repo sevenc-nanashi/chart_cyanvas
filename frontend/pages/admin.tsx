@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
 import requireLogin from "lib/requireLogin"
 import { className } from "lib/utils"
+import Link from "next/link"
 
 const Admin: NextPage = () => {
   const { t } = useTranslation("admin")
@@ -36,12 +37,6 @@ const Admin: NextPage = () => {
 
       users: number
       files: Record<string, number>
-      jobs: {
-        active: number
-        total: number
-        success: number
-        error: number
-      }
     }
   } | null>(null)
 
@@ -94,15 +89,11 @@ const Admin: NextPage = () => {
             </div>
           </div>
           <div className={statCard}>
-            <h2 className="text-xl font-bold">{t("stats.jobs.title")}</h2>
-            <p className="text-4xl font-bold">
-              {data.stats.jobs.active} / {data.stats.jobs.total} <br />
-              <span className="text-sm">
-                {t("stats.jobs.details", {
-                  success: data.stats.jobs.success,
-                  error: data.stats.jobs.error,
-                })}
-              </span>
+            <h2 className="text-xl font-bold">{t("sidekiq.title")}</h2>
+            <p className="text-md">
+              <Link href="/admin/sidekiq" target="_blank">
+                {t("sidekiq.description")}
+              </Link>
             </p>
           </div>
         </div>

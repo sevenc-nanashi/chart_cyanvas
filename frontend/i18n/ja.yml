@@ -125,9 +125,9 @@ admin:
     files: "ファイル"
     storage: "ストレージ"
     db: "データベースサイズ"
-    jobs:
-      title: "ジョブ"
-      details: "成功：{{success}} / 失敗：{{error}}"
+  sidekiq:
+    title: "ジョブ（Sidekiq）"
+    description: "バックグラウンドジョブの状態を確認できます。"
 
   actions:
     title: "コマンド"

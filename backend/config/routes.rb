@@ -1,11 +1,20 @@
 # frozen_string_literal: true
 # rubocop:disable Style/FormatStringToken
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
   # root "articles#index"
   get "/", to: "application#index"
+
+  mount Sidekiq::Web => "/admin/sidekiq",
+        :constraints => ->(req) {
+          User.find_by(id: req.session[:user_id])&.handle == ENV["ADMIN_HANDLE"]
+        }
+  get "/admin/sidekiq" => redirect("/")
+  get "/admin/sidekiq/*path" => redirect("/")
 
   scope "/api" do
     get "/users/:handle", to: "api/users#show"

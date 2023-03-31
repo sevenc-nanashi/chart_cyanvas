@@ -162,9 +162,9 @@ admin:
     files: "Files"
     storage: "Storage"
     db: "Database"
-    jobs:
-      title: "Jobs"
-      details: "Success: {{success}}, Error: {{error}}"
+  sidekiq:
+    title: "Jobs (Sidekiq)"
+    description: "You can see the status of background jobs here."
 
   actions:
     title: "Commands"
