@@ -1,11 +1,11 @@
 import { NextPage } from "next"
 import Head from "next/head"
 import useTranslation from "next-translate/useTranslation"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
 import requireLogin from "lib/requireLogin"
 import { className } from "lib/utils"
-import Link from "next/link"
 
 const Admin: NextPage = () => {
   const { t } = useTranslation("admin")
