@@ -50,7 +50,7 @@ const EditChart: NextPage<{ chartData: Chart }> = ({ chartData }) => {
         tags: chartData.tags.map((tag) => ({ id: tag, text: tag })),
         rating: chartData.rating,
         authorHandle: chartData.author.handle,
-        authorName: chartData.author.name,
+        authorName: chartData.authorName || chartData.author.name,
         isPublic: chartData.isPublic,
         isSusPublic: !!chartData.sus,
         variant: chartData.variantOf?.name || "",
