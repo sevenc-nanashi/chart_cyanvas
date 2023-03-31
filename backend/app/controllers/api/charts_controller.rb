@@ -25,7 +25,6 @@ class UploadValidator
               message: "tooLong"
             }
   validates :description,
-            presence: PRESENCE,
             length: {
               maximum: 500,
               message: "tooLong"
