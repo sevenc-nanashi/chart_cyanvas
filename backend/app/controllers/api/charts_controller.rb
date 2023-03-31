@@ -24,11 +24,7 @@ class UploadValidator
               maximum: 50,
               message: "tooLong"
             }
-  validates :description,
-            length: {
-              maximum: 500,
-              message: "tooLong"
-            }
+  validates :description, length: { maximum: 500, message: "tooLong" }
   validates :composer,
             presence: PRESENCE,
             length: {
@@ -161,6 +157,7 @@ module Api
       charts =
         charts
           .sort_by { |chart| chart.published_at || chart.updated_at }
+          .reverse
           .map do |chart|
             file_resources = file_resources_by_chart_id[chart.id]
             chart.define_singleton_method(:file_resources) { file_resources }
