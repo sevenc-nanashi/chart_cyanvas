@@ -21,7 +21,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ steps.ruby-version.outputs.RUBY_VERSION }}
-          bundler-cache: true
       - name: Cache gems
         uses: actions/cache@v3
         id: cache-gems
