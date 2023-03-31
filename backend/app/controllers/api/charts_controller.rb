@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "http"
-
 class UploadValidator
   include ActiveModel::Validations
 
@@ -420,9 +418,11 @@ module Api
         return
       end
 
-      content = HTTP.get(url).to_s
-
-      send_data(content, filename: "#{chart.name}.sus", type: "plain/text")
+      send_data(
+        chart.resources[:sus].file.download,
+        filename: "#{chart.name}.sus",
+        type: "plain/text"
+      )
     end
   end
 end
