@@ -39,5 +39,7 @@ module Backend
     config.middleware.use ActionDispatch::Flash
 
     config.paths.add "lib", eager_load: true
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

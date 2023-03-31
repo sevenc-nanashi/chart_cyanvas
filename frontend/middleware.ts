@@ -2,8 +2,9 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 export function middleware(req: NextRequest) {
+  console.log(req.nextUrl.pathname)
   if (
-    ["/api", "/_next", "/favicon.ico"].some((path) =>
+    ["/api", "/_next", "/favicon.svg"].some((path) =>
       req.nextUrl.pathname.startsWith(path)
     )
   ) {
@@ -18,5 +19,5 @@ export function middleware(req: NextRequest) {
   }
 }
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.svg|rails).*)"],
 }

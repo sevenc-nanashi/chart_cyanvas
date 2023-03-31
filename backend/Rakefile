@@ -10,17 +10,6 @@ task :lint do
   sh "rubocop"
 end
 
-task :start do
-  puts "Deleting pid file"
-  FileUtils.rm_f("tmp/pids/server.pid")
-
-  puts "Setting up database"
-  sh "rails db:create db:migrate"
-
-  puts "Starting server"
-  sh "rails s"
-end
-
 task :format do
   sh "stree write ./**/*.rb"
   sh "rubocop -a"
