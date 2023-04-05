@@ -133,7 +133,8 @@ module Api
           return
         end
         cond.delete(:is_public)
-        cond[:author_id] = user_id
+        alts = User.where(owner_id: user_id).pluck(:id)
+        cond[:author_id] = [user_id, *alts]
       else
         cond[:variant_id] = nil
       end
