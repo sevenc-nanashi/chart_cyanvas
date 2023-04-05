@@ -78,7 +78,6 @@ module Api
 
       user.charts.update_all(
         author_id: session[:user_id],
-        author_handle: current_user.handle,
         author_name: nil
       )
       user.destroy!
