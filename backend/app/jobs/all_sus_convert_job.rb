@@ -7,6 +7,6 @@ class AllSusConvertJob < ApplicationJob
     sus_list = FileResource.where(kind: :sus)
     logger.info "AllSusConvertJob: #{sus_list.count}"
 
-    sus_list.each { |sus_resource| SusConvertJob.perform_now(sus_resource) }
+    sus_list.each { |sus_resource| SusConvertJob.perform_later(sus_resource) }
   end
 end
