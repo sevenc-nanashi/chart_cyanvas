@@ -76,7 +76,7 @@ class Chart < ApplicationRecord
       description:,
       isPublic: is_public,
       variantOf:
-        variant_id && Chart.find(variant_id).to_frontend(with_variants: false)
+        with_variants && variant_id && Chart.find(variant_id).to_frontend(with_variants: false)
     }
   end
 
