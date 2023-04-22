@@ -169,15 +169,9 @@ module Sonolus
     def show
       params.require(:name)
       chart =
-        Rails
-          .cache
-          .fetch("/charts/#{params[:name]}", expires_in: 1.hour) do
-            Chart.eager_load(
-              file_resources: {
-                file_attachment: :blob
-              }
-            ).find_by(name: params[:name])
-          end
+        Chart.eager_load(file_resources: { file_attachment: :blob }).find_by(
+          name: params[:name]
+        )
       if chart
         user_faved = chart.likes.exists?(user_id: current_user&.id)
         render json: {
