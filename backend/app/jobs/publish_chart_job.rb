@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PublishChartJob < ApplicationJob
   queue_as :default
 
