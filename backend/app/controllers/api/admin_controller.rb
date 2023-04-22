@@ -7,8 +7,9 @@ module Api
                data: {
                  stats: {
                    charts: {
-                     public: Chart.where(is_public: true).count,
-                     private: Chart.where(is_public: false).count
+                     public: Chart.where(visibility: :public).count,
+                     scheduled: Chart.where(visibility: :scheduled).count,
+                     private: Chart.where(visibility: :private).count,
                    },
                    users: User.count,
                    files:

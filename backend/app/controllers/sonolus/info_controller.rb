@@ -16,7 +16,7 @@ module Sonolus
                        .limit(5)
                        .includes(:author)
                        .eager_load(file_resources: { file_attachment: :blob })
-                       .where(is_public: true)
+                       .where(visibility: :public)
                        .sonolus_listed
                        .map(&:to_sonolus),
                    search: {

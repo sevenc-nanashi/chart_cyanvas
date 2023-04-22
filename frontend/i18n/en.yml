@@ -74,24 +74,41 @@ upload:
     rating: "Difficulty"
 
     variant: "Variant of"
-    variantNote: |
+    description: "Description"
+    cover: "Cover image"
+    chart: "Chart file"
+    bgm: "BGM file"
+
+    tags: "Tags"
+
+    author: "Author"
+
+  tooltip:
+    rating: |
+      You can select difficulty from 1 to 99. Use the right input box to specify number bigger than 40.
+
+    variant: |
       If this chart is a variant of another chart, select it here.
       Your chart will be linked to the original chart.
       You should set if the chart is a another difficulty of the original chart.
-    description: "Description"
-    cover: "Cover image"
-    coverNote: "This image will be resized to 512x512."
-    chart: "Chart file"
-    chartNote: ".sus file is required."
-    isSusPublic: "Let users download .sus file"
-    bgm: "BGM file"
-    bgmNote: "This file will be reencoded to Stereo 192kbps MP3."
 
-    tags: "Tags"
-    tagsNote: "Separate tags with spaces, commas, or newlines. Maximum 5 tags."
+    tags: |
+      Separate tags with spaces, commas, or newlines. Maximum 5 tags.
 
-    author: "Author"
-    isPublic: "Public"
+  visibility:
+    title: "Visibility"
+    public: "Public"
+    scheduled: "Scheduled"
+    private: "Private"
+
+    description:
+      public: Anyone can see this chart. The chart will be listed in chart list.
+      scheduled: Only you can see this chart until the scheduled date.
+      private: Only you can see this chart. Share the URL to let others see it.
+
+  dndHint: "Click or drag files to upload. You can drop multiple files at once."
+
+  isChartPublic: Allow others to download the chart file
 
   submit: "Upload"
   update: "Update"

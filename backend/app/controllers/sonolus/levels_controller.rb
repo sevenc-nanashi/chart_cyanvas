@@ -134,17 +134,16 @@ module Sonolus
         charts = charts.where(author_id: authors)
       end
       if !params[:q_target] || params[:q_target].to_i.zero?
-        charts = charts.where(is_public: true)
+        charts = charts.where(visibility: :public)
       else
         case params[:q_target].to_i
         when 1
           require_login!
           alt_users = User.where(owner_id: current_user.id)
           charts =
-            charts.where(
-              is_public: false,
-              author_id: [current_user.id] + alt_users.map(&:id)
-            )
+            charts
+              .where(author_id: [current_user.id] + alt_users.map(&:id))
+              .where.not(visibility: :public)
         when 2
           require_login!
           likes =

@@ -64,7 +64,6 @@ class SonolusController < ApplicationController
         if (u = User.find_by(handle: user_profile[:handle]))
           if table_contents.each_pair.any? { |k, v| u[k] != v }
             logger.info "User #{u.handle} updated, updating table"
-            revalidate("/users/#{u.handle}")
             u.update!(table_contents)
           else
             logger.info "User #{u.handle} not updated, skipping table update"

@@ -19,7 +19,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
 
   return (
     <div
-      className="top-0 left-0 right-0 h-[100lvh] fixed bg-slate-900 dark:bg-slate-100 bg-opacity-20 dark:bg-opacity-20 z-50"
+      className="top-0 left-0 right-0 h-[100lvh] fixed bg-slate-900 dark:bg-black bg-opacity-20 dark:bg-opacity-40 z-50"
       onClick={close}
     >
       <div

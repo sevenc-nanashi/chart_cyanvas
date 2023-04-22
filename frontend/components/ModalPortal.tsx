@@ -1,17 +1,17 @@
-import { useRef } from "react"
+import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 
 const ModalPortal: React.FC<{
   children: React.ReactNode
   isOpen: boolean
 }> = ({ children, isOpen }) => {
-  const everOpened = useRef(false)
+  const [hide, setHide] = useState(true)
 
-  if (isOpen) {
-    everOpened.current = true
-  }
+  useEffect(() => {
+    setHide(false)
+  }, [])
 
-  if (!everOpened.current) {
+  if (hide) {
     return null
   }
 
@@ -24,7 +24,7 @@ const ModalPortal: React.FC<{
       }}
     >
       {isOpen && (
-        <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-4">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4">
           {children}
         </div>
       )}

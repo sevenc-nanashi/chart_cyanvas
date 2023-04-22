@@ -229,7 +229,12 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
               )}
             >
               {chartData.title}
-              {chartData.isPublic || (
+              {chartData.visibility === "scheduled" && (
+                <span className="ml-2 text-slate-900 dark:text-white">
+                  <ClockRegular />
+                </span>
+              )}
+              {chartData.visibility === "private" && (
                 <span className="ml-2 text-slate-900 dark:text-white">
                   <LockClosedRegular />
                 </span>

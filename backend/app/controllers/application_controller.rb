@@ -15,27 +15,4 @@ class ApplicationController < ActionController::API
   after_action do
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
   end
-
-  def self.revalidate(path)
-    %w[ja en].each do |lang|
-      HTTP.post(
-        "#{ENV.fetch("FRONTEND_HOST", nil)}/api/next/revalidate",
-        json: {
-          path: "/#{lang}#{path}"
-        }
-      )
-    end
-    HTTP.post(
-      "#{ENV.fetch("FRONTEND_HOST", nil)}/api/next/revalidate",
-      json: {
-        path: "/#{path}"
-      }
-    )
-    deleted = Rails.cache.delete(path)
-    logger.info "Revalidate: #{path}, deleted: #{deleted}"
-  end
-
-  def revalidate(path)
-    self.class.revalidate(path)
-  end
 end

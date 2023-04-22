@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-theme dark:bg-slate-900 flex items-center pl-4 pr-8 h-20 shadow-sm shadow-[#83ccd288]">
+      <header className="bg-theme dark:bg-gray-800 flex items-center pl-4 pr-8 h-20 shadow-sm shadow-[#83ccd288]">
         <Link href="/" className="flex items-center">
           <LogoCF
             alt="logo"

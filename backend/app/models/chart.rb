@@ -6,9 +6,11 @@ class Chart < ApplicationRecord
   belongs_to :author, class_name: "User"
   counter_culture :author,
                   column_name:
-                    proc { |model| model.is_public ? "charts_count" : nil },
+                    proc { |model|
+                      model.visibility_public? ? "charts_count" : nil
+                    },
                   column_names: {
-                    ["charts.is_public = ?", true] => "charts_count"
+                    ["charts.visibility = ?", 1] => "charts_count"
                   }
 
   has_many :file_resources, dependent: :destroy
@@ -24,6 +26,9 @@ class Chart < ApplicationRecord
              inverse_of: :variants
   has_many :likes, dependent: :destroy
   has_many :tags, dependent: :destroy
+
+  VISIBILITY = { private: 0, public: 1, scheduled: 2 }
+  enum :visibility, VISIBILITY, prefix: "visibility"
 
   def self.include_all
     preload(%i[author co_authors variants tags file_resources]).merge(
@@ -57,7 +62,7 @@ class Chart < ApplicationRecord
       coAuthors: co_authors.map(&:to_frontend),
       cover: resources[:cover]&.to_frontend,
       bgm: resources[:bgm]&.to_frontend,
-      sus: is_sus_public ? resources[:sus]&.to_frontend : nil,
+      sus: is_chart_public? ? resources[:sus]&.to_frontend : nil,
       data: resources[:data]&.to_frontend,
       variants:
         (
@@ -74,9 +79,11 @@ class Chart < ApplicationRecord
       likes:,
       liked: user ? likes.exists?(user:) : false,
       description:,
-      isPublic: is_public,
+      visibility:,
+      scheduledAt: scheduled_at&.iso8601,
       variantOf:
-        with_variants && variant_id && Chart.find(variant_id).to_frontend(with_variants: false)
+        with_variants && variant_id &&
+          Chart.find(variant_id).to_frontend(with_variants: false)
     }
   end
 

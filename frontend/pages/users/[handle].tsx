@@ -101,7 +101,7 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
               <>
                 <h1 className="text-4xl font-bold">
                   {user.name}
-                  <span className="text-xl font-semibold">#{user.handle}</span>
+                  <span className="text-xl">#{user.handle}</span>
                 </h1>
 
                 <p className="text-lg mt-4">

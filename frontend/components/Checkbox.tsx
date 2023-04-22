@@ -9,6 +9,7 @@ const Checkbox: React.FC<
   Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> & {
     label: string
     size?: "sm" | "md"
+    name?: string
   }
 > = ({ label, size, checked, onChange, ...props }) => {
   const ref = useRef<HTMLInputElement>(null)
@@ -41,6 +42,7 @@ const Checkbox: React.FC<
         }}
         {...props}
         className="hidden"
+        data-name={props.name}
       />
       {checked ? (
         <CheckboxCheckedFilled className={className("text-theme", sizeClass)} />

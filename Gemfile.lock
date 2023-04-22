@@ -157,7 +157,9 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.8)
-    nokogiri (1.14.0.rc1-x64-mingw-ucrt)
+    nokogiri (1.14.3-x64-mingw-ucrt)
+      racc (~> 1.4)
+    nokogiri (1.14.3-x86_64-linux)
       racc (~> 1.4)
     openssl-oaep (0.1.0)
     parallel (1.22.1)
@@ -203,6 +205,8 @@ GEM
     rainbow (3.1.1)
     rake (13.0.6)
     redis (4.8.0)
+    redis-client (0.14.1)
+      connection_pool
     regexp_parser (2.6.2)
     reline (0.3.2)
       io-console (~> 0.5)
@@ -256,6 +260,11 @@ GEM
       rubocop-capybara (~> 2.17)
     ruby-progressbar (1.11.0)
     shortuuid (0.6.0)
+    sidekiq (7.0.7)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.11.0)
     spring (4.1.1)
     syntax_tree (5.2.0)
       prettier_print (>= 1.2.0)
@@ -304,6 +313,7 @@ DEPENDENCIES
   rubocop-discourse (~> 3.0)
   rubocop-rails (~> 2.17)
   shortuuid (~> 0.6.0)
+  sidekiq (~> 7.0)
   spring
   syntax_tree (~> 5.1)
   tzinfo-data

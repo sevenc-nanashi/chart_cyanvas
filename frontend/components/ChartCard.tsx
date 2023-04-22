@@ -1,4 +1,5 @@
 import {
+  ClockRegular,
   EditRegular,
   HeartRegular,
   LockClosedRegular,
@@ -31,7 +32,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
       className={className(
         "p-2 h-40 md:h-48 w-[480px] max-w-[calc(100vw_-_2rem)] shadow-sm rounded-xl flex relative",
         "dark:shadow-slate-700/25",
-        data?.isPublic
+        data?.visibility === "public"
           ? "bg-slate-100 dark:bg-slate-900"
           : "bg-slate-200 dark:bg-gray-900",
         data && "transition-shadow duration-200 hover:shadow-theme/50"
@@ -56,13 +57,22 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
           >
             Lv. {data.rating}
           </div>
-          {data.isPublic || (
+          {data.visibility === "private" && (
             <div
               className={
                 "absolute text-xs top-2 right-2 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white"
               }
             >
               <LockClosedRegular className="h-6 w-6 text-slate-900 dark:text-white" />
+            </div>
+          )}
+          {data.visibility === "scheduled" && (
+            <div
+              className={
+                "absolute text-xs top-2 right-2 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white"
+              }
+            >
+              <ClockRegular className="h-6 w-6 text-slate-900 dark:text-white" />
             </div>
           )}
           <div className="ml-2 flex flex-col flex-grow">

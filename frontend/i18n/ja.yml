@@ -72,22 +72,38 @@ upload:
     rating: "難易度"
 
     variant: "派生元譜面"
-    variantNote: "派生元譜面のIDを指定して下さい。派生元譜面の概要欄に表示されます。難易度差分などの譜面は派生元譜面を指定してください。"
     description: "説明"
 
-    cover: "ジャケット画像"
-    coverNote: "画像は512x512pxの正方形にリサイズされます。"
-    chart: "譜面データ"
-    chartNote: ".sus形式でアップロードしてください。"
-    isSusPublic: "譜面ファイルを公開する"
-    bgm: "音源"
-    bgmNote: "音源はステレオ192kbpsのmp3形式に変換されます。"
+    cover: "ジャケット（.jpg、.png）"
+    chart: "譜面（.sus）"
+    bgm: "音源（.mp3、.wav、.ogg）"
 
     tags: "タグ"
-    tagsNote: "スペース、カンマ、改行でタグを追加できます。最大5個まで。"
 
     author: "譜面作者"
-    isPublic: "一般公開する"
+
+  tooltip:
+    rating: "1から99までを指定できます。40より大きい譜面を指定する場合は、右の入力欄から直接入力してください。"
+    variant: "派生元譜面のIDを指定して下さい。派生元譜面の概要欄に表示されます。難易度差分などの譜面は派生元譜面を指定してください。"
+    tags: "スペース、カンマ、改行でタグを追加できます。最大5個まで。"
+
+  visibility:
+    title: "公開設定"
+    public: "一般公開"
+    scheduled: "予約公開"
+    private: "非公開"
+    description:
+      public: |
+        トップやSonolusサーバー上に表示されます。
+      scheduled: |
+        指定した時刻以降になると公開されます。
+      private: |
+        「テスト中」表示でしか表示されません。
+        URLを共有することで、他の人にも見せることができます。
+
+  dndHint: "ファイルはドラッグ&ドロップでもアップロードできます。ジャケット・音源・譜面を同時にアップロードすることもできます。"
+
+  isChartPublic: "譜面ファイルを公開する"
 
   submit: "アップロード"
   update: "更新"

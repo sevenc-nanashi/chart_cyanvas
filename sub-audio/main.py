@@ -23,7 +23,7 @@ if BACKEND_HOST is None:
 print(f"BACKEND_HOST = {BACKEND_HOST}")
 SIZE = 512
 
-app = fastapi.FastAPI(docs_url=None, redoc_url=None)
+app = fastapi.FastAPI()
 redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
 
 

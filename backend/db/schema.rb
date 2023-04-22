@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_27_140227) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_06_030051) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,9 +49,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_140227) do
     t.bigint "author_id", null: false
     t.text "description", null: false
     t.integer "rating", null: false
-    t.boolean "is_public", default: false, null: false
     t.boolean "is_deleted", default: false, null: false
-    t.boolean "is_sus_public", default: false, null: false
+    t.boolean "is_chart_public", default: false, null: false
     t.bigint "variant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -59,6 +58,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_140227) do
     t.string "author_name"
     t.datetime "published_at"
     t.integer "likes_count", default: 0, null: false
+    t.integer "visibility", default: 0
+    t.string "scheduled_job_id"
+    t.datetime "scheduled_at"
     t.index ["author_id"], name: "index_charts_on_author_id"
     t.index ["name"], name: "index_charts_on_name"
     t.index ["variant_id"], name: "index_charts_on_variant_id"

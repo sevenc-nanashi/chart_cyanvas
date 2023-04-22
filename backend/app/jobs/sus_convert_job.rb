@@ -27,7 +27,5 @@ class SusConvertJob < ApplicationJob
       :data,
       sus_data.body.to_s
     )
-
-    ApplicationController.revalidate("/charts/#{sus_resource.chart.name}")
   end
 end

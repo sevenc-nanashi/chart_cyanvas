@@ -1,28 +1,350 @@
-import type { NextPage } from "next"
+import { NextPage } from "next"
 import Head from "next/head"
 import Link from "next/link"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { WithContext as ReactTags } from "react-tag-input"
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react"
+import { Tag, WithContext as ReactTags } from "react-tag-input"
 import useTranslation from "next-translate/useTranslation"
 import Trans from "next-translate/Trans"
-
+import { Range, getTrackBackground } from "react-range"
 import {
   ChevronDownRegular,
   DocumentAddRegular,
+  DocumentRegular,
+  ImageRegular,
+  InfoRegular,
   LockClosedRegular,
+  MusicNote2Regular,
 } from "@fluentui/react-icons"
-
 import urlcat from "urlcat"
 import { useRouter } from "next/router"
 import { useServerError, useSession } from "lib/atom"
-
-import FileInput from "components/FileInput"
 import { className } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import Checkbox from "components/Checkbox"
-import DisablePortal from "components/DisablePortal"
 import requireLogin from "lib/requireLogin"
+import DisablePortal from "components/DisablePortal"
 
+const FileUploadButton = (props: {
+  accept: string
+  name: string
+  text: string
+  icon: JSX.Element
+  error?: string
+}) => {
+  const fileInput = useRef<HTMLInputElement>(null)
+  const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+  return (
+    <div
+      className={className(
+        "flex !text-left items-center xl:flex-col flex-row rounded py-4 mb-4",
+        "bg-theme dark:text-white bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-20 border-2",
+        "cursor-pointer hover:bg-opacity-20 button relative",
+        fileInput.current?.files?.item(0)
+          ? "border-theme dark:border-theme"
+          : "border-slate-300 dark:border-white"
+      )}
+      onClick={() => {
+        fileInput.current?.click()
+      }}
+    >
+      <div className="w-12 h-12 [&>svg]:w-full [&>svg]:h-full">
+        {props.icon}
+      </div>
+
+      <span className="text-lg">
+        {fileInput.current?.files?.item(0)?.name || props.text}
+        {props.error && (
+          <>
+            <span className="text-sm text-red-500 xl:absolute xl:left-0 xl:right-0 xl:text-center xl:-bottom-6">
+              <br />
+              {props.error}
+            </span>
+          </>
+        )}
+      </span>
+      <input
+        type="file"
+        data-name={props.name}
+        accept={props.accept}
+        hidden
+        ref={fileInput}
+        onChange={() => {
+          forceUpdate()
+        }}
+      />
+    </div>
+  )
+}
+const InputTitle = (props: {
+  text: string
+  optional?: boolean
+  tooltip?: string | undefined
+  className?: string
+  containerClassName?: string
+  children: ReactNode
+  error?: string
+}) => {
+  const { t } = useTranslation("upload")
+  const [isTooltipShown, setIsTooltipShown] = useState(false)
+  return (
+    <div className={className("mt-2", props.containerClassName)}>
+      <h3 className="text-lg font-bold">
+        {props.text}
+        {props.optional && t("optional")}
+        {props.tooltip && (
+          <div
+            className="inline-block relative cursor-help"
+            onMouseOver={() => setIsTooltipShown(true)}
+            onMouseLeave={() => setIsTooltipShown(false)}
+          >
+            {isTooltipShown && (
+              <div
+                className={className(
+                  "absolute bottom-full p-2 rounded font-sans left-[-8rem] right-[-8rem]",
+                  "text-sm bg-slate-100 dark:bg-slate-700 shadow pointer-none"
+                )}
+              >
+                {props.tooltip}
+              </div>
+            )}
+            <InfoRegular />
+          </div>
+        )}
+        {props.error && (
+          <span className="ml-4 font-sans text-sm text-red-500">
+            {props.error}
+          </span>
+        )}
+      </h3>
+
+      <div className={className("w-full", props.className)}>
+        {props.children}
+      </div>
+    </div>
+  )
+}
+const TextInput = (props: {
+  name: string
+  placeholder?: string
+  monospace?: boolean
+  prefix?: string
+  defaultValue?: string
+  error?: string | undefined
+  disabled?: boolean
+  maxLength?: number
+  className?: string
+  textarea?: boolean
+  optional?: boolean
+}) => {
+  return props.prefix ? (
+    <div
+      className={className(
+        "text-input !p-0 flex",
+        props.className,
+        props.error && "text-input-error",
+        props.monospace && "font-monospace"
+      )}
+    >
+      <div className="border-r-2 bg-slate-100 dark:bg-gray-900 border-slate-300 dark:border-slate-700 p-2 dark:text-slate-200">
+        {props.prefix}
+      </div>
+      <input
+        type="text"
+        className="outline-none p-2 w-full"
+        disabled={props.disabled}
+        maxLength={props.maxLength}
+        defaultValue={props.defaultValue}
+        data-name={props.name}
+        data-optional={props.optional}
+        placeholder={props.placeholder}
+      />
+    </div>
+  ) : props.textarea ? (
+    <textarea
+      className={className(
+        "text-input",
+        props.className,
+        props.error && "text-input-error",
+        props.monospace && "font-monospace"
+      )}
+      disabled={props.disabled}
+      maxLength={props.maxLength}
+      defaultValue={props.defaultValue}
+      data-name={props.name}
+      data-optional={props.optional}
+      placeholder={props.placeholder}
+    />
+  ) : (
+    <input
+      type="text"
+      className={className(
+        "text-input",
+        props.className,
+        props.error && "text-input-error",
+        props.monospace && "font-monospace"
+      )}
+      disabled={props.disabled}
+      maxLength={props.maxLength}
+      defaultValue={props.defaultValue}
+      data-name={props.name}
+      data-optional={props.optional}
+      placeholder={props.placeholder}
+    />
+  )
+}
+const NumberInput = (props: {
+  name: string
+  max?: number
+  min?: number
+  error?: string | undefined
+  monospace?: boolean
+  className?: string
+  value?: number
+  onChange?: (value: number) => void
+}) => {
+  return (
+    <input
+      type="number"
+      className={className(
+        "text-input text-right",
+        props.className,
+        props.error && "text-input-error",
+        props.monospace && "font-monospace"
+      )}
+      onChange={(e) => {
+        props.onChange?.(e.target.valueAsNumber)
+      }}
+      value={props.value}
+      max={props.max}
+      min={props.min}
+    />
+  )
+}
+const RangeInput = (props: {
+  min: number
+  max: number
+  step: number
+  name: string
+  defaultValue?: number
+  value?: number
+  onChange?: (value: number) => void
+}) => {
+  const [values, setValues] = useState([props.defaultValue ?? props.min])
+
+  const value = [
+    Math.max(
+      props.min,
+      Math.min(props.max, props.value != null ? props.value : values[0])
+    ),
+  ]
+
+  return (
+    <>
+      <Range
+        step={props.step}
+        min={props.min}
+        max={props.max}
+        values={value}
+        onChange={(values) => {
+          if (props.value != null) {
+            props.onChange?.(values[0])
+          } else {
+            setValues(values)
+          }
+        }}
+        renderTrack={({ props: rProps, children }) => (
+          <div
+            onMouseDown={rProps.onMouseDown}
+            onTouchStart={rProps.onTouchStart}
+            style={{
+              ...rProps.style,
+            }}
+            className={"h-2 bg-gray-200 dark:bg-gray-900 rounded flex"}
+          >
+            <div
+              ref={rProps.ref}
+              className="h-2 w-full self-center rounded"
+              style={{
+                background: getTrackBackground({
+                  values: value,
+                  colors: ["#83ccd2", "#0000"],
+                  min: props.min,
+                  max: props.max,
+                }),
+              }}
+            >
+              {children}
+            </div>
+          </div>
+        )}
+        renderThumb={({ props }) => (
+          <div {...props} className="w-4 h-4 bg-theme rounded-full" />
+        )}
+      />
+      <input
+        type="range"
+        value={values[0]}
+        data-name={props.name}
+        readOnly
+        hidden
+      />
+    </>
+  )
+}
+const ScheduleInput = (props: {
+  name: string
+  defaultValue?: Date
+  onChange?: (value: Date) => void
+}) => {
+  const currentDate = useMemo(() => {
+    const date = new Date()
+
+    return date
+  }, [])
+
+  const defaultValue = new Date(props.defaultValue || currentDate)
+
+  defaultValue.setMinutes(
+    defaultValue.getMinutes() - defaultValue.getTimezoneOffset()
+  )
+
+  const [scheduledAt, setScheduledAt] = useState(defaultValue)
+
+  const displayValue = scheduledAt
+    .toISOString()
+    .replace(/:[0-9]+\.[0-9]+Z.*/g, "")
+
+  return (
+    <input
+      type="datetime-local"
+      className="text-input w-full mt-2"
+      onChange={(e) => {
+        const current = new Date()
+        current.setMinutes(current.getMinutes() - current.getTimezoneOffset())
+        const maybeNew = e.target.valueAsDate
+        const next = maybeNew
+          ? current.getTime() > maybeNew.getTime()
+            ? current
+            : maybeNew
+          : current
+        const utcNext = new Date(next)
+        utcNext.setMinutes(utcNext.getMinutes() + utcNext.getTimezoneOffset())
+        props.onChange?.(utcNext)
+        setScheduledAt(next)
+      }}
+      value={displayValue}
+      data-name={props.name}
+    />
+  )
+}
 type FormData = {
   title: string
   description: string
@@ -33,16 +355,17 @@ type FormData = {
   authorHandle: string
   authorName: string
   variant: string
-  isPublic: boolean
-  chart: File | null
-  bgm: File | null
-  cover: File | null
-  isSusPublic: boolean
+  chart: File | undefined
+  bgm: File | undefined
+  cover: File | undefined
+  isChartPublic: boolean
+  visibility: "public" | "private" | "scheduled"
+  scheduledAt: Date | undefined
 }
-
 const UploadChart: NextPage<
-  { isEdit: true; chartData: FormData } | { isEdit: false; chartData: null }
-> = ({ isEdit, chartData: firstForm }) => {
+  | { isEdit: true; chartData: FormData }
+  | { isEdit: false; chartData: undefined }
+> = ({ isEdit, chartData }) => {
   const { t } = useTranslation("upload")
   const { t: rootT } = useTranslation()
   const { t: errorT } = useTranslation("errors")
@@ -55,144 +378,64 @@ const UploadChart: NextPage<
     throw new Error("Not logged in")
   }
 
-  const fields = useMemo(
-    () =>
-      [
-        [
-          {
-            name: "title",
-            type: "input",
-          },
-          {
-            name: "composer",
-
-            type: "input",
-          },
-          {
-            name: "artist",
-            type: "input",
-            optional: true,
-          },
-
-          {
-            name: "tags",
-            type: "tags",
-            optional: true,
-          },
-          {
-            name: "rating",
-            type: "number",
-            min: 1,
-            max: 99,
-            defaultValue: 30,
-          },
-          {
-            name: "description",
-            type: "textarea",
-          },
-        ],
-        [
-          {
-            name: "variant",
-            max: 23,
-            prefix: "#",
-            monospace: true,
-            optional: true,
-          },
-          {
-            name: "author",
-            type: "author",
-          },
-          {
-            name: "cover",
-            type: "file",
-            placeholder: "cover.png",
-            fileTypes: ".png,.jpg,.jpeg",
-            optional: isEdit,
-          },
-          {
-            name: "bgm",
-            type: "file",
-            placeholder: "bgm.mp3",
-            fileTypes: ".mp3,.wav,.ogg",
-            optional: isEdit,
-          },
-          {
-            name: "chart",
-            type: "file",
-            placeholder: "data.sus",
-            fileTypes: ".sus",
-            optional: isEdit,
-          },
-          {
-            name: "isSusPublic",
-            type: "checkbox",
-          },
-          {
-            name: "isPublic",
-            type: "checkbox",
-            disabled: !isEdit,
-          },
-          {
-            name: "" as keyof FormData,
-            type: "submit",
-          },
-        ],
-      ] as {
-        name: keyof FormData
-        type:
-          | "file"
-          | "textarea"
-          | "input"
-          | "submit"
-          | "number"
-          | "tags"
-          | "author"
-          | "checkbox"
-        disabled?: boolean
-        monospace?: boolean
-        placeholder?: string
-        prefix?: string
-        optional?: boolean
-        fileTypes?: string
-        min?: number
-        max?: number
-        defaultValue?: number
-      }[][],
-    [isEdit]
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const mapErrors = useCallback(
+    (e: Record<string, string>): Record<string, string> => {
+      return Object.fromEntries(
+        Object.entries(e).map(([k, v]) => [k, errorT(v)])
+      )
+    },
+    [errorT]
   )
 
-  const formDefault = useMemo(
-    () =>
-      ({
-        title: "",
-        description: "",
-        composer: "",
-        artist: "",
-        tags: [],
-        rating: 30,
-        authorHandle: (session?.loggedIn && session.user.handle) || "",
-        authorName: "",
-        variant: "",
-        isSusPublic: false,
-        isPublic: false,
-        chart: null,
-        bgm: null,
-        cover: null,
-      } as const),
-    [session]
-  )
-  const [form, setForm] = useState<FormData>(
-    firstForm || JSON.parse(JSON.stringify(formDefault))
-  )
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
-    {}
-  )
   const [isAltUserSelectorOpen, setIsAltUserSelectorOpen] = useState(false)
 
+  const [ratingValue, setRatingValueRaw] = useState(chartData?.rating || 30)
+  const setRatingValue = useCallback(
+    (value: number) => {
+      const parsed = value
+      setRatingValueRaw(Math.min(99, Math.max(1, parsed)))
+    },
+    [setRatingValueRaw]
+  )
+
+  const [isVisibilityDialogOpen, setIsVisibilityDialogOpen] = useState(false)
+
+  const [visibility, setVisibility] = useState<
+    "public" | "scheduled" | "private"
+  >(chartData?.visibility || "private")
+
+  const [isChartPublic, setIsChartPublic] = useState(chartData?.isChartPublic)
+
+  const [authorHandle, setAuthorHandle] = useState(
+    chartData?.authorHandle || session.user.handle
+  )
+
+  const authorName = useMemo(
+    () =>
+      [session.user, ...session.altUsers].find(
+        (u) => u.handle === authorHandle
+      )!.name,
+
+    [authorHandle, session]
+  )
+
+  const [tags, setTags] = useState<Tag[]>(chartData?.tags || [])
   const closeAltUserSelector = useCallback(() => {
     setIsAltUserSelectorOpen(false)
   }, [])
+
+  const scheduledAt = useRef<Date>(
+    (() => {
+      if (chartData?.scheduledAt) {
+        return new Date(
+          Math.max(chartData.scheduledAt.getTime(), new Date().getTime())
+        )
+      } else {
+        return new Date()
+      }
+    })()
+  )
 
   useEffect(() => {
     if (isAltUserSelectorOpen) {
@@ -205,115 +448,75 @@ const UploadChart: NextPage<
     }
   }, [isAltUserSelectorOpen, closeAltUserSelector])
 
-  const updateFormFile = useCallback(
-    (name: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files
-      if (files?.length) {
-        setForm((form) => ({
-          ...form,
-          [name]: files[0],
-        }))
-      }
-    },
-    []
-  )
-
-  type Preprocess = (value: string) => string | number
-  const updateForm = useCallback(
-    (name: keyof FormData, preprocess?: Preprocess) =>
-      (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        let value: string | number = e.target.value
-        if (preprocess) {
-          value = preprocess(value)
-        }
-        setForm((form) => ({
-          ...form,
-          [name]: value,
-        }))
-      },
-    []
-  )
-
-  const updateFormCheckbox = useCallback(
-    (name: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setForm((form) => ({
-        ...form,
-        [name]: e.target.checked,
-      }))
-    },
-    []
-  )
-
-  const handleErrors = useCallback(
-    (errors: Partial<Record<keyof FormData, string>>) => {
-      if (!errors) return
-      setErrors(errors)
-    },
-    []
-  )
-
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showFileSizeError, setShowFileSizeError] = useState(false)
-  const createFormData = useCallback(
-    (extra: object = {}) => {
-      const emptyFields: string[] = []
-      setErrors({})
-      for (const field of fields.flat()) {
-        if (field.optional) {
-          continue
-        }
-        const formValue = form[field.name]
-        switch (field.type) {
-          case "input":
-          case "textarea":
-          case "number":
-            if (typeof formValue === "string" && formValue.trim() === "") {
-              emptyFields.push(field.name)
-            }
-            break
-          case "file":
-            if (formValue === null) {
-              emptyFields.push(field.name)
-            }
-            break
-        }
-      }
-      if (emptyFields.length) {
-        setErrors((errors) => ({
-          ...errors,
-          ...emptyFields.reduce(
-            (acc, cur) => ({ ...acc, [cur]: "cannotBeEmpty" }),
-            {}
-          ),
-        }))
-        return
-      }
+  const createFormData = useCallback(() => {
+    const errors: Record<string, string> = {}
 
-      const formData = new FormData()
-      formData.append(
-        "data",
-        JSON.stringify({
-          title: form.title,
-          description: form.description,
-          composer: form.composer,
-          artist: form.artist,
-          tags: form.tags.map((tag) => tag.text),
-          rating: form.rating,
-          author_handle: form.authorHandle,
-          author_name: form.authorName,
-          variant: form.variant,
-          is_sus_public: form.isSusPublic,
-          is_public: form.isPublic,
-          ...extra,
-        })
-      )
-      form.chart && formData.append("chart", form.chart)
-      form.bgm && formData.append("bgm", form.bgm)
-      form.cover && formData.append("cover", form.cover)
-      return formData
-    },
-    [form, fields]
-  )
+    const getField = (name: string) => {
+      const fieldElement = document.querySelector(
+        `[data-name='${name}']`
+      ) as HTMLInputElement
+      if (!fieldElement) {
+        throw new Error(`unknown field: ${name}`)
+      }
+      if (
+        !fieldElement.value &&
+        fieldElement.getAttribute("data-optional") !== "true"
+      ) {
+        errors[name] = errorT("cannotBeEmpty")
+        return undefined
+      }
+      return fieldElement.value
+    }
+
+    const formData = new FormData()
+    const scheduledAtField = scheduledAt.current
+    formData.append(
+      "data",
+      JSON.stringify({
+        title: getField("title"),
+        description: getField("description"),
+        composer: getField("composer"),
+        artist: getField("artist"),
+        tags: tags.map((tag) => tag.text),
+        rating: ratingValue,
+        authorHandle: authorHandle,
+        authorName: getField("authorName"),
+        variant: getField("variant"),
+        isChartPublic: isChartPublic,
+        visibility,
+        scheduledAt: scheduledAtField.getTime(),
+      })
+    )
+
+    for (const name of ["chart", "bgm", "cover"]) {
+      const fieldElement = document.querySelector(
+        `[data-name='${name}']`
+      ) as HTMLInputElement
+      if (!fieldElement) {
+        throw new Error(`unknown field: ${name}`)
+      }
+      if (fieldElement.files && fieldElement.files.length > 0) {
+        formData.append(name, fieldElement.files[0])
+      } else if (!isEdit) {
+        errors[name as keyof FormData] = errorT("cannotBeEmpty")
+      }
+    }
+    setErrors(errors)
+    if (Object.keys(errors).length > 0) {
+      return false
+    }
+    return formData
+  }, [
+    tags,
+    ratingValue,
+    authorHandle,
+    isChartPublic,
+    visibility,
+    errorT,
+    isEdit,
+  ])
   const handleResponse = useCallback(
     async (res: Response) => {
       if (res.status === 500) {
@@ -324,10 +527,13 @@ const UploadChart: NextPage<
         setShowFileSizeError(true)
         setIsSubmitting(false)
         return
+      } else if (res.status === 404) {
+        router.push("/")
+        return
       }
       const data = await res.json()
       if (data.code !== "ok") {
-        handleErrors(data.errors)
+        setErrors(mapErrors(data.errors))
 
         setIsSubmitting(false)
         return
@@ -335,7 +541,7 @@ const UploadChart: NextPage<
 
       return data
     },
-    [handleErrors, setServerError]
+    [setErrors, setServerError, mapErrors, router]
   )
   const submitChart = useCallback(() => {
     const formData = createFormData()
@@ -399,7 +605,10 @@ const UploadChart: NextPage<
         return
       }
       setIsSubmitting(true)
-      const formData = createFormData({ is_public: true })
+      const formData = createFormData()
+      if (!formData) {
+        return
+      }
 
       fetch(urlcat("/api/charts/:name", { name: router.query.name }), {
         method: "PUT",
@@ -413,10 +622,13 @@ const UploadChart: NextPage<
       })
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, createFormData, handleErrors])
+  }, [router, createFormData])
   const unpublishChart = useCallback(() => {
     setIsSubmitting(true)
-    const formData = createFormData({ is_public: false })
+    const formData = createFormData()
+    if (!formData) {
+      return
+    }
     fetch(urlcat("/api/charts/:name", { name: router.query.name }), {
       method: "PUT",
       body: formData,
@@ -436,20 +648,14 @@ const UploadChart: NextPage<
         errors: Partial<Record<keyof FormData, string>>
       }
       if (data.code !== "ok") {
-        handleErrors(data.errors)
+        setErrors(data.errors)
 
         setIsSubmitting(false)
         return
       }
       router.push(`/charts/${data.chart.name}`)
     })
-  }, [
-    router,
-    createFormData,
-    handleErrors,
-    setShowFileSizeError,
-    setServerError,
-  ])
+  }, [router, createFormData, setErrors, setShowFileSizeError, setServerError])
 
   const [isDragOver, setIsDragOver] = useState(false)
   const [unUploadedFiles, setUnUploadedFiles] = useState<File[]>([])
@@ -468,431 +674,467 @@ const UploadChart: NextPage<
 
     const unUploaded: File[] = []
     for (const file of Array.from(files)) {
+      let field: string
       if (file.name.endsWith(".sus")) {
-        setForm((form) => ({
-          ...form,
-          chart: file,
-        }))
+        field = "chart"
       } else if (["mp3", "wav", "ogg"].includes(file.name.split(".").pop()!)) {
-        setForm((form) => ({
-          ...form,
-          bgm: file,
-        }))
+        field = "bgm"
       } else if (["jpg", "jpeg", "png"].includes(file.name.split(".").pop()!)) {
-        setForm((form) => ({
-          ...form,
-          cover: file,
-        }))
+        field = "cover"
       } else {
         unUploaded.push(file)
+        continue
       }
+      const inputElement = document.querySelector(
+        `[data-name="${field}"]`
+      ) as HTMLInputElement
+      const dataTransfer = new DataTransfer()
+      dataTransfer.items.add(file)
+      inputElement.files = dataTransfer.files
     }
     if (unUploaded.length) {
       setUnUploadedFiles(unUploaded)
     }
   }, [])
 
-  const user =
-    [session.user, ...session.altUsers].find(
-      (user) => user.handle === form.authorHandle
-    ) || session.user
-
-  const hasNote = (name: keyof FormData) =>
-    t("param." + name + "Note") !== "param." + name + "Note"
-
   return (
-    <div className="flex flex-col gap-2">
-      <Head>
-        <title>{t("title") + " | " + rootT("name")}</title>
-      </Head>
-      <ModalPortal isOpen={unUploadedFiles.length > 0}>
-        <h1 className="text-xl font-bold mb-2">{t("unUploadedFiles")}</h1>
-        <p className="text-sm text-gray-500">{t("unUploadedFilesNote")}</p>
-        <div className="flex justify-end mt-4">
-          <div
-            className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
-            onClick={() => setUnUploadedFiles([])}
-          >
-            {rootT("close")}
-          </div>
-        </div>
-      </ModalPortal>
-
-      <ModalPortal isOpen={showFileSizeError}>
-        <h1 className="text-xl font-bold mb-2">{t("filesTooLarge")}</h1>
-        <p className="text-sm text-gray-500">{t("filesTooLargeNote")}</p>
-
-        <div className="flex justify-end mt-4">
-          <div
-            className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
-            onClick={() => setShowFileSizeError(false)}
-          >
-            {rootT("close")}
-          </div>
-        </div>
-      </ModalPortal>
-
-      <ModalPortal isOpen={waitForPublishConfirm !== null}>
-        <h1 className="text-xl font-bold text-normal mb-2">
-          {t("publishModal.title")}
-        </h1>
-        <p className="text-sm text-gray-500 text-normal mb-1">
-          {t("publishModal.description")}
-        </p>
-        {publishConfirms.map(([checked, setChecked], i) => (
-          <Checkbox
-            label={t(`publishModal.check${i}`)}
-            checked={checked}
-            onChange={(e) => setChecked(e.target.checked)}
-            size="sm"
-            key={i}
-          />
-        ))}
-        <p className="text-sm text-gray-500 text-normal mt-1">
-          <Trans
-            i18nKey="upload:publishModal.description2"
-            components={[
-              <Link href="/info/guideline" key="0" target="_blank" />,
-            ]}
-          />
-        </p>
-        <div className="flex justify-end mt-4 gap-2">
-          <div
-            className="px-4 py-2 rounded text-sm border-2 border-slate-500 dark:border-white text-normal cursor-pointer"
-            onClick={() => {
-              waitForPublishConfirm?.(false)
-            }}
-          >
-            {rootT("cancel")}
-          </div>
-          <div
-            className={className(
-              "px-4 py-2 rounded text-sm bg-theme text-white",
-              isAllPublicConfirmsChecked
-                ? "cursor-pointer"
-                : "bg-opacity-70 cursor-not-allowed"
-            )}
-            onClick={() => {
-              isAllPublicConfirmsChecked && waitForPublishConfirm?.(true)
-            }}
-          >
-            {t("publishModal.ok")}
-          </div>
-        </div>
-      </ModalPortal>
-      <div>
-        <h1 className="text-2xl font-bold mb-2">
-          {isEdit ? (
-            <>
-              {t("titleEdit", { title: firstForm.title })}
-              {firstForm.isPublic || (
-                <span className="ml-2 text-slate-900 dark:text-white">
-                  <LockClosedRegular />
-                </span>
-              )}
-            </>
-          ) : (
-            t("title")
-          )}
-        </h1>
-        <p className="mb-4">
-          <Trans
-            i18nKey="upload:description"
-            components={[<Link href="/info/guideline" key="0" />]}
-          />
-        </p>
-
-        <fieldset
-          className="flex flex-col md:flex-row gap-4 w-full relative"
-          disabled={isSubmitting}
-          onDragOver={onDragOver}
-          onDragLeave={onDragLeave}
-          onDrop={onDrop}
-        >
-          <DisablePortal isShown={isSubmitting} />
-
-          <div
-            className={
-              "absolute top-0 left-0 w-full h-full bg-white dark:bg-slate-800 !bg-opacity-50 z-20 " +
-              "transition-opacity duration-100 grid place-items-center backdrop-filter backdrop-blur-sm"
-            }
-            style={{
-              opacity: isDragOver ? 1 : 0,
-              pointerEvents: isDragOver ? "auto" : "none",
-            }}
-          >
-            <div className="text-2xl font-bold text-center">
-              <DocumentAddRegular className="w-32 h-32 text-gray-400" />
-              <p className="text-gray-400">{t("dropHere")}</p>
+    <div
+      className="flex flex-col gap-2"
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
+    >
+      <fieldset disabled={isSubmitting}>
+        <Head>
+          <title>{t("title") + " | " + rootT("name")}</title>
+        </Head>
+        <DisablePortal isShown={isSubmitting} />
+        <ModalPortal isOpen={unUploadedFiles.length > 0}>
+          <h1 className="text-xl font-bold mb-2">{t("unUploadedFiles")}</h1>
+          <p className="text-sm text-gray-500">{t("unUploadedFilesNote")}</p>
+          <div className="flex justify-end mt-4">
+            <div
+              className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
+              onClick={() => setUnUploadedFiles([])}
+            >
+              {rootT("close")}
             </div>
           </div>
-          {fields.map((fields, i) => (
+        </ModalPortal>
+
+        <ModalPortal isOpen={showFileSizeError}>
+          <h1 className="text-xl font-bold mb-2">{t("filesTooLarge")}</h1>
+          <p className="text-sm text-gray-500">{t("filesTooLargeNote")}</p>
+
+          <div className="flex justify-end mt-4">
             <div
-              className="flex flex-col w-full md:flex-grow md:max-w-1/2 gap-2"
-              key={i}
+              className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
+              onClick={() => setShowFileSizeError(false)}
             >
-              {fields.map((field) =>
-                field.type === "checkbox" ? (
-                  <Checkbox
-                    onChange={updateFormCheckbox(field.name)}
-                    key={field.name}
-                    label={t("param." + field.name)}
-                    checked={form[field.name] as boolean}
-                    disabled={field.disabled}
-                  />
-                ) : field.type === "submit" ? (
-                  <>
-                    <div className="flex-grow" />
-                    <div className="flex justify-end gap-2">
-                      {[
-                        isEdit
-                          ? form.isPublic !== firstForm.isPublic
-                            ? firstForm.isPublic
-                              ? {
-                                  isPrimary: true,
-                                  text: t("unpublish"),
-                                  onClick: unpublishChart,
-                                  isDanger: true,
-                                }
-                              : {
-                                  isPrimary: true,
-                                  text: t("publish"),
-                                  onClick: publishChart,
-                                }
-                            : {
-                                text: t("update"),
-                                onClick: updateChart,
-                              }
-                          : {
-                              isPrimary: true,
-                              text: t("submit"),
-                              onClick: submitChart,
-                            },
-                      ].map((button, i) => (
-                        <div
-                          key={i}
-                          className={className(
-                            "p-2 w-full",
-                            button.isDanger
-                              ? "button-danger"
-                              : button.isPrimary
-                              ? "button-primary"
-                              : "button-secondary"
-                          )}
-                          onClick={button.onClick}
-                        >
-                          {button.text}
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <div key={field.name}>
-                    <h2
-                      className={className(
-                        "text-xl font-bold",
-                        hasNote(field.name) || "mb-2"
-                      )}
-                    >
-                      {t("param." + field.name)}{" "}
-                      {field.optional && t("optional")}
-                    </h2>
+              {rootT("close")}
+            </div>
+          </div>
+        </ModalPortal>
 
-                    {hasNote(field.name) && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
-                        {t("param." + field.name + "Note")}
-                      </p>
-                    )}
-                    {field.type === "textarea" ? (
-                      <textarea
-                        className={className(
-                          "text-input w-full h-40",
-                          errors[field.name] && "text-input-error"
-                        )}
-                        value={form[field.name] as string}
-                        onChange={updateForm(field.name)}
-                        disabled={field.disabled}
-                      />
-                    ) : field.type === "file" ? (
-                      <FileInput
-                        placeholder={field.placeholder || ""}
-                        accept={field.fileTypes || "*"}
-                        onChange={updateFormFile(field.name)}
-                        className={
-                          errors[field.name] ? "text-input-error" : undefined
-                        }
-                        value={form[field.name] as File | undefined}
-                        disabled={field.disabled}
-                      />
-                    ) : field.type === "tags" ? (
-                      <div
-                        className="flex flex-col gap-2 tag-input"
-                        data-reached-max={form.tags.length >= 5}
-                      >
-                        <ReactTags
-                          tags={form.tags}
-                          allowDragDrop={false}
-                          placeholder=""
-                          delimiters={[
-                            13, // enter
-                            188, // comma
-                            32, // space
-                          ]}
-                          handleDelete={(i) => {
-                            setForm((form) => ({
-                              ...form,
-                              tags: form.tags.filter((_, index) => index !== i),
-                            }))
-                          }}
-                          handleAddition={(tag) => {
-                            setForm((form) => ({
-                              ...form,
-                              tags: [...form.tags, tag],
-                            }))
-                          }}
-                        />
-                      </div>
-                    ) : field.type === "number" ? (
-                      <input
-                        type="number"
-                        className={className(
-                          "text-input w-full",
-                          errors[field.name] && "text-input-error"
-                        )}
-                        min={field.min}
-                        max={field.max}
-                        step={1}
-                        defaultValue={field.defaultValue}
-                        value={form[field.name] as string}
-                        disabled={field.disabled}
-                        onChange={updateForm(field.name, (value: string) => {
-                          let num = parseInt(value)
+        <ModalPortal isOpen={isVisibilityDialogOpen}>
+          <h1 className="text-xl font-bold text-normal mb-2">
+            {t("visibility.title")}
+          </h1>
 
-                          if (isNaN(num)) {
-                            num = field.defaultValue || 0
-                          } else if (field.min && num < field.min) {
-                            num = field.min
-                          } else if (field.max && num > field.max) {
-                            num = field.max
-                          }
-
-                          return num
-                        })}
-                      />
-                    ) : field.type === "author" ? (
-                      <>
-                        <div
-                          className={className(
-                            "text-input w-full flex cursor-pointer relative",
-                            isAltUserSelectorOpen && "!border-theme",
-                            errors[field.name] && "border-red-500"
-                          )}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setIsAltUserSelectorOpen(true)
-                          }}
-                        >
-                          <p className="flex-grow">
-                            {user.name}
-                            <span className="text-sm">#{user.handle}</span>
-                          </p>
-                          <p className="text-slate-400 dark:text-slate-600 ml-2 border-l border-slate-400 dark:border-slate-600 pl-2">
-                            <ChevronDownRegular />
-                          </p>
-                          <div
-                            className="absolute top-[calc(100%_+_4px)] left-[-2px] w-[calc(100%_+_4px)] z-10 border-slate-400 dark:border-slate-600 drop-shadow"
-                            style={{
-                              display: isAltUserSelectorOpen ? "block" : "none",
-                            }}
-                          >
-                            {[session.user, ...session.altUsers].map((user) => (
-                              <div
-                                className={
-                                  "p-2 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-700 " +
-                                  "first:rounded-t last:rounded-b border-x-2 border-t first:border-t-2 last:border-b-2 border-slate-400 dark:border-slate-600"
-                                }
-                                key={user.handle}
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  setIsAltUserSelectorOpen(false)
-                                  setForm((form) => ({
-                                    ...form,
-                                    authorHandle: user.handle,
-                                    authorName: "",
-                                  }))
-                                }}
-                              >
-                                {user.name}
-                                <span className="text-sm">#{user.handle}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="text-input w-full mt-2 flex">
-                          <input
-                            type="text"
-                            className={className(
-                              "outline-none flex-grow w-0",
-                              errors[field.name] && "text-input-error"
-                            )}
-                            maxLength={32}
-                            placeholder={user.name}
-                            value={form.authorName}
-                            onChange={updateForm("authorName")}
-                          />
-
-                          <p className="text-slate-400 dark:text-slate-600 ml-2 border-l border-slate-400 dark:border-slate-600 pl-2">
-                            #{user.handle}
-                          </p>
-                        </div>
-                      </>
-                    ) : field.prefix ? (
-                      <div className="text-input w-full flex">
-                        <p className="text-slate-400 dark:text-slate-600 mr-2 border-r border-slate-400 dark:border-slate-600 pr-2">
-                          {field.prefix}
-                        </p>
-                        <input
-                          type="text"
-                          className={className(
-                            "outline-none w-full",
-                            errors[field.name] && "text-input-error",
-                            field.monospace && "font-monospace"
-                          )}
-                          maxLength={field.max}
-                          disabled={field.disabled}
-                          value={form[field.name] as string}
-                          onChange={updateForm(field.name)}
-                        />
-                      </div>
-                    ) : (
-                      <input
-                        type="text"
-                        className={className(
-                          "text-input w-full",
-                          errors[field.name] && "text-input-error",
-                          field.monospace && "font-monospace"
-                        )}
-                        disabled={field.disabled}
-                        maxLength={field.max}
-                        value={form[field.name] as string}
-                        onChange={updateForm(field.name)}
-                      />
-                    )}
-                    {errors[field.name] && (
-                      <p className="text-sm text-red-500 h-4">
-                        {errorT(errors[field.name]!)}
-                      </p>
+          <div className="flex flex-col gap-4">
+            {(["public", "scheduled", "private"] as const).map((key) => (
+              <div key={key} className="flex">
+                <div className="w-6 mr-2 flex-shrink-0">
+                  <div
+                    className="rounded-full mt-1 h-6 box-border border-2 border-slate-300 dark:border-slate-700 p-1 cursor-pointer"
+                    onClick={() => setVisibility(key)}
+                  >
+                    {key === visibility && (
+                      <div className="rounded-full w-full h-full bg-theme" />
                     )}
                   </div>
-                )
-              )}
+                </div>
+
+                <div className="flex-grow flex flex-col">
+                  <label
+                    onClick={() => setVisibility(key)}
+                    className="cursor-pointer"
+                  >
+                    <h5 className="text-lg font-bold">
+                      {t(`visibility.${key}`)}
+                    </h5>
+                  </label>
+                  <div className="text-sm">
+                    {t(`visibility.description.${key}`)}
+                  </div>
+                  {key === "scheduled" && (
+                    <ScheduleInput
+                      name="scheduledAt"
+                      defaultValue={scheduledAt.current}
+                      onChange={(value) => (scheduledAt.current = value)}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+            <Checkbox
+              onChange={(e) => {
+                setIsChartPublic(e.target.checked)
+              }}
+              label={t("isChartPublic")}
+              checked={isChartPublic}
+            />
+          </div>
+
+          <div className="flex justify-end mt-4">
+            <div
+              className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
+              onClick={() => setIsVisibilityDialogOpen(false)}
+            >
+              {rootT("close")}
             </div>
+          </div>
+        </ModalPortal>
+
+        <ModalPortal isOpen={waitForPublishConfirm !== null}>
+          <h1 className="text-xl font-bold text-normal mb-2">
+            {t("publishModal.title")}
+          </h1>
+          <p className="text-sm text-gray-500 text-normal mb-1">
+            {t("publishModal.description")}
+          </p>
+          {publishConfirms.map(([checked, setChecked], i) => (
+            <Checkbox
+              label={t(`publishModal.check${i}`)}
+              checked={checked}
+              onChange={(e) => setChecked(e.target.checked)}
+              size="sm"
+              key={i}
+            />
           ))}
-        </fieldset>
-      </div>
+          <p className="text-sm text-gray-500 text-normal mt-1">
+            <Trans
+              i18nKey="upload:publishModal.description2"
+              components={[
+                <Link href="/info/guideline" key="0" target="_blank" />,
+              ]}
+            />
+          </p>
+          <div className="flex justify-end mt-4 gap-2">
+            <div
+              className="px-4 py-2 rounded text-sm border-2 border-slate-500 dark:border-white text-normal cursor-pointer"
+              onClick={() => {
+                waitForPublishConfirm?.(false)
+              }}
+            >
+              {rootT("cancel")}
+            </div>
+            <div
+              className={className(
+                "px-4 py-2 rounded text-sm bg-theme text-white",
+                isAllPublicConfirmsChecked
+                  ? "cursor-pointer"
+                  : "bg-opacity-70 cursor-not-allowed"
+              )}
+              onClick={() => {
+                isAllPublicConfirmsChecked && waitForPublishConfirm?.(true)
+              }}
+            >
+              {t("publishModal.ok")}
+            </div>
+          </div>
+        </ModalPortal>
+
+        <div
+          className={
+            "absolute top-0 left-0 w-full h-full bg-white dark:bg-slate-800 !bg-opacity-50 z-20 " +
+            "transition-opacity duration-100 grid place-items-center backdrop-filter backdrop-blur-sm"
+          }
+          style={{
+            opacity: isDragOver ? 1 : 0,
+            pointerEvents: isDragOver ? "auto" : "none",
+          }}
+        >
+          <div className="text-2xl font-bold text-center">
+            <DocumentAddRegular className="w-32 h-32 text-gray-400" />
+            <p className="text-gray-400">{t("dropHere")}</p>
+          </div>
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold mb-2">
+            {isEdit ? (
+              <>
+                {t("titleEdit", { title: chartData.title })}
+                {chartData.visibility === "public" || (
+                  <span className="ml-2 text-slate-900 dark:text-white">
+                    <LockClosedRegular />
+                  </span>
+                )}
+              </>
+            ) : (
+              t("title")
+            )}
+          </h1>
+          <p className="mb-4">
+            <Trans
+              i18nKey="upload:description"
+              components={[<Link href="/info/guideline" key="0" />]}
+            />
+          </p>
+          <div className="grid xl:grid-cols-3 gap-4">
+            <FileUploadButton
+              accept="image/*"
+              name="cover"
+              text={t("param.cover")}
+              icon={<ImageRegular />}
+              error={errors["cover"]}
+            />
+            <FileUploadButton
+              accept="audio/*"
+              name="bgm"
+              text={t("param.bgm")}
+              icon={<MusicNote2Regular />}
+              error={errors["bgm"]}
+            />
+            <FileUploadButton
+              accept=".sus"
+              name="chart"
+              text={t("param.chart")}
+              icon={<DocumentRegular />}
+              error={errors["chart"]}
+            />
+          </div>
+          <div className="flex items-middle pt-2">
+            <InfoRegular className="h-6" />
+            <span className="text-sm"> {t("dndHint")}</span>
+          </div>
+          <div className="flex flex-col xl:grid xl:grid-cols-2 xl:gap-4 gap-2">
+            <div className="flex flex-col xl:flex-grow gap-2">
+              <InputTitle text={t("param.title")} error={errors["title"]}>
+                <TextInput
+                  name="title"
+                  className="w-full"
+                  defaultValue={chartData?.title}
+                />
+              </InputTitle>
+              <InputTitle text={t("param.composer")} error={errors["composer"]}>
+                <TextInput
+                  name="composer"
+                  className="w-full"
+                  defaultValue={chartData?.composer}
+                />
+              </InputTitle>
+              <InputTitle
+                text={t("param.artist")}
+                optional
+                error={errors["artist"]}
+              >
+                <TextInput
+                  name="artist"
+                  className="w-full"
+                  optional
+                  defaultValue={chartData?.artist}
+                />
+              </InputTitle>
+              <InputTitle
+                text={t("param.rating")}
+                tooltip={t("tooltip.rating")}
+                className="flex gap-4 items-center"
+                error={errors["rating"]}
+              >
+                <div className="flex-grow">
+                  <RangeInput
+                    name="rating"
+                    min={1}
+                    max={40}
+                    value={ratingValue}
+                    onChange={(value) => setRatingValue(value)}
+                    step={1}
+                  />
+                </div>
+                <NumberInput
+                  name="rating"
+                  className="w-16"
+                  min={1}
+                  max={99}
+                  value={ratingValue}
+                  onChange={(value) => setRatingValue(value)}
+                />
+              </InputTitle>
+              <InputTitle
+                text={t("visibility.title")}
+                error={errors["visibility"]}
+              >
+                <div
+                  className={className(
+                    "button-secondary p-2",
+                    isEdit || "disabled"
+                  )}
+                  onClick={() => isEdit && setIsVisibilityDialogOpen(true)}
+                >
+                  {t(`visibility.${visibility}`)}
+                </div>
+              </InputTitle>
+            </div>
+            <div className="flex flex-col xl:flex-grow gap-2">
+              <InputTitle
+                text={t("param.author")}
+                className="w-full flex gap-2 relative"
+                error={errors["author"]}
+              >
+                <TextInput
+                  name="authorName"
+                  className="flex-grow min-w-0"
+                  defaultValue={chartData?.authorName || session.user.name}
+                  placeholder={authorName}
+                />
+                <div
+                  className={className(
+                    "text-input hover:border-theme transition-colors duration-200 cursor-pointer flex items-center",
+                    isAltUserSelectorOpen && "!border-theme"
+                  )}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsAltUserSelectorOpen(true)
+                  }}
+                >
+                  #{authorHandle} <ChevronDownRegular />
+                </div>
+                <div className="absolute top-full left-1 right-1">
+                  <div
+                    className="absolute top-[calc(100%_+_4px)] left-[-2px] w-[calc(100%_+_4px)] z-10 border-slate-400 dark:border-slate-600 shadow-md"
+                    style={{
+                      display: isAltUserSelectorOpen ? "block" : "none",
+                    }}
+                  >
+                    {[session.user, ...session.altUsers].map((user) => (
+                      <div
+                        className={
+                          "p-2 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-700 " +
+                          "first:rounded-t last:rounded-b border-x-2 border-t first:border-t-2 last:border-b-2 border-slate-300 dark:border-slate-700 cursor-pointer"
+                        }
+                        key={user.handle}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setIsAltUserSelectorOpen(false)
+                          setAuthorHandle(user.handle)
+                          ;(
+                            document.querySelector(
+                              "[data-name='authorName']"
+                            ) as HTMLInputElement
+                          ).value = user.name
+                        }}
+                      >
+                        {user.name}
+                        <span className="text-sm">#{user.handle}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </InputTitle>
+              <InputTitle
+                text={t("param.variant")}
+                optional
+                tooltip={t("tooltip.variant")}
+                error={errors["variant"]}
+              >
+                <TextInput
+                  name="variant"
+                  className="w-full"
+                  monospace
+                  optional
+                  prefix="#"
+                  defaultValue={chartData?.variant}
+                />
+              </InputTitle>
+              <InputTitle
+                text={t("param.tags")}
+                tooltip={t("tooltip.tags")}
+                error={errors["tags"]}
+              >
+                <div
+                  className="flex flex-col gap-2 tag-input"
+                  data-reached-max={tags.length >= 5}
+                >
+                  <ReactTags
+                    tags={tags}
+                    allowDragDrop={false}
+                    placeholder=""
+                    delimiters={[
+                      13,
+                      188,
+                      32, // space
+                    ]}
+                    handleDelete={(i) => {
+                      setTags(tags.filter((_, index) => index !== i))
+                    }}
+                    handleAddition={(tag) => {
+                      setTags([...tags, tag])
+                    }}
+                  />
+                </div>
+              </InputTitle>
+              <InputTitle
+                text={t("param.description")}
+                className="h-full"
+                error={errors["description"]}
+              >
+                <TextInput
+                  name="description"
+                  textarea
+                  optional
+                  className="w-full h-32"
+                  defaultValue={chartData?.description}
+                />
+              </InputTitle>
+            </div>
+          </div>
+          <div className="mt-4 border-t-2 border-slate-300 dark:border-slate-700" />
+          <div className="mt-4">
+            {[
+              isEdit
+                ? visibility !== "public"
+                  ? chartData.visibility === "public"
+                    ? {
+                        isPrimary: true,
+                        text: t("unpublish"),
+                        onClick: unpublishChart,
+                        isDanger: true,
+                      }
+                    : {
+                        isPrimary: true,
+                        text: t("publish"),
+                        onClick: publishChart,
+                      }
+                  : {
+                      text: t("update"),
+                      onClick: updateChart,
+                    }
+                : {
+                    isPrimary: true,
+                    text: t("submit"),
+                    onClick: submitChart,
+                  },
+            ].map((button, i) => (
+              <div
+                key={i}
+                className={className(
+                  "p-2 w-full",
+                  button.isDanger
+                    ? "button-danger"
+                    : button.isPrimary
+                    ? "button-primary"
+                    : "button-secondary"
+                )}
+                onClick={button.onClick}
+              >
+                {button.text}
+              </div>
+            ))}
+          </div>
+        </div>
+      </fieldset>
     </div>
   )
 }
-
 export default requireLogin(UploadChart)

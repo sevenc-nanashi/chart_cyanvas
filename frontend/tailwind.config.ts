@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss"
+
+const config: Config = {
   content: ["./components/**/*.tsx", "./pages/**/*.tsx", "./lib/**/*.ts"],
   theme: {
     fontFamily: {
@@ -15,10 +16,9 @@ module.exports = {
       ],
     },
     fontWeight: {
-      sans: 300,
-      semibold: 400,
-      bold: 500,
-      extrabold: 700,
+      sans: "400",
+      bold: "500",
+      extrabold: "700",
     },
     extend: {
       colors: {
@@ -28,3 +28,5 @@ module.exports = {
   },
   plugins: [],
 }
+
+export default config

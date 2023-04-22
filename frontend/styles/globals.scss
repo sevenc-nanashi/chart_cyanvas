@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  @apply font-sans;
+}
+
 a {
   @apply text-blue-500;
 }
@@ -67,10 +71,11 @@ textarea {
 .button {
   @apply transition-colors duration-200 box-border rounded text-center;
 
-  &:disabled {
+  &:disabled,
+  &.disabled {
     @apply opacity-50 cursor-not-allowed;
   }
-  &:not(:disabled) {
+  &:not(:disabled):not(.disabled) {
     @apply cursor-pointer;
   }
 }
@@ -86,7 +91,7 @@ textarea {
 .button-primary {
   @extend .button;
   @apply bg-theme text-white bg-opacity-100;
-  &:not(:disabled) {
+  &:not(:disabled):not(.disabled) {
     @apply hover:bg-opacity-80 focus:bg-opacity-80;
   }
 }
@@ -95,7 +100,7 @@ textarea {
   @extend .button;
   @apply text-theme border-2 border-theme bg-theme bg-opacity-0;
 
-  &:not(:disabled) {
+  &:not(:disabled):not(.disabled) {
     @apply hover:bg-opacity-10 focus:bg-opacity-10;
   }
 }

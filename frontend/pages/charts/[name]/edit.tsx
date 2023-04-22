@@ -39,6 +39,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 const EditChart: NextPage<{ chartData: Chart }> = ({ chartData }) => {
+  const scheduledAt = chartData.scheduledAt
+    ? new Date(chartData.scheduledAt)
+    : undefined
   return (
     <UploadChart
       isEdit
@@ -51,13 +54,14 @@ const EditChart: NextPage<{ chartData: Chart }> = ({ chartData }) => {
         rating: chartData.rating,
         authorHandle: chartData.author.handle,
         authorName: chartData.authorName || chartData.author.name,
-        isPublic: chartData.isPublic,
-        isSusPublic: !!chartData.sus,
+        visibility: chartData.visibility,
+        isChartPublic: !!chartData.sus,
         variant: chartData.variantOf?.name || "",
+        scheduledAt,
 
-        chart: null,
-        bgm: null,
-        cover: null,
+        chart: undefined,
+        bgm: undefined,
+        cover: undefined,
       }}
     />
   )

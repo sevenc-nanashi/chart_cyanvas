@@ -16,7 +16,9 @@ export const randomize = (base: number, seed: number) => {
   return base
 }
 
-export const className = (...classes: (string | undefined | boolean)[]) => {
+export const className = (
+  ...classes: (string | undefined | null | boolean)[]
+) => {
   return classes.filter((c) => typeof c === "string" && c).join(" ")
 }
 
@@ -29,3 +31,19 @@ export const isMine = (session: Session, chart: Chart) => {
 }
 const { publicRuntimeConfig } = getConfig()
 export const host = new URL(publicRuntimeConfig.host!).hostname
+
+export const parseIntPlus = (base: string) => {
+  return parseInt(
+    base.replace(/[０-９]/g, (s) =>
+      String.fromCharCode(
+        s.charCodeAt(0) - "０".charCodeAt(0) + "0".charCodeAt(0)
+      )
+    )
+  )
+}
+
+export const parseIntOrFallback = (base: string, fallback: number) => {
+  const retvar = parseIntPlus(base)
+  if (isNaN(retvar)) return fallback
+  return retvar
+}

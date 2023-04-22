@@ -32,7 +32,6 @@ module Sonolus
       like = Like.new(chart:, user: current_user)
 
       like.save!
-      revalidate("/charts/#{chart.name}")
       render json: {
                item:
                  dummy_level(
@@ -75,7 +74,6 @@ module Sonolus
       end
 
       like.destroy!
-      revalidate("/charts/#{chart.name}")
       render json: {
                item:
                  dummy_level(

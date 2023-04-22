@@ -48,7 +48,6 @@ class BgmConvertJob < ApplicationJob
       "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/download/#{response[:id]}:preview"
     )
 
-    ApplicationController.revalidate("/charts/#{chart_name}")
     bgm_file.delete
   end
 end

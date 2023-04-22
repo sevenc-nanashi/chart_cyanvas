@@ -2,7 +2,7 @@ interface Chart {
   name: string
   title: string
   composer: string
-  artist: string | null
+  artist: string | undefined
   author: User
   authorName: string
   coAuthors: User[]
@@ -10,12 +10,14 @@ interface Chart {
   updatedAt: string
   cover: string
   bgm: string
-  sus: string | null
-  data: string | null
+  sus: string | undefined
+  data: string | undefined
   variants: Chart[]
-  variantOf: Chart | null
+  variantOf: Chart | undefined
   tags: string[]
-  isPublic: boolean
+  visibility: "public" | "private" | "scheduled"
+  isChartPublic: boolean
+  scheduledAt: string | undefined
   rating: number
   description: string
   likes: number
