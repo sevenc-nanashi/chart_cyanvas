@@ -405,7 +405,7 @@ const UploadChart: NextPage<
     "public" | "scheduled" | "private"
   >(chartData?.visibility || "private")
 
-  const [isChartPublic, setIsChartPublic] = useState(chartData?.isChartPublic)
+  const [isChartPublic, setIsChartPublic] = useState(!!chartData?.isChartPublic)
 
   const [authorHandle, setAuthorHandle] = useState(
     chartData?.authorHandle || session.user.handle
@@ -484,7 +484,7 @@ const UploadChart: NextPage<
         authorHandle: authorHandle,
         authorName: getField("authorName"),
         variant: getField("variant"),
-        isChartPublic: isChartPublic,
+        isChartPublic,
         visibility,
         scheduledAt: scheduledAtField.getTime(),
       })
