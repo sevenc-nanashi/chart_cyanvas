@@ -178,8 +178,8 @@ module Sonolus
               }
             ).find_by(name: params[:name])
           end
-      user_faved = chart.likes.exists?(user_id: current_user&.id)
       if chart
+        user_faved = chart.likes.exists?(user_id: current_user&.id)
         render json: {
                  item: chart.to_sonolus,
                  recommended: [

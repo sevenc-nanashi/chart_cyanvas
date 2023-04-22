@@ -21,14 +21,15 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ steps.ruby-version.outputs.RUBY_VERSION }}
-      - name: Cache gems
-        uses: actions/cache@v3
-        id: cache-gems
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-bundler-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-bundler-
+      # - name: Cache gems
+      #   uses: actions/cache@v3
+      #   id: cache-gems
+      #   with:
+      #     path: vendor/bundle
+      #     key: ${{ runner.os }}-bundler-${{ hashFiles('**/Gemfile.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-bundler-
+      #  FIXME: Fix after https://github.com/actions/runner/issues/449
       - name: Install gems
         if: steps.cache-gems.outputs.cache-hit != 'true'
         working-directory: ./backend
