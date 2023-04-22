@@ -1093,8 +1093,9 @@ const UploadChart: NextPage<
           <div className="mt-4">
             {[
               isEdit
-                ? visibility !== "public"
-                  ? chartData.visibility === "public"
+                ? (visibility !== "private") !==
+                  (chartData.visibility !== "private")
+                  ? chartData.visibility !== "private"
                     ? {
                         isPrimary: true,
                         text: t("unpublish"),
