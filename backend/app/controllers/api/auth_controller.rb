@@ -4,11 +4,14 @@ module Api
     def create_code
       code = SecureRandom.random_number(100_000_000 - 1).to_s.rjust(8, "0")
       Rails.logger.info("New auth code: #{code}")
-      Rails.cache.write(
-        "auth_code/#{code}",
-        { authorized: false },
-        expires_in: 1.5.minutes
-      )
+      $redis.with do |conn|
+        conn.set(
+          "auth_code/#{code}",
+          { authorized: false }.to_json,
+          ex: 1.5.minutes.to_i
+        )
+      end
+
       render json: { code: "ok", authCode: code }
     end
 
@@ -23,7 +26,14 @@ module Api
                status: :bad_request
         return
       end
-      unless (auth_data = Rails.cache.read("auth_code/#{code}"))
+      unless (
+               auth_data =
+                 $redis.with do |conn|
+                   conn
+                     .get("auth_code/#{code}")
+                     &.then { |v| JSON.parse(v, symbolize_names: true) }
+                 end
+             )
         render json: {
                  code: "unknown_code",
                  message: "Unknown auth code"
@@ -32,9 +42,18 @@ module Api
         return
       end
       if auth_data[:authorized]
-        token_data = Rails.cache.read("auth_token/#{auth_data[:token]}")
-        render json: { code: "ok", user: token_data[:user].to_frontend }
-        session[:user_id] = token_data[:user].id
+        token_data =
+          $redis.with do |conn|
+            conn
+              .get("auth_token/#{auth_data[:token]}")
+              &.then { |v| JSON.parse(v, symbolize_names: true) }
+          end
+        user = User.new(token_data[:user])
+        render json: {
+                 code: "ok",
+                 user: user.to_frontend
+               }
+        session[:user_id] = user.id
       else
         render json: {
                  code: "not_authorized",

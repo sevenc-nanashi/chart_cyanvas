@@ -66,8 +66,14 @@ module Sonolus
         render json: {}, status: :unauthorized
         return
       end
-      if !(auth_data = Rails.cache.read("auth_code/#{params[:code]}")) ||
-           auth_data[:authorized]
+      if !(
+           auth_data =
+             $redis.with do |conn|
+               conn
+                 .get("auth_code/#{params[:code]}")
+                 &.then { |v| JSON.parse(v, symbolize_names: true) }
+             end
+         ) || auth_data[:authorized]
         render json: {
                  item:
                    dummy_level("auth.expired", "auth-expired", cover: "error"),
@@ -82,17 +88,19 @@ module Sonolus
       auth_data[:token] = token
       auth_data[:user_handle] = session_data[:user][:handle]
 
-      Rails.cache.write(
-        "auth_token/#{token}",
-        { user: self.current_user },
-        expires_in: 1.day
-      )
+      $redis.with do |conn|
+        conn.set(
+          "auth_token/#{token}",
+          { user: self.current_user }.to_json,
+          ex: 1.day
+        )
 
-      Rails.cache.write(
-        "auth_code/#{params[:code]}",
-        auth_data,
-        expires_in: 1.5.minutes
-      )
+        conn.set(
+          "auth_code/#{params[:code]}",
+          auth_data.to_json,
+          ex: 1.5.minutes.to_i
+        )
+      end
 
       render json: {
                item:
