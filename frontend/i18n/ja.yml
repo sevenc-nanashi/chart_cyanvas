@@ -115,6 +115,9 @@ upload:
   unUploadedFiles: "対応していないファイルがドロップされました。"
   unUploadedFilesNote: ".sus、.mp3、.wav、.ogg、.png、.jpg、.jpegのみ対応しています。"
 
+  filesTooLarge: ファイルが大きすぎます。
+  filesTooLargeNote: ファイルは合計で最大20MBまでです。
+
   publishModal:
     title: "以上の内容で公開しますか？"
     description: "この譜面は…"

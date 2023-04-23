@@ -120,6 +120,9 @@ upload:
   unUploadedFiles: "Some files were not uploaded."
   unUploadedFilesNote: "We only supports: .sus, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif"
 
+  filesTooLarge: Files are too large
+  filesTooLargeNote: "The sum of the file sizes must be less than 20MB."
+
   publishModal:
     title: "Publish this chart?"
     description: "This chart..."
