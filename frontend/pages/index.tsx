@@ -1,6 +1,7 @@
 import type { NextPage } from "next"
 import Head from "next/head"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { useCallback, useEffect, useRef, useState } from "react"
 import useTranslation from "next-translate/useTranslation"
 import Trans from "next-translate/Trans"
@@ -14,6 +15,7 @@ const Home: NextPage = () => {
   const { t: rootT } = useTranslation()
   const [newCharts, setNewCharts] = useState<Chart[]>([])
   const [reachedBottom, setReachedBottom] = useState(false)
+  const router = useRouter()
 
   const newChartsRef = useRef<HTMLDivElement>(null)
   const isFetching = useRef(false)
@@ -74,7 +76,15 @@ const Home: NextPage = () => {
       <div>
         <Trans
           i18nKey="home:welcome"
-          components={[<Link href="/info/about" key="1"></Link>]}
+          components={[
+            <Link
+              href={`https://cc-wiki.sevenc7c.com/${
+                router.locale || "en"
+              }/welcome`}
+              key="1"
+              target="_blank"
+            ></Link>,
+          ]}
         />
       </div>
       <div>

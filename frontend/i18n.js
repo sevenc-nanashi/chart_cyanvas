@@ -30,8 +30,6 @@ module.exports = {
     "/users/[handle]": ["user"],
     "/users/alts": ["myAlts"],
 
-    "/info/[file]": ["pages"],
-
     "/admin": ["admin"],
   },
 }

@@ -816,7 +816,13 @@ const UploadChart: NextPage<
             <Trans
               i18nKey="upload:publishModal.description2"
               components={[
-                <Link href="/info/guideline" key="0" target="_blank" />,
+                <Link
+                  href={`https://cc-wiki.sevenc7c.com/${
+                    router.locale || "en"
+                  }/guideline`}
+                  key="0"
+                  target="_blank"
+                />,
               ]}
             />
           </p>
@@ -878,7 +884,14 @@ const UploadChart: NextPage<
           <p className="mb-4">
             <Trans
               i18nKey="upload:description"
-              components={[<Link href="/info/guideline" key="0" />]}
+              components={[
+                <Link
+                  href={`https://cc-wiki.sevenc7c.com/${
+                    router.locale || "en"
+                  }/guideline`}
+                  key="0"
+                />,
+              ]}
             />
           </p>
           <div className="grid xl:grid-cols-3 gap-4">

@@ -86,7 +86,9 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
               text: t("guideline"),
               icon: DocumentTextRegular,
 
-              href: "/info/guideline",
+              href: `https://cc-wiki.sevenc7c.com/${
+                router.locale || "en"
+              }/guideline`,
             },
             {
               type: "line",
@@ -124,7 +126,11 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                     }
                     onClick={() => {
                       if (item.href) {
-                        router.push(item.href)
+                        if (item.href.startsWith("http")) {
+                          window.open(item.href, "_blank")
+                        } else {
+                          router.push(item.href)
+                        }
                       } else {
                         item.onClick?.()
                       }
