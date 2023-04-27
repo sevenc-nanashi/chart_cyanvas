@@ -50,7 +50,7 @@ jobs:
       - name: Run sub-audio test
         working-directory: ./sub-audio
         run: |
-          poetry run poe Test
+          poetry run poe test
 
       - name: Dispatch build action
         if: github.ref_name == 'main'
