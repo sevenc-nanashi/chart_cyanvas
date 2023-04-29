@@ -42,10 +42,15 @@ jobs:
         working-directory: ./sub-audio
         run: poetry install --with dev,test
 
-      - name: Run sub-image lint
+      - name: Run sub-audio lint
         working-directory: ./sub-audio
         run: |
           poetry run poe lint
+
+      - name: Run sub-audio test
+        working-directory: ./sub-audio
+        run: |
+          poetry run poe test
 
       - name: Dispatch build action
         if: github.ref_name == 'main'
