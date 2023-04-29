@@ -10,13 +10,12 @@ import {
   useRef,
   useState,
 } from "react"
-import { Tag, WithContext as ReactTags } from "react-tag-input"
+import { Tag, WithOutContext as ReactTags } from "react-tag-input"
 import useTranslation from "next-translate/useTranslation"
 import Trans from "next-translate/Trans"
 import { Range, getTrackBackground } from "react-range"
 import {
   ChevronDownRegular,
-  DocumentAddRegular,
   DocumentRegular,
   ImageRegular,
   InfoRegular,
@@ -25,6 +24,8 @@ import {
 } from "@fluentui/react-icons"
 import urlcat from "urlcat"
 import { useRouter } from "next/router"
+import { HTML5Backend } from "react-dnd-html5-backend"
+import { DndProvider } from "react-dnd"
 import { useServerError, useSession } from "lib/atom"
 import { className } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
@@ -41,6 +42,10 @@ const FileUploadButton = (props: {
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+
+  useEffect(() => {
+    fileInput.current?.addEventListener("change", () => forceUpdate())
+  }, [fileInput])
   return (
     <div
       className={className(
@@ -76,9 +81,6 @@ const FileUploadButton = (props: {
         accept={props.accept}
         hidden
         ref={fileInput}
-        onChange={() => {
-          forceUpdate()
-        }}
       />
     </div>
   )
@@ -657,19 +659,9 @@ const UploadChart: NextPage<
     })
   }, [router, createFormData, setErrors, setShowFileSizeError, setServerError])
 
-  const [isDragOver, setIsDragOver] = useState(false)
   const [unUploadedFiles, setUnUploadedFiles] = useState<File[]>([])
-  const onDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragOver(true)
-  }, [])
-  const onDragLeave = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragOver(false)
-  }, [])
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
-    setIsDragOver(false)
     const files = e.dataTransfer.files
 
     const unUploaded: File[] = []
@@ -690,7 +682,9 @@ const UploadChart: NextPage<
       ) as HTMLInputElement
       const dataTransfer = new DataTransfer()
       dataTransfer.items.add(file)
+
       inputElement.files = dataTransfer.files
+      inputElement.dispatchEvent(new Event("change"))
     }
     if (unUploaded.length) {
       setUnUploadedFiles(unUploaded)
@@ -698,12 +692,7 @@ const UploadChart: NextPage<
   }, [])
 
   return (
-    <div
-      className="flex flex-col gap-2"
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-    >
+    <div className="flex flex-col gap-2" onDrop={onDrop}>
       <fieldset disabled={isSubmitting}>
         <Head>
           <title>{t("title") + " | " + rootT("name")}</title>
@@ -851,21 +840,6 @@ const UploadChart: NextPage<
           </div>
         </ModalPortal>
 
-        <div
-          className={
-            "absolute top-0 left-0 w-full h-full bg-white dark:bg-slate-800 !bg-opacity-50 z-20 " +
-            "transition-opacity duration-100 grid place-items-center backdrop-filter backdrop-blur-sm"
-          }
-          style={{
-            opacity: isDragOver ? 1 : 0,
-            pointerEvents: isDragOver ? "auto" : "none",
-          }}
-        >
-          <div className="text-2xl font-bold text-center">
-            <DocumentAddRegular className="w-32 h-32 text-gray-400" />
-            <p className="text-gray-400">{t("dropHere")}</p>
-          </div>
-        </div>
         <div>
           <h1 className="text-2xl font-bold mb-2">
             {isEdit ? (
@@ -1151,4 +1125,8 @@ const UploadChart: NextPage<
     </div>
   )
 }
-export default requireLogin(UploadChart)
+export default requireLogin((props: Parameters<typeof UploadChart>[0]) => (
+  <DndProvider backend={HTML5Backend}>
+    <UploadChart {...props} />
+  </DndProvider>
+))
