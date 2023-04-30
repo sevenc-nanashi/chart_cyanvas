@@ -331,12 +331,14 @@ const ScheduleInput = (props: {
       onChange={(e) => {
         const current = new Date()
         current.setMinutes(current.getMinutes() - current.getTimezoneOffset())
-        const maybeNew = e.target.valueAsDate
-        const next = maybeNew
-          ? current.getTime() > maybeNew.getTime()
-            ? current
-            : maybeNew
-          : current
+        const maybeNew = e.target.valueAsNumber
+        const next = new Date(
+          maybeNew
+            ? current.getTime() > maybeNew
+              ? current
+              : maybeNew
+            : current
+        )
         const utcNext = new Date(next)
         utcNext.setMinutes(utcNext.getMinutes() + utcNext.getTimezoneOffset())
         props.onChange?.(utcNext)
