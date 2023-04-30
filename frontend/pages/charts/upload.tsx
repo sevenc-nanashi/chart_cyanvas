@@ -879,7 +879,7 @@ const UploadChart: NextPage<
               error={errors["cover"]}
             />
             <FileUploadButton
-              accept="audio/*"
+              accept="audio/*,.mp3,.wav,.ogg"
               name="bgm"
               text={t("param.bgm")}
               icon={<MusicNote2Regular />}
