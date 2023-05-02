@@ -184,6 +184,7 @@ class SonolusController < ApplicationController
           request.host_with_port
       )
     address += "/auth" if request.path.start_with?("/auth/sonolus")
+    address += "/test" if request.path.start_with?("/test/sonolus")
     render json: {
              address:,
              session: Base64.strict_encode64(encrypted),

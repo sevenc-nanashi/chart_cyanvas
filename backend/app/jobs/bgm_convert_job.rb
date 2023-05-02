@@ -14,7 +14,7 @@ class BgmConvertJob < ApplicationJob
         .post(
           "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/convert",
           json: {
-            url: bgm_file.url,
+            url: bgm_file.url
           }
         )
         .then { JSON.parse(_1.body.to_s, symbolize_names: true) }
@@ -25,11 +25,7 @@ class BgmConvertJob < ApplicationJob
         "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/download/#{response[:id]}:bgm"
       )
     raise "Failed to download bgm file!" if bgm_data.status != 200
-    FileResource.upload_from_string(
-      chart_name,
-      :bgm,
-      bgm_data.body.to_s
-    )
+    FileResource.upload_from_string(chart_name, :bgm, bgm_data.body.to_s)
     HTTP.delete(
       "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/download/#{response[:id]}:bgm"
     )

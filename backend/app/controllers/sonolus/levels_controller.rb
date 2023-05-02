@@ -61,6 +61,13 @@ module Sonolus
         }
       ]
     end
+
+    def self.test_search_options
+      self.search_options.reject do |option|
+        %i[q_target q_author].include?(option[:query])
+      end
+    end
+
     def list
       params.permit(:page, *(self.class.search_options.map { |o| o[:query] }))
 
@@ -80,10 +87,16 @@ module Sonolus
       ].present?
       case params[:q_sort].to_i
       when 0
-        charts = charts.order(published_at: :desc)
+        if params[:q_target].to_i == 1
+          charts = charts.order(updated_at: :desc)
+        else
+          charts = charts.order(published_at: :desc)
+        end
       when 1
-        charts = charts.order(updated_at: :desc)
+        charts = charts.order(published_at: :desc)
       when 2
+        charts = charts.order(updated_at: :desc)
+      when 3
         charts = charts.order(likes_count: :desc)
       end
       if params[:q_title].present?
@@ -166,6 +179,45 @@ module Sonolus
                pageCount: page_count
              }
     end
+
+    def test_list
+      require_login!
+      params.permit(:page, *(self.class.test_search_options.map { |o| o[:query] }))
+
+      charts = Chart.where(author_id: current_user.id)
+
+      if params[:q_title].present?
+        charts =
+          charts.where("LOWER(title) LIKE ?", "%#{params[:q_title].downcase}%")
+      end
+      if params[:q_composer].present?
+        charts =
+          charts.where(
+            "LOWER(composer) LIKE ?",
+            "%#{params[:q_composer].downcase}%"
+          )
+      end
+      if params[:q_artist].present?
+        charts =
+          charts.where(
+            "LOWER(artist) LIKE ?",
+            "%#{params[:q_artist].downcase}%"
+          )
+      end
+
+      page_count = (charts.count / 20.0).ceil
+
+      charts = charts.offset((params[:page].to_i) * 20).limit(20)
+
+      render json: {
+               items: charts.map(&:to_sonolus),
+               search: {
+                 options: self.class.test_search_options
+               },
+               pageCount: page_count
+             }
+    end
+
     def show
       params.require(:name)
       chart =

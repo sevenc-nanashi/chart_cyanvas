@@ -43,27 +43,39 @@ Rails.application.routes.draw do
   scope "/sonolus" do
     get "/info", to: "sonolus/info#info"
     get "/levels/list", to: "sonolus/levels#list"
-    get "/levels/chcy-sys-like-on-:name", to: "sonolus/like#to_on"
-    get "/levels/chcy-sys-like-off-:name", to: "sonolus/like#to_off"
-    get "/levels/chcy-:name", to: "sonolus/levels#show"
-    post "/authenticate", to: "sonolus#authenticate"
-
-    scope "/assets" do
-      get "/:type/chcy-:name", to: "sonolus/asset#show"
-      get "/:type/:name", to: "sonolus/asset#show_static"
+  end
+  scope "/test" do
+    scope "sonolus" do
+      get "/info", to: "sonolus/info#test_info"
+      get "/levels/list", to: "sonolus/levels#test_list"
     end
+    get "/rails/active_storage/*path" =>
+          redirect("/rails/active_storage/%{path}")
+  end
+  %w[/sonolus /test/sonolus].each do |prefix|
+    scope prefix do
+      get "/levels/chcy-sys-like-on-:name", to: "sonolus/like#to_on"
+      get "/levels/chcy-sys-like-off-:name", to: "sonolus/like#to_off"
+      get "/levels/chcy-:name", to: "sonolus/levels#show"
+      post "/authenticate", to: "sonolus#authenticate"
 
-    types = %w[backgrounds effects particles engines skins]
-    get "/:type/list",
-        to: "sonolus/asset#list",
-        constraints: {
-          type: Regexp.new(types.join("|"))
-        }
-    get "/:type/chcy-:name",
-        to: "sonolus/asset#show",
-        constraints: {
-          type: Regexp.new(types.join("|"))
-        }
+      scope "/assets" do
+        get "/:type/chcy-:name", to: "sonolus/asset#show"
+        get "/:type/:name", to: "sonolus/asset#show_static"
+      end
+
+      types = %w[backgrounds effects particles engines skins]
+      get "/:type/list",
+          to: "sonolus/asset#list",
+          constraints: {
+            type: Regexp.new(types.join("|"))
+          }
+      get "/:type/chcy-:name",
+          to: "sonolus/asset#show",
+          constraints: {
+            type: Regexp.new(types.join("|"))
+          }
+    end
   end
 
   scope "/auth" do

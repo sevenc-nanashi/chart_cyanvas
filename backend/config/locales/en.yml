@@ -5,6 +5,8 @@ en:
       option:
         name: "Code"
         placeholder: "Please enter 8 digits code"
+  test:
+    title: "Chart Cyanvas: Test Server"
   levels:
     _:
       engine-title: "(Message)"
@@ -57,6 +59,10 @@ en:
       success:
         title: "Login successful!"
         description: "Please go back to your browser."
+    test:
+      welcome:
+        title: "Welcome to Chart Cyanvas!"
+        description: "You can test your chart here, by tapping the [ More ] button below."
   sonolus:
     title: "Chart Cyanvas"
     tag_separator: ", "
@@ -81,7 +87,8 @@ en:
         - "Liked"
       sort: "Sort"
       sorts:
-        - "Newest"
+        - "Default"
+        - "Last published"
         - "Last updated"
         - "Most liked"
       rating_max: "Difficulty (Max)"
