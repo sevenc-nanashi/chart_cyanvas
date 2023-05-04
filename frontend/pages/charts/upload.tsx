@@ -869,6 +869,7 @@ const UploadChart: NextPage<
                   href={`https://cc-wiki.sevenc7c.com/${
                     router.locale || "en"
                   }/guideline`}
+                  target="_blank"
                   key="0"
                 />,
               ]}
