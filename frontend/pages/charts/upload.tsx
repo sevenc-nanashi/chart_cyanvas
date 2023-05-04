@@ -694,7 +694,11 @@ const UploadChart: NextPage<
   }, [])
 
   return (
-    <div className="flex flex-col gap-2" onDrop={onDrop}>
+    <div
+      className="flex flex-col gap-2"
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={onDrop}
+    >
       <fieldset disabled={isSubmitting}>
         <Head>
           <title>{t("title") + " | " + rootT("name")}</title>
