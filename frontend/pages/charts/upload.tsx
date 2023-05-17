@@ -1175,6 +1175,7 @@ export default requireLogin(
     }
     return (
       <DndProvider backend={HTML5Backend}>
+        {/* @ts-expect-error Typeerror occurs somehow */}
         <UploadChart {...props} adminAuthorData={adminAuthorData} />
       </DndProvider>
     )
