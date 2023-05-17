@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     delete "/my/alt_users/:handle", to: "api/my#delete_alt_user"
 
     get "/admin", to: "api/admin#data"
+    get "/admin/users/:handle", to: "api/admin#show_user"
     post "/admin/reconvert_sus", to: "api/admin#reconvert_sus"
   end
 

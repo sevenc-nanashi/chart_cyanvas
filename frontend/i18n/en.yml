@@ -8,6 +8,8 @@ serverErrorNote: "Please let us know <0>on our Discord server</0>."
 
 openInSonolus: "Sonolus"
 
+adminDecorate: " (Admin)"
+
 header:
   login: "Log in"
 home:
@@ -126,8 +128,8 @@ upload:
   publishModal:
     title: "Publish this chart?"
     description: "This chart..."
-    check0: "has originality, (not a copy of existing chart)"
-    check1: "is completed, (do not publish unfinished chart)"
+    check0: "has originality, (Do not publish a copy of existing chart)"
+    check1: "is completed, (Do not publish unfinished chart)"
     check2: "has no regligious, political, sexual or other inappropriate content"
     description2: "Any chart that violates <0>Guideline</0> will be deleted, \
       and the author will be warned or banned."

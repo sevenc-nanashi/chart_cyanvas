@@ -23,7 +23,7 @@ import getConfig from "next/config"
 import ChartSection from "components/ChartSection"
 import OptionalImage from "components/OptionalImage"
 import { useSession } from "lib/atom"
-import { getRatingColor, className, isMine, host } from "lib/utils"
+import { getRatingColor, className, isMine, host, isAdmin } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
@@ -126,7 +126,8 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
     })
   }, [name, router])
 
-  const doesUserOwn = session?.loggedIn && isMine(session, chartData)
+  const doesUserOwn = isMine(session, chartData) || isAdmin(session)
+  const adminDecoration = isAdmin(session) ? rootT("adminDecorate") : ""
 
   let wrappedDescription: string
   if (chartData.description.split(/\n/g).length > 3) {
@@ -334,10 +335,10 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                           href: `/charts/${name}/edit`,
                           icon: EditRegular,
                           className: "bg-theme text-white",
-                          text: t("edit"),
+                          text: t("edit") + adminDecoration,
                         },
                         {
-                          text: t("delete"),
+                          text: t("delete") + adminDecoration,
                           icon: DeleteRegular,
                           className: "bg-red-500 text-white",
                           onClick: deleteChart,

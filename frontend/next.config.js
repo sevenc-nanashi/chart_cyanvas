@@ -2,6 +2,7 @@ require("dotenv").config({ path: "../.env" })
 const nextTranslate = require("next-translate")
 
 console.log("INFO: BACKEND_HOST =", process.env.BACKEND_HOST)
+console.log("INFO: ADMIN_HANDLE =", process.env.ADMIN_HANDLE)
 
 /** @type {import('next').NextConfig} */
 const nextConfig = nextTranslate({
@@ -24,6 +25,7 @@ const nextConfig = nextTranslate({
   },
   publicRuntimeConfig: {
     host: process.env.HOST,
+    adminHandle: process.env.ADMIN_HANDLE,
   },
 
   async rewrites() {

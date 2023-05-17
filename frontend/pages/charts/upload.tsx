@@ -27,7 +27,7 @@ import { useRouter } from "next/router"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { DndProvider } from "react-dnd"
 import { useServerError, useSession } from "lib/atom"
-import { className } from "lib/utils"
+import { className, isAdmin } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import Checkbox from "components/Checkbox"
 import requireLogin from "lib/requireLogin"
@@ -367,15 +367,24 @@ type FormData = {
   scheduledAt: Date | undefined
 }
 const UploadChart: NextPage<
-  | { isEdit: true; chartData: FormData }
-  | { isEdit: false; chartData: undefined }
-> = ({ isEdit, chartData }) => {
+  | {
+      isEdit: true
+      chartData: FormData
+      adminAuthorData: AdminUser | undefined
+    }
+  | {
+      isEdit: false
+      chartData: undefined
+      adminAuthorData: AdminUser | undefined
+    }
+> = ({ isEdit, chartData, adminAuthorData }) => {
   const { t } = useTranslation("upload")
   const { t: rootT } = useTranslation()
   const { t: errorT } = useTranslation("errors")
   const router = useRouter()
 
   const [session] = useSession()
+
   const setServerError = useServerError()
 
   if (!session.loggedIn) {
@@ -415,13 +424,18 @@ const UploadChart: NextPage<
     chartData?.authorHandle || session.user.handle
   )
 
-  const authorName = useMemo(
+  const selectableUsers = useMemo(
     () =>
-      [session.user, ...session.altUsers].find(
-        (u) => u.handle === authorHandle
-      )!.name,
+      isAdmin(session) && adminAuthorData
+        ? [adminAuthorData, ...adminAuthorData.altUsers]
+        : [session.user, ...session.altUsers],
+    [session, adminAuthorData]
+  )
 
-    [authorHandle, session]
+  const authorName = useMemo(
+    () => selectableUsers.find((u) => u.handle === authorHandle)?.name ?? "",
+
+    [authorHandle, selectableUsers]
   )
 
   const [tags, setTags] = useState<Tag[]>(chartData?.tags || [])
@@ -1001,7 +1015,7 @@ const UploadChart: NextPage<
                       display: isAltUserSelectorOpen ? "block" : "none",
                     }}
                   >
-                    {[session.user, ...session.altUsers].map((user) => (
+                    {selectableUsers.map((user) => (
                       <div
                         className={
                           "p-2 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-700 " +
@@ -1132,8 +1146,35 @@ const UploadChart: NextPage<
     </div>
   )
 }
-export default requireLogin((props: Parameters<typeof UploadChart>[0]) => (
-  <DndProvider backend={HTML5Backend}>
-    <UploadChart {...props} />
-  </DndProvider>
-))
+export default requireLogin((props: Parameters<typeof UploadChart>[0]) => {
+  const [session] = useSession()
+  const [adminAuthorData, setAdminAuthorData] = useState<AdminUser | undefined>(
+    undefined
+  )
+  useEffect(() => {
+    if (isAdmin(session)) {
+      ;(async () => {
+        console.log("fetching admin info")
+        const res = await fetch(
+          urlcat(`/api/admin/users/:handle`, {
+            handle: props.chartData?.authorHandle,
+          })
+        )
+        const data = await res.json()
+
+        if (data.code === "ok") {
+          setAdminAuthorData(data.user)
+        }
+      })()
+    }
+  }, [session, props])
+
+  if (isAdmin(session) && !adminAuthorData) {
+    return <></>
+  }
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <UploadChart {...props} adminAuthorData={adminAuthorData} />
+    </DndProvider>
+  )
+})

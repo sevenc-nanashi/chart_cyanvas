@@ -32,6 +32,8 @@ interface User {
   chartCount: number
 }
 
+type AdminUser = User & { altUsers: User[] }
+
 type Session =
   | { loggedIn: true; user: User; altUsers: User[] }
   | { loggedIn: false }

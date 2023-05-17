@@ -29,6 +29,12 @@ export const isMine = (session: Session, chart: Chart) => {
     ...session.altUsers.map((u) => u.handle),
   ].includes(chart.author.handle)
 }
+
+export const isAdmin = (session: Session) => {
+  if (!session.loggedIn) return false
+  return session.user.handle === publicRuntimeConfig.adminHandle
+}
+
 const { publicRuntimeConfig } = getConfig()
 export const host = new URL(publicRuntimeConfig.host!).hostname
 

@@ -213,7 +213,10 @@ module Api
         return
       end
 
-      unless author.id == session[:user_id] ||
+      session_user = User.find_by(id: session[:user_id])
+      unless (
+               ENV["ADMIN_HANDLE"] && session_user.handle == ENV["ADMIN_HANDLE"]
+             ) || author.id == session[:user_id] ||
                author.owner_id == session[:user_id]
         render json: {
                  code: "forbidden",
@@ -406,7 +409,9 @@ module Api
         return
       end
 
-      unless chart.author_id == session[:user_id] ||
+      user = User.find_by(id: session[:user_id])
+      unless (ENV["ADMIN_HANDLE"] && user&.handle == ENV["ADMIN_HANDLE"]) ||
+               chart.author_id == session[:user_id] ||
                chart.author.owner_id == session[:user_id]
         render json: {
                  code: "forbidden",
