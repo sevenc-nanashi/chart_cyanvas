@@ -1146,7 +1146,7 @@ const UploadChart: NextPage<
     </div>
   )
 }
-export default requireLogin((props: Parameters<typeof UploadChart>[0]) => {
+export default requireLogin((props: Omit<Parameters<typeof UploadChart>[0], "adminAuthorData">) => {
   const [session] = useSession()
   const [adminAuthorData, setAdminAuthorData] = useState<AdminUser | undefined>(
     undefined
