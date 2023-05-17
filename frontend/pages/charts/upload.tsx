@@ -1146,35 +1146,37 @@ const UploadChart: NextPage<
     </div>
   )
 }
-export default requireLogin((props: Omit<Parameters<typeof UploadChart>[0], "adminAuthorData">) => {
-  const [session] = useSession()
-  const [adminAuthorData, setAdminAuthorData] = useState<AdminUser | undefined>(
-    undefined
-  )
-  useEffect(() => {
-    if (isAdmin(session)) {
-      ;(async () => {
-        console.log("fetching admin info")
-        const res = await fetch(
-          urlcat(`/api/admin/users/:handle`, {
-            handle: props.chartData?.authorHandle,
-          })
-        )
-        const data = await res.json()
+export default requireLogin(
+  (props: Omit<Parameters<typeof UploadChart>[0], "adminAuthorData">) => {
+    const [session] = useSession()
+    const [adminAuthorData, setAdminAuthorData] = useState<
+      AdminUser | undefined
+    >(undefined)
+    useEffect(() => {
+      if (isAdmin(session)) {
+        ;(async () => {
+          console.log("fetching admin info")
+          const res = await fetch(
+            urlcat(`/api/admin/users/:handle`, {
+              handle: props.chartData?.authorHandle,
+            })
+          )
+          const data = await res.json()
 
-        if (data.code === "ok") {
-          setAdminAuthorData(data.user)
-        }
-      })()
+          if (data.code === "ok") {
+            setAdminAuthorData(data.user)
+          }
+        })()
+      }
+    }, [session, props])
+
+    if (isAdmin(session) && !adminAuthorData) {
+      return <></>
     }
-  }, [session, props])
-
-  if (isAdmin(session) && !adminAuthorData) {
-    return <></>
+    return (
+      <DndProvider backend={HTML5Backend}>
+        <UploadChart {...props} adminAuthorData={adminAuthorData} />
+      </DndProvider>
+    )
   }
-  return (
-    <DndProvider backend={HTML5Backend}>
-      <UploadChart {...props} adminAuthorData={adminAuthorData} />
-    </DndProvider>
-  )
-})
+)
