@@ -54,3 +54,6 @@ Lint/ScriptPermission:
 
 Rails/I18nLocaleTexts:
   Enabled: false
+
+Style/UnlessLogicalOperators:
+  Enabled: false
