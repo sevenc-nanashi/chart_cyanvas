@@ -1153,7 +1153,7 @@ export default requireLogin(
       AdminUser | undefined
     >(undefined)
     useEffect(() => {
-      if (isAdmin(session)) {
+      if (isAdmin(session) && props.chartData) {
         ;(async () => {
           console.log("fetching admin info")
           const res = await fetch(
@@ -1170,7 +1170,7 @@ export default requireLogin(
       }
     }, [session, props])
 
-    if (isAdmin(session) && !adminAuthorData) {
+    if (isAdmin(session) && !adminAuthorData && props.chartData) {
       return <></>
     }
     return (
