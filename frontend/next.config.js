@@ -1,5 +1,5 @@
 require("dotenv").config({ path: "../.env" })
-const nextTranslate = require("next-translate")
+const nextTranslate = require("next-translate-plugin")
 
 console.log("INFO: BACKEND_HOST =", process.env.BACKEND_HOST)
 console.log("INFO: ADMIN_HANDLE =", process.env.ADMIN_HANDLE)
