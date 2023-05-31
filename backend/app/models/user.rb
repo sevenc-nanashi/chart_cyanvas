@@ -14,11 +14,7 @@ class User < ApplicationRecord
            class_name: "User",
            inverse_of: :user
 
-  def display_handle
-    owner_id ? "x#{handle}" : handle
-  end
-
-  def to_frontend()
+  def to_frontend
     {
       handle: owner_id ? "x#{handle}" : handle,
       name:,
@@ -27,5 +23,9 @@ class User < ApplicationRecord
       fgColor: fg_color,
       chartCount: charts_count
     }
+  end
+
+  def admin?
+    ENV["ADMIN_HANDLE"] == sonolus_handle
   end
 end

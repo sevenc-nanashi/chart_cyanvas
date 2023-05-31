@@ -118,7 +118,7 @@ module Api
       end
 
       if params[:author]
-        user = User.find_by(handle: params[:author].delete_prefix("x"))
+        user = User.find_by(handle: params[:author])
         unless user
           render json: {
                    code: "not_found",
@@ -202,8 +202,7 @@ module Api
         return
       end
 
-      author =
-        User.find_by(handle: data_parsed[:authorHandle].delete_prefix("x"))
+      author = User.find_by(handle: data_parsed[:authorHandle])
       unless author
         render json: {
                  code: "not_found",
@@ -214,9 +213,7 @@ module Api
       end
 
       session_user = User.find_by(id: session[:user_id])
-      unless (
-               ENV["ADMIN_HANDLE"] && session_user.handle == ENV["ADMIN_HANDLE"]
-             ) || author.id == session[:user_id] ||
+      unless (session_user.admin?) || author.id == session[:user_id] ||
                author.owner_id == session[:user_id]
         render json: {
                  code: "forbidden",
@@ -410,8 +407,7 @@ module Api
       end
 
       user = User.find_by(id: session[:user_id])
-      unless (ENV["ADMIN_HANDLE"] && user&.handle == ENV["ADMIN_HANDLE"]) ||
-               chart.author_id == session[:user_id] ||
+      unless user&.admin? || chart.author_id == session[:user_id] ||
                chart.author.owner_id == session[:user_id]
         render json: {
                  code: "forbidden",

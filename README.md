@@ -6,6 +6,12 @@ Chart Cyanvas is a sekai custom charts platform.
 > **Warning**
 > This project is still in development!
 
+## Running
+
+1. Install [Docker](https://www.docker.com/)
+2. Copy `.env.prod.example` to `.env.prod` and fill the variables
+3. Run `docker compose -fdocker-compose.prod.yml --profile prod --env-file .env.prod up -d`
+
 ## Architecture
 
 ![Architecture](./architecture.svg)
@@ -48,9 +54,6 @@ docker compose --profile dev up -d
 ```
 goreman start
 ```
-
- 
- 
 
 ## License
 
