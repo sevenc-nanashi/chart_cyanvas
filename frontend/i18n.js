@@ -1,7 +1,7 @@
 /** @type {import("next-translate").I18nConfig} */
 module.exports = {
-  locales: ["default", "en", "ja"],
-  defaultLocale: "default",
+  locales: ["en", "ja"],
+  defaultLocale: "en",
   localeDetection: true,
   defaultNS: "common",
   logger: () => {
