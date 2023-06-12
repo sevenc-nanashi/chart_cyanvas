@@ -190,6 +190,7 @@ module Sonolus
       charts =
         Chart.where(author_id: current_user.id).where.not(visibility: :public)
 
+      charts = charts.order(updated_at: :desc)
       if params[:q_title].present?
         charts =
           charts.where("LOWER(title) LIKE ?", "%#{params[:q_title].downcase}%")
