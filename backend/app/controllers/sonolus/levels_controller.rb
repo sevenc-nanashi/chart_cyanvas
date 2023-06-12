@@ -182,9 +182,13 @@ module Sonolus
 
     def test_list
       require_login!
-      params.permit(:page, *(self.class.test_search_options.map { |o| o[:query] }))
+      params.permit(
+        :page,
+        *(self.class.test_search_options.map { |o| o[:query] })
+      )
 
-      charts = Chart.where(author_id: current_user.id)
+      charts =
+        Chart.where(author_id: current_user.id).where.not(visibility: :public)
 
       if params[:q_title].present?
         charts =
