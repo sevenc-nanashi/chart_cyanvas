@@ -6,7 +6,7 @@ import { write as temporaryWrite } from "tempy"
 
 import Express, { json as jsonHandler } from "express"
 import morgan from "morgan"
-import { fromSus } from "sonolus-pjsekai-engine-extended"
+import { susToUSC, uscToLevelData } from "sonolus-pjsekai-engine-extended"
 import dotenv from "dotenv"
 import axios from "axios"
 import urlJoin from "url-join"
@@ -45,7 +45,7 @@ app.post("/convert", async (req, res) => {
         .json({ code: "invalid_request", message: "Failed to get sus file" })
       return
     }
-    const baseJson = fromSus(sus.data)
+    const baseJson = uscToLevelData(susToUSC(sus.data))
     const json = JSON.stringify(baseJson)
     const buffer = Buffer.from(json)
     const compressed = await gzip(buffer)
