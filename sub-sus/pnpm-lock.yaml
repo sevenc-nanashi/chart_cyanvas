@@ -19,7 +19,7 @@ dependencies:
     version: 1.10.0
   sonolus-pjsekai-engine-extended:
     specifier: github:sevenc-nanashi/sonolus-pjsekai-engine-extended#build
-    version: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/ccc38e3541fb85731a3a275a08946bb793ee1aaf
+    version: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/bc4c8c6bcbe66a47cfffb60245076c2241a7f49b
   tempy:
     specifier: ^1.0.1
     version: 1.0.1
@@ -4694,8 +4694,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/ccc38e3541fb85731a3a275a08946bb793ee1aaf:
-    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/ccc38e3541fb85731a3a275a08946bb793ee1aaf}
+  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/bc4c8c6bcbe66a47cfffb60245076c2241a7f49b:
+    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/bc4c8c6bcbe66a47cfffb60245076c2241a7f49b}
     name: sonolus-pjsekai-engine-extended
     version: 1.0.6
     dependencies:
