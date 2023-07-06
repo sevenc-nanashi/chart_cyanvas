@@ -55,7 +55,7 @@ group :development do
 end
 
 group :production do
-  gem "puma", "~> 5.0"
+  gem "falcon", "~> 0.42"
 end
 
 gem "shortuuid", "~> 0.6.0"

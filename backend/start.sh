@@ -10,4 +10,4 @@ echo "Starting sidekiq"
 sidekiq &
 
 echo "Starting rails server"
-rails s
+falcon serve --bind http://localhost:3000
