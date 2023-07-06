@@ -6,6 +6,11 @@ services:
     pull_policy: always
     volumes:
       - ./.env.prod:/app/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   backend:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/backend:latest"
@@ -13,6 +18,11 @@ services:
     volumes:
       - ./.env.prod:/app/.env
       - ./rails_master.key:/app/config/master.key
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   sub-audio:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-audio:latest"
@@ -20,6 +30,11 @@ services:
     restart: always
     volumes:
       - ./.env.prod:/app/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3202/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   sub-image:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-image:latest"
@@ -27,6 +42,11 @@ services:
     restart: always
     volumes:
       - ./.env.prod:/app/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3203/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   sub-sus:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-sus:latest"
@@ -34,6 +54,11 @@ services:
     restart: always
     volumes:
       - ./.env.prod:/app/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3201/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   redis:
     image: "redis:7.0.7-alpine"
