@@ -14,5 +14,5 @@ COPY backend/. .
 
 ENV RAILS_ENV production
 ENV RUBY_YJIT_ENABLE 1
-ENV CONSOLE_OUTPUT xterm
+ENV CONSOLE_OUTPUT XTerm
 CMD ["bundle", "exec", "bash", "./start.sh"]
