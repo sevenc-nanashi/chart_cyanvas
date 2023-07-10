@@ -343,7 +343,6 @@ GEM
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
     uniform_notifier (1.16.0)
-    webrick (1.8.1)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -360,6 +359,7 @@ DEPENDENCIES
   bullet
   color-generator (~> 0.0.4)
   connection_pool (~> 2.3)
+  console (~> 1.17)
   counter_culture (~> 3.2)
   debug
   dotenv-rails (~> 2.8)
@@ -382,7 +382,6 @@ DEPENDENCIES
   spring
   syntax_tree (~> 5.1)
   tzinfo-data
-  webrick (~> 1.7)
 
 RUBY VERSION
    ruby 3.2.0p0

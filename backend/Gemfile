@@ -50,13 +50,10 @@ group :development do
   gem "rubocop-rails", "~> 2.17", require: false
   gem "rubocop-discourse", "~> 3.0", require: false
 
-  gem "webrick", "~> 1.7"
   gem "syntax_tree", "~> 5.1", require: false
 end
 
-group :production do
-  gem "falcon", "~> 0.42"
-end
+gem "falcon", "~> 0.42"
 
 gem "shortuuid", "~> 0.6.0"
 
@@ -83,3 +80,5 @@ gem "color-generator", "~> 0.0.4"
 gem "counter_culture", "~> 3.2"
 
 gem "sidekiq", "~> 7.0"
+
+gem "console", "~> 1.17"
