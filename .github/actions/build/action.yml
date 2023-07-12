@@ -10,13 +10,8 @@ inputs:
     type: string
     required: false
 
-defaults:
-  run:
-    shell: bash
-
 runs:
   using: "composite"
-  runs-on: ubuntu-latest
   steps:
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -31,23 +26,20 @@ runs:
         restore-keys: |
           ${{ runner.os }}-buildx-${{ inputs.directory-name }}-
     - name: Prepare Current Date Arg
+      shell: bash
       env:
         TZ: "Asia/Tokyo"
       run: echo "CURRENT_DATETIME=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
-    - name: Set token variable
-      id: set_token
-      run: |
-        echo "token=${{ github.token }}" >> $GITHUB_OUTPUT
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ steps.set_token.outputs.token }}
+        password: ${{ github.token }}
 
     - name: Prepare cache
+      shell: bash
       run: mkdir -p /tmp/.buildx-cache || true
     - name: Build and push Docker image
       uses: docker/build-push-action@v3
@@ -67,6 +59,7 @@ runs:
         ulimit: nofile=1024000:1024000
 
     - name: Move cache
+      shell: bash
       run: |
         rm -rf /tmp/.buildx-cache
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
