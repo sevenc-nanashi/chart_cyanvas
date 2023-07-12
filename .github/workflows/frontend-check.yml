@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-next-
       - name: Build production
         if: github.ref_name == 'main'
-        working-directory: ./sub-sus
+        working-directory: ./frontend
         run: |
           pnpm build
 
