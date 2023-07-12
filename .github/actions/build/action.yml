@@ -21,9 +21,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.event.inputs.directory_name }}-${{ github.sha }}
+        key: ${{ runner.os }}-buildx-${{ inputs.directory_name }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-buildx-${{ github.event.inputs.directory_name }}-
+          ${{ runner.os }}-buildx-${{ inputs.directory_name }}-
     - name: Prepare Current Date Arg
       env:
         TZ: "Asia/Tokyo"
@@ -34,7 +34,7 @@ jobs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ github.token }}
 
     - name: Prepare cache
       run: mkdir -p /tmp/.buildx-cache || true
@@ -42,15 +42,15 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: .
-        file: ./${{ github.event.inputs.directory_name }}/Dockerfile
+        file: ./${{ inputs.directory_name }}/Dockerfile
         build-args: |
           ENV_FILE=.env.build
           ${{ github.event.inputs.build_args }}
         platforms: linux/amd64,linux/arm64
         push: true
         tags: |
-          ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ github.event.inputs.directory_name }}:${{ env.CURRENT_DATETIME }}
-          ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ github.event.inputs.directory_name }}:latest
+          ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ inputs.directory_name }}:${{ env.CURRENT_DATETIME }}
+          ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ inputs.directory_name }}:latest
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new
         ulimit: nofile=1024000:1024000
