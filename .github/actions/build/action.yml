@@ -3,9 +3,11 @@ name: "Build and push docker image"
 inputs:
   directory-name:
     description: "Name of the directory"
+    type: string
     required: true
   build-args:
     description: "Build args"
+    type: string
     required: false
 
 jobs:
