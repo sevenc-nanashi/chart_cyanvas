@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 require "active_support/core_ext/integer/time"
 
+unless ENV["ADMIN_HANDLE"]
+  raise "ADMIN_HANDLE is not set! Please set it in .env.prod"
+end
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_06_030051) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_24_140147) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,9 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_030051) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index %w[record_type record_id name blob_id],
-            name: "index_active_storage_attachments_uniqueness",
-            unique: true
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -41,9 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_030051) do
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
-    t.index %w[blob_id variation_digest],
-            name: "index_active_storage_variant_records_uniqueness",
-            unique: true
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "charts", force: :cascade do |t|
@@ -118,17 +114,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_030051) do
     t.string "bg_color"
     t.bigint "owner_id"
     t.integer "charts_count", default: 0, null: false
+    t.string "discord_id"
+    t.string "discord_name"
+    t.string "discord_discriminator"
+    t.string "discord_token"
+    t.string "discord_refresh_token"
+    t.datetime "discord_expires_at"
+    t.string "sonolus_handle", null: false
     t.index ["handle"], name: "index_users_on_handle"
     t.index ["name"], name: "index_users_on_name"
     t.index ["owner_id"], name: "index_users_on_owner_id"
   end
 
-  add_foreign_key "active_storage_attachments",
-                  "active_storage_blobs",
-                  column: "blob_id"
-  add_foreign_key "active_storage_variant_records",
-                  "active_storage_blobs",
-                  column: "blob_id"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "charts", "charts", column: "variant_id"
   add_foreign_key "charts", "users", column: "author_id"
   add_foreign_key "co_authors", "users"

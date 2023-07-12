@@ -120,12 +120,8 @@ module Sonolus
       if params[:q_author].present?
         authors =
           params[:q_author].split.map do |author|
-            user =
-              if author.start_with?("x")
-                User.find_by(handle: author[1..])
-              else
-                User.find_by(handle: author)
-              end
+            user = User.find_by(sonolus_handle: author)
+            user = User.find_by(handle: author) if user.nil?
             user&.id
           end
         if authors.any?(nil)

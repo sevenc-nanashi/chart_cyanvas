@@ -29,16 +29,7 @@ module Api
 
     def show_user
       params.require(:handle)
-      @user =
-        if params[:handle].start_with?("x")
-          User
-            .where(handle: params[:handle].delete_prefix("x"))
-            .where.not(owner_id: nil)
-            .first
-            .owner
-        else
-          User.find_by(handle: params[:handle])
-        end
+      @user = User.find_by(handle: params[:handle])
       if @user
         user_data = @user.to_frontend
         user_data[:altUsers] = @user.alt_users.map(&:to_frontend)
@@ -50,7 +41,7 @@ module Api
     end
 
     around_action do |controller, action|
-      if !ENV["ADMIN_HANDLE"] || current_user&.handle != ENV["ADMIN_HANDLE"]
+      unless current_user&.admin?
         logger.warn "Unauthorized admin access attempt by #{current_user&.handle} (Admin handle: #{ENV["ADMIN_HANDLE"]})"
         render json: { code: "forbidden" }, status: :forbidden
         next

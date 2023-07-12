@@ -8,14 +8,16 @@
 #   Character.create(name: "Luke", movie: movies.first)
 user =
   User.create!(
-    handle: 1073,
+    handle: "1073",
+    sonolus_handle: "1073",
     name: "Nanashi.",
     about_me: "I'm a admin.",
     fg_color: "#fff",
     bg_color: "#48b0d5"
   )
 user.create_user!(
-  handle: 740,
+  handle: "x740",
+  sonolus_handle: "x740",
   name: "Nanatsuki Kuten",
   about_me: "Alt account of Nanashi.",
   fg_color: "#48b0d5",
