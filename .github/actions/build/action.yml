@@ -29,12 +29,17 @@ jobs:
         TZ: "Asia/Tokyo"
       run: echo "CURRENT_DATETIME=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
+    - name: Set token variable
+      id: set_token
+      run: |
+        echo "token=${{ github.token }}" >> $GITHUB_OUTPUT
+
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ github.token }}
+        password: ${{ steps.set_token.outputs.token }}
 
     - name: Prepare cache
       run: mkdir -p /tmp/.buildx-cache || true
