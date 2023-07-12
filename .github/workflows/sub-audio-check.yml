@@ -52,14 +52,8 @@ jobs:
         run: |
           poetry run poe test
 
-      - name: Dispatch build action
+      - name: Build image
         if: github.ref_name == 'main'
-        uses: codex-/return-dispatch@v1
+        uses: ./.github/actions/build
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: main
-          owner: sevenc-nanashi
-          repo: chart_cyanvas
-          workflow: build.yml
-          workflow_timeout_seconds: 120
-          workflow_inputs: '{"directory_name": "sub-audio"}'
+          directory-name: sub-audio

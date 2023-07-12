@@ -1,0 +1,61 @@
+name: "Build and push docker image"
+
+inputs:
+  directory-name:
+    description: "Name of the directory"
+    required: true
+  build-args:
+    description: "Build args"
+    required: false
+
+jobs:
+  using: "composite"
+  runs-on: ubuntu-latest
+  steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Cache Docker layers
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.event.inputs.directory_name }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-${{ github.event.inputs.directory_name }}-
+    - name: Prepare Current Date Arg
+      env:
+        TZ: "Asia/Tokyo"
+      run: echo "CURRENT_DATETIME=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Prepare cache
+      run: mkdir -p /tmp/.buildx-cache || true
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: ./${{ github.event.inputs.directory_name }}/Dockerfile
+        build-args: |
+          ENV_FILE=.env.build
+          ${{ github.event.inputs.build_args }}
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ github.event.inputs.directory_name }}:${{ env.CURRENT_DATETIME }}
+          ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ github.event.inputs.directory_name }}:latest
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new
+        ulimit: nofile=1024000:1024000
+
+    - name: Move cache
+      run: |
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache

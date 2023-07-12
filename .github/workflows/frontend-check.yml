@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: frontend/.node-version
-          cache: 'pnpm'
+          cache: "pnpm"
           cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Run frontend lint
@@ -36,14 +36,21 @@ jobs:
         run: |
           pnpm typecheck
 
-      - name: Dispatch build action
-        if: github.ref_name == 'main'
-        uses: codex-/return-dispatch@v1
+      - name: Cache .next
+        uses: actions/cache@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: main
-          owner: sevenc-nanashi
-          repo: chart_cyanvas
-          workflow: build.yml
-          workflow_timeout_seconds: 120
-          workflow_inputs: '{"directory_name": "frontend"}'
+          path: frontend/.next
+          key: ${{ runner.os }}-next-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-next-
+      - name: Build production
+        if: github.ref_name == 'main'
+        working-directory: ./sub-sus
+        run: |
+          pnpm build
+
+      - name: Build image
+        if: github.ref_name == 'main'
+        uses: ./.github/actions/build
+        with:
+          directory-name: frontend

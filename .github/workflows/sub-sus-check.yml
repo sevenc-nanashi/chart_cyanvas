@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: sub-sus/.node-version
-          cache: 'pnpm'
+          cache: "pnpm"
           cache-dependency-path: sub-sus/pnpm-lock.yaml
 
       - name: Run sub-sus lint
@@ -38,14 +38,14 @@ jobs:
         run: |
           pnpm typecheck
 
-      - name: Dispatch build action
+      - name: Build production
         if: github.ref_name == 'main'
-        uses: codex-/return-dispatch@v1
+        working-directory: ./sub-sus
+        run: |
+          pnpm build
+
+      - name: Build image
+        if: github.ref_name == 'main'
+        uses: ./.github/actions/build
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: main
-          owner: sevenc-nanashi
-          repo: chart_cyanvas
-          workflow: build.yml
-          workflow_timeout_seconds: 120
-          workflow_inputs: '{"directory_name": "sub-sus"}'
+          directory-name: sub-sus
