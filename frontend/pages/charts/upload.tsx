@@ -888,6 +888,36 @@ const UploadChart: NextPage<
                 />,
               ]}
             />
+            <br />
+            <br />
+            {t("discordInfo.description")}
+            <p>
+              {t("discordInfo.status.label")}
+
+              {session.discord ? (
+                <>
+                  {t("discordInfo.status.connected", {
+                    username: session.discord.username,
+                  })}
+                  <a
+                    href="/api/discord/authorize"
+                    className="text-blue-500 hover:underline ml-2"
+                  >
+                    {t("discordInfo.reconnect")}
+                  </a>
+                </>
+              ) : (
+                <>
+                  {t("discordInfo.status.notConnected")}
+                  <a
+                    href="/api/discord/authorize"
+                    className="text-blue-500 hover:underline ml-2"
+                  >
+                    {t("discordInfo.connect")}
+                  </a>
+                </>
+              )}
+            </p>
           </p>
           <div className="grid xl:grid-cols-3 gap-4">
             <FileUploadButton

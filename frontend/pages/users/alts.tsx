@@ -219,7 +219,7 @@ const MyAlts: NextPage = () => {
           {session.altUsers.map((altUser) => (
             <div
               key={altUser.handle}
-              className="flex flex-row gap-2 items-center bg-slate-100 dark:bg-slate-900 shadow-sm rounded-xl flex dark:shadow-slate-700/25 p-4"
+              className="flex flex-row gap-2 items-center bg-slate-100 dark:bg-slate-900 shadow-sm rounded-xl dark:shadow-slate-700/25 p-4"
             >
               {editingUsersHandle === altUser.handle ? (
                 <>

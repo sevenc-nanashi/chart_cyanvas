@@ -14,4 +14,4 @@ if ActiveSupport::Logger.respond_to?(:logger_outputs_to?)
   end
 end
 
-Rails.logger = Console::Compatible::Logger.new("Rails", Console.logger.output)
+Rails.logger = ActiveSupport::TaggedLogging.new(Console::Compatible::Logger.new("Rails", Console.logger.output))

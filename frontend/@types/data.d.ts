@@ -34,7 +34,18 @@ interface User {
 
 type AdminUser = User & { altUsers: User[] }
 
+type DiscordInfo = {
+  displayName: string
+  username: string
+  avatar: string
+}
+
 type Session =
-  | { loggedIn: true; user: User; altUsers: User[] }
+  | {
+      loggedIn: true
+      user: User
+      altUsers: User[]
+      discord: DiscordInfo | undefined
+    }
   | { loggedIn: false }
   | { loggedIn: undefined }

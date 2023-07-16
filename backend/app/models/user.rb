@@ -18,7 +18,7 @@ class User < ApplicationRecord
     owner_id ? "x#{handle}" : handle
   end
 
-  def to_frontend()
+  def to_frontend
     {
       handle: owner_id ? "x#{handle}" : handle,
       name:,
@@ -27,5 +27,10 @@ class User < ApplicationRecord
       fgColor: fg_color,
       chartCount: charts_count
     }
+  end
+
+  def discord
+    return unless discord_token
+    @discord ||= DiscordRequest.new(bearer_token: discord_token)
   end
 end

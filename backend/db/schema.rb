@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_15_055614) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_16_013800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -119,6 +119,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_055614) do
     t.string "discord_token"
     t.string "discord_refresh_token"
     t.datetime "discord_expires_at"
+    t.string "discord_display_name"
+    t.string "discord_username"
+    t.string "discord_avatar"
     t.index ["handle"], name: "index_users_on_handle"
     t.index ["name"], name: "index_users_on_name"
     t.index ["owner_id"], name: "index_users_on_owner_id"
