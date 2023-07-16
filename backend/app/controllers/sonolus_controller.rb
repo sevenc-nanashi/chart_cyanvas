@@ -121,7 +121,7 @@ class SonolusController < ApplicationController
       rating: 0,
       engine: {
         name: "chcy-dummy",
-        version: 4,
+        version: 0,
         title: I18n.t("levels._.engine-title", **kwargs)
       },
       cover: cover_data,
