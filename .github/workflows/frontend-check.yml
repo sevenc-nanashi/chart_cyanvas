@@ -57,7 +57,7 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: frontend/pnpm-lock.yaml
       - name: Cache .next
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: frontend/.next
           key: ${{ runner.os }}-next-${{ hashFiles('**/pnpm-lock.yaml') }}
