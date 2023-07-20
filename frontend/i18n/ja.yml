@@ -188,3 +188,11 @@ myAlts:
   errors:
     tooShort: 名前が短すぎます。
     tooLong: 名前が長すぎます。
+
+discordError:
+  title: 連携エラー
+  description: Discordとの連携に失敗しました（{{code}}）。
+  error:
+    discordError: Discordとの通信に失敗しました
+    notInGuild: サーバーに参加していません
+    unknown: 不明なエラーが発生しました

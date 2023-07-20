@@ -48,6 +48,7 @@ class DiscordRequest
       end
     end
 
+    Rails.logger.info("Discord: #{method.to_s.upcase} #{path}")
     response =
       HTTP.request(method, "https://discord.com/api/v10#{path}", **options)
 

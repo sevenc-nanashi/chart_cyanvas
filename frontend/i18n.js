@@ -30,7 +30,7 @@ module.exports = {
     "/users/[handle]": ["user"],
     "/users/alts": ["myAlts"],
 
-    "/discord/callback": ["discordCallback"],
+    "/discord/error": ["discordError"],
 
     "/admin": ["admin"],
   },

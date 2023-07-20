@@ -8,7 +8,7 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Dotenv.load(
+Dotenv.overload(
   *(
     %w[../.env ../.env.local ../../.env ../../.env.local].map do |f|
       __dir__ + "/" + f

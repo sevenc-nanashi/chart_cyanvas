@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     post "/admin/reconvert_sus", to: "api/admin#reconvert_sus"
 
     get "/my/discord", to: "api/discord#my_discord"
-    get "/discord/authorize", to: "api/discord#authorize"
+    get "/discord/link", to: "api/discord#link"
     get "/discord/callback", to: "api/discord#callback"
   end
 

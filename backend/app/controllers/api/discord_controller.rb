@@ -8,10 +8,10 @@ class Api::DiscordController < FrontendController
     #   "HOST",
     #   (Rails.env.development? ? "http://" : "https://") + request.host_with_port
     # ) + "/api/discord/callback"
-    "https://example.com/api/discord/callback"
+    "http://localhost:3100/api/discord/callback"
   end
   def scope
-    %w[identify guilds.join guilds]
+    %w[identify guilds role_connections.write]
   end
   def my_discord
     require_login!
@@ -27,7 +27,7 @@ class Api::DiscordController < FrontendController
              avatar: session.user.discord_avatar
            }
   end
-  def authorize
+  def link
     state = SecureRandom.urlsafe_base64(32)
     $redis.with do |conn|
       conn.set(
@@ -53,15 +53,15 @@ class Api::DiscordController < FrontendController
       return
     end
 
-    data =
-      $redis
-        .with { |conn| conn.get("discord_auth_token/#{params[:state]}") }
-        &.then { |json| JSON.parse(json, symbolize_names: true) }
+    # data =
+    #   $redis
+    #     .with { |conn| conn.get("discord_auth_token/#{params[:state]}") }
+    #     &.then { |json| JSON.parse(json, symbolize_names: true) }
 
-    unless data && data[:user_id] == session[:user_id]
-      render json: { error: "Invalid state" }, status: :bad_request
-      return
-    end
+    # unless data && data[:user_id] == session[:user_id]
+    #   render json: { error: "Invalid state" }, status: :bad_request
+    #   return
+    # end
 
     payload = {
       client_id: ENV["DISCORD_CLIENT_ID"],
@@ -69,10 +69,16 @@ class Api::DiscordController < FrontendController
       grant_type: "authorization_code",
       code: params[:code],
       redirect_uri: redirect_uri,
-      scope: scope.join("+")
+      scope: scope.join(" ")
     }
 
-    response = $discord.post("/oauth2/token", form: payload)
+    response =
+      begin
+        $discord.post("/oauth2/token", form: payload)
+      rescue StandardError
+        redirect_to "/discord/error?code=discord_error"
+        return
+      end
 
     session_user = User.find_by(id: session[:user_id])
     session_user.update!(
@@ -83,7 +89,13 @@ class Api::DiscordController < FrontendController
 
     $redis.with { |conn| conn.del("discord_auth_token/#{params[:state]}") }
 
-    discord_user = session_user.discord.get("/users/@me")
+    discord_user =
+      begin
+        session_user.discord.get("/users/@me")
+      rescue StandardError
+        redirect_to "/discord/error?code=discord_error"
+        return
+      end
     session_user.update!(
       **if discord_user["discriminator"] == "0"
         {
@@ -122,19 +134,30 @@ class Api::DiscordController < FrontendController
       end
     )
 
+    member =
+      begin
+        $discord.get(
+          "/guilds/#{ENV["DISCORD_GUILD_ID"]}/members/#{discord_user["id"]}"
+        )
+      rescue RuntimeError
+        redirect_to "/discord/error?code=notInGuild"
+      end
+
     begin
-      $discord.get(
-        "/guilds/#{ENV["DISCORD_GUILD_ID"]}/members/#{discord_user["id"]}"
-      )
-    rescue RuntimeError
-      $discord.put(
-        "/guilds/#{ENV["DISCORD_GUILD_ID"]}/members/#{discord_user["id"]}",
+      session_user.discord.put(
+        "/users/@me/applications/#{ENV["DISCORD_CLIENT_ID"]}/role-connection",
         json: {
-          access_token: response["access_token"]
+          "platform_name" => "Chart Cyanvas / Sonolus",
+          "platform_username" => session_user.to_s
         }
       )
+    rescue StandardError
+      redirect_to "/discord/error?code=discordError"
     end
 
     redirect_to "/charts/upload"
+  rescue StandardError => e
+    Rails.logger.error e
+    redirect_to "/discord/error?code=unknown"
   end
 end
