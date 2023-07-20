@@ -213,9 +213,8 @@ module Api
         return
       end
 
-      session_user = User.find_by(id: session[:user_id])
       unless (
-               ENV["ADMIN_HANDLE"] && session_user.handle == ENV["ADMIN_HANDLE"]
+               ENV["ADMIN_HANDLE"] && current_user.handle == ENV["ADMIN_HANDLE"]
              ) || author.id == session[:user_id] ||
                author.owner_id == session[:user_id]
         render json: {
@@ -259,6 +258,7 @@ module Api
     def create
       params.permit(%i[data chart cover bgm])
       require_login!
+      require_discord!
       unless params.to_unsafe_hash.symbolize_keys in {
                data: String,
                chart: ActionDispatch::Http::UploadedFile,

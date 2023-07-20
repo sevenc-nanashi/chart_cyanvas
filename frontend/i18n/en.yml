@@ -68,6 +68,13 @@ upload:
     Read <0>Guideline</0> before posting a chart.
 
     You can upload files by dragging and dropping them here.
+  discordInfo:
+    description: You need to link your Discord account to post a chart.
+    status:
+      label: "You have: "
+      connected: "Linked ({{username}})"
+      notConnected: "Not linked"
+    connectGuide: "How to link your Discord account"
 
   param:
     title: "Title"
@@ -196,3 +203,12 @@ admin:
         Reconvert all SUS to LevelData. Use this when the specification of chart data is changed by engine update.
       button: "Reconvert"
       success: "{{count}} charts were reconverted."
+
+discordError:
+  title: Integration failed
+  description: |
+    Failed to integrate with Discord. ({{code}})
+  error:
+    discordError: Discord API error
+    notInGuild: You are not in the server
+    unknown: Unknown error

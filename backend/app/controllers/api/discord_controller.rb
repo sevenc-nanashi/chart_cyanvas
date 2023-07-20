@@ -15,17 +15,16 @@ class Api::DiscordController < FrontendController
   def my_discord
     require_login!
 
-    session_user = User.find_by(id: session[:user_id])
-    unless session_user.discord_token
+    unless current_user.discord_token
       render json: { discord: nil }
       return
     end
 
     render json: {
              discord: {
-               displayName: session_user.discord_display_name,
-               username: session_user.discord_username,
-               avatar: session_user.discord_avatar
+               displayName: current_user.discord_display_name,
+               username: current_user.discord_username,
+               avatar: current_user.discord_avatar
              }
            }
   end
@@ -82,8 +81,7 @@ class Api::DiscordController < FrontendController
         return
       end
 
-    session_user = User.find_by(id: session[:user_id])
-    session_user.update!(
+    current_user.update!(
       discord_token: response["access_token"],
       discord_refresh_token: response["refresh_token"],
       discord_expires_at: Time.now + response["expires_in"].to_i.seconds
@@ -93,12 +91,12 @@ class Api::DiscordController < FrontendController
 
     discord_user =
       begin
-        session_user.discord.get("/users/@me")
+        current_user.discord.get("/users/@me")
       rescue StandardError
         redirect_to "/discord/error?code=discord_error"
         return
       end
-    session_user.update!(
+    current_user.update!(
       **if discord_user["discriminator"] == "0"
         {
           discord_id: discord_user["id"],
@@ -136,6 +134,8 @@ class Api::DiscordController < FrontendController
       end
     )
 
+    current_user.update!(discord_status: :linked)
+
     member =
       begin
         $discord.get(
@@ -146,16 +146,18 @@ class Api::DiscordController < FrontendController
       end
 
     begin
-      session_user.discord.put(
+      current_user.discord.put(
         "/users/@me/applications/#{ENV["DISCORD_CLIENT_ID"]}/role-connection",
         json: {
           "platform_name" => "Chart Cyanvas / Sonolus",
-          "platform_username" => session_user.to_s
+          "platform_username" => current_user.to_s
         }
       )
     rescue StandardError
       redirect_to "/discord/error?code=discordError"
     end
+
+    current_user.update!(discord_status: :joined)
 
     redirect_to "/charts/upload"
   rescue StandardError => e

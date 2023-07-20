@@ -13,6 +13,7 @@ class User < ApplicationRecord
            dependent: :destroy,
            class_name: "User",
            inverse_of: :user
+  enum discord_status: %i[none linked joined]
 
   def display_handle
     owner_id ? "x#{handle}" : handle
