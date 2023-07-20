@@ -30,7 +30,9 @@ function App({ Component, pageProps }: AppProps) {
           fetch(`/api/my/alt_users`).then(
             async (res) => (await res.json()).users
           ),
-          fetch(`/api/my/discord`).then(async (res) => (await res.json()).user),
+          fetch(`/api/my/discord`).then(
+            async (res) => (await res.json()).discord
+          ),
         ])
 
         setSession({

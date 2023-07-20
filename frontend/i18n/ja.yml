@@ -70,8 +70,7 @@ upload:
       label: "連携状態："
       connected: "連携済み（{{username}}）"
       notConnected: "未連携"
-    connect: "連携"
-    reconnect: "再連携"
+    connectGuide: "連携方法"
 
   param:
     title: "タイトル"

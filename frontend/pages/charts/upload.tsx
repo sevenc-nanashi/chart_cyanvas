@@ -713,7 +713,7 @@ const UploadChart: NextPage<
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
     >
-      <fieldset disabled={isSubmitting}>
+      <fieldset disabled={isSubmitting || !session.discord}>
         <Head>
           <title>{t("title") + " | " + rootT("name")}</title>
         </Head>
@@ -860,65 +860,61 @@ const UploadChart: NextPage<
           </div>
         </ModalPortal>
 
-        <div>
-          <h1 className="text-2xl font-bold mb-2">
-            {isEdit ? (
-              <>
-                {t("titleEdit", { title: chartData.title })}
-                {chartData.visibility === "public" || (
-                  <span className="ml-2 text-slate-900 dark:text-white">
-                    <LockClosedRegular />
-                  </span>
-                )}
-              </>
-            ) : (
-              t("title")
-            )}
-          </h1>
-          <p className="mb-4">
-            <Trans
-              i18nKey="upload:description"
-              components={[
-                <Link
-                  href={`https://cc-wiki.sevenc7c.com/${
-                    router.locale || "en"
-                  }/guideline`}
-                  target="_blank"
-                  key="0"
-                />,
-              ]}
-            />
-            <br />
-            <br />
-            {t("discordInfo.description")}
-            <p>
-              {t("discordInfo.status.label")}
-
-              {session.discord ? (
-                <>
-                  {t("discordInfo.status.connected", {
-                    username: session.discord.username,
-                  })}
-                  <a
-                    href="/api/discord/authorize"
-                    className="text-blue-500 hover:underline ml-2"
-                  >
-                    {t("discordInfo.reconnect")}
-                  </a>
-                </>
-              ) : (
-                <>
-                  {t("discordInfo.status.notConnected")}
-                  <a
-                    href="/api/discord/authorize"
-                    className="text-blue-500 hover:underline ml-2"
-                  >
-                    {t("discordInfo.connect")}
-                  </a>
-                </>
+        <h1 className="text-2xl font-bold mb-2">
+          {isEdit ? (
+            <>
+              {t("titleEdit", { title: chartData.title })}
+              {chartData.visibility === "public" || (
+                <span className="ml-2 text-slate-900 dark:text-white">
+                  <LockClosedRegular />
+                </span>
               )}
-            </p>
-          </p>
+            </>
+          ) : (
+            t("title")
+          )}
+        </h1>
+        <p className="mb-4">
+          <Trans
+            i18nKey="upload:description"
+            components={[
+              <Link
+                href={`https://cc-wiki.sevenc7c.com/${
+                  router.locale || "en"
+                }/guideline`}
+                target="_blank"
+                key="0"
+              />,
+            ]}
+          />
+          <br />
+          <br />
+          {t("discordInfo.description")}
+          <br />
+          {t("discordInfo.status.label")}
+          {session.discord ? (
+            <>
+              {t("discordInfo.status.connected", {
+                username: session.discord.username,
+              })}
+            </>
+          ) : (
+            <>{t("discordInfo.status.notConnected")}</>
+          )}
+          <Link
+            href={`https://cc-wiki.sevenc7c.com/${
+              router.locale || "en"
+            }/discord`}
+            target="_blank"
+            className="ml-2"
+          >
+            {t("discordInfo.connectGuide")}
+          </Link>
+        </p>
+        <div className="relative">
+          {!session.discord && (
+            <div className="absolute z-50 top-0 left-0 w-full h-full bg-white bg-opacity-50 cursor-not-allowed" />
+          )}
           <div className="grid xl:grid-cols-3 gap-4">
             <FileUploadButton
               accept="image/*"
@@ -942,7 +938,7 @@ const UploadChart: NextPage<
               error={errors["chart"]}
             />
           </div>
-          <div className="flex items-middle pt-2">
+          <div className="items-middle pt-2 hidden lg:flex">
             <InfoRegular className="h-6" />
             <span className="text-sm"> {t("dndHint")}</span>
           </div>

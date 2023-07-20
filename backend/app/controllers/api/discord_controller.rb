@@ -16,15 +16,18 @@ class Api::DiscordController < FrontendController
   def my_discord
     require_login!
 
-    unless session.user.discord_id
+    session_user = User.find_by(id: session[:user_id])
+    unless session_user.discord_token
       render json: { discord: nil }
       return
     end
 
     render json: {
-             displayName: session.user.discord_display_name,
-             username: session.user.discord_username,
-             avatar: session.user.discord_avatar
+             discord: {
+               displayName: session_user.discord_display_name,
+               username: session_user.discord_username,
+               avatar: session_user.discord_avatar
+             }
            }
   end
   def link
@@ -100,7 +103,7 @@ class Api::DiscordController < FrontendController
       **if discord_user["discriminator"] == "0"
         {
           discord_id: discord_user["id"],
-          discord_username: discord_user["username"],
+          discord_username: "@" + discord_user["username"],
           discord_display_name:
             discord_user["global_name"] || discord_user["username"],
           discord_avatar:
