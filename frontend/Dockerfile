@@ -4,7 +4,9 @@ WORKDIR /app
 
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
-RUN npm install -g pnpm && pnpm install
+ENV NODE_ENV=production
+ENV CI=true
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 COPY frontend/. .
 
