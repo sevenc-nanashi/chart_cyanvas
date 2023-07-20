@@ -51,6 +51,8 @@ group :development do
   gem "rubocop-discourse", "~> 3.0", require: false
 
   gem "syntax_tree", "~> 5.1", require: false
+
+  gem "puma", "~> 6.3", require: false
 end
 
 gem "falcon", "~> 0.42"

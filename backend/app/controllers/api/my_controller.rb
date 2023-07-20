@@ -11,9 +11,7 @@ module Api
 
     def create_alt_user
       params.require(:name)
-      unless session[:user_id]
-        return render json: { code: "unauthorized" }, status: 401
-      end
+      require_login!
 
       name = params[:name]
       if name.length < 4
@@ -38,10 +36,7 @@ module Api
 
     def update_alt_user
       params.require(:handle)
-
-      unless session[:user_id]
-        return render json: { code: "unauthorized" }, status: 401
-      end
+      require_login!
 
       handle = params[:handle][1..].to_i
       user = User.find_by(handle:)
@@ -64,10 +59,7 @@ module Api
 
     def delete_alt_user
       params.require(:handle)
-
-      unless session[:user_id]
-        return render json: { code: "unauthorized" }, status: 401
-      end
+      require_login!
 
       handle = params[:handle][1..].to_i
       user = User.find_by(handle:)

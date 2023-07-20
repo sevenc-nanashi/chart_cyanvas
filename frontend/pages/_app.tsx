@@ -26,10 +26,21 @@ function App({ Component, pageProps }: AppProps) {
     }).then(async (res) => {
       const json = await res.json()
       if (json.code === "ok") {
-        const altUsers = await fetch(`/api/my/alt_users`).then(
-          async (res) => (await res.json()).users
-        )
-        setSession({ loggedIn: true, user: json.user, altUsers })
+        const [altUsers, discordUser] = await Promise.all([
+          fetch(`/api/my/alt_users`).then(
+            async (res) => (await res.json()).users
+          ),
+          fetch(`/api/my/discord`).then(
+            async (res) => (await res.json()).discord
+          ),
+        ])
+
+        setSession({
+          loggedIn: true,
+          user: json.user,
+          altUsers,
+          discord: discordUser,
+        })
       } else {
         setSession({ loggedIn: false })
       }

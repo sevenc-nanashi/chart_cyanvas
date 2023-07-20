@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+
+require "console"
+require "console/compatible/logger"
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers: a minimum and maximum.
 # Any libraries that use thread pools should be configured to match
@@ -42,3 +45,5 @@ workers ENV.fetch("WEB_CONCURRENCY") { 2 } unless Gem.win_platform?
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
+
+custom_logger Console::Compatible::Logger.new("Puma", Console.logger.output)

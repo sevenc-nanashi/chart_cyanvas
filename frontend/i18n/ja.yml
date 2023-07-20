@@ -64,8 +64,13 @@ upload:
   titleEdit: "譜面編集：{{title}}"
   description: |
     譜面を投稿する前に、<0>投稿ガイドライン</0>を必ずお読みください。
-
-    ファイルはドラッグ＆ドロップでアップロードできます。
+  discordInfo:
+    description: "譜面を投稿するには、Discordアカウントと連携する必要があります。"
+    status:
+      label: "連携状態："
+      connected: "連携済み（{{username}}）"
+      notConnected: "未連携"
+    connectGuide: "連携方法"
 
   param:
     title: "タイトル"
@@ -182,3 +187,11 @@ myAlts:
   errors:
     tooShort: 名前が短すぎます。
     tooLong: 名前が長すぎます。
+
+discordError:
+  title: 連携エラー
+  description: Discordとの連携に失敗しました（{{code}}）。
+  error:
+    discordError: Discordとの通信に失敗しました
+    notInGuild: サーバーに参加していません
+    unknown: 不明なエラーが発生しました

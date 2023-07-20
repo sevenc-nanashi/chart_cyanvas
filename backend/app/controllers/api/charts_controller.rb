@@ -258,6 +258,7 @@ module Api
 
     def create
       params.permit(%i[data chart cover bgm])
+      require_login!
       unless params.to_unsafe_hash.symbolize_keys in {
                data: String,
                chart: ActionDispatch::Http::UploadedFile,
@@ -305,6 +306,7 @@ module Api
 
     def update
       params.permit(%i[data chart cover bgm name])
+      require_login!
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
            %i[chart cover bgm].all? { |k|
@@ -398,6 +400,7 @@ module Api
 
     def delete
       params.require(:name)
+      require_login!
 
       chart = Chart.find_by(name: params[:name])
       unless chart

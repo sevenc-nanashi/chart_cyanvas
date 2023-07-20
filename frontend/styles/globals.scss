@@ -11,6 +11,12 @@ a {
   @apply text-blue-500;
 }
 
+p > a,
+li > a,
+.text > a {
+  @apply text-blue-500 underline;
+}
+
 .square {
   aspect-ratio: 1/1;
 }

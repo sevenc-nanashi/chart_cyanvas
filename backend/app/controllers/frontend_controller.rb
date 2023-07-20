@@ -22,4 +22,23 @@ class FrontendController < ApplicationController
       nil
     end
   end
+
+  around_action do |_controller, action|
+    success = false
+    catch :unauthorized do
+      action.call
+      success = true
+    end
+    unless success
+      render json: {
+               code: "not_logged_in",
+               error: "You are not logged in"
+             },
+             status: :unauthorized
+    end
+  end
+
+  def require_login!
+    throw :unauthorized unless current_user
+  end
 end

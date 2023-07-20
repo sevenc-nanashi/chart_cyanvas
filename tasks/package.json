@@ -1,0 +1,23 @@
+{
+  "name": "tasks",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "registerRoleConnection": "ts-node ./src/registerRoleConnection.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@tsconfig/node16": "16.1.0",
+    "discord-api-types": "0.37.48",
+    "ts-node": "10.9.1",
+    "typescript": "5.1.6"
+  },
+  "dependencies": {
+    "@discordjs/rest": "1.7.1",
+    "axios": "1.4.0",
+    "dotenv": "16.3.1"
+  }
+}

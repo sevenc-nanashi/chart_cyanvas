@@ -18,7 +18,7 @@ class User < ApplicationRecord
     owner_id ? "x#{handle}" : handle
   end
 
-  def to_frontend()
+  def to_frontend
     {
       handle: owner_id ? "x#{handle}" : handle,
       name:,
@@ -27,5 +27,31 @@ class User < ApplicationRecord
       fgColor: fg_color,
       chartCount: charts_count
     }
+  end
+
+  def to_s
+    "#{name}##{handle}"
+  end
+
+  def discord
+    return unless discord_token
+    refresh_discord_token if discord_expires_at < Time.now
+    @discord ||= DiscordRequest.new(bearer_token: discord_token)
+  end
+
+  def refresh_discord_token
+    payload = {
+      client_id: ENV["DISCORD_CLIENT_ID"],
+      client_secret: ENV["DISCORD_CLIENT_SECRET"],
+      grant_type: "refresh_token",
+      refresh_token: discord_refresh_token
+    }
+    response = $discord.post("/oauth2/token", form: payload)
+
+    update!(
+      discord_token: response["access_token"],
+      discord_refresh_token: response["refresh_token"],
+      discord_expires_at: Time.now + response["expires_in"].to_i.seconds
+    )
   end
 end
