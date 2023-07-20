@@ -4,11 +4,10 @@ require "cgi"
 
 class Api::DiscordController < FrontendController
   def redirect_uri
-    # ENV.fetch(
-    #   "HOST",
-    #   (Rails.env.development? ? "http://" : "https://") + request.host_with_port
-    # ) + "/api/discord/callback"
-    "http://localhost:3100/api/discord/callback"
+    ENV.fetch(
+      "HOST",
+      (Rails.env.development? ? "http://" : "https://") + request.host_with_port
+    ) + "/api/discord/callback"
   end
   def scope
     %w[identify guilds role_connections.write]
