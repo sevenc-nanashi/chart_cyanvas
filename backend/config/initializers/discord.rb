@@ -12,12 +12,13 @@ if Rails.env.test?
 else
   $discord = DiscordRequest.new(bot_token: ENV["DISCORD_BOT_TOKEN"])
 
-  begin
-    info = $discord.get("/users/@me")
-  rescue StandardError
-    Rails.logger.error("Discord: Failed to log in, disabling")
-    $discord = Disabled.new
-  end
+  info =
+    begin
+      $discord.get("/users/@me")
+    rescue StandardError
+      Rails.logger.error("Discord: Failed to log in, disabling")
+      $discord = Disabled.new
+    end
 
   Rails.logger.info(
     "Discord: Logged in as #{info[:username]}##{info[:discriminator]}"
