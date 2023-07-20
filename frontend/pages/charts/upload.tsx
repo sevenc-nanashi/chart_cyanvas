@@ -904,7 +904,7 @@ const UploadChart: NextPage<
           <Link
             href={`https://cc-wiki.sevenc7c.com/${
               router.locale || "en"
-            }/discord`}
+            }/publishing-chart`}
             target="_blank"
             className="ml-2"
           >
