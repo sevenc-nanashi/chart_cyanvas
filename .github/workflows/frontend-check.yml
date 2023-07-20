@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
+  check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -49,6 +49,26 @@ jobs:
         run: |
           pnpm build
 
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main'
+    needs:
+      - check
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.0.0
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: frontend/.node-version
+          cache: "pnpm"
+          cache-dependency-path: frontend/pnpm-lock.yaml
       - name: Build image
         if: github.ref_name == 'main'
         uses: ./.github/actions/build
