@@ -13,7 +13,7 @@ class User < ApplicationRecord
            dependent: :destroy,
            class_name: "User",
            inverse_of: :user
-  enum discord_status: %i[none linked joined]
+  enum discord_status: %i[no linked joined]
 
   def display_handle
     owner_id ? "x#{handle}" : handle
@@ -34,10 +34,24 @@ class User < ApplicationRecord
     "#{name}##{handle}"
   end
 
+  def discord_ok?
+    discord_status == "joined"
+  end
+
   def discord
     return unless discord_token
     refresh_discord_token if discord_expires_at < Time.now
     @discord ||= DiscordRequest.new(bearer_token: discord_token)
+  end
+
+  def check_discord
+    return false unless discord_token
+    refresh_discord_token if discord_expires_at < Time.now
+    discord.get("/users/@me")
+    true
+  rescue StandardError
+    update!(discord_token: nil, discord_refresh_token: nil)
+    false
   end
 
   def refresh_discord_token

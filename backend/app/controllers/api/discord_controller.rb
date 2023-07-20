@@ -15,7 +15,7 @@ class Api::DiscordController < FrontendController
   def my_discord
     require_login!
 
-    unless current_user.discord_token
+    unless current_user.discord_ok?
       render json: { discord: nil }
       return
     end
