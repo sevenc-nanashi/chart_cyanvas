@@ -44,7 +44,13 @@ const Login: NextPage<{ host: string }> = () => {
         .then(async (json) => {
           if (json.code === "ok") {
             setSession(null as unknown as Session)
-            router.push("/")
+            const params = new URLSearchParams(window.location.search)
+            const url = params.get("to")
+            if (url) {
+              router.push(url)
+            } else {
+              router.push("/")
+            }
           } else if (json.code === "unknown_code") {
             regenerateNonce()
           }

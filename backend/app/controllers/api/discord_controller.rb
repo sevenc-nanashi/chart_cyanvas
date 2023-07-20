@@ -48,21 +48,24 @@ class Api::DiscordController < FrontendController
 
   def callback
     params.permit %i[code state error]
-
     if params[:error]
       redirect_to "/charts/upload"
       return
     end
+    unless current_user
+      redirect_to "/login?to=/api/discord/callback?#{request.query_string}"
+      return
+    end
 
-    # data =
-    #   $redis
-    #     .with { |conn| conn.get("discord_auth_token/#{params[:state]}") }
-    #     &.then { |json| JSON.parse(json, symbolize_names: true) }
+    data =
+      $redis
+        .with { |conn| conn.get("discord_auth_token/#{params[:state]}") }
+        &.then { |json| JSON.parse(json, symbolize_names: true) }
 
-    # unless data && data[:user_id] == session[:user_id]
-    #   render json: { error: "Invalid state" }, status: :bad_request
-    #   return
-    # end
+    unless data && data[:user_id] == session[:user_id]
+      render json: { error: "Invalid state" }, status: :bad_request
+      return
+    end
 
     payload = {
       client_id: ENV["DISCORD_CLIENT_ID"],
