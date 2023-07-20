@@ -36,19 +36,6 @@ jobs:
         run: |
           pnpm typecheck
 
-      - name: Cache .next
-        uses: actions/cache@v2
-        with:
-          path: frontend/.next
-          key: ${{ runner.os }}-next-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-next-
-      - name: Build production
-        if: github.ref_name == 'main'
-        working-directory: ./frontend
-        run: |
-          pnpm build
-
   build:
     runs-on: ubuntu-latest
     if: github.ref_name == 'main'
@@ -69,6 +56,18 @@ jobs:
           node-version-file: frontend/.node-version
           cache: "pnpm"
           cache-dependency-path: frontend/pnpm-lock.yaml
+      - name: Cache .next
+        uses: actions/cache@v2
+        with:
+          path: frontend/.next
+          key: ${{ runner.os }}-next-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-next-
+
+      - name: Build production
+        working-directory: ./frontend
+        run: |
+          pnpm build
       - name: Build image
         if: github.ref_name == 'main'
         uses: ./.github/actions/build
