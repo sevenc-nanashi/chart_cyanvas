@@ -29,6 +29,10 @@ class Api::DiscordController < FrontendController
            }
   end
   def link
+    unless current_user
+      redirect_to "/login?to=/api/discord/link?#{request.query_string}"
+      return
+    end
     state = SecureRandom.urlsafe_base64(32)
     $redis.with do |conn|
       conn.set(
