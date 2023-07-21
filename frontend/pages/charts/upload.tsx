@@ -913,7 +913,7 @@ const UploadChart: NextPage<
         </p>
         <div className="relative">
           {!session.discord && (
-            <div className="absolute z-50 top-0 left-0 w-full h-full bg-white bg-opacity-50 cursor-not-allowed" />
+            <div className="absolute z-10 top-0 left-0 w-full h-full bg-white bg-opacity-50 cursor-not-allowed" />
           )}
           <div className="grid xl:grid-cols-3 gap-4">
             <FileUploadButton
