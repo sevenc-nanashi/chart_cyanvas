@@ -604,7 +604,12 @@ const UploadChart: NextPage<
     })
   }, [createFormData, router, handleResponse])
 
-  const publishConfirms = [useState(false), useState(false), useState(false)]
+  const publishConfirms = [
+    useState(false),
+    useState(false),
+    useState(false),
+    useState(false),
+  ]
   const isAllPublicConfirmsChecked = publishConfirms.every(([value]) => value)
 
   const [waitForPublishConfirm, setWaitForPublishConfirm] =
