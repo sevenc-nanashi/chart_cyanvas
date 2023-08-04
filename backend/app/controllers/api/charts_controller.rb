@@ -236,6 +236,9 @@ module Api
                status: :bad_request
         return
       end
+      unless data_parsed[:authorName]&.present?
+        data_parsed[:authorName] = author.name
+      end
       [
         {
           title: data_parsed[:title],

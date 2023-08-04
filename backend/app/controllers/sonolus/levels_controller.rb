@@ -28,6 +28,12 @@ module Sonolus
           placeholder: I18n.t("sonolus.search.author_placeholder")
         },
         {
+          query: :q_author_name,
+          name: I18n.t("sonolus.search.author_name"),
+          type: "text",
+          placeholder: I18n.t("sonolus.search.author_name_placeholder")
+        },
+        {
           query: :q_rating_min,
           name: I18n.t("sonolus.search.rating_min"),
           type: "slider",
@@ -64,7 +70,7 @@ module Sonolus
 
     def self.test_search_options
       self.search_options.reject do |option|
-        %i[q_target q_author].include?(option[:query])
+        %i[q_target q_author q_author_name].include?(option[:query])
       end
     end
 
@@ -145,6 +151,13 @@ module Sonolus
           return
         end
         charts = charts.where(author_id: authors)
+      end
+      if params[:q_author_name].present?
+        charts =
+          charts.where(
+            "LOWER(author_name) LIKE ?",
+            "%#{params[:q_author_name].downcase}%"
+          )
       end
       if !params[:q_target] || params[:q_target].to_i.zero?
         charts = charts.where(visibility: :public)
