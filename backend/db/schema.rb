@@ -115,7 +115,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_232448) do
     t.string "bg_color"
     t.bigint "owner_id"
     t.integer "charts_count", default: 0, null: false
-    t.string "sonolus_handle", null: false
     t.string "discord_id"
     t.string "discord_token"
     t.string "discord_refresh_token"
