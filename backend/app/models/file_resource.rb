@@ -7,7 +7,7 @@ class FileResource < ApplicationRecord
          data: 0,
          cover: 1,
          bgm: 2,
-         sus: 3,
+         chart: 3,
          preview: 4,
          base_bgm: 5,
          background: 6,

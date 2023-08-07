@@ -19,12 +19,12 @@ module Api
              }
     end
 
-    def reconvert_sus
+    def reconvert_chart
       count = 0
-      sus_list = FileResource.where(kind: :sus)
-      render json: { code: "ok", data: { count: sus_list.count } }
+      chart_list = FileResource.where(kind: :chart)
+      render json: { code: "ok", data: { count: chart_list.count } }
 
-      AllSusConvertJob.perform_later()
+      AllChartConvertJob.perform_later()
     end
 
     def show_user

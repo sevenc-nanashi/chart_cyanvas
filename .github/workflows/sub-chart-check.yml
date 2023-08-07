@@ -1,10 +1,10 @@
-name: "[sub-sus] Lint, Test, Typecheck"
+name: "[sub-chart] Lint, Test, Typecheck"
 
 on:
   push:
     paths:
-      - "sub-sus/**"
-      - ".github/workflows/sub-sus-*.yml"
+      - "sub-chart/**"
+      - ".github/workflows/sub-chart-*.yml"
   workflow_dispatch:
 
 jobs:
@@ -20,27 +20,27 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version-file: sub-sus/.node-version
+          node-version-file: sub-chart/.node-version
           cache: "pnpm"
-          cache-dependency-path: sub-sus/pnpm-lock.yaml
+          cache-dependency-path: sub-chart/pnpm-lock.yaml
 
-      - name: Run sub-sus lint
-        working-directory: ./sub-sus
+      - name: Run sub-chart lint
+        working-directory: ./sub-chart
         run: |
           pnpm i
           pnpm lint
-      - name: Run sub-sus test
-        working-directory: ./sub-sus
+      - name: Run sub-chart test
+        working-directory: ./sub-chart
         run: |
           pnpm test
-      - name: Run sub-sus typecheck
-        working-directory: ./sub-sus
+      - name: Run sub-chart typecheck
+        working-directory: ./sub-chart
         run: |
           pnpm typecheck
 
       - name: Build production
         if: github.ref_name == 'main'
-        working-directory: ./sub-sus
+        working-directory: ./sub-chart
         run: |
           pnpm build
 
@@ -48,4 +48,4 @@ jobs:
         if: github.ref_name == 'main'
         uses: ./.github/actions/build
         with:
-          directory-name: sub-sus
+          directory-name: sub-chart

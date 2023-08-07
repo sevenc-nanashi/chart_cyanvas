@@ -84,9 +84,9 @@ upload:
 
     variant: "Variant of"
     description: "Description"
-    cover: "Cover image"
-    chart: "Chart file"
-    bgm: "BGM file"
+    cover: "Cover image (.png, .jpg)"
+    chart: "Chart file (.sus, .mmws)"
+    bgm: "BGM file (.mp3, .ogg, .wav)"
 
     tags: "Tags"
 
@@ -94,7 +94,7 @@ upload:
 
   tooltip:
     rating: |
-      You can select difficulty from 1 to 99. Use the right input box to specify number bigger than 40.
+      You can select difficulty from 1 to 99. Use the input box beside the slider to set difficulty more than 40.
 
     variant: |
       If this chart is a variant of another chart, select it here.
@@ -127,7 +127,7 @@ upload:
   optional: " (optional)"
   dropHere: "Drop to upload"
   unUploadedFiles: "Some files were not uploaded."
-  unUploadedFilesNote: "We only supports: .sus, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif"
+  unUploadedFilesNote: "Supported files: .sus, .mmws, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif"
 
   filesTooLarge: Files are too large
   filesTooLargeNote: "The sum of the file sizes must be less than 20MB."
@@ -168,10 +168,10 @@ myAlts:
     description: "Deleted alt users cannot be restored!"
     nameChangeWarning:
       one: |
-        You have {{count}} chart that uses this alt user.
+        You have {{count}} chart which belongs to this alt user.
         If you delete this alt user, the chart will be changed to your main user.
       other: |
-        You have {{count}} charts that use this alt user.
+        You have {{count}} charts which belong to this alt user.
         If you delete this alt user, the charts will be changed to your main user.
 
     ok: "Delete"
@@ -198,7 +198,7 @@ admin:
 
   actions:
     title: "Commands"
-    reconvert_sus:
+    reconvert_chart:
       title: "Reconvert all SUS"
       description: |
         Reconvert all SUS to LevelData. Use this when the specification of chart data is changed by engine update.

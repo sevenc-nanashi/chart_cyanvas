@@ -55,7 +55,7 @@ const EditChart: NextPage<{ chartData: Chart }> = ({ chartData }) => {
         authorHandle: chartData.author.handle,
         authorName: chartData.authorName || chartData.author.name,
         visibility: chartData.visibility,
-        isChartPublic: !!chartData.sus,
+        isChartPublic: !!chartData.chart,
         variant: chartData.variantOf?.name || "",
         scheduledAt,
 

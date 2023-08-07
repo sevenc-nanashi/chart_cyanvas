@@ -48,8 +48,8 @@ services:
       timeout: 10s
       retries: 3
 
-  sub-sus:
-    image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-sus:latest"
+  sub-chart:
+    image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-chart:latest"
     pull_policy: always
     restart: always
     volumes:

@@ -291,8 +291,8 @@ module Api
           visibility: data_parsed[:visibility].to_sym
         )
       chart.tags.create!(data_parsed[:tags].map { |t| { name: t } })
-      SusConvertJob.perform_later(
-        FileResource.upload(chart, :sus, params[:chart])
+      ChartConvertJob.perform_later(
+        FileResource.upload(chart, :chart, params[:chart])
       )
       BgmConvertJob.perform_later(
         chart.name,
@@ -381,8 +381,8 @@ module Api
       chart.tags.delete_all
       chart.tags.create!(data_parsed[:tags].map { |t| { name: t } })
       if params[:chart]
-        SusConvertJob.perform_later(
-          FileResource.upload(chart, :sus, params[:chart])
+        ChartConvertJob.perform_later(
+          FileResource.upload(chart, :chart, params[:chart])
         )
       end
       if params[:bgm]
@@ -452,7 +452,7 @@ module Api
         return
       end
 
-      url = chart.resources[:sus].file.url
+      url = chart.resources[:chart].file.url
       unless url
         render json: {
                  code: "not_found",
@@ -463,8 +463,8 @@ module Api
       end
 
       send_data(
-        chart.resources[:sus].file.download,
-        filename: "#{chart.name}.sus",
+        chart.resources[:chart].file.download,
+        filename: "#{chart.name}.#{chart.chart_type}",
         type: "plain/text"
       )
     end

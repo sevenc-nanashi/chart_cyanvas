@@ -6,7 +6,7 @@ services:
 
     depends_on:
       - postgres
-      - sub-sus
+      - sub-chart
       - sub-audio
       - sub-image
     volumes:
@@ -36,10 +36,10 @@ services:
       timeout: 10s
       retries: 5
 
-  sub-sus:
+  sub-chart:
     build:
       context: .
-      dockerfile: ./sub-sus/Dockerfile
+      dockerfile: ./sub-chart/Dockerfile
 
     volumes:
       - ./${ENV_FILE}:/app/.env

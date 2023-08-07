@@ -10,7 +10,10 @@ interface Chart {
   updatedAt: string
   cover: string
   bgm: string
-  sus: string | undefined
+  chart: {
+    url: string | undefined
+    type: "sus" | "mmws"
+  }
   data: string | undefined
   variants: Chart[]
   variantOf: Chart | undefined

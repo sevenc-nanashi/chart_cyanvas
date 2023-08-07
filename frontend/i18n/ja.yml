@@ -82,7 +82,7 @@ upload:
     description: "説明"
 
     cover: "ジャケット（.jpg、.png）"
-    chart: "譜面（.sus）"
+    chart: "譜面（.sus、.mmws）"
     bgm: "音源（.mp3、.wav、.ogg）"
 
     tags: "タグ"
@@ -120,7 +120,7 @@ upload:
   optional: "（任意）"
   dropHere: "ドロップしてアップロード"
   unUploadedFiles: "対応していないファイルがドロップされました。"
-  unUploadedFilesNote: ".sus、.mp3、.wav、.ogg、.png、.jpg、.jpegのみ対応しています。"
+  unUploadedFilesNote: ".sus、.mmws、.mp3、.wav、.ogg、.png、.jpg、.jpegのみ対応しています。"
 
   filesTooLarge: ファイルが大きすぎます。
   filesTooLargeNote: ファイルは合計で最大20MBまでです。
@@ -158,10 +158,10 @@ admin:
 
   actions:
     title: "コマンド"
-    reconvert_sus:
+    reconvert_chart:
       title: "譜面データを再生成"
       description: |
-        すべてのSUSをLevelDataに変換します。エンジンの更新により、譜面データの仕様が変更された場合に使用します。
+        すべてのSUS/MMWSをLevelDataに変換します。エンジンの更新により、譜面データの仕様が変更された場合に使用します。
       button: "再生成"
       success: "{{count}}個の譜面の再生成を開始しました。"
 

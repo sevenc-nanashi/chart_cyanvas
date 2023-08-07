@@ -344,7 +344,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                           onClick: deleteChart,
                         },
                       ]
-                    : chartData.sus
+                    : chartData.chart
                     ? [
                         {
                           href: `/api/charts/${name}/download_chart`,

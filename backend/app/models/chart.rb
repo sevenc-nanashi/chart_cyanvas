@@ -26,6 +26,7 @@ class Chart < ApplicationRecord
              inverse_of: :variants
   has_many :likes, dependent: :destroy
   has_many :tags, dependent: :destroy
+  enum chart_type: { sus: 0, mmws: 1 }
 
   VISIBILITY = { private: 0, public: 1, scheduled: 2 }
   enum :visibility, VISIBILITY, prefix: "visibility"
@@ -40,7 +41,7 @@ class Chart < ApplicationRecord
   def resources
     base = file_resources
     {
-      sus: base.find(&:sus?),
+      chart: base.find(&:chart?),
       bgm: base.find(&:bgm?),
       cover: base.find(&:cover?),
       preview: base.find(&:preview?),
@@ -62,7 +63,7 @@ class Chart < ApplicationRecord
       coAuthors: co_authors.map(&:to_frontend),
       cover: resources[:cover]&.to_frontend,
       bgm: resources[:bgm]&.to_frontend,
-      sus: is_chart_public? ? resources[:sus]&.to_frontend : nil,
+      chart: is_chart_public? ? resources[:chart]&.to_frontend : nil,
       data: resources[:data]&.to_frontend,
       variants:
         (

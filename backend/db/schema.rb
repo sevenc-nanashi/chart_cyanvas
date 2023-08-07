@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_04_081335) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_232448) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_081335) do
     t.integer "visibility", default: 0
     t.string "scheduled_job_id"
     t.datetime "scheduled_at"
+    t.integer "chart_type", default: 0
     t.index ["author_id"], name: "index_charts_on_author_id"
     t.index ["name"], name: "index_charts_on_name"
     t.index ["variant_id"], name: "index_charts_on_variant_id"
@@ -114,6 +115,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_081335) do
     t.string "bg_color"
     t.bigint "owner_id"
     t.integer "charts_count", default: 0, null: false
+    t.string "sonolus_handle", null: false
     t.string "discord_id"
     t.string "discord_token"
     t.string "discord_refresh_token"

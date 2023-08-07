@@ -6,7 +6,12 @@ import { write as temporaryWrite } from "tempy"
 
 import Express, { json as jsonHandler } from "express"
 import morgan from "morgan"
-import { susToUSC, uscToLevelData } from "sonolus-pjsekai-engine-extended"
+import {
+  mmwsToUSC,
+  susToUSC,
+  USC,
+  uscToLevelData,
+} from "sonolus-pjsekai-engine-extended"
 import dotenv from "dotenv"
 import axios from "axios"
 import urlJoin from "url-join"
@@ -37,15 +42,27 @@ app.post("/convert", async (req, res) => {
   try {
     console.log("Converting", url)
     const sus = await axios.get(url, {
-      responseType: "text",
+      responseType: "arraybuffer",
     })
     if (sus.status !== 200) {
       res
         .status(400)
-        .json({ code: "invalid_request", message: "Failed to get sus file" })
+        .json({ code: "invalid_request", message: "Failed to get chart file" })
       return
     }
-    const baseJson = uscToLevelData(susToUSC(sus.data))
+    let type: "sus" | "mmws"
+    let usc: USC
+    if (sus.data.slice(0, 4).toString() === "MMWS") {
+      type = "mmws"
+      console.log("Guessing type as", type)
+      usc = mmwsToUSC(Buffer.from(sus.data))
+    } else {
+      type = "sus"
+      console.log("Guessing type as", type)
+      usc = susToUSC(sus.data.toString())
+    }
+
+    const baseJson = uscToLevelData(usc)
     const json = JSON.stringify(baseJson)
     const buffer = Buffer.from(json)
     const compressed = await gzip(buffer)
@@ -56,7 +73,7 @@ app.post("/convert", async (req, res) => {
 
     console.log("Registered as", id)
 
-    res.json({ code: "ok", id })
+    res.json({ code: "ok", id, type })
   } catch (e) {
     console.error("Failed to convert", e)
     res.status(500).json({ code: "internal_server_error" })
