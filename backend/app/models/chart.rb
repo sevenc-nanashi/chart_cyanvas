@@ -26,7 +26,7 @@ class Chart < ApplicationRecord
              inverse_of: :variants
   has_many :likes, dependent: :destroy
   has_many :tags, dependent: :destroy
-  enum chart_type: { sus: 0, mmws: 1 }
+  enum chart_type: { sus: 0, mmws: 1, chs: 2 }
 
   VISIBILITY = { private: 0, public: 1, scheduled: 2 }
   enum :visibility, VISIBILITY, prefix: "visibility"

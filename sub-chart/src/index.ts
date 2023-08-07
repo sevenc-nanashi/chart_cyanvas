@@ -9,6 +9,7 @@ import morgan from "morgan"
 import {
   mmwsToUSC,
   susToUSC,
+  chsToUSC,
   USC,
   uscToLevelData,
 } from "sonolus-pjsekai-engine-extended"
@@ -41,25 +42,32 @@ app.post("/convert", async (req, res) => {
 
   try {
     console.log("Converting", url)
-    const sus = await axios.get(url, {
+    const chart = await axios.get(url, {
       responseType: "arraybuffer",
     })
-    if (sus.status !== 200) {
+    if (chart.status !== 200) {
       res
         .status(400)
         .json({ code: "invalid_request", message: "Failed to get chart file" })
       return
     }
-    let type: "sus" | "mmws"
+    let type: "sus" | "mmws" | "chs"
     let usc: USC
-    if (sus.data.slice(0, 4).toString() === "MMWS") {
+    if (
+      Buffer.from(chart.data.slice(0, 2)).compare(Buffer.from([0x1f, 0x8b])) ===
+      0
+    ) {
+      type = "chs"
+      console.log("Guessing type as", type)
+      usc = chsToUSC(Buffer.from(chart.data))
+    } else if (chart.data.slice(0, 4).toString() === "MMWS") {
       type = "mmws"
       console.log("Guessing type as", type)
-      usc = mmwsToUSC(Buffer.from(sus.data))
+      usc = mmwsToUSC(Buffer.from(chart.data))
     } else {
       type = "sus"
       console.log("Guessing type as", type)
-      usc = susToUSC(sus.data.toString())
+      usc = susToUSC(chart.data.toString())
     }
 
     const baseJson = uscToLevelData(usc)

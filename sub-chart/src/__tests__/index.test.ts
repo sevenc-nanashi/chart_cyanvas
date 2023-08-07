@@ -63,6 +63,34 @@ describe("POST /convert", () => {
       type: "mmws",
     })
   })
+  it("can convert chs file from Ched 2", async () => {
+    const response = await request(app)
+      .post("/convert")
+      .send({
+        url: `http://127.0.0.1:${port}/ched2.chs`,
+      })
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      code: "ok",
+      id: expect.any(String),
+      type: "chs",
+    })
+  })
+  it("can convert chs file from Ched 3", async () => {
+    const response = await request(app)
+      .post("/convert")
+      .send({
+        url: `http://127.0.0.1:${port}/ched3.chs`,
+      })
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      code: "ok",
+      id: expect.any(String),
+      type: "chs",
+    })
+  })
 
   test("GET /download/:id can download converted file", async () => {
     const convertResponse = await request(app)

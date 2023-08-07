@@ -12,7 +12,7 @@ interface Chart {
   bgm: string
   chart: {
     url: string | undefined
-    type: "sus" | "mmws"
+    type: "sus" | "mmws" | "chs"
   }
   data: string | undefined
   variants: Chart[]

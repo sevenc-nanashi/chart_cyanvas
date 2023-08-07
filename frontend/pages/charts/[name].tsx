@@ -349,7 +349,6 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                         {
                           href: `/api/charts/${name}/download_chart`,
                           icon: ArrowDownloadRegular,
-                          download: `${chartData.name}.sus`,
                           className: "bg-theme text-white",
                           text: t("download"),
                         },

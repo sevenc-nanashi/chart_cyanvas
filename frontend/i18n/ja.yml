@@ -82,7 +82,7 @@ upload:
     description: "説明"
 
     cover: "ジャケット（.jpg、.png）"
-    chart: "譜面（.sus、.mmws）"
+    chart: "譜面（.sus、.mmws、.chs）"
     bgm: "音源（.mp3、.wav、.ogg）"
 
     tags: "タグ"
@@ -166,7 +166,7 @@ admin:
     reconvert_chart:
       title: "譜面データを再生成"
       description: |
-        すべてのSUS/MMWSをLevelDataに変換します。エンジンの更新により、譜面データの仕様が変更された場合に使用します。
+        すべての譜面ファイルをLevelDataに変換します。エンジンの更新により、譜面データの仕様が変更された場合に使用します。
       button: "再生成"
       success: "{{count}}個の譜面の再生成を開始しました。"
 
