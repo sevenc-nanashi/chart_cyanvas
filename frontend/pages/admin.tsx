@@ -35,7 +35,11 @@ const Admin: NextPage = () => {
         private: number
       }
 
-      users: number
+      users: {
+        original: number
+        alt: number
+        discord: number
+      }
       files: Record<string, number>
     }
   } | null>(null)
@@ -55,8 +59,24 @@ const Admin: NextPage = () => {
         <h1 className="text-2xl font-bold">{t("title")}</h1>
         <div className="flex flex-col md:flex-row md:flex-wrap gap-4">
           <div className={statCard}>
-            <h2 className="text-xl font-bold">{t("stats.users")}</h2>
-            <p className="text-4xl font-bold">{data.stats.users}</p>
+            <h2 className="text-xl font-bold">{t("stats.users.title")}</h2>
+            <p className="text-4xl font-bold">
+              {data.stats.users.original + data.stats.users.alt}
+            </p>
+            <div className="flex flex-col">
+              <div className="flex">
+                <p className="flex-1">{t("stats.users.original")}</p>
+                <p className="flex-1 text-right">{data.stats.users.original}</p>
+              </div>
+              <div className="flex">
+                <p className="flex-1">{t("stats.users.alt")}</p>
+                <p className="flex-1 text-right">{data.stats.users.alt}</p>
+              </div>
+              <div className="flex">
+                <p className="flex-1">{t("stats.users.discord")}</p>
+                <p className="flex-1 text-right">{data.stats.users.discord}</p>
+              </div>
+            </div>
           </div>
           <div className={statCard}>
             <h2 className="text-xl font-bold">{t("stats.charts.title")}</h2>

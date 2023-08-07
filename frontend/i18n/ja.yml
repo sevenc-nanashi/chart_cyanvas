@@ -144,7 +144,12 @@ admin:
   title: "管理者ページ"
   stats:
     title: "統計"
-    users: "ユーザー"
+    users:
+      title: "ユーザー"
+      total: "総数"
+      original: "本名義"
+      alt: "別名義"
+      discord: "Discord連携済"
     charts:
       title: "譜面"
       public: "公開"

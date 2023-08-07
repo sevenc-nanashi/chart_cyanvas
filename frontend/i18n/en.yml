@@ -184,7 +184,12 @@ admin:
   title: "Admin"
   stats:
     title: "Stats"
-    users: "Users"
+    users:
+      title: "Users"
+      total: "Total"
+      original: "Original"
+      alt: "Alt"
+      discord: "With Discord"
     charts:
       title: "Charts"
       public: "Public"
