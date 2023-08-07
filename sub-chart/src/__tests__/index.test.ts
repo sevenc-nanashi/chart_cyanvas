@@ -19,8 +19,14 @@ describe("POST /convert", () => {
   let testServer: http.Server
   beforeAll(() => {
     testServer = http.createServer((req, res) => {
-      res.writeHead(200, { "Content-Type": "text/plain" })
-      fs.createReadStream("src/__tests__/assets/test.sus").pipe(res)
+      const path = req.url?.slice(1)
+      if (!path || !fs.existsSync("src/__tests__/assets/" + path)) {
+        res.statusCode = 404
+        res.end()
+        return
+      }
+
+      fs.createReadStream("src/__tests__/assets/" + path).pipe(res)
     })
 
     testServer.listen(port)
@@ -33,18 +39,36 @@ describe("POST /convert", () => {
     const response = await request(app)
       .post("/convert")
       .send({
-        url: `http://127.0.0.1:${port}`,
+        url: `http://127.0.0.1:${port}/test.sus`,
       })
 
     expect(response.statusCode).toBe(200)
-    expect(response.body).toEqual({ code: "ok", id: expect.any(String) })
+    expect(response.body).toEqual({
+      code: "ok",
+      id: expect.any(String),
+      type: "sus",
+    })
+  })
+  it("can convert mmws file", async () => {
+    const response = await request(app)
+      .post("/convert")
+      .send({
+        url: `http://127.0.0.1:${port}/test.mmws`,
+      })
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      code: "ok",
+      id: expect.any(String),
+      type: "mmws",
+    })
   })
 
   test("GET /download/:id can download converted file", async () => {
     const convertResponse = await request(app)
       .post("/convert")
       .send({
-        url: `http://127.0.0.1:${port}`,
+        url: `http://127.0.0.1:${port}/test.sus`,
       })
     const { id } = convertResponse.body
 
@@ -61,7 +85,7 @@ describe("POST /convert", () => {
     const convertResponse = await request(app)
       .post("/convert")
       .send({
-        url: `http://127.0.0.1:${port}`,
+        url: `http://127.0.0.1:${port}/test.sus`,
       })
     const { id } = convertResponse.body
 
