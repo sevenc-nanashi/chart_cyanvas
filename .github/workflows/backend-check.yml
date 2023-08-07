@@ -48,6 +48,7 @@ jobs:
         working-directory: ./backend
         run: |
           pwd
+          cp ../docker-compose.dev.yml ../docker-compose.yml
           docker compose --env-file ../.env.test --profile test up -d
           cp ../.env.test ../.env
           bundle exec rake parallel:setup

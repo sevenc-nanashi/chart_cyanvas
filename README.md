@@ -19,7 +19,8 @@ Chart Cyanvas is a sekai custom charts platform.
 ## Hosting
 1. Copy `.env.prod.example` to `.env`
 2. Fill `.env`
-3. `docker compose -f docker-compose.prod.yml --profile prod up -d`
+3. Copy `docker-compose.prod.yml` to `docker-compose.yml`
+3. `docker compose up -d`
 
 ## Development
 
