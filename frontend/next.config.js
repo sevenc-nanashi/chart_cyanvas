@@ -30,6 +30,7 @@ const nextConfig = nextTranslate({
   publicRuntimeConfig: {
     host: process.env.HOST,
     adminHandle: process.env.ADMIN_HANDLE,
+    sentryDsnFrontend: process.env.SENTRY_DSN_FRONTEND,
   },
 
   async rewrites() {
