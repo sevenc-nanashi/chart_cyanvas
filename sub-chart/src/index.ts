@@ -4,6 +4,8 @@ import { randomUUID } from "crypto"
 import { promises as fs } from "fs"
 import { write as temporaryWrite } from "tempy"
 
+import axios from "axios"
+import dotenv from "dotenv"
 import Express, { json as jsonHandler } from "express"
 import morgan from "morgan"
 import {
@@ -13,12 +15,19 @@ import {
   USC,
   uscToLevelData,
 } from "sonolus-pjsekai-engine-extended"
-import dotenv from "dotenv"
-import axios from "axios"
+import * as sentry from "@sentry/node"
 import urlJoin from "url-join"
 
 dotenv.config({ path: ".env" })
 dotenv.config({ path: "../.env" })
+
+const sentryEnabled = !!process.env.SENTRY_DSN_SUB_CHART
+if (sentryEnabled) {
+  sentry.init({
+    dsn: process.env.SENTRY_DSN_SUB_CHART,
+    tracesSampleRate: 1.0,
+  })
+}
 
 const gzip = promisify(gzipBase)
 
@@ -27,6 +36,8 @@ const app = Express()
 const files = new Map<string, { path: string; date: Date }>()
 
 const BACKEND_HOST = process.env.BACKEND_HOST!
+
+if (sentryEnabled) app.use(sentry.Handlers.requestHandler())
 
 app.use(jsonHandler())
 app.use(morgan("combined"))
@@ -104,6 +115,8 @@ app.get("/download/:id", async (req, res) => {
     console.log("Deleted", id)
   })
 })
+
+if (sentryEnabled) app.use(sentry.Handlers.errorHandler())
 
 if (require.main === module) {
   app.listen(3201, () => {

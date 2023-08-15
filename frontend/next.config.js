@@ -1,5 +1,6 @@
 require("dotenv").config({ path: "../.env" })
 const nextTranslate = require("next-translate-plugin")
+const { withSentryConfig } = require("@sentry/nextjs")
 
 console.log("INFO: BACKEND_HOST =", process.env.BACKEND_HOST)
 console.log("INFO: ADMIN_HANDLE =", process.env.ADMIN_HANDLE)
@@ -8,6 +9,9 @@ console.log("INFO: ADMIN_HANDLE =", process.env.ADMIN_HANDLE)
 const nextConfig = nextTranslate({
   reactStrictMode: true,
   staticPageGenerationTimeout: 3600,
+  sentry: {
+    hideSourceMaps: true,
+  },
   webpack: function (config) {
     config.module.rules.push({
       test: /\.ya?ml$/,
@@ -69,4 +73,10 @@ const nextConfig = nextTranslate({
   },
 })
 
-module.exports = nextConfig
+module.exports = withSentryConfig(nextConfig, {
+  silent: true,
+
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT_FRONTEND,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+})

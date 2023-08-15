@@ -84,3 +84,9 @@ gem "counter_culture", "~> 3.2"
 gem "sidekiq", "~> 7.0"
 
 gem "console", "~> 1.17"
+
+gem "sentry-ruby", "~> 5.10"
+
+gem "sentry-rails", "~> 5.10"
+
+gem "sentry-sidekiq", "~> 5.10"

@@ -21,7 +21,11 @@ BACKEND_HOST = os.getenv("BACKEND_HOST")
 if BACKEND_HOST is None:
     raise Exception("BACKEND_HOST is not set")
 print(f"BACKEND_HOST = {BACKEND_HOST}")
-SIZE = 512
+
+if sentry_dsn := os.getenv("SENTRY_DSN_SUB_AUDIO"):
+    import sentry_sdk
+
+    sentry_sdk.init(sentry_dsn)
 
 app = fastapi.FastAPI()
 redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
