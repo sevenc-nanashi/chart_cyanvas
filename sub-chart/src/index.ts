@@ -22,16 +22,17 @@ dotenv.config({ path: ".env" })
 dotenv.config({ path: "../.env" })
 
 const sentryEnabled = !!process.env.SENTRY_DSN_SUB_CHART
+
+const gzip = promisify(gzipBase)
+
+const app = Express()
+
 if (sentryEnabled) {
   sentry.init({
     dsn: process.env.SENTRY_DSN_SUB_CHART,
     tracesSampleRate: 1.0,
   })
 }
-
-const gzip = promisify(gzipBase)
-
-const app = Express()
 
 const files = new Map<string, { path: string; date: Date }>()
 
