@@ -7,5 +7,7 @@ if (publicRuntimeConfig.sentryDsnFrontend) {
   Sentry.init({
     dsn: publicRuntimeConfig.sentryDsnFrontend,
     integrations: [new Sentry.Replay()],
+
+    tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
   })
 }
