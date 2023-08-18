@@ -192,7 +192,7 @@ class SonolusController < ApplicationController
            }
   end
 
-  after_action { headers["Sonolus-Version"] = "0.7.1" }
+  after_action { headers["Sonolus-Version"] = "0.7.2" }
 
   around_action do |_controller, action|
     success = false
