@@ -150,6 +150,7 @@ class Api::DiscordController < FrontendController
         )
       rescue RuntimeError
         redirect_to "/discord/error?code=notInGuild"
+        return
       end
 
     begin
@@ -162,6 +163,7 @@ class Api::DiscordController < FrontendController
       )
     rescue StandardError
       redirect_to "/discord/error?code=discordError"
+      return
     end
 
     current_user.update!(discord_status: :joined)
