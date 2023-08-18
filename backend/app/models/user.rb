@@ -13,6 +13,7 @@ class User < ApplicationRecord
            dependent: :destroy,
            class_name: "User",
            inverse_of: :user
+  has_many :likes, dependent: :destroy
   enum discord_status: %i[no linked joined]
 
   def display_handle
