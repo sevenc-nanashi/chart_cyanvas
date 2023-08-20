@@ -25,7 +25,8 @@ print(f"BACKEND_HOST = {BACKEND_HOST}")
 if sentry_dsn := os.getenv("SENTRY_DSN_SUB_AUDIO"):
     import sentry_sdk
 
-    sentry_sdk.init(sentry_dsn)
+    traits_sample_rate = float(os.getenv("SENTRY_TRACE_SAMPLE_RATE", "0.01"))
+    sentry_sdk.init(sentry_dsn, traces_sample_rate=traits_sample_rate)
 
 app = fastapi.FastAPI()
 redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)

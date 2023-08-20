@@ -31,6 +31,9 @@ const nextConfig = nextTranslate({
     host: process.env.HOST,
     adminHandle: process.env.ADMIN_HANDLE,
     sentryDsnFrontend: process.env.SENTRY_DSN_FRONTEND,
+    sentryTraceSampleRate: parseFloat(
+      process.env.SENTRY_TRACE_SAMPLE_RATE || "0.1"
+    ),
   },
 
   async rewrites() {

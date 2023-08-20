@@ -28,9 +28,12 @@ const gzip = promisify(gzipBase)
 const app = Express()
 
 if (sentryEnabled) {
+  const tracesSampleRate = parseFloat(
+    process.env.SENTRY_TRACE_SAMPLE_RATE || "0.1"
+  )
   sentry.init({
     dsn: process.env.SENTRY_DSN_SUB_CHART,
-    tracesSampleRate: 1.0,
+    tracesSampleRate,
   })
 }
 
