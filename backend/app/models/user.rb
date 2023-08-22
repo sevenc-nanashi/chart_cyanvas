@@ -49,7 +49,7 @@ class User < ApplicationRecord
     return false unless discord_token
     refresh_discord_token if discord_expires_at < Time.now
     discord_user = discord.get("/users/@me")
-    discord.get(
+    $discord.get(
       "/guilds/#{ENV["DISCORD_GUILD_ID"]}/members/#{discord_user["id"]}"
     )
     true
