@@ -10,7 +10,7 @@ const main = async () => {
   await rest.post(Routes.channelMessages(warningChannelId), {
     body: {
       content:
-        "This channel is for warnings only. A private thread will be created to notify warning when you violate the rules.",
+        "This channel is for warnings only. A private thread will be created to notify warning when you violate the rules.\nIt's recommended that you mute this channel.",
     },
   });
 };
