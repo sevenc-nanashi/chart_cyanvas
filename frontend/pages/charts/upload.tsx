@@ -2,7 +2,6 @@ import { NextPage } from "next"
 import Head from "next/head"
 import Link from "next/link"
 import {
-  ReactNode,
   useCallback,
   useEffect,
   useMemo,

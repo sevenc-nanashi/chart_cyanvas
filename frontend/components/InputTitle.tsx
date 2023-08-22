@@ -1,7 +1,7 @@
 import { InfoRegular } from "@fluentui/react-icons"
-import { className } from "lib/utils"
 import useTranslation from "next-translate/useTranslation"
 import { ReactNode, useState } from "react"
+import { className } from "lib/utils"
 
 const InputTitle = (props: {
   text: string
