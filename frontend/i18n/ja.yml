@@ -40,6 +40,8 @@ chart:
   deletionModal:
     title: "譜面を削除しますか？"
     description: "削除した譜面は復元できません！"
+    warnAuthor: "譜面作者に警告をする"
+    warnReason: "警告理由"
     ok: "削除"
 
 user:

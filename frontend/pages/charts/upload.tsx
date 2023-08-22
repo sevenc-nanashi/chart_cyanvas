@@ -32,6 +32,8 @@ import ModalPortal from "components/ModalPortal"
 import Checkbox from "components/Checkbox"
 import requireLogin from "lib/requireLogin"
 import DisablePortal from "components/DisablePortal"
+import TextInput from "components/TextInput"
+import InputTitle from "components/InputTitle"
 
 const FileUploadButton = (props: {
   accept: string
@@ -83,123 +85,6 @@ const FileUploadButton = (props: {
         ref={fileInput}
       />
     </div>
-  )
-}
-const InputTitle = (props: {
-  text: string
-  optional?: boolean
-  tooltip?: string | undefined
-  className?: string
-  containerClassName?: string
-  children: ReactNode
-  error?: string
-}) => {
-  const { t } = useTranslation("upload")
-  const [isTooltipShown, setIsTooltipShown] = useState(false)
-  return (
-    <div className={className("mt-2", props.containerClassName)}>
-      <h3 className="text-lg font-bold">
-        {props.text}
-        {props.optional && t("optional")}
-        {props.tooltip && (
-          <div
-            className="inline-block relative cursor-help"
-            onMouseOver={() => setIsTooltipShown(true)}
-            onMouseLeave={() => setIsTooltipShown(false)}
-          >
-            {isTooltipShown && (
-              <div
-                className={className(
-                  "absolute bottom-full p-2 rounded font-sans left-[-8rem] right-[-8rem]",
-                  "text-sm bg-slate-100 dark:bg-slate-700 shadow pointer-none"
-                )}
-              >
-                {props.tooltip}
-              </div>
-            )}
-            <InfoRegular />
-          </div>
-        )}
-        {props.error && (
-          <span className="ml-4 font-sans text-sm text-red-500">
-            {props.error}
-          </span>
-        )}
-      </h3>
-
-      <div className={className("w-full", props.className)}>
-        {props.children}
-      </div>
-    </div>
-  )
-}
-const TextInput = (props: {
-  name: string
-  placeholder?: string
-  monospace?: boolean
-  prefix?: string
-  defaultValue?: string
-  error?: string | undefined
-  disabled?: boolean
-  maxLength?: number
-  className?: string
-  textarea?: boolean
-  optional?: boolean
-}) => {
-  return props.prefix ? (
-    <div
-      className={className(
-        "text-input !p-0 flex",
-        props.className,
-        props.error && "text-input-error",
-        props.monospace && "font-monospace"
-      )}
-    >
-      <div className="border-r-2 bg-slate-100 dark:bg-gray-900 border-slate-300 dark:border-slate-700 p-2 dark:text-slate-200">
-        {props.prefix}
-      </div>
-      <input
-        type="text"
-        className="outline-none p-2 w-full"
-        disabled={props.disabled}
-        maxLength={props.maxLength}
-        defaultValue={props.defaultValue}
-        data-name={props.name}
-        data-optional={props.optional}
-        placeholder={props.placeholder}
-      />
-    </div>
-  ) : props.textarea ? (
-    <textarea
-      className={className(
-        "text-input",
-        props.className,
-        props.error && "text-input-error",
-        props.monospace && "font-monospace"
-      )}
-      disabled={props.disabled}
-      maxLength={props.maxLength}
-      defaultValue={props.defaultValue}
-      data-name={props.name}
-      data-optional={props.optional}
-      placeholder={props.placeholder}
-    />
-  ) : (
-    <input
-      type="text"
-      className={className(
-        "text-input",
-        props.className,
-        props.error && "text-input-error",
-        props.monospace && "font-monospace"
-      )}
-      disabled={props.disabled}
-      maxLength={props.maxLength}
-      defaultValue={props.defaultValue}
-      data-name={props.name}
-      data-optional={props.optional}
-      placeholder={props.placeholder}
-    />
   )
 }
 const NumberInput = (props: {

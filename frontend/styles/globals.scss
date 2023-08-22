@@ -36,6 +36,11 @@ textarea {
 .text-input {
   @extend .bg-input;
   @apply text-slate-900 dark:text-white p-2 rounded border-2 border-slate-300 dark:border-slate-700 focus-within:border-theme focus-within:outline-none transition-colors duration-200;
+
+  &:disabled,
+  &.disabled {
+    @apply bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400;
+  }
 }
 
 .text-input-error {

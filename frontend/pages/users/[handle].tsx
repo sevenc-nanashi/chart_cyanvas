@@ -7,7 +7,8 @@ import urlcat from "urlcat"
 import Link from "next/link"
 import getConfig from "next/config"
 import ChartSection from "components/ChartSection"
-import { className, randomize } from "lib/utils"
+import { className, isAdmin, randomize } from "lib/utils"
+import { useSession } from "lib/atom"
 
 const { serverRuntimeConfig } = getConfig()
 
@@ -49,6 +50,8 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
   const { t: rootT } = useTranslation()
   const { t } = useTranslation("user")
 
+  const [session] = useSession()
+
   const [random, setRandom] = useState(0)
   useEffect(() => {
     setRandom(Math.random())
@@ -65,6 +68,30 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
   })
 
   const isFinished = useRef(false)
+
+  const [secretUserInfo, setSecretUserInfo] = useState<{
+    discord: DiscordInfo
+    warnCount: number
+  } | null>(null)
+
+  useEffect(() => {
+    if (!isAdmin(session)) {
+      return
+    }
+    ;(async () => {
+      console.log("fetching admin info")
+      const res = await fetch(
+        urlcat(`/api/admin/users/:handle`, {
+          handle: user.handle,
+        })
+      )
+      const data = await res.json()
+
+      if (data.code === "ok") {
+        setSecretUserInfo(data.user)
+      }
+    })()
+  }, [session, user])
 
   const fetchUserCharts = useCallback(async () => {
     console.log("fetching user charts")
@@ -108,6 +135,13 @@ const UserPage: NextPage<{ user: User }> = ({ user }) => {
                   <MusicNote2Regular className="mr-1 w-6 h-6" />
                   {t("totalCharts", { count: user.chartCount })}
                 </p>
+
+                {secretUserInfo && (
+                  <p className="text-md mt-4">
+                    Discord: {secretUserInfo.discord.username}, Warn:{" "}
+                    {secretUserInfo.warnCount}
+                  </p>
+                )}
                 <p className="flex-grow mt-4 mr-4 whitespace-pre-wrap break-words w-full">
                   {user.aboutMe}
                 </p>

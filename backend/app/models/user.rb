@@ -48,10 +48,13 @@ class User < ApplicationRecord
   def check_discord
     return false unless discord_token
     refresh_discord_token if discord_expires_at < Time.now
-    discord.get("/users/@me")
+    discord_user = discord.get("/users/@me")
+    discord.get(
+      "/guilds/#{ENV["DISCORD_GUILD_ID"]}/members/#{discord_user["id"]}"
+    )
     true
   rescue StandardError
-    update!(discord_token: nil, discord_refresh_token: nil)
+    update!(discord_status: :no, discord_token: nil, discord_refresh_token: nil)
     false
   end
 
@@ -69,5 +72,9 @@ class User < ApplicationRecord
       discord_refresh_token: response["refresh_token"],
       discord_expires_at: Time.now + response["expires_in"].to_i.seconds
     )
+  end
+
+  def admin?
+    ENV["ADMIN_HANDLE"] && ENV["ADMIN_HANDLE"].split(",").include?(handle)
   end
 end

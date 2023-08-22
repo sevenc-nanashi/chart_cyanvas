@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     get "/admin", to: "api/admin#data"
     get "/admin/users/:handle", to: "api/admin#show_user"
     post "/admin/reconvert_sus", to: "api/admin#reconvert_sus"
+    post "/admin/delete-chart", to: "api/admin#delete_chart"
 
     get "/my/discord", to: "api/discord#my_discord"
     get "/discord/link", to: "api/discord#link"

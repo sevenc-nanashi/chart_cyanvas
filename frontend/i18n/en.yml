@@ -40,6 +40,8 @@ chart:
   deletionModal:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
+    warnAuthor: "Warn the author"
+    warnReason: "Reason for warning"
     ok: "Delete"
 
 user:

@@ -25,6 +25,9 @@ import OptionalImage from "components/OptionalImage"
 import { useSession } from "lib/atom"
 import { getRatingColor, className, isMine, host, isAdmin } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
+import TextInput from "components/TextInput"
+import InputTitle from "components/InputTitle"
+import Checkbox from "components/Checkbox"
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 
@@ -100,20 +103,33 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
     isSameAuthorChartsFinished.current = false
   }, [name, router])
 
-  const [waitForDeletionConfirm, setWaitForDeletionConfirm] =
-    useState<CallableFunction | null>(null)
+  const [showDeletionModal, setShowDeletionModal] = useState(false)
 
-  const deleteChart = useCallback(() => {
-    new Promise((resolve) => {
-      setWaitForDeletionConfirm(() => resolve)
-    }).then(async (confirmed) => {
-      if (confirmed == null) {
-        return
-      }
-      setWaitForDeletionConfirm(null)
-      if (!confirmed) {
-        return
-      }
+  const [warnAuthor, setWarnAuthor] = useState(false)
+
+  const sendDeleteRequest = useCallback(async () => {
+    if (isAdmin(session)) {
+      await fetch(
+        urlcat(`/api/admin/delete-chart`, {
+          name,
+        }),
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            warn: warnAuthor,
+            reason: (
+              document.querySelector(
+                "[data-name=warnReason]"
+              ) as HTMLInputElement
+            ).value,
+          }),
+        }
+      )
+    } else {
       await fetch(
         urlcat(`/api/charts/:name`, {
           name,
@@ -122,9 +138,9 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
           method: "DELETE",
         }
       )
-      router.push("/charts/my")
-    })
-  }, [name, router])
+    }
+    router.push("/charts/my")
+  }, [name, router, session, warnAuthor])
 
   const doesUserOwn = isMine(session, chartData) || isAdmin(session)
   const adminDecoration = isAdmin(session) ? rootT("adminDecorate") : ""
@@ -183,18 +199,37 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
           }
         />
       </Head>
-      <ModalPortal isOpen={!!waitForDeletionConfirm}>
+      <ModalPortal isOpen={showDeletionModal}>
         <h1 className="text-xl font-bold text-normal mb-2 break-word">
           {t("deletionModal.title")}
         </h1>
-        <p className="text-sm text-gray-500 text-normal mb-1">
-          {t("deletionModal.description")}
-        </p>
+        {isAdmin(session) ? (
+          <>
+            <Checkbox
+              label={t("deletionModal.warnAuthor")}
+              checked={warnAuthor}
+              onChange={(e) => setWarnAuthor(e.target.checked)}
+            />
+            <InputTitle text={t("deletionModal.warnReason")}>
+              <TextInput
+                name="warnReason"
+                textarea
+                optional
+                className="w-full h-32"
+                disabled={!warnAuthor}
+              />
+            </InputTitle>
+          </>
+        ) : (
+          <p className="text-sm text-gray-500 text-normal mb-1">
+            {t("deletionModal.description")}
+          </p>
+        )}
         <div className="flex justify-end mt-4 gap-2">
           <div
             className="px-4 py-2 rounded text-sm border-2 border-slate-500 dark:border-white text-normal cursor-pointer"
             onClick={() => {
-              waitForDeletionConfirm?.(false)
+              setShowDeletionModal(false)
             }}
           >
             {rootT("cancel")}
@@ -204,7 +239,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
               "px-4 py-2 rounded text-sm bg-red-500 text-white cursor-pointer"
             )}
             onClick={() => {
-              waitForDeletionConfirm?.(true)
+              sendDeleteRequest()
             }}
           >
             {t("deletionModal.ok")}
@@ -341,7 +376,9 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                           text: t("delete") + adminDecoration,
                           icon: DeleteRegular,
                           className: "bg-red-500 text-white",
-                          onClick: deleteChart,
+                          onClick: () => {
+                            setShowDeletionModal(true)
+                          },
                         },
                       ]
                     : chartData.chart

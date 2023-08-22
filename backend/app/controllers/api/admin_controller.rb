@@ -46,6 +46,12 @@ module Api
       if @user
         user_data = @user.to_frontend
         user_data[:altUsers] = @user.alt_users.map(&:to_frontend)
+        user_data[:discord] = {
+          displayName: @user.discord_display_name,
+          username: @user.discord_username,
+          avatar: @user.discord_avatar
+        }
+        user_data[:warnCount] = @user.warn_count
 
         render json: { code: "ok", user: user_data }
       else
@@ -53,8 +59,45 @@ module Api
       end
     end
 
+    def delete_chart
+      params.permit(:name, :warn, :reason)
+      chart = Chart.find_by(name: params[:name])
+      return render json: { code: "not_found" }, status: :not_found unless chart
+
+      if params["warn"]
+        chart.author.increment!(:warn_count)
+        unless chart.author.discord_thread_id
+          thread =
+            $discord.post(
+              "/channels/#{ENV["DISCORD_WARNING_CHANNEL_ID"]}/threads",
+              json: {
+                name: "warn-#{chart.author.handle}",
+                type: 12
+              }
+            )
+          chart.author.update!(discord_thread_id: thread["id"])
+        end
+
+        $discord.post(
+          "/channels/#{chart.author.discord_thread_id}/messages",
+          json: {
+            content: <<~MSG
+              **:wastebasket: #{chart.title} (`#{chart.name}`) - :warning: #{chart.author.warn_count}**
+
+              #{params[:reason].indent(1, "> ")}
+
+              *:mailbox: #{chart.author} / <@#{chart.author.discord_id}>*
+            MSG
+          }
+        )
+      end
+
+      chart.destroy!
+      render json: { code: "ok" }
+    end
+
     around_action do |controller, action|
-      if !ENV["ADMIN_HANDLE"] || current_user&.handle != ENV["ADMIN_HANDLE"]
+      unless current_user&.admin?
         logger.warn "Unauthorized admin access attempt by #{current_user&.handle} (Admin handle: #{ENV["ADMIN_HANDLE"]})"
         render json: { code: "forbidden" }, status: :forbidden
         next
