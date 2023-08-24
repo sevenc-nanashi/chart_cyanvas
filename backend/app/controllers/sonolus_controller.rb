@@ -61,7 +61,7 @@ class SonolusController < ApplicationController
       }
 
       user =
-        if (u = User.find_by(handle: user_profile[:handle]))
+        if (u = User.find_by(handle: user_profile[:handle], owner_id: nil))
           if table_contents.each_pair.any? { |k, v| u[k] != v }
             logger.info "User #{u.handle} updated, updating table"
             u.update!(table_contents)
