@@ -3,4 +3,6 @@ ARG TARGETARCH
 COPY ./tmp/${TARGETARCH} /app/sub-image
 
 WORKDIR /app
+
+EXPOSE 3203
 ENTRYPOINT ["/app/sub-image"]
