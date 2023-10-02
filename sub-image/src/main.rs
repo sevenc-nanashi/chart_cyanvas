@@ -27,7 +27,7 @@ async fn main() {
 
     info!("Listening on port 3203");
 
-    axum::Server::bind(&SocketAddr::from(([127, 0, 0, 1], 3203)))
+    axum::Server::bind(&SocketAddr::from(([0, 0, 0, 0], 3203)))
         .serve(app.into_make_service())
         .await
         .unwrap();
