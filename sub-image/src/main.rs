@@ -6,7 +6,7 @@ use axum::{
     routing::{get, post},
     Router,
 };
-use std::{env, net::SocketAddr};
+use std::net::SocketAddr;
 use tower_http::trace::{self, TraceLayer};
 use tracing::{info, Level};
 
@@ -22,13 +22,11 @@ async fn main() {
                 .on_response(trace::DefaultOnResponse::new().level(Level::INFO)),
         );
 
-    let port = env::var("PORT").unwrap_or_else(|_| "3203".to_string());
-
     tracing_subscriber::fmt().init();
 
-    info!("Listening on port {}", port);
+    info!("Listening on port 3203");
 
-    axum::Server::bind(&SocketAddr::from(([127, 0, 0, 1], port.parse().unwrap())))
+    axum::Server::bind(&SocketAddr::from(([127, 0, 0, 1], 3203)))
         .serve(app.into_make_service())
         .await
         .unwrap();
