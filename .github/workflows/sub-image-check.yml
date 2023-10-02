@@ -23,11 +23,11 @@ jobs:
           rustup target add aarch64-unknown-linux-gnu
       - name: Cache target
         uses: Swatinem/rust-cache@v2
-      # - name: Run check
-      #   run: |
-      #     cargo clippy
-      #     cargo fmt -- --check
-      #     cargo test
+      - name: Run check
+        run: |
+          cargo clippy
+          cargo fmt -- --check
+          cargo test
 
       - name: Build binary
         if: github.ref_name == 'main'
