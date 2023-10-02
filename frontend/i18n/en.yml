@@ -205,12 +205,13 @@ admin:
 
   actions:
     title: "Commands"
-    reconvert_chart:
-      title: "Reconvert all SUS"
+    expireData:
+      title: "Expire chart data"
       description: |
-        Reconvert all SUS to LevelData. Use this when the specification of chart data is changed by engine update.
-      button: "Reconvert"
-      success: "{{count}} charts were reconverted."
+        Expire all chart data. They will be regenerated on next update or play.
+        Use this when the engine is updated.
+      button: "Expire"
+      success: "{{count}} chart data expired."
 
 discordError:
   title: Integration failed

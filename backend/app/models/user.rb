@@ -4,7 +4,8 @@ class User < ApplicationRecord
            foreign_key: :author_id,
            dependent: :destroy,
            inverse_of: :author
-  belongs_to :user,
+  belongs_to :owner,
+             class_name: "User",
              optional: true,
              foreign_key: :owner_id,
              inverse_of: :alt_users
@@ -12,7 +13,7 @@ class User < ApplicationRecord
            foreign_key: :owner_id,
            dependent: :destroy,
            class_name: "User",
-           inverse_of: :user
+           inverse_of: :owner
   has_many :likes, dependent: :destroy
   enum discord_status: %i[no linked joined]
 

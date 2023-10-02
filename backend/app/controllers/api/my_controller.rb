@@ -61,16 +61,18 @@ module Api
       params.require(:handle)
       require_login!
 
-      handle = params[:handle][1..].to_i
+      handle = params[:handle]
       user = User.find_by(handle:)
       if user.nil? || user.owner_id != session[:user_id]
         render json: { code: "not_found" }, status: 404
         return
       end
 
+      session_user = User.find(session[:user_id])
+
       user.charts.update_all(
         author_id: session[:user_id],
-        author_name: nil
+        author_name: session_user.name
       )
       user.destroy!
       render json: { code: "ok" }

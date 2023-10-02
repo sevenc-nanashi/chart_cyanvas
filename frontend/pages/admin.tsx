@@ -121,21 +121,21 @@ const Admin: NextPage = () => {
         <div className="flex flex-col md:flex-row md:flex-wrap gap-4">
           <div className={actionCard}>
             <h3 className="text-md font-bold">
-              {t("actions.reconvert_chart.title")}
+              {t("actions.expireData.title")}
             </h3>
-            <p>{t("actions.reconvert_chart.description")}</p>
+            <p>{t("actions.expireData.description")}</p>
             <div
               className="button-primary mt-2 p-2"
               onClick={async () => {
                 const {
                   data: { count },
-                } = await fetch("/api/admin/reconvert_chart", {
+                } = await fetch("/api/admin/expire-data", {
                   method: "POST",
                 }).then((res) => res.json())
-                alert(t("actions.reconvert_chart.success", { count }))
+                alert(t("actions.expireData.success", { count }))
               }}
             >
-              {t("actions.reconvert_chart.button")}
+              {t("actions.expireData.button")}
             </div>
           </div>
         </div>

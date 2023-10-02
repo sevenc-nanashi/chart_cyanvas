@@ -165,12 +165,13 @@ admin:
 
   actions:
     title: "コマンド"
-    reconvert_chart:
-      title: "譜面データを再生成"
+    expireData:
+      title: "譜面データを失効"
       description: |
-        すべての譜面ファイルをLevelDataに変換します。エンジンの更新により、譜面データの仕様が変更された場合に使用します。
-      button: "再生成"
-      success: "{{count}}個の譜面の再生成を開始しました。"
+        すべての譜面データを失効させます。次の更新、または譜面のプレイ時に再生成されます。
+        エンジンの仕様が変更された場合などに使用してください。
+      button: "失効"
+      success: "{{count}}個の譜面データを失効させました。"
 
 myAlts:
   title: 別名義一覧

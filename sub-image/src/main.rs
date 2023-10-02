@@ -12,10 +12,11 @@ use tracing::{info, Level};
 
 #[tokio::main]
 async fn main() {
+    let _ = dotenv::from_path("../.env");
     let app = Router::new()
         .route("/", get(routes::root_get))
         .route("/convert", post(routes::convert_post))
-        .route("/download/{id}", get(routes::download_get))
+        .route("/download/:id", get(routes::download_get))
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(trace::DefaultMakeSpan::new().level(Level::INFO))

@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
     get "/admin", to: "api/admin#data"
     get "/admin/users/:handle", to: "api/admin#show_user"
-    post "/admin/reconvert_chart", to: "api/admin#reconvert_chart"
+    post "/admin/expire-data", to: "api/admin#expire_data"
     post "/admin/delete-chart", to: "api/admin#delete_chart"
 
     get "/my/discord", to: "api/discord#my_discord"
@@ -66,8 +66,11 @@ Rails.application.routes.draw do
       post "/authenticate", to: "sonolus#authenticate"
 
       scope "/assets" do
+        get "/generate", to: "sonolus/asset#generate"
         get "/:type/chcy-:name", to: "sonolus/asset#show"
-        get "/:type/:name", to: "sonolus/asset#show_static"
+        get "/:type/:name", to: "sonolus/asset#show_static", constraints: {
+          name: /[^\/]+/
+        }
       end
 
       types = %w[backgrounds effects particles engines skins]

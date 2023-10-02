@@ -4,6 +4,7 @@ use axum::{extract::Path, Json};
 use once_cell::sync::Lazy;
 use tempfile::NamedTempFile;
 use tokio::{io::AsyncReadExt, sync::Mutex};
+use tracing::{info, warn};
 
 use crate::{
     models::{ConvertResponse, RootResponse},
@@ -22,7 +23,16 @@ pub async fn root_get() -> Json<RootResponse> {
 pub async fn convert_post(
     body: Json<crate::models::ConvertRequest>,
 ) -> Result<Json<ConvertResponse>> {
-    let base_image = reqwest::get(&body.url).await?.bytes().await?;
+    let backend_host = std::env::var("BACKEND_HOST").unwrap();
+    info!("Convert: {:?}", body);
+    let base_image = reqwest::get(&if body.url.starts_with('/') {
+        format!("{}{}", backend_host, body.url)
+    } else {
+        body.url.clone()
+    })
+    .await?
+    .bytes()
+    .await?;
     let base_image: image::RgbaImage = image::load_from_memory(&base_image)?.into_rgba8();
 
     let result_image = tokio::task::spawn_blocking(move || match body.r#type {
@@ -78,6 +88,7 @@ pub async fn convert_post(
 
     let id = uuid::Uuid::new_v4().to_string();
     FILES.lock().await.insert(id.clone(), temp_file);
+    info!("Download ID: {}", id);
 
     Ok(Json(ConvertResponse {
         code: "ok".to_string(),
@@ -86,10 +97,12 @@ pub async fn convert_post(
 }
 
 pub async fn download_get(Path(id): Path<String>) -> Result<Vec<u8>> {
+    info!("Download: {}", id);
     let mut files = FILES.lock().await;
-    let file = files
-        .remove(&id)
-        .ok_or_else(|| anyhow::anyhow!("not found"))?;
+    let file = files.remove(&id).ok_or_else(|| {
+        warn!("Not found: {}", id);
+        anyhow::anyhow!("not found")
+    })?;
     let mut file = tokio::fs::File::open(file.path()).await?;
     let mut bytes = Vec::new();
     file.read_to_end(&mut bytes).await?;

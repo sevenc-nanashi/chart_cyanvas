@@ -200,8 +200,11 @@ module Sonolus
         *(self.class.test_search_options.map { |o| o[:query] })
       )
 
+      alt_users = User.where(owner_id: current_user.id)
       charts =
-        Chart.where(author_id: current_user.id).where.not(visibility: :public)
+        Chart
+          .where(author_id: [current_user.id] + alt_users.map(&:id))
+          .where.not(visibility: :public)
 
       charts = charts.order(updated_at: :desc)
       if params[:q_title].present?

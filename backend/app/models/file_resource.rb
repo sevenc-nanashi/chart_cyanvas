@@ -10,8 +10,9 @@ class FileResource < ApplicationRecord
          chart: 3,
          preview: 4,
          base_bgm: 5,
-         background: 6,
-         base_cover: 7
+         background_v1: 6,
+         base_cover: 7,
+         background_v3: 8
        }
 
   TYPES = {
@@ -19,7 +20,8 @@ class FileResource < ApplicationRecord
     cover: "LevelCover",
     bgm: "LevelBgm",
     preview: "LevelPreview",
-    background: "BackgroundImage"
+    background_v3: "BackgroundImage",
+    background_v1: "BackgroundImage"
   }.freeze
 
   def self.upload(chart, kind, file)

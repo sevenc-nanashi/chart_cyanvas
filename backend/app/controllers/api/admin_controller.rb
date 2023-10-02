@@ -23,12 +23,12 @@ module Api
              }
     end
 
-    def reconvert_chart
+    def expire_data
       count = 0
-      chart_list = FileResource.where(kind: :chart)
+      chart_list = FileResource.where(kind: :data)
       render json: { code: "ok", data: { count: chart_list.count } }
 
-      AllChartConvertJob.perform_later()
+      chart_list.destroy_all
     end
 
     def show_user

@@ -1,0 +1,9 @@
+name: pjsekai-old
+version: 2
+title: Live v1
+subtitle: プロジェクトセカイ カラフルステージ!
+author: Burrito
+thumbnail: "!file:v1_thumbnail.png/BackgroundThumbnail"
+data: "!file:v1_data.json.gz/BackgroundData"
+image: "!file:v1.png/BackgroundImage"
+configuration: "!file:configuration.json.gz/BackgroundConfiguration"

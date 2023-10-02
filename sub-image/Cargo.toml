@@ -21,4 +21,5 @@ image = "0.24.7"
 tempfile.workspace = true
 once_cell.workspace = true
 uuid.workspace = true
+dotenv.workspace = true
 rstest.workspace = true

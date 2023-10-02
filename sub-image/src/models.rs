@@ -12,7 +12,7 @@ pub struct ConvertRequest {
 }
 
 #[derive(Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "snake_case")]
 pub enum ConvertType {
     Cover,
     BackgroundV1,
