@@ -149,3 +149,6 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node
 
 docker-compose.yml
+
+test_results/*
+!test_results/.gitkeep

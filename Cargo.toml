@@ -1,0 +1,29 @@
+[workspace]
+members = ["sub-image"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[workspace.dependencies]
+anyhow = "1.0.75"
+axum = "0.6.20"
+thiserror = "1.0.49"
+tokio = { version = "1.32.0", features = ["rt-multi-thread", "full"] }
+
+serde = { version = "1.0.183", features = ["derive"] }
+serde_json = "1.0.105"
+
+tower-http = { version = "0.4.3", features = ["trace", "fs"] }
+tracing = "0.1.37"
+tracing-subscriber = "0.3.17"
+
+reqwest = "0.11.20"
+
+tempfile = "3.8.0"
+
+once_cell = "1.18.0"
+
+uuid = { version = "1.4.1", features = ["v4"] }
+
+rstest = "0.18.2"
