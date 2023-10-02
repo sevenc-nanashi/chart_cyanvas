@@ -53,61 +53,62 @@ module Sonolus
         )
       end
       type = params[:type].to_sym
-      if file = FileResource.find_by(chart_id: chart.id, kind: type)
-        return redirect_to file.to_frontend
-      end
-      generating =
-        $redis.with { |conn| conn.get("sonolus:generate:#{chart.id}:#{type}") }
-      should_generate = generating.nil? || generating.to_i < Time.now.to_i - 60
-      if should_generate
-        $redis.with do |conn|
-          conn.set("sonolus:generate:#{chart.id}:#{type}", Time.now.to_i)
-        end
-        Rails.logger.info("Generating #{type} for #{chart.name}...")
-        begin
-          case type
-          when :background_v1
-            ImageConvertJob.perform_now(
-              chart.name,
-              chart.resources[:cover],
-              :background_v1
-            )
-          when :background_v3
-            ImageConvertJob.perform_now(
-              chart.name,
-              chart.resources[:cover],
-              :background_v3
-            )
-          when :data
-            ChartConvertJob.perform_now(chart.resources[:chart])
-          else
-            return(
-              render json: {
-                       code: "not_found",
-                       message: "Not Found"
-                     },
-                     status: 404
-            )
-          end
-        ensure
-          $redis.with do |conn|
-            conn.del("sonolus:generate:#{chart.id}:#{type}")
-          end
-        end
-
-        Rails.logger.info("Generated #{type} for #{chart.name}")
-
-        return(
-          redirect_to FileResource.find_by(
-                        chart_id: chart.id,
-                        kind: type
-                      ).to_frontend,
-                      allow_other_host: true
-        )
-      else
-        Rails.logger.info("Already generating #{type} for #{chart.name}")
-      end
       FileResource.uncached do
+        if file = FileResource.find_by(chart_id: chart.id, kind: type)
+          return redirect_to file.to_frontend, allow_other_host: true
+        end
+        generating =
+          $redis.with { |conn| conn.get("sonolus:generate:#{chart.id}:#{type}") }
+        should_generate = generating.nil? || generating.to_i < Time.now.to_i - 60
+        if should_generate
+          $redis.with do |conn|
+            conn.set("sonolus:generate:#{chart.id}:#{type}", Time.now.to_i)
+          end
+          Rails.logger.info("Generating #{type} for #{chart.name}...")
+          begin
+            case type
+            when :background_v1
+              ImageConvertJob.perform_now(
+                chart.name,
+                chart.resources[:cover],
+                :background_v1
+              )
+            when :background_v3
+              ImageConvertJob.perform_now(
+                chart.name,
+                chart.resources[:cover],
+                :background_v3
+              )
+            when :data
+              ChartConvertJob.perform_now(chart.resources[:chart])
+            else
+              return(
+                render json: {
+                         code: "not_found",
+                         message: "Not Found"
+                       },
+                       status: 404
+              )
+            end
+          ensure
+            $redis.with do |conn|
+              conn.del("sonolus:generate:#{chart.id}:#{type}")
+            end
+          end
+  
+          Rails.logger.info("Generated #{type} for #{chart.name}")
+  
+          return(
+            redirect_to FileResource.find_by(
+                          chart_id: chart.id,
+                          kind: type
+                        ).to_frontend,
+                        allow_other_host: true
+          )
+        else
+          Rails.logger.info("Already generating #{type} for #{chart.name}")
+        end
+
         50.times do
           break if FileResource.where(chart_id: chart.id, kind: type).exists?
 
