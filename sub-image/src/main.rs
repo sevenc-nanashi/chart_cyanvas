@@ -13,6 +13,7 @@ use tracing::{info, Level};
 #[tokio::main]
 async fn main() {
     let _ = dotenv::from_path("../.env");
+    let _ = dotenv::dotenv();
     let app = Router::new()
         .route("/", get(routes::root_get))
         .route("/convert", post(routes::convert_post))
