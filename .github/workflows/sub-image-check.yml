@@ -33,6 +33,8 @@ jobs:
         if: github.ref_name == 'main'
         working-directory: .
         run: |
+          apt-get update
+          apt-get install -y libssl-dev pkg-config
           cargo build --release --target x86_64-unknown-linux-gnu
           cargo build --release --target aarch64-unknown-linux-gnu
 

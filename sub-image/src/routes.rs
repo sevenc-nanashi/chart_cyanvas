@@ -23,7 +23,8 @@ pub async fn root_get() -> Json<RootResponse> {
 pub async fn convert_post(
     body: Json<crate::models::ConvertRequest>,
 ) -> Result<Json<ConvertResponse>> {
-    let backend_host = std::env::var("BACKEND_HOST").unwrap();
+    let backend_host =
+        std::env::var("BACKEND_HOST").unwrap_or_else(|_| "http://localhost:3000".to_string());
     info!("Convert: {:?}", body);
     let base_image = reqwest::get(&if body.url.starts_with('/') {
         format!("{}{}", backend_host, body.url)
