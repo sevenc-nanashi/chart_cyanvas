@@ -40,7 +40,12 @@ class ImageConvertJob < ApplicationJob
       ImageConvertJob.perform_later(chart_name, resource, :background_v3)
       image_file.delete
     when :background_v3
-      ImageConvertJob.perform_later(chart_name, resource, :background_v1)
+      chart = Chart.find_by(name: chart_name)
+      ImageConvertJob.perform_later(
+        chart_name,
+        chart.resources[:cover],
+        :background_v1
+      )
     end
   end
 end
