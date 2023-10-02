@@ -38,11 +38,10 @@ jobs:
           cargo build --release --target aarch64-unknown-linux-gnu
           cargo build --release --target x86_64-unknown-linux-gnu
 
-          mkdir /tmp/sub-image/arm64 -p
-          mkdir /tmp/sub-image/amd64 -p
+          mkdir ./tmp
 
-          cp target/x86_64-unknown-linux-gnu/release/sub-image /tmp/sub-image/amd64/sub-image
-          cp target/aarch64-unknown-linux-gnu/release/sub-image /tmp/sub-image/arm64/sub-image
+          cp target/x86_64-unknown-linux-gnu/release/sub-image ./tmp/amd64
+          cp target/aarch64-unknown-linux-gnu/release/sub-image ./tmp/arm64
       - name: Build image
         if: github.ref_name == 'main'
         uses: ./.github/actions/build
