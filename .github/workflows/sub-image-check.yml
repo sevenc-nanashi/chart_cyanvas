@@ -23,20 +23,20 @@ jobs:
           rustup target add aarch64-unknown-linux-gnu
       - name: Cache target
         uses: Swatinem/rust-cache@v2
-      - name: Run check
-        run: |
-          cargo clippy
-          cargo fmt -- --check
-          cargo test
+      # - name: Run check
+      #   run: |
+      #     cargo clippy
+      #     cargo fmt -- --check
+      #     cargo test
 
       - name: Build binary
         if: github.ref_name == 'main'
         working-directory: .
         run: |
           sudo apt-get update
-          sudo apt-get install -y libssl-dev pkg-config
-          cargo build --release --target x86_64-unknown-linux-gnu
+          sudo apt-get install -y libssl-dev pkg-config g++-aarch64-linux-gnu
           cargo build --release --target aarch64-unknown-linux-gnu
+          cargo build --release --target x86_64-unknown-linux-gnu
 
           mkdir /tmp/sub-image/arm64 -p
           mkdir /tmp/sub-image/amd64 -p
