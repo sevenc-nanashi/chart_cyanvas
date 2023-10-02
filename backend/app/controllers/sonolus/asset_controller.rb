@@ -101,7 +101,8 @@ module Sonolus
           redirect_to FileResource.find_by(
                         chart_id: chart.id,
                         kind: type
-                      ).to_frontend
+                      ).to_frontend,
+                      allow_other_host: true
         )
       else
         Rails.logger.info("Already generating #{type} for #{chart.name}")
@@ -119,7 +120,8 @@ module Sonolus
           redirect_to FileResource.find_by(
                         chart_id: chart.id,
                         kind: type
-                      ).to_frontend
+                      ).to_frontend,
+                      allow_other_host: true
         else
           Rails.logger.info("Failed to generate #{type} for #{chart.name}")
           render json: { code: "not_found", message: "Not Found" }, status: 404
