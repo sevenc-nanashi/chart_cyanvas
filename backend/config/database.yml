@@ -14,7 +14,7 @@ default: &default
   host: <%= ENV['PG_HOST'] %>
   port: <%= ENV['PG_PORT'] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: <%= ENV.fetch("RAILS_DB_TIMEOUT") { 5000 } %>
+  checkout_timeout: <%= ENV.fetch("RAILS_DB_TIMEOUT") { 5 } %>
 
 development:
   <<: *default
