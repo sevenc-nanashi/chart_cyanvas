@@ -198,7 +198,9 @@ admin:
       private: "Private"
     files: "Files"
     storage: "Storage"
-    db: "Database"
+    db:
+      title: "Database"
+      connections: "{{busy}} busy, {{waiting}} waiting / {{size}} max"
   sidekiq:
     title: "Jobs (Sidekiq)"
     description: "You can see the status of background jobs here."

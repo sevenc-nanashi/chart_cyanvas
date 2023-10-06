@@ -17,7 +17,11 @@ module Api
                      discord: User.where.not(discord_id: nil).count
                    },
                    files:
-                     FileResource.all.group_by(&:kind).transform_values(&:count)
+                     FileResource
+                       .all
+                       .group_by(&:kind)
+                       .transform_values(&:count),
+                   db: ActiveRecord::Base.connection_pool.stat
                  }
                }
              }

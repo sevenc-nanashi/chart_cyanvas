@@ -158,7 +158,9 @@ admin:
       private: "非公開"
     files: "ファイル"
     storage: "ストレージ"
-    db: "データベースサイズ"
+    db:
+      title: "データベース"
+      connections: "使用中：{{busy}}、待機中：{{waiting}} / 最大：{{size}}"
   sidekiq:
     title: "ジョブ（Sidekiq）"
     description: "バックグラウンドジョブの状態を確認できます。"

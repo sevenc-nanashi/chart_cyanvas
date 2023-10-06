@@ -41,6 +41,15 @@ const Admin: NextPage = () => {
         discord: number
       }
       files: Record<string, number>
+      db: {
+        size: number
+        connections: number
+        busy: number
+        dead: number
+        idle: number
+        waiting: number
+        checkout_timeout: number
+      }
     }
   } | null>(null)
 
@@ -106,6 +115,14 @@ const Admin: NextPage = () => {
                   <p className="flex-1 text-right">{value}</p>
                 </div>
               ))}
+            </div>
+          </div>
+          <div className={statCard}>
+            <h2 className="text-xl font-bold">{t("stats.db.title")}</h2>
+            <div className="flex flex-col">
+              <p className="flex-1">
+                {t("stats.db.connections", data.stats.db)}
+              </p>
             </div>
           </div>
           <div className={statCard}>
