@@ -1,0 +1,17 @@
+{
+    "usc": {
+        "objects": [
+            {
+                "beat": 0,
+                "bpm": 160.0,
+                "type": "bpm"
+            },
+            {
+                "changes": [],
+                "type": "timeScaleGroup"
+            }
+        ],
+        "offset": 0.0
+    },
+    "version": 2
+}

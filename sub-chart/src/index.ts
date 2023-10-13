@@ -84,13 +84,18 @@ app.post("/convert", async (req, res) => {
       console.log("Guessing type as", type)
       usc = mmwsToUSC(Buffer.from(chart.data))
     } else {
-      try {
-        JSON.parse(chart.data.toString())
+      if (
+        await (async () => {
+          JSON.parse(chart.data.toString())
+          return true
+        })().catch(() => false)
+      ) {
+        const parsed = JSON.parse(chart.data.toString())
 
         type = "usc"
         console.log("Guessing type as", type)
-        usc = migrateUSC(chart.data.toString())
-      } catch (e) {
+        usc = migrateUSC(parsed)
+      } else {
         type = "sus"
         console.log("Guessing type as", type)
         usc = susToUSC(chart.data.toString())

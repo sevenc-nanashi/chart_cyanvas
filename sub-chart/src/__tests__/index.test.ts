@@ -35,62 +35,29 @@ describe("POST /convert", () => {
     testServer.close()
   })
 
-  it("can convert sus file", async () => {
-    const response = await request(app)
-      .post("/convert")
-      .send({
-        url: `http://127.0.0.1:${port}/test.sus`,
-      })
+  for (const [type, name, path] of [
+    ["sus", "sus", "test.sus"],
+    ["mmws", "mmws", "test.mmws"],
+    ["mmws", "ccmmws", "test.ccmmws"],
+    ["chs", "ched2", "ched2.chs"],
+    ["chs", "ched3", "ched3.chs"],
+    ["usc", "usc", "test.usc"],
+  ] as const) {
+    it(`can convert ${name} file`, async () => {
+      const response = await request(app)
+        .post("/convert")
+        .send({
+          url: `http://127.0.0.1:${port}/${path}`,
+        })
 
-    expect(response.statusCode).toBe(200)
-    expect(response.body).toEqual({
-      code: "ok",
-      id: expect.any(String),
-      type: "sus",
-    })
-  })
-  it("can convert mmws file", async () => {
-    const response = await request(app)
-      .post("/convert")
-      .send({
-        url: `http://127.0.0.1:${port}/test.mmws`,
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toEqual({
+        code: "ok",
+        id: expect.any(String),
+        type,
       })
-
-    expect(response.statusCode).toBe(200)
-    expect(response.body).toEqual({
-      code: "ok",
-      id: expect.any(String),
-      type: "mmws",
     })
-  })
-  it("can convert chs file from Ched 2", async () => {
-    const response = await request(app)
-      .post("/convert")
-      .send({
-        url: `http://127.0.0.1:${port}/ched2.chs`,
-      })
-
-    expect(response.statusCode).toBe(200)
-    expect(response.body).toEqual({
-      code: "ok",
-      id: expect.any(String),
-      type: "chs",
-    })
-  })
-  it("can convert chs file from Ched 3", async () => {
-    const response = await request(app)
-      .post("/convert")
-      .send({
-        url: `http://127.0.0.1:${port}/ched3.chs`,
-      })
-
-    expect(response.statusCode).toBe(200)
-    expect(response.body).toEqual({
-      code: "ok",
-      id: expect.any(String),
-      type: "chs",
-    })
-  })
+  }
 
   test("GET /download/:id can download converted file", async () => {
     const convertResponse = await request(app)
