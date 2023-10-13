@@ -1,0 +1,9 @@
+author: Sonolus + Nanashi.
+data: "!file:01_data.json.gz/SkinData"
+name: pjsekai-extended-01
+subtitle: PJSekai Extended
+description: PjSekai + Trace notes, Type 1
+texture: "!file:01_texture.png/SkinTexture"
+thumbnail: "!file:SkinThumbnail"
+title: PJSekai+ / Type 1
+version: 4

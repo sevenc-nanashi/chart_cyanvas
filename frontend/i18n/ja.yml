@@ -83,9 +83,9 @@ upload:
     variant: "派生元譜面"
     description: "説明"
 
-    cover: "ジャケット（.jpg、.png）"
-    chart: "譜面（.sus、.mmws、.chs）"
-    bgm: "音源（.mp3、.wav、.ogg）"
+    cover: "ジャケット"
+    chart: "譜面"
+    bgm: "音源"
 
     tags: "タグ"
 
@@ -122,7 +122,7 @@ upload:
   optional: "（任意）"
   dropHere: "ドロップしてアップロード"
   unUploadedFiles: "対応していないファイルがドロップされました。"
-  unUploadedFilesNote: ".sus、.mmws、.mp3、.wav、.ogg、.png、.jpg、.jpegのみ対応しています。"
+  unUploadedFilesNote: ".sus、.mmws、.ccmmws、.usc、.json、.mp3、.wav、.ogg、.png、.jpg、.jpegのみ対応しています。"
 
   filesTooLarge: ファイルが大きすぎます。
   filesTooLargeNote: ファイルは合計で最大20MBまでです。

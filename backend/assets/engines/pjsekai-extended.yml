@@ -6,7 +6,7 @@ tutorialData: "!file:EngineTutorialData"
 previewData: "!file:EnginePreviewData"
 name: pjsekai-extended
 particle: "!asset:pjsekai"
-skin: "!asset:pjsekai-extended"
+skin: "!asset:pjsekai-extended-01"
 effect: "!asset:pjsekai-fixed"
 description: PJSekai + Trace notes, custom judgement, etc.
 subtitle: From servers.sonolus.com/pjsekai

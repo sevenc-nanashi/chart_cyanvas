@@ -86,9 +86,9 @@ upload:
 
     variant: "Variant of"
     description: "Description"
-    cover: "Cover image (.png, .jpg)"
-    chart: "Chart file (.sus, .mmws)"
-    bgm: "BGM file (.mp3, .ogg, .wav)"
+    cover: "Cover image"
+    chart: "Chart file"
+    bgm: "BGM file"
 
     tags: "Tags"
 

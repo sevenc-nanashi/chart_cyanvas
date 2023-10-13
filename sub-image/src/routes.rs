@@ -75,16 +75,28 @@ pub async fn convert_post(
         }
         crate::models::ConvertType::BackgroundV1 => {
             let mut rendered = pjsekai_background_gen_core::render_v1(&base_image);
-            image::imageops::crop(&mut rendered, 0, 145, 2048, 970).to_image()
+            let img = image::imageops::crop(&mut rendered, 0, 145, 2048, 970).to_image();
+            image::imageops::resize(
+                &img,
+                (2048 / 970) * 720,
+                720,
+                image::imageops::FilterType::Gaussian,
+            )
         }
         crate::models::ConvertType::BackgroundV3 => {
             let mut rendered = pjsekai_background_gen_core::render_v3(&base_image);
-            image::imageops::crop(&mut rendered, 0, 135, 2048, 897).to_image()
+            let img = image::imageops::crop(&mut rendered, 0, 135, 2048, 897).to_image();
+            image::imageops::resize(
+                &img,
+                (2048 / 897) * 720,
+                720,
+                image::imageops::FilterType::Gaussian,
+            )
         }
     })
     .await?;
 
-    let temp_file = tempfile::Builder::new().suffix(".png").tempfile().unwrap();
+    let temp_file = tempfile::Builder::new().suffix(".jpg").tempfile().unwrap();
     result_image.save(temp_file.path())?;
 
     let id = uuid::Uuid::new_v4().to_string();
