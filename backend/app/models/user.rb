@@ -42,13 +42,17 @@ class User < ApplicationRecord
 
   def discord
     return unless discord_token
-    refresh_discord_token if discord_expires_at < Time.now
-    @discord ||= DiscordRequest.new(bearer_token: discord_token)
+    token = discord_token
+    if discord_expires_at < Time.now
+      token = refresh_discord_token
+      @discord = nil
+    end
+    @discord ||= DiscordRequest.new(bearer_token: token)
   end
 
   def check_discord
     return false unless discord_token
-    refresh_discord_token if discord_expires_at < Time.now
+    token = discord_token
     discord_user = discord.get("/users/@me")
     $discord.get(
       "/guilds/#{ENV["DISCORD_GUILD_ID"]}/members/#{discord_user["id"]}"
@@ -73,6 +77,7 @@ class User < ApplicationRecord
       discord_refresh_token: response["refresh_token"],
       discord_expires_at: Time.now + response["expires_in"].to_i.seconds
     )
+    response["access_token"]
   end
 
   def admin?
