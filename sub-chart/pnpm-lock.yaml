@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@sentry/node':
     specifier: ^7.74.0
@@ -22,7 +18,7 @@ dependencies:
     version: 1.10.0
   sonolus-pjsekai-engine-extended:
     specifier: github:sevenc-nanashi/sonolus-pjsekai-engine-extended#build
-    version: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/c7ab1c7f40f75e9cd8fa98773339de2fd68d9e94
+    version: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/1f5c3f7ba4c1182dc96309bc4e95c405ac2d6146
   tempy:
     specifier: ^1.0.1
     version: 1.0.1
@@ -1717,7 +1713,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001547
-      electron-to-chromium: 1.4.553
+      electron-to-chromium: 1.4.554
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: true
@@ -2091,8 +2087,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.553:
-    resolution: {integrity: sha512-HiRdtyKS2+VhiXvjhMvvxiMC33FJJqTA5EB2YHgFZW6v7HkK4Q9Ahv2V7O2ZPgAjw+MyCJVMQvigj13H8t+wvA==}
+  /electron-to-chromium@1.4.554:
+    resolution: {integrity: sha512-Q0umzPJjfBrrj8unkONTgbKQXzXRrH7sVV7D9ea2yBV3Oaogz991yhbpfvo2LMNkJItmruXTEzVpP9cp7vaIiQ==}
     dev: true
 
   /emittery@0.13.1:
@@ -4904,11 +4900,15 @@ packages:
     version: 1.2.3
     dev: false
 
-  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/c7ab1c7f40f75e9cd8fa98773339de2fd68d9e94:
-    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/c7ab1c7f40f75e9cd8fa98773339de2fd68d9e94}
+  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/1f5c3f7ba4c1182dc96309bc4e95c405ac2d6146:
+    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/1f5c3f7ba4c1182dc96309bc4e95c405ac2d6146}
     name: sonolus-pjsekai-engine-extended
     version: 1.2.0
     dependencies:
       sonolus-core: 7.3.0
       streambuf: github.com/sevenc-nanashi/node-streambuf/63c7329ad44f1de2ade1e5b437897b12aa67faea
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
