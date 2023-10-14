@@ -15,7 +15,7 @@ tokio = { version = "1.32.0", features = ["rt-multi-thread", "full"] }
 serde = { version = "1.0.183", features = ["derive"] }
 serde_json = "1.0.105"
 
-tower-http = { version = "0.4.3", features = ["trace", "fs"] }
+tower-http = { version = "0.4.4", features = ["trace", "fs"] }
 tracing = "0.1.37"
 tracing-subscriber = "0.3.17"
 
