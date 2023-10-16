@@ -824,7 +824,7 @@ const UploadChart: NextPage<
               error={errors["bgm"]}
             />
             <FileUploadButton
-              accept=".sus,.mmws,.chs"
+              accept=".sus,.mmws,.ccmmws,.usc,.json,.chs"
               name="chart"
               text={t("param.chart")}
               icon={<DocumentRegular />}
