@@ -58,8 +58,11 @@ module Sonolus
           return redirect_to file.to_frontend, allow_other_host: true
         end
         generating =
-          $redis.with { |conn| conn.get("sonolus:generate:#{chart.id}:#{type}") }
-        should_generate = generating.nil? || generating.to_i < Time.now.to_i - 60
+          $redis.with do |conn|
+            conn.get("sonolus:generate:#{chart.id}:#{type}")
+          end
+        should_generate =
+          generating.nil? || generating.to_i < Time.now.to_i - 60
         if should_generate
           $redis.with do |conn|
             conn.set("sonolus:generate:#{chart.id}:#{type}", Time.now.to_i)
@@ -95,22 +98,32 @@ module Sonolus
               conn.del("sonolus:generate:#{chart.id}:#{type}")
             end
           end
-  
-          Rails.logger.info("Generated #{type} for #{chart.name}")
-  
-          return(
-            redirect_to FileResource.find_by(
-                          chart_id: chart.id,
-                          kind: type
-                        ).to_frontend,
-                        allow_other_host: true
-          )
+
+          if resource = FileResource.find_by(chart_id: chart.id, kind: type)
+            Rails.logger.info("Generated #{type} for #{chart.name}")
+
+            return redirect_to resource.to_frontend, allow_other_host: true
+          else
+            Rails.logger.info("Failed to generate #{type} for #{chart.name}")
+            return(
+              render json: {
+                       code: "not_found",
+                       message: "Not Found"
+                     },
+                     status: 404
+            )
+          end
         else
           Rails.logger.info("Already generating #{type} for #{chart.name}")
         end
 
         50.times do
-          break if FileResource.where(chart_id: chart.id, kind: type).exists?
+          if FileResource.where(chart_id: chart.id, kind: type).exists? ||
+               $redis.with { |conn|
+                 conn.get("sonolus:generate:#{chart.id}:#{type}").nil?
+               }
+            break
+          end
 
           Rails.logger.info("Waiting for generation of #{type}...")
 
