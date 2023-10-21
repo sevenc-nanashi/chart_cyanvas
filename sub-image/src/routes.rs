@@ -78,7 +78,7 @@ pub async fn convert_post(
             let img = image::imageops::crop(&mut rendered, 0, 145, 2048, 970).to_image();
             image::imageops::resize(
                 &img,
-                (2048 / 970) * 720,
+                ((2048f64 / 970f64) * 720f64) as _,
                 720,
                 image::imageops::FilterType::Gaussian,
             )
@@ -88,7 +88,7 @@ pub async fn convert_post(
             let img = image::imageops::crop(&mut rendered, 0, 135, 2048, 897).to_image();
             image::imageops::resize(
                 &img,
-                (2048 / 897) * 720,
+                ((2048f64 / 897f64) * 720f64) as _,
                 720,
                 image::imageops::FilterType::Gaussian,
             )
