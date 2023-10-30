@@ -10,4 +10,5 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 COPY frontend/. .
 
+EXPOSE 3100
 CMD ["pnpm", "start"]

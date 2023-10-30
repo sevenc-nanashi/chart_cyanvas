@@ -10,4 +10,4 @@ echo "Starting sidekiq"
 sidekiq &
 
 echo "Starting rails server"
-falcon serve --bind http://0.0.0.0:3000
+rails s -u puma -p 3000
