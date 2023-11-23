@@ -188,7 +188,7 @@ module Sonolus
       end
       if params[:q_id].present?
         charts =
-          charts.where("LOWER(name) LIKE ?", "%#{params[:q_id].downcase}%")
+          charts.where("LOWER(charts.name) LIKE ?", "%#{params[:q_id].downcase}%")
       end
 
       page_count = (charts.count / 20.0).ceil
