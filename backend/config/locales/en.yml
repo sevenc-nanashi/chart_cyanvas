@@ -82,6 +82,8 @@ en:
       author_placeholder: "Please enter the handle of the author, with space separated..."
       author_name: "Author name"
       author_name_placeholder: "Please enter the name of the author..."
+      id: "ID"
+      id_placeholder: "Please enter the ID..."
       target: "Target"
       targets:
         - "Public"

@@ -34,6 +34,12 @@ module Sonolus
           placeholder: I18n.t("sonolus.search.author_name_placeholder")
         },
         {
+          query: :q_id,
+          name: I18n.t("sonolus.search.id"),
+          type: "text",
+          placeholder: I18n.t("sonolus.search.id_placeholder")
+        },
+        {
           query: :q_rating_min,
           name: I18n.t("sonolus.search.rating_min"),
           type: "slider",
@@ -180,6 +186,11 @@ module Sonolus
           charts = charts.where(id: likes.map(&:chart_id))
         end
       end
+      if params[:q_id].present?
+        charts =
+          charts.where("LOWER(name) LIKE ?", "%#{params[:q_id].downcase}%")
+      end
+
       page_count = (charts.count / 20.0).ceil
 
       charts = charts.offset((params[:page].to_i) * 20).limit(20)

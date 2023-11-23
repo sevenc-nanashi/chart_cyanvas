@@ -83,6 +83,8 @@ ja:
       author_placeholder: "作者のハンドルをスペース区切りで入力して下さい（例：0123 x456）..."
       author_name: "名義"
       author_name_placeholder: "作者の名義を入力して下さい..."
+      id: "ID"
+      id_placeholder: "#の後のIDを入力して下さい..."
       target: "表示対象"
       targets:
         - "公開"
