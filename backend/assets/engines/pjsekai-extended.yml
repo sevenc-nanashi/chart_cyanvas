@@ -4,6 +4,7 @@ configuration: "!file:EngineConfiguration"
 playData: "!file:EnginePlayData"
 tutorialData: "!file:EngineTutorialData"
 previewData: "!file:EnginePreviewData"
+watchData: "!file:EngineThumbnail/EngineWatchData"
 name: pjsekai-extended
 particle: "!asset:pjsekai"
 skin: "!asset:pjsekai-extended-01"
@@ -12,4 +13,4 @@ description: PJSekai + Trace notes, custom judgement, etc.
 subtitle: From servers.sonolus.com/pjsekai
 thumbnail: "!file:EngineThumbnail"
 title: PJSekai+
-version: 10
+version: 11
