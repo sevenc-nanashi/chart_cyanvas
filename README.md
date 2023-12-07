@@ -3,7 +3,7 @@
 
 Chart Cyanvas is a sekai custom charts platform.
 
-> **Warning**
+> [!NOTE]
 > This project is still in development!
 
 ## Architecture
