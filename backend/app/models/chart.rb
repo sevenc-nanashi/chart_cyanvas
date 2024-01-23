@@ -14,7 +14,7 @@ class Chart < ApplicationRecord
                   }
 
   has_many :file_resources, dependent: :destroy
-  has_many :variants,
+  has_many :_variants,
            class_name: "Chart",
            foreign_key: "variant_id",
            dependent: :nullify,
@@ -23,7 +23,7 @@ class Chart < ApplicationRecord
              class_name: "Chart",
              optional: true,
              foreign_key: "variant_id",
-             inverse_of: :variants
+             inverse_of: :_variants
   has_many :likes, dependent: :destroy
   has_many :tags, dependent: :destroy
   enum chart_type: { sus: 0, mmws: 1, chs: 2, usc: 3 }
@@ -49,6 +49,10 @@ class Chart < ApplicationRecord
       background_v3: base.find(&:background_v3?),
       background_v1: base.find(&:background_v1?)
     }
+  end
+  
+  def variants(include_private: false)
+    _variants.filter(&visibility_public?)
   end
 
   def to_frontend(user: nil, with_resources: true, with_variants: true)
