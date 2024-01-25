@@ -50,9 +50,9 @@ class Chart < ApplicationRecord
       background_v1: base.find(&:background_v1?)
     }
   end
-  
+
   def variants(include_private: false)
-    _variants.filter(&visibility_public?)
+    include_private ? _variants : _variants.where(visibility: :public)
   end
 
   def to_frontend(user: nil, with_resources: true, with_variants: true)

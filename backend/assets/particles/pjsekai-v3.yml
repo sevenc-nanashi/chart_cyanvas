@@ -1,0 +1,9 @@
+author: Hyeon2
+data: "!file:v3.json.gz/ParticleData"
+name: pjsekai-v3
+subtitle: From servers.sonolus.com/pjsekai
+description: From: https://canary.discord.com/channels/696599620259807242/696608361235611720/1192891297162330265
+texture: "!file:v3.png/ParticleTexture"
+thumbnail: "!file:thumbnail.png/ParticleThumbnail"
+title: PJSekai / v3
+version: 2

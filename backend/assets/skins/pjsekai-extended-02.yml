@@ -4,6 +4,6 @@ name: pjsekai-extended-02
 subtitle: PJSekai Extended
 description: PjSekai + Trace notes, Type 2
 texture: "!file:02_texture.png/SkinTexture"
-thumbnail: "!file:SkinThumbnail"
+thumbnail: "!file:02_thumbnail.png/SkinThumbnail"
 title: PJSekai+ / Type 2
 version: 4
