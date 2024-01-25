@@ -6,7 +6,7 @@ tutorialData: "!file:EngineTutorialData"
 previewData: "!file:EnginePreviewData"
 watchData: "!file:EngineThumbnail/EngineWatchData"
 name: pjsekai-extended
-particle: "!asset:pjsekai"
+particle: "!asset:pjsekai-v3"
 skin: "!asset:pjsekai-extended-01"
 effect: "!asset:pjsekai-fixed"
 description: PJSekai + Trace notes, custom judgement, etc.
