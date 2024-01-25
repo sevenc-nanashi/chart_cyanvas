@@ -2,6 +2,8 @@ FROM node:18-slim
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y curl
+
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
 ENV NODE_ENV=production

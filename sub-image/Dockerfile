@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 ARG TARGETARCH
+RUN apt-get update && apt-get install -y curl
+
 COPY ./tmp/${TARGETARCH} /app/sub-image
 
 WORKDIR /app

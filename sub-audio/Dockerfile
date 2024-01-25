@@ -3,7 +3,7 @@ FROM python:3.9-slim-buster
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
-    ffmpeg
+    ffmpeg curl
 
 COPY sub-audio/pyproject.toml sub-audio/poetry.lock ./
 
