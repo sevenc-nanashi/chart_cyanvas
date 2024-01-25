@@ -149,7 +149,7 @@ module Api
 
       charts =
         Chart
-          .preload(%i[author co_authors variants tags])
+          .preload(%i[author co_authors tags])
           .limit(length)
           .offset(params[:offset].to_i || 0)
           .where(**cond)

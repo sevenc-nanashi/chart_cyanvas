@@ -32,7 +32,7 @@ class Chart < ApplicationRecord
   enum :visibility, VISIBILITY, prefix: "visibility"
 
   def self.include_all
-    preload(%i[author co_authors variants tags file_resources]).merge(
+    preload(%i[author co_authors _variants tags file_resources]).merge(
       FileResource.with_attached_file
     )
   end
