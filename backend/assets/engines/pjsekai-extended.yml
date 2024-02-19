@@ -4,7 +4,7 @@ configuration: "!file:EngineConfiguration"
 playData: "!file:EnginePlayData"
 tutorialData: "!file:EngineTutorialData"
 previewData: "!file:EnginePreviewData"
-watchData: "!file:EngineThumbnail/EngineWatchData"
+watchData: "!file:EngineWatchData"
 name: pjsekai-extended
 particle: "!asset:pjsekai-v3"
 skin: "!asset:pjsekai-extended-01"
