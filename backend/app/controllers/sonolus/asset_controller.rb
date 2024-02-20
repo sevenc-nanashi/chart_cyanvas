@@ -166,12 +166,13 @@ module Sonolus
         elsif v.start_with?("!file:")
           name, srl_type = v.delete_prefix("!file:").split("/")
           srl_type ||= name
+          hash =
+            Digest::SHA1.file(
+              Rails.root.join("assets", "#{type}s", name)
+            ).hexdigest
           v = {
-            hash:
-              Digest::SHA1.file(
-                Rails.root.join("assets", "#{type}s", name)
-              ).hexdigest,
-            url: "/sonolus/assets/#{type}s/#{name}",
+            hash:,
+            url: "/sonolus/assets/#{type}s/#{name}?hash=#{hash}",
             type: srl_type
           }
         end
