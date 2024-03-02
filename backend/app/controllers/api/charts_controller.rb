@@ -461,8 +461,9 @@ module Api
 
       send_data(
         chart.resources[:chart].file.download,
-        filename: "#{chart.name}.#{chart.chart_type}",
-        type: "plain/text"
+        filename:
+          "#{chart.name}.#{chart.chart_type == :vusc ? "usc" : chart.chart_type}",
+        type: "application/octet-stream"
       )
     end
   end

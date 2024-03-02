@@ -8,14 +8,16 @@ import axios from "axios"
 import dotenv from "dotenv"
 import Express, { json as jsonHandler } from "express"
 import morgan from "morgan"
+
 import {
   mmwsToUSC,
   susToUSC,
   chsToUSC,
   USC,
-  uscToLevelData,
-  migrateUSC,
-} from "sonolus-pjsekai-engine-extended"
+  migrateVUSC,
+  anyToUSC,
+} from "usctool"
+import { uscToLevelData } from "sonolus-pjsekai-engine-extended"
 import * as sentry from "@sentry/node"
 import urlJoin from "url-join"
 
@@ -67,40 +69,8 @@ app.post("/convert", async (req, res) => {
         .json({ code: "invalid_request", message: "Failed to get chart file" })
       return
     }
-    let type: "sus" | "mmws" | "chs" | "usc"
-    let usc: USC
-    if (
-      Buffer.from(chart.data.slice(0, 2)).compare(Buffer.from([0x1f, 0x8b])) ===
-      0
-    ) {
-      type = "chs"
-      console.log("Guessing type as", type)
-      usc = chsToUSC(Buffer.from(chart.data))
-    } else if (
-      chart.data.slice(0, 4).toString() === "MMWS" ||
-      chart.data.slice(0, 6).toString() === "CCMMWS"
-    ) {
-      type = "mmws"
-      console.log("Guessing type as", type)
-      usc = mmwsToUSC(Buffer.from(chart.data))
-    } else {
-      if (
-        await (async () => {
-          JSON.parse(chart.data.toString())
-          return true
-        })().catch(() => false)
-      ) {
-        const parsed = JSON.parse(chart.data.toString())
-
-        type = "usc"
-        console.log("Guessing type as", type)
-        usc = migrateUSC(parsed)
-      } else {
-        type = "sus"
-        console.log("Guessing type as", type)
-        usc = susToUSC(chart.data.toString())
-      }
-    }
+    const { format, usc } = anyToUSC(chart.data)
+    console.log(`Converted from ${format} to USC`)
 
     const baseJson = uscToLevelData(usc)
     const json = JSON.stringify(baseJson)
@@ -113,7 +83,7 @@ app.post("/convert", async (req, res) => {
 
     console.log("Registered as", id)
 
-    res.json({ code: "ok", id, type })
+    res.json({ code: "ok", id, type: format })
   } catch (e) {
     console.error("Failed to convert", e)
     res.status(500).json({ code: "internal_server_error" })

@@ -38,10 +38,10 @@ describe("POST /convert", () => {
   for (const [type, name, path] of [
     ["sus", "sus", "test.sus"],
     ["mmws", "mmws", "test.mmws"],
-    ["mmws", "ccmmws", "test.ccmmws"],
+    ["ccmmws", "ccmmws", "test.ccmmws"],
     ["chs", "ched2", "ched2.chs"],
     ["chs", "ched3", "ched3.chs"],
-    ["usc", "usc", "test.usc"],
+    ["vusc", "vusc", "test.usc"],
   ] as const) {
     it(`can convert ${name} file`, async () => {
       const response = await request(app)
