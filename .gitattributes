@@ -1,2 +1,2 @@
-.env* linguist-language=shell
+.env* linguist-language=shell eol=lf
 *.sh eol=lf
