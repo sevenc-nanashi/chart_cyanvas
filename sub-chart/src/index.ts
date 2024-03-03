@@ -9,14 +9,7 @@ import dotenv from "dotenv"
 import Express, { json as jsonHandler } from "express"
 import morgan from "morgan"
 
-import {
-  mmwsToUSC,
-  susToUSC,
-  chsToUSC,
-  USC,
-  migrateVUSC,
-  anyToUSC,
-} from "usctool"
+import { anyToUSC } from "usctool"
 import { uscToLevelData } from "sonolus-pjsekai-engine-extended"
 import * as sentry from "@sentry/node"
 import urlJoin from "url-join"
