@@ -10,4 +10,8 @@ class ChangeVisibiltyName < ActiveRecord::Migration[7.0]
 
     rename_column :charts, :is_sus_public, :is_chart_public
   end
+
+  class MigrationChart < ActiveRecord::Base
+    self.table_name = :charts
+  end
 end
