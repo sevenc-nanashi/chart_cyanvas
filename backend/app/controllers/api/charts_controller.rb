@@ -215,6 +215,7 @@ module Api
 
       unless (current_user.admin?) || author.id == session[:user_id] ||
                author.owner_id == session[:user_id]
+        logger.warn "User #{session[:user_id].inspect} is not allowed to upload charts as user #{author.id}"
         render json: {
                  code: "forbidden",
                  error: "You are not allowed to upload charts as this user"

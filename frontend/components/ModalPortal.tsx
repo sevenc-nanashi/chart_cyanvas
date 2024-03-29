@@ -4,7 +4,8 @@ import { createPortal } from "react-dom"
 const ModalPortal: React.FC<{
   children: React.ReactNode
   isOpen: boolean
-}> = ({ children, isOpen }) => {
+  close?: () => void
+}> = ({ children, isOpen, close }) => {
   const [hide, setHide] = useState(true)
 
   useEffect(() => {
@@ -21,6 +22,9 @@ const ModalPortal: React.FC<{
       style={{
         pointerEvents: isOpen ? "auto" : "none",
         opacity: isOpen ? 1 : 0,
+      }}
+      onClick={() => {
+        close?.()
       }}
     >
       {isOpen && (

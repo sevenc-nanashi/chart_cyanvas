@@ -156,28 +156,26 @@ module Sonolus
       rescue Errno::ENOENT
         return nil
       end
-      data.to_h do |k, v|
-        next k, v unless v.is_a?(String)
+      data
+        .to_h do |k, v|
+          next k, v unless v.is_a?(String)
 
-        if k == "name"
-          v = "chcy-#{v}"
-        elsif v.start_with?("!asset:")
-          v = asset_get(k, v.delete_prefix("!asset:"))
-        elsif v.start_with?("!file:")
-          name, srl_type = v.delete_prefix("!file:").split("/")
-          srl_type ||= name
-          hash =
-            Digest::SHA1.file(
-              Rails.root.join("assets", "#{type}s", name)
-            ).hexdigest
-          v = {
-            hash:,
-            url: "/sonolus/assets/#{type}s/#{name}?hash=#{hash}",
-            type: srl_type
-          }
+          if k == "name"
+            v = "chcy-#{v}"
+          elsif v.start_with?("!asset:")
+            v = asset_get(k, v.delete_prefix("!asset:"))
+          elsif v.start_with?("!file:")
+            name, srl_type = v.delete_prefix("!file:").split("/")
+            srl_type ||= name
+            hash =
+              Digest::SHA1.file(
+                Rails.root.join("assets", "#{type}s", name)
+              ).hexdigest
+            v = { hash:, url: "/sonolus/assets/#{type}s/#{name}?hash=#{hash}" }
+          end
+          [k, v]
         end
-        [k, v]
-      end
+        .merge({ tags: [] })
     end
   end
 end

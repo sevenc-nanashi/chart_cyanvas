@@ -26,9 +26,5 @@ server {
         try_files /app/backend-public$uri /app/frontend-public$uri @front;
     }
 
-    location /auth/assets/ {
-        alias /app/backend-public/assets/;
-    }
-
     # inject
 }

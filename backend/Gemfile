@@ -89,3 +89,8 @@ gem "sentry-ruby", "~> 5.10"
 gem "sentry-rails", "~> 5.10"
 
 gem "sentry-sidekiq", "~> 5.10"
+
+gem "jwt", "~> 2.8"
+gem "rbnacl", "~> 7.1"
+
+gem "console-adapter-rails", "~> 0.1.4"

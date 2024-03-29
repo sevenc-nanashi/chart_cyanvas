@@ -4,30 +4,25 @@ module Sonolus
     def info
       title = I18n.t("sonolus.title")
       title += " (dev)" if ENV["RAILS_ENV"] != "production"
+      description = I18n.t("sonolus.info.description")
+      if current_user
+        pp current_user
+        description +=
+          "\n\n" +
+            I18n.t(
+              "sonolus.info.logged_in",
+              name: current_user.name,
+              handle: current_user.handle
+            )
+      end
 
-      render json:
-               {
-                 title:,
-                 banner: banner("banner"),
-                 levels: {
-                   items:
-                     Chart
-                       .order(published_at: :desc)
-                       .limit(5)
-                       .includes(:author)
-                       .eager_load(file_resources: { file_attachment: :blob })
-                       .where(visibility: :public)
-                       .sonolus_listed
-                       .map(&:to_sonolus),
-                   search: {
-                     options: Sonolus::LevelsController.search_options
-                   }
-                 }
-               }.tap { |json|
-                 %i[backgrounds skins effects particles engines].each do |key|
-                   json[key] = { items: [], search: { options: [] } }
-                 end
-               }
+      render json: {
+               title:,
+               banner: banner("banner"),
+               hasMultiplayer: false,
+               hasAuthentication: true,
+               description:
+             }
     end
 
     def test_info

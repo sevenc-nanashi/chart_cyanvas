@@ -21,6 +21,6 @@ else
     end
 
   Rails.logger.info(
-    "Discord: Logged in as #{info[:username]}##{info[:discriminator]}"
+    "Discord: Logged in as #{info["username"]}##{info["discriminator"]}"
   )
 end

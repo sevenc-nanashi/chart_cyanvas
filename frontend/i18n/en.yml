@@ -11,17 +11,17 @@ openInSonolus: "Sonolus"
 adminDecorate: " (Admin)"
 
 header:
-  login: "Log in"
+  login:
+    button: "Log in"
+    title: "Logging in..."
+    description: |
+      Log in with your Sonolus account.<br/>
+      This page will be refreshed automatically after logging in.<br/>
+      Didn't get a popup? <link>Click here</link>.
 home:
   newCharts: "New charts"
   welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
-login:
-  title: "Log in"
-  step1: "1. Register the server below to Sonolus."
-  step2: "2. Enter the code in the login server."
-  step2note: "This code will expire in 90 seconds."
-  alternative: "Alternatively, if Sonolus is installed on this device, you can log in by pressing the button below."
-  openSonolus: "Open Sonolus"
+
 menu:
   post: "Post chart"
   my: "My charts"

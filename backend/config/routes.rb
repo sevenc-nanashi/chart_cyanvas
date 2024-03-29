@@ -26,10 +26,11 @@ Rails.application.routes.draw do
     get "/charts/:name/download_chart", to: "api/charts#download_chart"
     post "/charts", to: "api/charts#create"
 
-    post "/auth", to: "api/auth#create_code"
-    get "/auth", to: "api/auth#check_code"
-    get "/auth/session", to: "api/auth#restore_session"
-    delete "/auth/session", to: "api/auth#logout"
+    post "/login/start", to: "api/auth#start"
+    get "/login/status", to: "api/auth#status"
+    post "/login/callback", to: "api/auth#callback"
+    get "/login/session", to: "api/auth#restore_session"
+    delete "/login/session", to: "api/auth#logout"
 
     get "/my/alt_users", to: "api/my#alt_users"
     post "/my/alt_users", to: "api/my#create_alt_user"
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
 
   scope "/sonolus" do
     get "/info", to: "sonolus/info#info"
+    get "/levels/info", to: "sonolus/levels#info"
     get "/levels/list", to: "sonolus/levels#list"
   end
   scope "/test" do

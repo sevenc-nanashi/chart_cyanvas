@@ -101,7 +101,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
 
               onClick: () => {
                 setSession({ loggedIn: false })
-                fetch("/api/auth/session", { method: "delete" }).then(() => {
+                fetch("/api/login/session", { method: "delete" }).then(() => {
                   router.push("/")
                 })
               },

@@ -83,4 +83,27 @@ class User < ApplicationRecord
   def admin?
     ENV["ADMIN_HANDLE"] && ENV["ADMIN_HANDLE"].split(",").include?(handle)
   end
+
+  def self.from_profile(user_profile)
+    table_contents = {
+      handle: user_profile[:handle],
+      name: user_profile[:name],
+      about_me: user_profile[:aboutMe],
+      fg_color: user_profile[:avatarForegroundColor],
+      bg_color: user_profile[:avatarBackgroundColor]
+    }
+
+    if (u = User.find_by(handle: user_profile[:handle], owner_id: nil))
+      if table_contents.each_pair.any? { |k, v| u[k] != v }
+        logger.info "User #{u.handle} updated, updating table"
+        u.update!(table_contents)
+      else
+        logger.info "User #{u.handle} not updated, skipping table update"
+      end
+      u
+    else
+      logger.info "User #{user_profile[:handle]} not found, creating"
+      User.create(table_contents)
+    end
+  end
 end

@@ -100,15 +100,14 @@ class Chart < ApplicationRecord
       title:,
       artists: "#{composer} / #{artist.presence || "-"}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
+      source: ENV["HOST"],
+      tags: [],
       cover: resources[:cover]&.to_srl,
       bgm: resources[:bgm]&.to_srl,
       preview: resources[:preview]&.to_srl,
       data:
         resources[:data]&.to_srl ||
-          {
-            url: "/sonolus/assets/generate?chart=#{name}&type=data",
-            type: "LevelData"
-          },
+          { hash: "", url: "/sonolus/assets/generate?chart=#{name}&type=data" },
       rating:,
       version: 1,
       useSkin: {
@@ -116,7 +115,7 @@ class Chart < ApplicationRecord
       },
       useBackground: {
         useDefault: false,
-        item: to_sonolus_background(resources, version: 3)
+        item: to_sonolus_background(resources)
       },
       useEffect: {
         useDefault: true
@@ -134,20 +133,20 @@ class Chart < ApplicationRecord
         Digest::SHA1.file(
           Rails.root.join("assets/backgrounds/configuration.json.gz")
         ).hexdigest,
-      url: "/sonolus/assets/backgrounds/configuration.json.gz",
-      type: "BackgroundConfiguration"
+      url: "/sonolus/assets/backgrounds/configuration.json.gz"
     }
     data = {
       hash:
         Digest::SHA1.file(
           Rails.root.join("assets/backgrounds/v#{version}_data.json.gz")
         ).hexdigest,
-      url: "/sonolus/assets/backgrounds/v#{version}_data.json.gz",
-      type: "BackgroundData"
+      url: "/sonolus/assets/backgrounds/v#{version}_data.json.gz"
     }
     {
       name: "chcy-bg-#{name}-v#{version}",
       version: 2,
+      tags: [],
+      source: ENV["HOST"],
       title:,
       subtitle: "#{composer}#{artist.presence ? " / #{artist}" : ""}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
@@ -156,9 +155,9 @@ class Chart < ApplicationRecord
       image:
         resources[:"background_v#{version}"]&.to_srl ||
           {
+            hash: "",
             url:
-              "/sonolus/assets/generate?chart=#{name}&type=background_v#{version}",
-            type: "BackgroundImage"
+              "/sonolus/assets/generate?chart=#{name}&type=background_v#{version}"
           },
       configuration: config
     }

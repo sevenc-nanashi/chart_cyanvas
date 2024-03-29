@@ -1,4 +1,5 @@
 author: Nanashi. (Forked from Burrito)
+source: https://cc8.sevenc7c.eu.org
 background: "!asset:pjsekai"
 configuration: "!file:EngineConfiguration"
 playData: "!file:EnginePlayData"
@@ -13,4 +14,4 @@ description: PJSekai + Trace notes, custom judgement, etc.
 subtitle: From servers.sonolus.com/pjsekai
 thumbnail: "!file:EngineThumbnail"
 title: PJSekai+
-version: 11
+version: 12

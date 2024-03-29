@@ -45,15 +45,7 @@ const nextConfig = nextTranslate({
         source: String.raw`/api/:path((?!next).*)`,
         destination: `${process.env.BACKEND_HOST}/api/:path*`,
       },
-      ...[
-        "auth/sonolus",
-        "auth/assets",
-        "sonolus",
-        "test",
-        "assets",
-        "rails",
-        "admin/sidekiq",
-      ].map((dir) => ({
+      ...["sonolus", "test", "assets", "rails", "admin/sidekiq"].map((dir) => ({
         source: String.raw`/${dir}/:path*`,
         destination: `${process.env.BACKEND_HOST}/${dir}/:path*`,
       })),

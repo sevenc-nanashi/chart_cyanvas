@@ -433,7 +433,10 @@ const UploadChart: NextPage<
         router.push("/")
         return
       }
-      const data = await res.json()
+      const data = await res.json().catch(() => ({
+        code: "error",
+        errors: {},
+      }))
       if (data.code !== "ok") {
         setErrors(mapErrors(data.errors))
 

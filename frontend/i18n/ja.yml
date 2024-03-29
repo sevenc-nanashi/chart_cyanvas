@@ -11,17 +11,16 @@ openInSonolus: "Sonolus"
 adminDecorate: "（管理者）"
 
 header:
-  login: "ログイン"
+  login:
+    button: "ログイン"
+    title: "ログイン中..."
+    description: |
+      Sonolusアカウントでログインしてください。<br/>
+      ログイン後、このページは自動的に更新されます。<br/>
+      ポップアップが表示されない場合は、<link>こちらをクリック</link>してください。
 home:
   newCharts: "新着譜面"
   welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
-login:
-  title: "ログイン"
-  step1: "1. 下のサーバーをSonolusに追加してください。"
-  step2: "2. ログインサーバー内でコードを入力してください。"
-  step2note: "このコードは90秒で失効します。"
-  alternative: "また、このデバイスにSonolusがインストールされている場合は、次のボタンを押すことでもログインできます。"
-  openSonolus: "Sonolusを開く"
 menu:
   post: "譜面投稿"
   my: "自分の譜面"

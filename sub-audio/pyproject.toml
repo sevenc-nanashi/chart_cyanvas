@@ -3,7 +3,6 @@ name = "sub-image"
 version = "0.1.0"
 description = ""
 authors = ["sevenc-nanashi <sevenc7c@sevenc7c.com>"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
