@@ -76,6 +76,11 @@ Rails.application.routes.draw do
       end
 
       types = %w[backgrounds effects particles engines skins]
+      get "/:type/info",
+          to: "sonolus/asset#info",
+          constraints: {
+            type: Regexp.new(types.join("|"))
+          }
       get "/:type/list",
           to: "sonolus/asset#list",
           constraints: {

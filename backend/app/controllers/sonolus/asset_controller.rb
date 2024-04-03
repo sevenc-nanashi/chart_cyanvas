@@ -3,6 +3,29 @@ require "yaml"
 
 module Sonolus
   class AssetController < SonolusController
+    def info
+      params.permit(:type)
+      type = params[:type]
+      names =
+        Rails
+          .root
+          .glob("assets/#{type}/*.yml")
+          .map { |path| File.basename(path).delete_suffix(".yml") }
+      render json: {
+               sections: [
+                 {
+                   title: "#ALL",
+                   items:
+                     names.map do |name|
+                       Sonolus::AssetController.asset_get(
+                         type.delete_suffix("s"),
+                         name
+                       )
+                     end
+                 }
+               ]
+             }
+    end
     def list
       params.permit(:type)
       type = params[:type]
@@ -32,7 +55,7 @@ module Sonolus
       if item.nil?
         render json: { error: "not_found", message: "Not Found" }, status: 404
       else
-        render json: { item:, description: "", recommended: [] }
+        render json: { item:, description: "", sections: [] }
       end
     end
 
@@ -175,7 +198,7 @@ module Sonolus
           end
           [k, v]
         end
-        .merge({ tags: [] })
+        .merge({ source: ENV["HOST"], tags: [] })
     end
   end
 end

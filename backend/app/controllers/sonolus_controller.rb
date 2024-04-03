@@ -156,7 +156,7 @@ class SonolusController < ApplicationController
     render json: {
              item: dummy_level("dummy", "dummy", cover: "error"),
              description: "",
-             recommended: []
+             sections: []
            }
   end
 

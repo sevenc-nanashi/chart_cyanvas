@@ -24,7 +24,7 @@ module Sonolus
                      cover: "error"
                    ),
                  description: "",
-                 recommended: []
+                 sections: []
                }
         return
       end
@@ -40,7 +40,7 @@ module Sonolus
                    cover: "success"
                  ),
                description: "",
-               recommended: []
+               sections: []
              },
              status: :created
     end
@@ -68,7 +68,7 @@ module Sonolus
                      cover: "error"
                    ),
                  description: "",
-                 recommended: []
+                 sections: []
                }
         return
       end
@@ -82,7 +82,7 @@ module Sonolus
                    cover: "success"
                  ),
                description: "",
-               recommended: []
+               sections: []
              }
     end
   end
