@@ -27,7 +27,7 @@
     "sonolus-pjsekai-engine-extended": "link:../../sonolus/pjsekai-engine-extended",
     "tempy": "^1.0.1",
     "url-join": "^4.0.1",
-    "usctool": "^0.2.1"
+    "usctool": "^0.3.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

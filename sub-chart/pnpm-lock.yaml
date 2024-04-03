@@ -30,8 +30,8 @@ dependencies:
     specifier: ^4.0.1
     version: 4.0.1
   usctool:
-    specifier: ^0.2.1
-    version: 0.2.1
+    specifier: ^0.3.0
+    version: 0.3.0
 
 devDependencies:
   '@jest/globals':
@@ -4932,8 +4932,8 @@ packages:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
     dev: false
 
-  /usctool@0.2.1:
-    resolution: {integrity: sha512-c3YIZn0JlWIRg50Az1rBCeuItC5uH69Jh6YczvWDzHfMUk28sRQxflDljEUbwOsCJ+azmp5OfJtQDz77XImjtQ==}
+  /usctool@0.3.0:
+    resolution: {integrity: sha512-ekR6h70ZYIMhP8f720LfK6rmxbLt7vegASheSGNjMEUSLWzEZkmhDUkUDAVoqsOjOlz3aErz/xBFhlGzq1l4XA==}
     dependencies:
       '@sinonjs/text-encoding': 0.7.2
       base64-js: 1.5.1
