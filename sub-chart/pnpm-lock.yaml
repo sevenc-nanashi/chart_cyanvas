@@ -21,8 +21,8 @@ dependencies:
     specifier: ^1.10.0
     version: 1.10.0
   sonolus-pjsekai-engine-extended:
-    specifier: link:../../sonolus/pjsekai-engine-extended
-    version: link:../../sonolus/pjsekai-engine-extended
+    specifier: github:sevenc-nanashi/sonolus-pjsekai-engine-extended#build
+    version: github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/34c095cb2a1fc4626eeae58ac521982349da913e
   tempy:
     specifier: ^1.0.1
     version: 1.0.1
@@ -1059,6 +1059,10 @@ packages:
 
   /@sinonjs/text-encoding@0.7.2:
     resolution: {integrity: sha512-sXXKG+uL9IrKqViTtao2Ws6dy0znu9sOaP1di/jKGW1M6VssO8vlpXCQcpZ+jisQ1tTFAC5Jo/EOzFbggBagFQ==}
+    dev: false
+
+  /@sonolus/core@7.5.0:
+    resolution: {integrity: sha512-RYx3MXrY+6NlNiKVjrfHVDkMEP5vwtWlbhQzz0KPho2iv5SA58eYeMxiJL1hW0mcwCVtyPfaBD1wEwt8oeA8uQ==}
     dev: false
 
   /@tsconfig/node10@1.0.9:
@@ -4932,6 +4936,14 @@ packages:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
     dev: false
 
+  /usctool@0.2.1:
+    resolution: {integrity: sha512-c3YIZn0JlWIRg50Az1rBCeuItC5uH69Jh6YczvWDzHfMUk28sRQxflDljEUbwOsCJ+azmp5OfJtQDz77XImjtQ==}
+    dependencies:
+      '@sinonjs/text-encoding': 0.7.2
+      base64-js: 1.5.1
+      pako: 2.1.0
+    dev: false
+
   /usctool@0.3.0:
     resolution: {integrity: sha512-ekR6h70ZYIMhP8f720LfK6rmxbLt7vegASheSGNjMEUSLWzEZkmhDUkUDAVoqsOjOlz3aErz/xBFhlGzq1l4XA==}
     dependencies:
@@ -5058,3 +5070,12 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/34c095cb2a1fc4626eeae58ac521982349da913e:
+    resolution: {tarball: https://codeload.github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended/tar.gz/34c095cb2a1fc4626eeae58ac521982349da913e}
+    name: sonolus-pjsekai-engine-extended
+    version: 1.2.0
+    dependencies:
+      '@sonolus/core': 7.5.0
+      usctool: 0.2.1
+    dev: false
