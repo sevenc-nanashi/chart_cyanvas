@@ -102,9 +102,9 @@ class Chart < ApplicationRecord
       author: "#{author_name.presence || author.name}##{author.display_handle}",
       source: ENV["HOST"],
       tags: [],
-      cover: resources[:cover]&.to_srl,
-      bgm: resources[:bgm]&.to_srl,
-      preview: resources[:preview]&.to_srl,
+      cover: resources[:cover]&.to_srl || { hash: "", url: "" },
+      bgm: resources[:bgm]&.to_srl || { hash: "", url: "" },
+      preview: resources[:preview]&.to_srl || { hash: "", url: "" },
       data:
         resources[:data]&.to_srl ||
           { hash: "", url: "/sonolus/assets/generate?chart=#{name}&type=data" },
