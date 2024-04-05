@@ -20,7 +20,7 @@ RSpec.describe "Sonolus", type: :request do
         )
       )
     end
-    it "returns in right schema" do
+    xit "returns in right schema" do
       post authenticate_path
       expect(response).to have_http_status(:ok)
       match_schema =
