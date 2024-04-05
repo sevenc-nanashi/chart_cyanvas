@@ -88,9 +88,129 @@ class SonolusController < ApplicationController
       tags: [],
       rating: 0,
       engine: {
-        name: "chcy-dummy",
+        author: "Nanashi. (Forked from Burrito)",
+        background: {
+          name: "chcy-sys-dummy",
+          version: 0,
+          title: "",
+          subtitle: "",
+          author: "",
+          thumbnail: {
+            hash: "",
+            url: ""
+          },
+          data: {
+            hash: "",
+            url: ""
+          },
+          image: {
+            hash: "",
+            url: ""
+          },
+          configuration: {
+            hash: "",
+            url: ""
+          },
+          source: "",
+          tags: []
+        },
+        configuration: {
+          hash: "",
+          url: ""
+        },
+        playData: {
+          hash: "",
+          url: ""
+        },
+        tutorialData: {
+          hash: "",
+          url: ""
+        },
+        previewData: {
+          hash: "",
+          url: ""
+        },
+        watchData: {
+          hash: "",
+          url: ""
+        },
+        name: "",
+        particle: {
+          author: "",
+          data: {
+            hash: "",
+            url: ""
+          },
+          name: "",
+          subtitle: "",
+          description: "",
+          texture: {
+            hash: "",
+            url: ""
+          },
+          thumbnail: {
+            hash: "",
+            url: ""
+          },
+          title: "",
+          version: 3,
+          source: "",
+          tags: []
+        },
+        skin: {
+          author: "",
+          data: {
+            hash: "",
+            url: ""
+          },
+          name: "",
+          subtitle: "",
+          description: "",
+          texture: {
+            hash: "",
+            url: ""
+          },
+          thumbnail: {
+            hash: "",
+            url: ""
+          },
+          title: "",
+          version: 4,
+          source: "",
+          tags: []
+        },
+        effect: {
+          audio: {
+            hash: "",
+            url: ""
+          },
+          author: "",
+          data: {
+            hash: "",
+            url: ""
+          },
+          name: "",
+          subtitle: "",
+          description: "",
+          thumbnail: {
+            hash: "",
+            url: ""
+          },
+          title: "",
+          version: 5,
+          source: "",
+          tags: []
+        },
+        description: "",
+        subtitle: "",
+        thumbnail: {
+          hash: "",
+          url: ""
+        },
+        title: "-",
         version: 0,
-        title: I18n.t("levels._.engine-title", **kwargs)
+        source: "https://cc.sevenc7c.com",
+        tags: []
       },
       cover: cover_data,
       bgm: {
@@ -100,6 +220,18 @@ class SonolusController < ApplicationController
       data: {
         hash: "",
         url: ""
+      },
+      useSkin: {
+        useDefault: true
+      },
+      useBackground: {
+        useDefault: true
+      },
+      useEffect: {
+        useDefault: true
+      },
+      useParticle: {
+        useDefault: true
       }
     }
   end
