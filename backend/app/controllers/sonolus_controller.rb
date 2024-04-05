@@ -30,15 +30,15 @@ class SonolusController < ApplicationController
       next
     end
     session_id = request.headers["Sonolus-Session"]
-    unless user_profile =
-             $redis
-               .with { |c| c.get("sonolus_session/#{session_id}") }
-               &.then { |json| JSON.parse(json, symbolize_names: true) }
-      logger.warn "Invalid session id: #{session_id}"
-      render json: { error: "Session expired" }, status: :unauthorized
-      next
-    end
     begin
+      unless user_profile =
+               $redis
+                 .with { |c| c.get("sonolus_session/#{session_id}") }
+                 &.then { |json| JSON.parse(json, symbolize_names: true) }
+        logger.warn "Invalid session id: #{session_id}"
+        render json: { error: "Session expired" }, status: :unauthorized
+        next
+      end
       user = User.find_by(handle: user_profile[:handle], owner_id: nil)
 
       self.current_user = user

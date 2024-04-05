@@ -47,7 +47,7 @@ module Api
         return
       end
 
-      user = User.from_profile(params[:userProfile])
+      user = User.sync_profile(params[:userProfile])
       uuid = params[:uuid]
       $redis.with do |conn|
         conn.set("sonolus_login/#{uuid}", user.id, ex: 30.minutes)
