@@ -162,7 +162,7 @@ class SonolusController < ApplicationController
     $redis.with do |conn|
       conn.set(
         "sonolus_session/#{session_id}",
-        params[:userProfile],
+        params[:userProfile].to_json,
         ex: 30.minutes
       )
     end
