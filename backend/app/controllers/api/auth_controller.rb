@@ -1,65 +1,76 @@
 # frozen_string_literal: true
 module Api
   class AuthController < FrontendController
-    def create_code
-      code = SecureRandom.random_number(100_000_000 - 1).to_s.rjust(8, "0")
-      Rails.logger.info("New auth code: #{code}")
-      $redis.with do |conn|
-        conn.set(
-          "auth_code/#{code}",
-          { authorized: false }.to_json,
-          ex: 1.5.minutes.to_i
-        )
-      end
-
-      render json: { code: "ok", authCode: code }
+    def start
+      uuid = SecureRandom.uuid
+      url =
+        "https://open.sonolus.com/external-login/" + request.host +
+          "/api/login/callback?uuid=#{uuid}"
+      render json: { url:, uuid: }
     end
 
-    def check_code
-      params.require :code
-      code = params[:code]
-      if code.blank?
-        render json: {
-                 code: "invalid_request",
-                 message: "Missing auth code"
-               },
-               status: :bad_request
+    def callback
+      body = request.body.read
+      signature = request.headers["Sonolus-Signature"]
+      unless signature
+        logger.warn "No signature"
+        render json: { error: "No signature" }, status: :unauthorized
         return
       end
-      unless (
-               auth_data =
-                 $redis.with do |conn|
-                   conn
-                     .get("auth_code/#{code}")
-                     &.then { |v| JSON.parse(v, symbolize_names: true) }
-                 end
+      unless JWT::JWA::Ecdsa.verify(
+               "ES256",
+               SonolusController::SONOLUS_PUBLIC_KEY.verify_key,
+               body,
+               Base64.strict_decode64(signature)
              )
-        render json: {
-                 code: "unknown_code",
-                 message: "Unknown auth code"
-               },
-               status: :not_found
+        logger.warn "Invalid signature"
+        render json: { error: "Invalid signature" }, status: :unauthorized
         return
       end
-      if auth_data[:authorized]
-        token_data =
-          $redis.with do |conn|
-            conn
-              .get("auth_token/#{auth_data[:token]}")
-              &.then { |v| JSON.parse(v, symbolize_names: true) }
-          end
-        user = User.new(token_data[:user])
-        render json: {
-                 code: "ok",
-                 user: user.to_frontend
-               }
-        session[:user_id] = user.id
-      else
-        render json: {
-                 code: "not_authorized",
-                 message: "Auth code not authorized"
-               },
-               status: :forbidden
+      unless params[:type] == "authenticateExternal"
+        logger.warn "Invalid type: #{params[:type]}"
+        render json: { error: "Invalid type" }, status: :unauthorized
+        return
+      end
+      unless Rails.env.development?
+        unless params[:url].ends_with?(
+                 "//" + request.host +
+                   "/api/login/callback?uuid=#{params[:uuid]}"
+               )
+          logger.warn "Invalid url: #{params[:url]}"
+          render json: { error: "Invalid url" }, status: :unauthorized
+          return
+        end
+      end
+      unless params[:time] && (Time.now.to_i - params[:time] / 1000) < 1.minutes
+        render json: { error: "Expired time" }, status: :unauthorized
+        return
+      end
+
+      user = User.from_profile(params[:userProfile])
+      uuid = params[:uuid]
+      $redis.with do |conn|
+        conn.set("sonolus_login/#{uuid}", user.id, ex: 30.minutes)
+      end
+
+      render json: { code: "ok" }
+    end
+
+    def status
+      uuid = params[:uuid]
+      unless uuid
+        render json: { code: "not_found", message: "Not Found" }, status: 404
+        return
+      end
+
+      $redis.with do |conn|
+        status = conn.get("sonolus_login/#{uuid}")
+        if status
+          session[:user_id] = status.to_i
+          render json: { code: "ok" }
+        else
+          render json: { code: "not_found", message: "Not Found" }, status: 404
+        end
       end
     end
 

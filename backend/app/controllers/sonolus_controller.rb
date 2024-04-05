@@ -1,13 +1,18 @@
 # frozen_string_literal: true
-require "openssl"
-require "openssl/oaep"
+require "jwt"
+require "base64"
 require "request_store_rails"
 
 class SonolusController < ApplicationController
   SONOLUS_PUBLIC_KEY =
-    OpenSSL::PKey::RSA.new(
-      Rails.root.join("config/sonolus_key.pub").read
-    ).freeze
+    JWT::JWK::EC.new(
+      {
+        kty: "EC",
+        crv: "P-256",
+        x: "d2B14ZAn-zDsqY42rHofst8rw3XB90-a5lT80NFdXo0",
+        y: "Hxzi9DHrlJ4CVSJVRnydxFWBZAgkFxZXbyxPSa8SJQw"
+      }
+    )
 
   around_action do |_, action|
     params.permit(:localization)
@@ -151,48 +156,61 @@ class SonolusController < ApplicationController
     render json: {
              item: dummy_level("dummy", "dummy", cover: "error"),
              description: "",
-             recommended: []
+             sections: []
            }
   end
 
   def authenticate
-    auth_data = {
-      id: SecureRandom.urlsafe_base64(32),
-      key: SecureRandom.random_bytes(32),
-      iv: SecureRandom.random_bytes(16)
-    }
-    auth_data_encoded = {
-      id: auth_data[:id],
-      key: Base64.strict_encode64(auth_data[:key]),
-      iv: Base64.strict_encode64(auth_data[:iv])
-    }
-    encrypted =
-      SONOLUS_PUBLIC_KEY.public_encrypt_oaep(auth_data_encoded.to_json)
+    body = request.body.read
+    signature = request.headers["Sonolus-Signature"]
+    unless signature
+      logger.warn "No signature"
+      render json: { error: "No signature" }, status: :unauthorized
+      return
+    end
+    unless JWT::JWA::Ecdsa.verify(
+             "ES256",
+             SONOLUS_PUBLIC_KEY.verify_key,
+             body,
+             Base64.strict_decode64(signature)
+           )
+      logger.warn "Invalid signature"
+      render json: { error: "Invalid signature" }, status: :unauthorized
+      return
+    end
+    unless params[:type] == "authenticateServer"
+      logger.warn "Invalid type"
+      render json: { error: "Invalid type" }, status: :unauthorized
+      return
+    end
+    if params[:address].exclude?(ENV["HOST"])
+      logger.warn "Invalid address"
+      render json: { error: "Invalid address" }, status: :unauthorized
+      return
+    end
+    if Time.now.to_i - (params[:time] / 1000) >= 1.minutes
+      logger.warn "Time too old"
+      render json: { error: "Expired time" }, status: :unauthorized
+      return
+    end
+
+    session_id = SecureRandom.uuid
 
     $redis.with do |conn|
       conn.set(
-        "sonolus_auth_session/#{auth_data[:id]}",
-        auth_data_encoded.to_json,
-        ex: 5.minutes
+        "sonolus_session/#{session_id}",
+        params[:userProfile],
+        ex: 30.minutes
       )
     end
 
-    address =
-      ENV.fetch(
-        "HOST",
-        (Rails.env.development? ? "http://" : "https://") +
-          request.host_with_port
-      )
-    address += "/auth" if request.path.start_with?("/auth/sonolus")
-    address += "/test" if request.path.start_with?("/test/sonolus")
     render json: {
-             address:,
-             session: Base64.strict_encode64(encrypted),
-             expiration: ((Time.now.to_f + 5.minutes) * 1000).to_i
+             session: session_id,
+             expiration: (Time.now.to_f + 30.minutes) * 1000
            }
   end
 
-  after_action { headers["Sonolus-Version"] = "0.7.5" }
+  after_action { headers["Sonolus-Version"] = "0.8.0" }
 
   around_action do |_controller, action|
     success = false

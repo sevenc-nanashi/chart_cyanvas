@@ -10,7 +10,7 @@ const requireLogin = <T,>(component: NextPage<T>) => {
     if (session.loggedIn === undefined) return <div></div>
     // @ts-expect-error createElement limitation?
     if (session.loggedIn) return createElement(component, props)
-    router.push("/login")
+    router.push("/")
     return <div></div>
   }
   Inner.displayName = `RequireLogin(${component.displayName})`

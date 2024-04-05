@@ -1,18 +1,72 @@
 import Link from "next/link"
-import { useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import useTranslation from "next-translate/useTranslation"
 import LogoCF from "public/logo-cf.svg"
+import Trans from "next-translate/Trans"
+import urlcat from "urlcat"
 import { useSession } from "../lib/atom"
 import SideMenu from "./SideMenu"
+import ModalPortal from "./ModalPortal"
 
+type LoginState = { uuid: string; url: URL }
 const Header = () => {
   const { t } = useTranslation("header")
 
   const [session] = useSession()
   const [showMenu, setShowMenu] = useState(false)
 
+  const [loginState, setLoginState] = useState<LoginState | undefined>()
+  const loginUuid = useRef<string | undefined>()
+  useEffect(() => {
+    if (loginState) {
+      loginUuid.current = loginState.uuid
+    }
+  }, [loginState])
+  const loginInterval = useRef<number | undefined>()
+  const checkLogin = useCallback(() => {
+    fetch(urlcat("/api/login/status", { uuid: loginUuid.current }), {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((state: { code: string }) => {
+        if (state.code === "ok") {
+          window.location.reload()
+        }
+      })
+  }, [])
+  const onLogin = useCallback(() => {
+    fetch("/api/login/start", { method: "POST" })
+      .then((res) => res.json())
+      .then((state: { uuid: string; url: string }) => {
+        setLoginState({ uuid: state.uuid, url: new URL(state.url) })
+        loginInterval.current = setInterval(
+          checkLogin,
+          2500
+        ) as unknown as number
+        window.open(state.url, "_blank")
+      })
+  }, [setLoginState, checkLogin])
+
   return (
     <>
+      <ModalPortal
+        isOpen={!!loginState}
+        close={() => {
+          setLoginState(undefined)
+          clearInterval(loginInterval.current)
+        }}
+      >
+        <h1 className="text-xl font-bold mb-2">{t("login.title")}</h1>
+        <p className="whitespace-pre-wrap">
+          <Trans
+            i18nKey="header:login.description"
+            components={{
+              link: <Link href={loginState?.url || ""} target="_blank" />,
+              br: <br />,
+            }}
+          />
+        </p>
+      </ModalPortal>
       <header className="bg-theme dark:bg-gray-800 flex items-center pl-4 pr-8 h-20 shadow-sm shadow-[#83ccd288]">
         <Link href="/" className="flex items-center">
           <LogoCF
@@ -52,11 +106,12 @@ const Header = () => {
               </div>
             </div>
           ) : (
-            <Link href="/login">
-              <div className="p-2 px-4 rounded font-bold bg-white dark:bg-theme text-theme dark:text-slate-900 ml-2">
-                {t("login")}
-              </div>
-            </Link>
+            <button
+              className="p-2 px-4 rounded font-bold bg-white dark:bg-theme text-theme dark:text-slate-900 ml-2"
+              onClick={onLogin}
+            >
+              {t("login.button")}
+            </button>
           )
         ) : (
           <div className="p-4 w-32 rounded font-bold bg-slate-100 dark:bg-theme text-theme dark:text-slate-900 animate-pulse" />

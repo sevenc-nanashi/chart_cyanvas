@@ -65,6 +65,9 @@ en:
         description: "You can test your chart here, by tapping the [ More ] button below."
   sonolus:
     title: "Chart Cyanvas"
+    info:
+      description: "Chart Cyanvas is a sekai custom charts platform for Sonolus."
+      logged_in: "Logged in as %{name}#%{handle}."
     tag_separator: ", "
     levels:
       description: |

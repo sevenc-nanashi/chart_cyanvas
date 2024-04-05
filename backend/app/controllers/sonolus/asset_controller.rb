@@ -3,6 +3,29 @@ require "yaml"
 
 module Sonolus
   class AssetController < SonolusController
+    def info
+      params.permit(:type)
+      type = params[:type]
+      names =
+        Rails
+          .root
+          .glob("assets/#{type}/*.yml")
+          .map { |path| File.basename(path).delete_suffix(".yml") }
+      render json: {
+               sections: [
+                 {
+                   title: "#ALL",
+                   items:
+                     names.map do |name|
+                       Sonolus::AssetController.asset_get(
+                         type.delete_suffix("s"),
+                         name
+                       )
+                     end
+                 }
+               ]
+             }
+    end
     def list
       params.permit(:type)
       type = params[:type]
@@ -32,7 +55,7 @@ module Sonolus
       if item.nil?
         render json: { error: "not_found", message: "Not Found" }, status: 404
       else
-        render json: { item:, description: "", recommended: [] }
+        render json: { item:, description: "", sections: [] }
       end
     end
 
@@ -156,28 +179,26 @@ module Sonolus
       rescue Errno::ENOENT
         return nil
       end
-      data.to_h do |k, v|
-        next k, v unless v.is_a?(String)
+      data
+        .to_h do |k, v|
+          next k, v unless v.is_a?(String)
 
-        if k == "name"
-          v = "chcy-#{v}"
-        elsif v.start_with?("!asset:")
-          v = asset_get(k, v.delete_prefix("!asset:"))
-        elsif v.start_with?("!file:")
-          name, srl_type = v.delete_prefix("!file:").split("/")
-          srl_type ||= name
-          hash =
-            Digest::SHA1.file(
-              Rails.root.join("assets", "#{type}s", name)
-            ).hexdigest
-          v = {
-            hash:,
-            url: "/sonolus/assets/#{type}s/#{name}?hash=#{hash}",
-            type: srl_type
-          }
+          if k == "name"
+            v = "chcy-#{v}"
+          elsif v.start_with?("!asset:")
+            v = asset_get(k, v.delete_prefix("!asset:"))
+          elsif v.start_with?("!file:")
+            name, srl_type = v.delete_prefix("!file:").split("/")
+            srl_type ||= name
+            hash =
+              Digest::SHA1.file(
+                Rails.root.join("assets", "#{type}s", name)
+              ).hexdigest
+            v = { hash:, url: "/sonolus/assets/#{type}s/#{name}?hash=#{hash}" }
+          end
+          [k, v]
         end
-        [k, v]
-      end
+        .merge({ source: ENV["HOST"], tags: [] })
     end
   end
 end

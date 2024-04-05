@@ -71,6 +71,6 @@ class FileResource < ApplicationRecord
   alias url to_frontend
 
   def to_srl
-    { hash: sha1, type: TYPES[kind.to_sym], url: to_frontend }
+    { hash: sha1, url: to_frontend }
   end
 end

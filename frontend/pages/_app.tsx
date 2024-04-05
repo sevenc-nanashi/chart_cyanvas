@@ -21,7 +21,7 @@ function App({ Component, pageProps }: AppProps) {
     if (session && session.loggedIn !== undefined) {
       return
     }
-    fetch(`/api/auth/session`, {
+    fetch(`/api/login/session`, {
       method: "GET",
     }).then(async (res) => {
       const json = await res.json()

@@ -80,6 +80,32 @@ module Sonolus
       end
     end
 
+    def info
+      render json: {
+               searches: [
+                 {
+                   type: "advanced",
+                   title: "#ADVANCED",
+                   options: self.class.search_options
+                 }
+               ],
+               sections: [
+                 {
+                   title: "#NEWEST",
+                   items:
+                     Chart
+                       .order(published_at: :desc)
+                       .limit(5)
+                       .includes(:author)
+                       .eager_load(file_resources: { file_attachment: :blob })
+                       .where(visibility: :public)
+                       .sonolus_listed
+                       .map(&:to_sonolus)
+                 }
+               ]
+             }
+    end
+
     def list
       params.permit(:page, *(self.class.search_options.map { |o| o[:query] }))
 
@@ -188,7 +214,10 @@ module Sonolus
       end
       if params[:q_id].present?
         charts =
-          charts.where("LOWER(charts.name) LIKE ?", "%#{params[:q_id].downcase}%")
+          charts.where(
+            "LOWER(charts.name) LIKE ?",
+            "%#{params[:q_id].downcase}%"
+          )
       end
 
       page_count = (charts.count / 20.0).ceil
@@ -260,24 +289,7 @@ module Sonolus
         user_faved = chart.likes.exists?(user_id: current_user&.id)
         render json: {
                  item: chart.to_sonolus,
-                 recommended: [
-                   (
-                     if user_faved
-                       dummy_level(
-                         "like.button.to_off",
-                         "like-off-#{chart.name}",
-                         cover: "like_on"
-                       )
-                     else
-                       dummy_level(
-                         "like.button.to_on",
-                         "like-on-#{chart.name}",
-                         cover: "like_off"
-                       )
-                     end
-                   ),
-                   chart.variant_of&.to_sonolus,
-                   chart.variants.map(&:to_sonolus)
+                 sections: [
                  ].flatten.compact,
                  description: chart.sonolus_description
                }
