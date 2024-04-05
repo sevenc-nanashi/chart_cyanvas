@@ -1,10 +1,4 @@
 en:
-  auth:
-    title: "Chart Cyanvas: Login Server"
-    code_search:
-      option:
-        name: "Code"
-        placeholder: "Please enter 8 digits code"
   test:
     title: "Chart Cyanvas: Test Server"
   levels:
@@ -40,25 +34,6 @@ en:
           title: "Not liked."
           description: "You have not liked this chart. Please tap the upper right button to go back."
 
-    auth:
-      welcome:
-        title: "Welcome to Chart Cyanvas!"
-        description: "Please tap the [ Search ] button to enter the code."
-      guide:
-        title: "Please tap the [ Search ] button below to enter the code."
-        description: "Do not use code by other people!"
-      confirm:
-        title: "Login with [ %{code} ]?"
-        description: "Do not use code by other people!"
-      invalid:
-        title: "Invalid code!"
-        description: "The code should be 8 digits."
-      expired:
-        title: "Unknown code!"
-        description: "The code has expired or you have typo'd. Please try again."
-      success:
-        title: "Login successful!"
-        description: "Please go back to your browser."
     test:
       welcome:
         title: "Welcome to Chart Cyanvas!"
@@ -74,6 +49,10 @@ en:
         Likes: %{likes}  /  Tag(s): %{tags}
 
         %{description}
+      sections:
+        actions: "Actions"
+        variant_of: "Vary from"
+        variants: "Variants"
     search:
       title: "Title"
       title_placeholder: "Please enter the title..."

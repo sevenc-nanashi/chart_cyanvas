@@ -107,7 +107,7 @@ module Sonolus
     end
 
     def list
-      params.permit(:page, *(self.class.search_options.map { |o| o[:query] }))
+      params.permit(:page, :type, :keywords, *(self.class.search_options.map { |o| o[:query] }))
 
       charts =
         Chart
@@ -140,6 +140,10 @@ module Sonolus
       if params[:q_title].present?
         charts =
           charts.where("LOWER(title) LIKE ?", "%#{params[:q_title].downcase}%")
+      end
+      if params[:type] == "quick" && params[:keywords].present?
+        charts =
+          charts.where("LOWER(title) LIKE ?", "%#{params[:keywords].downcase}%")
       end
       if params[:q_composer].present?
         charts =
@@ -175,9 +179,13 @@ module Sonolus
                        cover: "error"
                      )
                    ],
-                   search: {
-                     options: self.class.search_options
-                   },
+                   searches: [
+                     {
+                       type: "advanced",
+                       title: "#ADVANCED",
+                       options: self.class.search_options
+                     }
+                   ],
                    pageCount: 1
                  }
           return
@@ -226,9 +234,13 @@ module Sonolus
 
       render json: {
                items: charts.map(&:to_sonolus),
-               search: {
-                 options: self.class.search_options
-               },
+               searches: [
+                 {
+                   type: "advanced",
+                   title: "#ADVANCED",
+                   options: self.class.search_options
+                 }
+               ],
                pageCount: page_count
              }
     end
@@ -289,8 +301,37 @@ module Sonolus
         user_faved = chart.likes.exists?(user_id: current_user&.id)
         render json: {
                  item: chart.to_sonolus,
-                 sections: [
-                 ].flatten.compact,
+                 sections:
+                   [
+                     {
+                       title: I18n.t("sonolus.sections.actions"),
+                       items: [
+                         (
+                           if user_faved
+                             dummy_level(
+                               "like.button.to_off",
+                               "like-off-#{chart.name}",
+                               cover: "like_on"
+                             )
+                           else
+                             dummy_level(
+                               "like.button.to_on",
+                               "like-on-#{chart.name}",
+                               cover: "like_off"
+                             )
+                           end
+                         )
+                       ]
+                     },
+                     {
+                       title: I18n.t("sonolus.sections.vary_from"),
+                       items: [chart.variant_of&.to_sonolus]
+                     },
+                     {
+                       title: I18n.t("sonolus.sections.variants"),
+                       items: chart.variants.map(&:to_sonolus)
+                     }
+                   ].filter { |section| section[:items].any? },
                  description: chart.sonolus_description
                }
       else
