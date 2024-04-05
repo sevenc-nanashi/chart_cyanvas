@@ -324,7 +324,7 @@ module Sonolus
                        ]
                      },
                      {
-                       title: I18n.t("sonolus.levels.sections.vary_from"),
+                       title: I18n.t("sonolus.levels.sections.variant_of"),
                        items: [chart.variant_of&.to_sonolus]
                      },
                      {
