@@ -86,6 +86,7 @@ class SonolusController < ApplicationController
       artists: I18n.t("levels.#{key}.description", **kwargs),
       author: I18n.t("levels._.author", **kwargs),
       version: 1,
+      tags: [],
       rating: 0,
       engine: {
         name: "chcy-dummy",
