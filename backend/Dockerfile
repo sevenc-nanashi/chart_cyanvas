@@ -2,7 +2,7 @@ FROM ruby:3.2.0-slim-bullseye
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y build-essential libpq-dev curl
+RUN apt-get update && apt-get install -y build-essential libpq-dev curl libsodium-dev
 
 COPY backend/Gemfile backend/Gemfile.lock ./
 
