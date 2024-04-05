@@ -304,7 +304,7 @@ module Sonolus
                  sections:
                    [
                      {
-                       title: I18n.t("sonolus.sections.actions"),
+                       title: I18n.t("sonolus.levels.sections.actions"),
                        items: [
                          (
                            if user_faved
@@ -324,11 +324,11 @@ module Sonolus
                        ]
                      },
                      {
-                       title: I18n.t("sonolus.sections.vary_from"),
+                       title: I18n.t("sonolus.levels.sections.vary_from"),
                        items: [chart.variant_of&.to_sonolus]
                      },
                      {
-                       title: I18n.t("sonolus.sections.variants"),
+                       title: I18n.t("sonolus.levels.sections.variants"),
                        items: chart.variants.map(&:to_sonolus)
                      }
                    ].filter { |section| section[:items].any? },
