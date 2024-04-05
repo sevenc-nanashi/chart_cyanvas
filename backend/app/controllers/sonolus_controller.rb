@@ -25,58 +25,19 @@ class SonolusController < ApplicationController
   end
 
   around_action do |_, action|
-    unless request.headers["Sonolus-Session-Id"] &&
-             request.headers["Sonolus-Session-Data"]
+    unless request.headers["Sonolus-Session"]
       action.call
       next
     end
-    session_id = request.headers["Sonolus-Session-Id"]
-    unless session_data_raw =
-             $redis.with { |c| c.get("sonolus_auth_session/#{session_id}") }
+    session_id = request.headers["Sonolus-Session"]
+    unless user_profile =
+             $redis.with { |c| c.get("sonolus_session/#{session_id}") }
       logger.warn "Invalid session id: #{session_id}"
       render json: { error: "Session expired" }, status: :unauthorized
       next
     end
     begin
-      session_data_encoded = JSON.parse(session_data_raw, symbolize_names: true)
-      sonolus_seasion_data = {
-        id: session_data_encoded[:id],
-        key: Base64.strict_decode64(session_data_encoded[:key]),
-        iv: Base64.strict_decode64(session_data_encoded[:iv])
-      }
-      aes = OpenSSL::Cipher.new("aes-256-cbc")
-      aes.decrypt
-      aes.key = sonolus_seasion_data[:key]
-      aes.iv = sonolus_seasion_data[:iv]
-      user_data =
-        JSON.parse(
-          aes.update(
-            Base64.strict_decode64(request.headers["Sonolus-Session-Data"])
-          ) + aes.final,
-          symbolize_names: true
-        )
-      self.session_data = { user: user_data[:userProfile] }
-      user_profile = user_data[:userProfile]
-      table_contents = {
-        handle: user_profile[:handle],
-        name: user_profile[:name],
-        about_me: user_profile[:aboutMe],
-        fg_color: user_profile[:avatarForegroundColor],
-        bg_color: user_profile[:avatarBackgroundColor]
-      }
-
-      user =
-        if (u = User.find_by(handle: user_profile[:handle], owner_id: nil))
-          if table_contents.each_pair.any? { |k, v| u[k] != v }
-            logger.info "User #{u.handle} updated, updating table"
-            u.update!(table_contents)
-          else
-            logger.info "User #{u.handle} not updated, skipping table update"
-          end
-          u
-        else
-          User.create(table_contents)
-        end
+      user = User.find_by(handle: user_profile[:handle], owner_id: nil)
 
       self.current_user = user
     rescue StandardError => e
@@ -203,6 +164,8 @@ class SonolusController < ApplicationController
         ex: 30.minutes
       )
     end
+
+    User.sync_profile(params[:userProfile])
 
     render json: {
              session: session_id,

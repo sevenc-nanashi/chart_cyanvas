@@ -84,7 +84,7 @@ class User < ApplicationRecord
     ENV["ADMIN_HANDLE"] && ENV["ADMIN_HANDLE"].split(",").include?(handle)
   end
 
-  def self.from_profile(user_profile)
+  def self.sync_profile(user_profile)
     table_contents = {
       handle: user_profile[:handle],
       name: user_profile[:name],
