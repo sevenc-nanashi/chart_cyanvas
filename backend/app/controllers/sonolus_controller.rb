@@ -75,7 +75,6 @@ class SonolusController < ApplicationController
       cover_path = Rails.public_path.join("assets", "#{cover}.png")
       raise "Cover not found: #{cover_path}" unless File.exist?(cover_path)
       cover_data = {
-        type: "LevelCover",
         url: "/assets/#{cover}.png",
         hash: Digest::SHA1.file(cover_path).hexdigest
       }
@@ -95,11 +94,11 @@ class SonolusController < ApplicationController
       },
       cover: cover_data,
       bgm: {
-        type: "LevelBgm",
+        hash: "",
         url: ""
       },
       data: {
-        type: "LevelData",
+        hash: "",
         url: ""
       }
     }
