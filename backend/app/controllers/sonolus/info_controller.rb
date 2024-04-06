@@ -6,7 +6,6 @@ module Sonolus
       title += " (dev)" if ENV["RAILS_ENV"] != "production"
       description = I18n.t("sonolus.info.description")
       if current_user
-        pp current_user
         description +=
           "\n\n" +
             I18n.t(
@@ -29,7 +28,7 @@ module Sonolus
       title = I18n.t("test.title")
       title += " (dev)" if ENV["RAILS_ENV"] != "production"
 
-      render json: { title:, banner: banner("banner") }
+      render json: { title:, banner: banner("banner"), description: I18n.t("test.info.description") }
     end
   end
 end
