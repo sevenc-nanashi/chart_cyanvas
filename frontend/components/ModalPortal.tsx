@@ -28,7 +28,10 @@ const ModalPortal: React.FC<{
       }}
     >
       {isOpen && (
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4">
+        <div
+          className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4"
+          onClick={(e) => e.stopPropagation()}
+        >
           {children}
         </div>
       )}
