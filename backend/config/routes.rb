@@ -55,7 +55,6 @@ Rails.application.routes.draw do
   scope "/test" do
     scope "sonolus" do
       get "/info", to: "sonolus/info#test_info"
-      get "/levels/list", to: "sonolus/levels#test_list"
     end
     get "/rails/active_storage/*path" =>
           redirect("/rails/active_storage/%{path}")
@@ -70,9 +69,11 @@ Rails.application.routes.draw do
       scope "/assets" do
         get "/generate", to: "sonolus/asset#generate"
         get "/:type/chcy-:name", to: "sonolus/asset#show"
-        get "/:type/:name", to: "sonolus/asset#show_static", constraints: {
-          name: /[^\/]+/
-        }
+        get "/:type/:name",
+            to: "sonolus/asset#show_static",
+            constraints: {
+              name: %r{[^/]+}
+            }
       end
 
       types = %w[backgrounds effects particles engines skins]

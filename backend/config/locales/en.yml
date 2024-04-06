@@ -1,6 +1,7 @@
 en:
   test:
-    title: "Chart Cyanvas: Test Server"
+    title: "Do not use this server!"
+    description: "This server is no longer in use."
   levels:
     _:
       engine-title: "(Message)"
@@ -33,11 +34,6 @@ en:
         not:
           title: "Not liked."
           description: "You have not liked this chart. Please tap the upper right button to go back."
-
-    test:
-      welcome:
-        title: "Welcome to Chart Cyanvas!"
-        description: "You can test your chart here, by tapping the [ More ] button below."
   sonolus:
     title: "Chart Cyanvas"
     info:
@@ -53,6 +49,11 @@ en:
         actions: "Actions"
         variant_of: "Vary from"
         variants: "Variants"
+
+    targets:
+      public: "Public"
+      testing: "Testing"
+      liked: "Liked"
     search:
       title: "Title"
       title_placeholder: "Please enter the title..."
@@ -67,10 +68,6 @@ en:
       id: "ID"
       id_placeholder: "Please enter the ID..."
       target: "Target"
-      targets:
-        - "Public"
-        - "Testing"
-        - "Liked"
       sort: "Sort"
       sorts:
         - "Default"
