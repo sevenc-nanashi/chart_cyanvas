@@ -228,8 +228,6 @@ module Sonolus
           )
       end
       case params[:type]
-      when "quick", "advanced"
-        charts = charts.where(visibility: :public)
       when "testing"
         require_login!
         alt_users = User.where(owner_id: current_user.id)
@@ -245,6 +243,8 @@ module Sonolus
             .select(:chart_id)
             .order(created_at: :desc)
         charts = charts.where(id: likes.map(&:chart_id))
+      else
+        charts = charts.where(visibility: :public)
       end
       if params[:q_id].present?
         charts =
