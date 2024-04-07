@@ -4,7 +4,7 @@ import { gunzip as gunzipCb } from "node:zlib"
 import { promisify } from "node:util"
 import request from "supertest"
 import { test, describe, beforeAll, afterAll, it, expect } from "vitest"
-import app from "~/index"
+import app from "~/server"
 
 const gunzip = promisify(gunzipCb)
 
