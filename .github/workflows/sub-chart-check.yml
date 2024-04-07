@@ -29,10 +29,10 @@ jobs:
         run: |
           pnpm i
           pnpm lint
-      # - name: Run sub-chart test
-      #   working-directory: ./sub-chart
-      #   run: |
-      #     pnpm test
+      - name: Run sub-chart test
+        working-directory: ./sub-chart
+        run: |
+          pnpm test
       - name: Run sub-chart typecheck
         working-directory: ./sub-chart
         run: |
