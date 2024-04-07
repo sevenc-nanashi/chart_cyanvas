@@ -3,6 +3,7 @@ import fs from "node:fs"
 import { gunzip as gunzipCb } from "node:zlib"
 import { promisify } from "node:util"
 import request from "supertest"
+import { test, describe, beforeAll, afterAll, it, expect } from "vitest"
 import app from "~/index"
 
 const gunzip = promisify(gunzipCb)
