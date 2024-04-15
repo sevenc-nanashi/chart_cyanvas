@@ -150,7 +150,12 @@ class Chart < ApplicationRecord
       title:,
       subtitle: "#{composer}#{artist.presence ? " / #{artist}" : ""}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
-      thumbnail: resources[:cover]&.to_srl&.merge(type: "BackgroundThumbnail"),
+      thumbnail:
+        resources[:cover]&.to_srl ||
+          {
+            hash: "",
+            url: ""
+          },
       data:,
       image:
         resources[:"background_v#{version}"]&.to_srl ||
