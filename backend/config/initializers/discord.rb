@@ -5,22 +5,24 @@ class Disabled
   def method_missing(*_args)
     raise "Discord disabled"
   end
+
+  def enabled?
+    false
+  end
 end
-if Rails.env.test?
-  $discord = Disabled.new
-  # Disable
+if bot_token = ENV["DISCORD_BOT_TOKEN"]
+  $discord = DiscordRequest.new(bot_token:)
+
+  begin
+    info = $discord.get("/users/@me")
+    Rails.logger.info(
+      "Discord: Logged in as #{info["username"]}##{info["discriminator"]}"
+    )
+  rescue StandardError
+    Rails.logger.error("Discord: Failed to log in")
+    raise
+  end
 else
-  $discord = DiscordRequest.new(bot_token: ENV["DISCORD_BOT_TOKEN"])
-
-  info =
-    begin
-      $discord.get("/users/@me")
-    rescue StandardError
-      Rails.logger.error("Discord: Failed to log in, disabling")
-      $discord = Disabled.new
-    end
-
-  Rails.logger.info(
-    "Discord: Logged in as #{info["username"]}##{info["discriminator"]}"
-  )
+  Rails.logger.info("Discord: Disabled")
+  $discord = Disabled.new
 end

@@ -7,7 +7,7 @@
     ".": "./dist/index.js"
   },
   "scripts": {
-    "dev": "tsx wattch index.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "tsx ./build.ts",
     "start": "node ./dist/index.js",
     "lint": "eslint --ext .ts .",

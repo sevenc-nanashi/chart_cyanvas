@@ -11,7 +11,7 @@ default: &default
   password: postgres
 
   database: <%= ENV['POSTGRES_DATABASE'] %>
-  host: <%= ENV['HOSTS_PG'] %>
+  host: <%= ENV['POSTGRES_HOST'] %>
   port: <%= ENV['POSTGRES_PORT'] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   checkout_timeout: <%= ENV.fetch("RAILS_DB_TIMEOUT") { 5 } %>

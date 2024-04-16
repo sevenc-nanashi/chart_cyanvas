@@ -10,7 +10,7 @@ services:
       - sub-audio
       - sub-image
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -23,11 +23,9 @@ services:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
-      args:
-        - ENV_FILE=${ENV_FILE}
 
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -42,7 +40,7 @@ services:
       dockerfile: ./sub-chart/Dockerfile
 
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -56,7 +54,7 @@ services:
       context: .
       dockerfile: ./sub-audio/Dockerfile
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -71,7 +69,7 @@ services:
       dockerfile: ./sub-image/Dockerfile
 
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:

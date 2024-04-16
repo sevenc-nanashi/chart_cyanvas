@@ -1,12 +1,15 @@
 # yaml-language-server: $schema=./config.schema.yml
+# Configuration template for development environment.
 
 admin_handle: "1073"
+host: "http://192.168.1.2:3000"
+secret_key_base: "e381a4e3818fe38288e381bfe381a1e38283e38293e381afe3818be3828fe38184e38184"
 hosts:
-  frontend: "http://localhost:3000"
-  backend: "http://localhost:3001"
-  sub_audio: "http://localhost:3002"
-  sub_image: "http://localhost:3003"
-  sub_chart: "http://localhost:3004"
+  backend: "http://localhost:3000"
+  frontend: "http://localhost:3100"
+  sub_chart: "http://localhost:3201"
+  sub_audio: "http://localhost:3202"
+  sub_image: "http://localhost:3203"
 s3:
   user: "minio"
   password: "secretkey"

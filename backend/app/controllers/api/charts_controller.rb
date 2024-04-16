@@ -178,7 +178,8 @@ module Api
                  code: "ok",
                  chart:
                    chart.to_frontend(
-                     with_resources: params[:with_resources] != "false"
+                     with_resources: params[:with_resources] != "false",
+                     with_variants: true
                    )
                }
       else

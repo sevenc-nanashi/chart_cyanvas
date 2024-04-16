@@ -26,7 +26,7 @@ import { useRouter } from "next/router"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { DndProvider } from "react-dnd"
 import { useServerError, useSession } from "lib/atom"
-import { className, isAdmin } from "lib/utils"
+import { className, isAdmin, isDiscordEnabled } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import Checkbox from "components/Checkbox"
 import requireLogin from "lib/requireLogin"
@@ -603,13 +603,15 @@ const UploadChart: NextPage<
     }
   }, [])
 
+  const canUpload = !isDiscordEnabled() || !!session.discord
+
   return (
     <div
       className="flex flex-col gap-2"
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
     >
-      <fieldset disabled={isSubmitting || !session.discord}>
+      <fieldset disabled={isSubmitting || !canUpload}>
         <Head>
           <title>{t("title") + " | " + rootT("name")}</title>
         </Head>
@@ -783,32 +785,36 @@ const UploadChart: NextPage<
               />,
             ]}
           />
-          <br />
-          <br />
-          {t("discordInfo.description")}
-          <br />
-          {t("discordInfo.status.label")}
-          {session.discord ? (
+          {isDiscordEnabled() && (
             <>
-              {t("discordInfo.status.connected", {
-                username: session.discord.username,
-              })}
+              <br />
+              <br />
+              {t("discordInfo.description")}
+              <br />
+              {t("discordInfo.status.label")}
+              {session.discord ? (
+                <>
+                  {t("discordInfo.status.connected", {
+                    username: session.discord.username,
+                  })}
+                </>
+              ) : (
+                <>{t("discordInfo.status.notConnected")}</>
+              )}
+              <Link
+                href={`https://cc-wiki.sevenc7c.com/${
+                  router.locale || "en"
+                }/publishing-chart`}
+                target="_blank"
+                className="ml-2"
+              >
+                {t("discordInfo.connectGuide")}
+              </Link>
             </>
-          ) : (
-            <>{t("discordInfo.status.notConnected")}</>
           )}
-          <Link
-            href={`https://cc-wiki.sevenc7c.com/${
-              router.locale || "en"
-            }/publishing-chart`}
-            target="_blank"
-            className="ml-2"
-          >
-            {t("discordInfo.connectGuide")}
-          </Link>
         </p>
         <div className="relative">
-          {!session.discord && (
+          {!canUpload && (
             <div className="absolute z-10 top-0 left-0 w-full h-full bg-white bg-opacity-50 cursor-not-allowed" />
           )}
           <div className="grid xl:grid-cols-3 gap-4">

@@ -2,9 +2,6 @@ require("dotenv").config({ path: "../.env" })
 const nextTranslate = require("next-translate-plugin")
 const { withSentryConfig } = require("@sentry/nextjs")
 
-console.log("INFO: HOSTS_BACKEND =", process.env.HOSTS_BACKEND)
-console.log("INFO: ADMIN_HANDLE =", process.env.ADMIN_HANDLE)
-
 /** @type {import('next').NextConfig} */
 const nextConfig = nextTranslate({
   reactStrictMode: true,
@@ -34,6 +31,7 @@ const nextConfig = nextTranslate({
     sentryTraceSampleRate: parseFloat(
       process.env.SENTRY_TRACE_SAMPLE_RATE || "0.1"
     ),
+    discordEnabled: !!process.env.DISCORD_CLIENT_ID,
   },
 
   async rewrites() {
@@ -75,4 +73,5 @@ module.exports = withSentryConfig(nextConfig, {
   org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT_FRONTEND,
   authToken: process.env.SENTRY_AUTH_TOKEN,
-})
+})
+

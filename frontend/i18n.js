@@ -2,7 +2,7 @@
 module.exports = {
   locales: ["en", "ja"],
   defaultLocale: "en",
-  localeDetection: true,
+  localeDetection: false,
   defaultNS: "common",
   logger: () => {
     null

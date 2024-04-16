@@ -42,6 +42,6 @@ class FrontendController < ApplicationController
     throw :unauthorized unless current_user
   end
   def require_discord!
-    throw :unauthorized unless current_user.check_discord
+    throw :unauthorized unless $discord.enabled? && current_user.check_discord
   end
 end

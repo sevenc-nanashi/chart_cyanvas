@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=./config.schema.yml
+# Configuration template for production environment.
+
+admin_handle: "1073"
+host: "https://example.com"
+secret_key_base: "e381a4e3818fe38288e381bfe381a1e38283e38293e381afe3818be3828fe38184e38184"
+hosts:
+  backend: "http://backend:3000"
+  frontend: "http://frontend:3100"
+  sub_chart: "http://sub-chart:3201"
+  sub_audio: "http://sub-audio:3202"
+  sub_image: "http://sub-image:3203"
+s3:
+  user: "access_id"
+  password: "access_token"
+  bucket: "chcy"
+  region: "us-east-1"
+  endpoint: "https://hogehogefugafuga.r2.cloudflarestorage.com"
+  public: true
+  public_root: "https://cdn.example.com/"
+redis_url: "redis://redis:6379/0"
+postgres:
+  user: "postgres"
+  password: "postgres"
+  database: "chcy"
+  host: "postgres"
+  port: 5432
+discord:
+  guild_id: "123456789012345678"
+  client_id: "123456789012345678"
+  client_secret: "cl1ent53cr3t"
+  bot_token: "D1dY0uR34llyTh1nk.1W0uldPutTh3B0tT0k3nH3r3.10l"
+  warning_channel_id: "123456789012345678"
+

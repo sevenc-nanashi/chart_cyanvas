@@ -23,6 +23,10 @@ class DiscordRequest
     "#<#{self.class.name} #{@bot ? "Bot" : "User"}>"
   end
 
+  def enabled?
+    true
+  end
+
   private
 
   def request(method, path, **options)
