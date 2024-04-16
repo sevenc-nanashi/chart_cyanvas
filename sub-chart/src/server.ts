@@ -35,7 +35,7 @@ if (sentryEnabled) {
 
 const files = new Map<string, { path: string; date: Date }>()
 
-const BACKEND_HOST = process.env.BACKEND_HOST!
+const HOSTS_BACKEND = process.env.HOSTS_BACKEND!
 
 if (sentryEnabled) app.use(sentry.Handlers.requestHandler())
 
@@ -49,7 +49,7 @@ app.post("/convert", async (req, res) => {
   const { url: originalUrl } = req.body as { url: string }
   const url = originalUrl.startsWith("http")
     ? originalUrl
-    : urlJoin(BACKEND_HOST, originalUrl)
+    : urlJoin(HOSTS_BACKEND, originalUrl)
 
   try {
     console.log("Converting", url)
@@ -102,4 +102,4 @@ app.get("/download/:id", async (req, res) => {
 
 if (sentryEnabled) app.use(sentry.Handlers.errorHandler())
 
-export default app
+export default app

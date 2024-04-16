@@ -1,0 +1,139 @@
+# yaml-language-server: $schema=http://json-schema.org/draft-07/schema
+
+type: "object"
+description: "Chart Cyanvas configuration. Please run `rake configure` after editing this file."
+properties:
+  admin_handle:
+    type: "string"
+    description: "Your Sonolus handle."
+  host:
+    type: "string"
+    description: "The host that the chart cyanvas will be hosted on."
+  hosts:
+    type: "object"
+    description: "Hosts configuration."
+    properties:
+      frontend:
+        type: "string"
+        description: "frontend host."
+      backend:
+        type: "string"
+        description: "backend host."
+      sub_audio:
+        type: "string"
+        description: "sub-audio host."
+      sub_image:
+        type: "string"
+        description: "sub-image host."
+      sub_chart:
+        type: "string"
+        description: "sub-chart host."
+  s3:
+    type: "object"
+    description: "S3 configuration."
+    properties:
+      user:
+        type: "string"
+        description: "S3 user."
+      password:
+        type: "string"
+        description: "S3 password."
+      bucket:
+        type: "string"
+        description: "The name of the S3 bucket."
+      region:
+        type: "string"
+        description: "The region of the S3 bucket."
+      endpoint:
+        type: "string"
+        description: "The endpoint of the S3 bucket."
+
+      public:
+        type: "boolean"
+        description: |
+          Is the S3 bucket public?
+          If true: backend returns a public URL (s3.public_root/key)
+          If false: backend proxies the S3 request.
+      public_root:
+        type: "string"
+        description: "The public root of the S3 bucket. Not used if s3.public is false."
+  redis_url:
+    type: "string"
+    description: "Redis URL."
+  postgres:
+    type: "object"
+    description: "PostgreSQL configuration."
+    properties:
+      user:
+        type: "string"
+        description: "PostgreSQL user."
+      password:
+        type: "string"
+        description: "PostgreSQL password."
+      database:
+        type: "string"
+        description: "PostgreSQL database."
+      host:
+        type: "string"
+        description: "PostgreSQL host."
+      port:
+        type: "integer"
+        description: "PostgreSQL port."
+  discord:
+    description: "Discord configuration, null to disable."
+    anyOf:
+      - type: "null"
+      - type: "object"
+        properties:
+          guild_id:
+            type: "string"
+            description: "Discord guild ID."
+          client_id:
+            type: "string"
+            description: "Discord client ID."
+          client_secret:
+            type: "string"
+            description: "Discord client secret."
+          bot_token:
+            type: "string"
+            description: "Discord bot token."
+          warning_channel_id:
+            type: "string"
+            description: "Discord warning channel ID."
+  sentry:
+    description: "Sentry configuration, null to disable."
+    anyOf:
+      - type: "null"
+      - type: "object"
+        properties:
+          dsn:
+            type: "object"
+            description: "Sentry DSN."
+            properties:
+              backend:
+                type: "string"
+                description: "Sentry backend DSN."
+              frontend:
+                type: "string"
+                description: "Sentry frontend DSN."
+              sub_audio:
+                type: "string"
+                description: "Sentry sub-audio DSN."
+              sub_image:
+                type: "string"
+                description: "Sentry sub-image DSN."
+              sub_chart:
+                type: "string"
+                description: "Sentry sub-chart DSN."
+          environment:
+            type: "string"
+            description: "Sentry environment."
+          release:
+            type: "string"
+            description: "Sentry release."
+          traces_sample_rate:
+            type: "number"
+            description: "Sentry traces sample rate."
+          debug:
+            type: "boolean"
+            description: "Sentry debug."

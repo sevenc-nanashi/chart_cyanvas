@@ -53,14 +53,14 @@ class FileResource < ApplicationRecord
 
   def to_frontend
     begin
-      if ENV["S3_PUBLIC_HOST"].present?
-        "#{ENV["S3_PUBLIC_HOST"]}/#{file.key}"
-      elsif ENV["BACKEND_HOST"].blank?
+      if ENV["S3_PUBLIC_ROOT"].present?
+        "#{ENV["S3_PUBLIC_ROOT"]}/#{file.key}"
+      elsif ENV["HOSTS_BACKEND"].blank?
         file.url
       else
         Rails.application.routes.url_helpers.rails_blob_path(
           file,
-          host: ENV["BACKEND_HOST"]
+          host: ENV["HOSTS_BACKEND"]
         )
       end
     rescue StandardError
@@ -73,4 +73,4 @@ class FileResource < ApplicationRecord
   def to_srl
     { hash: sha1, url: to_frontend }
   end
-end
+end

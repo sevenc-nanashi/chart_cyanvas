@@ -11,7 +11,7 @@ class ChartConvertJob < ApplicationJob
     response =
       HTTP
         .post(
-          "#{ENV.fetch("SUB_CHART_HOST", nil)}/convert",
+          "#{ENV.fetch("HOSTS_SUB_CHART", nil)}/convert",
           json: {
             url: chart_resource.to_frontend
           }
@@ -20,7 +20,7 @@ class ChartConvertJob < ApplicationJob
     logger.info "ChartConvertJob: #{chart_resource.id} done"
     raise "Failed to convert level data!" if response[:code] != "ok"
     chart_data =
-      HTTP.get("#{ENV.fetch("SUB_CHART_HOST", nil)}/download/#{response[:id]}")
+      HTTP.get("#{ENV.fetch("HOSTS_SUB_CHART", nil)}/download/#{response[:id]}")
     raise "Failed to download level data!" if chart_data.status != 200
     FileResource.upload_from_string(
       chart_resource.chart.name,
