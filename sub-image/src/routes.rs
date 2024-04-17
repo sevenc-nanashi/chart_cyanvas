@@ -142,12 +142,12 @@ mod test {
     #[case(
         "horizontal",
         crate::models::ConvertType::Cover,
-        "https://cdn.discordapp.com/attachments/847301818571816960/1158336309098725406/h.png"
+        "https://i.imgur.com/Gsd3bk9.png"
     )]
     #[case(
         "vertical",
         crate::models::ConvertType::Cover,
-        "https://cdn.discordapp.com/attachments/847301818571816960/1158336329994735616/v.png"
+        "https://i.imgur.com/0r1Qebn.png"
     )]
     #[case(
         "bg_v1",
