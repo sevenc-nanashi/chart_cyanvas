@@ -5,6 +5,7 @@ on:
     paths:
       - "backend/**"
       - ".github/workflows/backend-*.yml"
+      - "Rakefile"
   workflow_dispatch:
 
 jobs:

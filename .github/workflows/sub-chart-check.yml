@@ -5,6 +5,7 @@ on:
     paths:
       - "sub-chart/**"
       - ".github/workflows/sub-chart-*.yml"
+      - "Rakefile"
   workflow_dispatch:
 
 jobs:

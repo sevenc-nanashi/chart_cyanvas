@@ -5,6 +5,7 @@ on:
     paths:
       - "sub-audio/**"
       - ".github/workflows/sub-audio-*.yml"
+      - "Rakefile"
   workflow_dispatch:
 
 jobs:
