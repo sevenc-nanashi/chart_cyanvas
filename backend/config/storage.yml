@@ -8,8 +8,8 @@ local:
 
 s3:
   service: S3
-  access_key_id: <%= ENV["S3_ROOT_USER"] %>
-  secret_access_key: <%= ENV["S3_ROOT_PASSWORD"] %>
+  access_key_id: <%= ENV["S3_USER"] %>
+  secret_access_key: <%= ENV["S3_PASSWORD"] %>
   endpoint: <%= ENV["S3_ENDPOINT"] %>
 
   region: <%= ENV["S3_REGION"] %>
