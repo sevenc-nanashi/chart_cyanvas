@@ -36,7 +36,12 @@ export const isAdmin = (session: Session) => {
 }
 
 const { publicRuntimeConfig } = getConfig()
-export const host = new URL(publicRuntimeConfig.host).hostname
+export let host: string
+try {
+  host = new URL(publicRuntimeConfig.host).hostname
+} catch (e) {
+  host = ""
+}
 
 export const parseIntPlus = (base: string) => {
   return parseInt(
