@@ -76,7 +76,6 @@ jobs:
       - name: Build production
         working-directory: ./frontend
         run: |
-          cp ../.env.build .env
           pnpm i
           pnpm build
       - name: Build image
