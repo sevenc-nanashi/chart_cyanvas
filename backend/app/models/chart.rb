@@ -55,7 +55,7 @@ class Chart < ApplicationRecord
     include_private ? _variants : _variants.where(visibility: :public)
   end
 
-  def to_frontend(user: nil, with_resources: true, with_variants: true)
+  def to_frontend(user: nil, with_resources: true, with_variants: false)
     resources = with_resources ? self.resources : {}
     likes = likes_count
     {

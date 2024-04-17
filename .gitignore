@@ -154,3 +154,5 @@ test_results/*
 !test_results/.gitkeep
 
 sub-image/tmp
+
+config.yml

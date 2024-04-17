@@ -24,7 +24,7 @@ pub async fn convert_post(
     body: Json<crate::models::ConvertRequest>,
 ) -> Result<Json<ConvertResponse>> {
     let backend_host =
-        std::env::var("BACKEND_HOST").unwrap_or_else(|_| "http://localhost:3000".to_string());
+        std::env::var("HOSTS_BACKEND").unwrap_or_else(|_| "http://localhost:3000".to_string());
     info!("Convert: {:?}", body);
     let base_image = reqwest::get(&if body.url.starts_with('/') {
         format!("{}{}", backend_host, body.url)
@@ -142,12 +142,12 @@ mod test {
     #[case(
         "horizontal",
         crate::models::ConvertType::Cover,
-        "https://cdn.discordapp.com/attachments/847301818571816960/1158336309098725406/h.png"
+        "https://i.imgur.com/Gsd3bk9.png"
     )]
     #[case(
         "vertical",
         crate::models::ConvertType::Cover,
-        "https://cdn.discordapp.com/attachments/847301818571816960/1158336329994735616/v.png"
+        "https://i.imgur.com/0r1Qebn.png"
     )]
     #[case(
         "bg_v1",

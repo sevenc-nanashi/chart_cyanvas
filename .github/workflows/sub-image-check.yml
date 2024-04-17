@@ -5,17 +5,24 @@ on:
     paths:
       - "sub-image/**"
       - ".github/workflows/sub-image-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./sub-image
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+      - name: Setup .env
+        run: |
+          cp ./config.test.yml ./config.yml
+          rake configure
       - name: Setup rust
         run: |
           rustup component add clippy
@@ -24,6 +31,7 @@ jobs:
       - name: Cache target
         uses: Swatinem/rust-cache@v2
       - name: Run check
+        working-directory: ./sub-image
         run: |
           cargo clippy
           cargo fmt -- --check
@@ -31,7 +39,6 @@ jobs:
 
       - name: Build binary
         if: github.ref_name == 'main'
-        working-directory: .
         run: |
           sudo apt-get update
           sudo apt-get install -y g++-aarch64-linux-gnu

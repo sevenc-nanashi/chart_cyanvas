@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=./config.schema.yml
+# Configuration template for development environment.
+
+admin_handle: "1073"
+host: "http://192.168.1.2:3000"
+# rake secret to generate a new secret key base.
+secret_key_base: ""
+hosts:
+  backend: "http://localhost:3000"
+  frontend: "http://localhost:3100"
+  sub_chart: "http://localhost:3201"
+  sub_audio: "http://localhost:3202"
+  sub_image: "http://localhost:3203"
+s3:
+  user: "minio"
+  password: "secretkey"
+  bucket: "chcy-dev"
+  region: "us-east-1"
+  endpoint: "http://localhost:9000"
+  public: false
+  public_root: ""
+redis_url: "redis://localhost:6379/0"
+postgres:
+  user: "postgres"
+  password: "postgres"
+  database: "chcy-dev"
+  host: "localhost"
+  port: 5432
+discord:
+  guild_id: "123456789012345678"
+  client_id: "123456789012345678"
+  client_secret: "cl1ent53cr3t"
+  bot_token: "D1dY0uR34llyTh1nk.1W0uldPutTh3B0tT0k3nH3r3.10l"
+  warning_channel_id: "123456789012345678"
+

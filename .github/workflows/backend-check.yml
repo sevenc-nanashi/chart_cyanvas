@@ -5,6 +5,8 @@ on:
     paths:
       - "backend/**"
       - ".github/workflows/backend-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
@@ -12,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Get ruby version
         id: ruby-version
         run: |
@@ -21,6 +23,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ steps.ruby-version.outputs.RUBY_VERSION }}
+      - name: Setup .env
+        run: |
+          cp ./config.test.yml ./config.yml
+          rake configure
       # - name: Cache gems
       #   uses: actions/cache@v3
       #   id: cache-gems
@@ -49,8 +55,7 @@ jobs:
         run: |
           pwd
           cp ../docker-compose.dev.yml ../docker-compose.yml
-          docker compose --env-file ../.env.test --profile test up -d
-          cp ../.env.test ../.env
+          docker compose --env-file ../.env --profile test up -d
           bundle exec rake parallel:setup
           bundle exec rake parallel:spec
   build:

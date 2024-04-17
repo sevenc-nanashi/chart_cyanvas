@@ -20,7 +20,7 @@ class ImageConvertJob < ApplicationJob
     response =
       HTTP
         .post(
-          "#{ENV.fetch("SUB_IMAGE_HOST", nil)}/convert",
+          "#{ENV.fetch("HOSTS_SUB_IMAGE", nil)}/convert",
           json: {
             url: image_file.url,
             type:
@@ -30,11 +30,11 @@ class ImageConvertJob < ApplicationJob
     raise "Failed to convert image file!" if response[:code] != "ok"
     logger.info "ImageConvertJob: #{image_file.id}: downloading image: #{response[:id]}"
     image_data =
-      HTTP.get("#{ENV.fetch("SUB_IMAGE_HOST", nil)}/download/#{response[:id]}")
+      HTTP.get("#{ENV.fetch("HOSTS_SUB_IMAGE", nil)}/download/#{response[:id]}")
     raise "Failed to download image file!" if image_data.status != 200
     resource =
       FileResource.upload_from_string(chart_name, type, image_data.body.to_s)
-    HTTP.delete("#{ENV.fetch("SUB_IMAGE_HOST", nil)}/download/#{response[:id]}")
+    HTTP.delete("#{ENV.fetch("HOSTS_SUB_IMAGE", nil)}/download/#{response[:id]}")
     case type
     when :cover
       ImageConvertJob.perform_later(chart_name, resource, :background_v3)
@@ -48,4 +48,4 @@ class ImageConvertJob < ApplicationJob
       )
     end
   end
-end
+end

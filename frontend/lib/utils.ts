@@ -53,3 +53,7 @@ export const parseIntOrFallback = (base: string, fallback: number) => {
   if (isNaN(retvar)) return fallback
   return retvar
 }
+
+export const isDiscordEnabled = () => {
+  return !!publicRuntimeConfig.discordEnabled
+}

@@ -10,7 +10,7 @@ services:
       - sub-audio
       - sub-image
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -23,11 +23,9 @@ services:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
-      args:
-        - ENV_FILE=${ENV_FILE}
 
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -42,7 +40,7 @@ services:
       dockerfile: ./sub-chart/Dockerfile
 
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -56,7 +54,7 @@ services:
       context: .
       dockerfile: ./sub-audio/Dockerfile
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -71,7 +69,7 @@ services:
       dockerfile: ./sub-image/Dockerfile
 
     volumes:
-      - ./${ENV_FILE}:/app/.env
+      - ./.env:/app/.env
     profiles:
       - prod
     healthcheck:
@@ -97,11 +95,11 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
     ports:
-      - "${PG_PORT:-5432}:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     profiles:
@@ -109,7 +107,7 @@ services:
       - dev
       - test
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -139,8 +137,8 @@ services:
     volumes:
       - "./data/minio:/data"
     environment:
-      MINIO_ROOT_USER: "${S3_ROOT_USER}"
-      MINIO_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"
+      MINIO_ROOT_USER: "${S3_USER}"
+      MINIO_ROOT_PASSWORD: "${S3_PASSWORD}"
     profiles:
       - dev
       - test
@@ -156,7 +154,7 @@ services:
     entrypoint: sh
     command: |
       -c '
-      mc config host add minio http://minio:9000 ${S3_ROOT_USER} ${S3_ROOT_PASSWORD} &&
+      mc config host add minio http://minio:9000 ${S3_USER} ${S3_PASSWORD} &&
       mc mb minio/${S3_BUCKET} &&
       mc policy set public minio/${S3_BUCKET}
       '
@@ -164,6 +162,6 @@ services:
       - "init"
       - test
     environment:
-      S3_ROOT_USER: "${S3_ROOT_USER}"
-      S3_ROOT_PASSWORD: "${S3_ROOT_PASSWORD}"
+      S3_USER: "${S3_USER}"
+      S3_PASSWORD: "${S3_PASSWORD}"
       S3_BUCKET: "${S3_BUCKET}"

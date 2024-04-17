@@ -17,10 +17,10 @@ logging.basicConfig(level=logging.INFO)
 load_dotenv()
 load_dotenv(dotenv_path="../.env")
 
-BACKEND_HOST = os.getenv("BACKEND_HOST")
-if BACKEND_HOST is None:
-    raise Exception("BACKEND_HOST is not set")
-print(f"BACKEND_HOST = {BACKEND_HOST}")
+HOSTS_BACKEND = os.getenv("HOSTS_BACKEND")
+if HOSTS_BACKEND is None:
+    raise Exception("HOSTS_BACKEND is not set")
+print(f"HOSTS_BACKEND = {HOSTS_BACKEND}")
 
 if sentry_dsn := os.getenv("SENTRY_DSN_SUB_AUDIO"):
     import sentry_sdk
@@ -43,7 +43,7 @@ class ConvertParam(BaseModel):
 
 @app.post("/convert")
 async def convert(param: ConvertParam):
-    url = urllib.parse.urljoin(BACKEND_HOST, param.url)
+    url = urllib.parse.urljoin(HOSTS_BACKEND, param.url)
 
     logger.info(f"convert: url={url}")
     dist_bgm_file = NamedTemporaryFile(delete=False, suffix=".mp3")
@@ -137,4 +137,4 @@ async def exception_handler(request, exc):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", port=3202, reload=True)
+    uvicorn.run("main:app", port=3202, reload=True)

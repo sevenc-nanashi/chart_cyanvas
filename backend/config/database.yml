@@ -10,9 +10,9 @@ default: &default
   username: postgres
   password: postgres
 
-  database: <%= ENV['PG_DATABASE'] %>
-  host: <%= ENV['PG_HOST'] %>
-  port: <%= ENV['PG_PORT'] %>
+  database: <%= ENV['POSTGRES_DATABASE'] %>
+  host: <%= ENV['POSTGRES_HOST'] %>
+  port: <%= ENV['POSTGRES_PORT'] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   checkout_timeout: <%= ENV.fetch("RAILS_DB_TIMEOUT") { 5 } %>
 
@@ -24,7 +24,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: <%= ENV['PG_DATABASE'] %>_test_<%= ENV['TEST_ENV_NUMBER'] %>
+  database: <%= ENV['POSTGRES_DATABASE'] %>_test_<%= ENV['TEST_ENV_NUMBER'] %>
 
 production:
   <<: *default
+

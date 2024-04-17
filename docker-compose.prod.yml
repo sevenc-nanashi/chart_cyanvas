@@ -5,7 +5,7 @@ services:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/frontend:latest"
     pull_policy: always
     volumes:
-      - ./.env.prod:/app/.env
+      - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3100/"]
       interval: 30s
@@ -16,8 +16,7 @@ services:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/backend:latest"
     pull_policy: always
     volumes:
-      - ./.env.prod:/app/.env
-      - ./rails_master.key:/app/config/master.key
+      - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 30s
@@ -29,7 +28,7 @@ services:
     pull_policy: always
     restart: always
     volumes:
-      - ./.env.prod:/app/.env
+      - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3202/"]
       interval: 30s
@@ -41,7 +40,7 @@ services:
     pull_policy: always
     restart: always
     volumes:
-      - ./.env.prod:/app/.env
+      - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3203/"]
       interval: 30s
@@ -53,7 +52,7 @@ services:
     pull_policy: always
     restart: always
     volumes:
-      - ./.env.prod:/app/.env
+      - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3201/"]
       interval: 30s
@@ -82,9 +81,9 @@ services:
       timeout: 10s
       retries: 3
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
 
   nginx:
     image: "nginx:1.23.3-alpine"

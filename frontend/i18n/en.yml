@@ -66,10 +66,7 @@ liked:
 upload:
   title: "Post chart"
   titleEdit: "Edit chart: {{title}}"
-  description: |
-    Read <0>Guideline</0> before posting a chart.
-
-    You can upload files by dragging and dropping them here.
+  description: Read <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
   discordInfo:
     description: You need to link your Discord account to post a chart.
     status:

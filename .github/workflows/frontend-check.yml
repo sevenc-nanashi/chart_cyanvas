@@ -5,6 +5,8 @@ on:
     paths:
       - "frontend/**"
       - ".github/workflows/frontend-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
@@ -12,13 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+      - name: Setup .env
+        run: |
+          cp ./config.test.yml ./config.yml
+          rake configure
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8.6.1
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: frontend/.node-version
           cache: "pnpm"
@@ -27,7 +37,6 @@ jobs:
       - name: Run frontend lint
         working-directory: ./frontend
         run: |
-          cp ../.env.example .env
           pnpm i
           pnpm lint
 

@@ -17,10 +17,15 @@ Chart Cyanvas is a sekai custom charts platform.
 - `sub-chart/` - Chart file processing. Built with TypeScript, express, and [sonolus-pjsekai-engine-extended](https://github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended).
 
 ## Hosting
-1. Copy `.env.prod.example` to `.env`
-2. Fill `.env`
+1. Copy `config.prod.yml` to `config.yml` and fill it.
+2. `rake configure`
 3. Copy `docker-compose.prod.yml` to `docker-compose.yml`
-3. `docker compose up -d`
+4. `docker compose up -d`
+
+### Configuration
+
+Refer `config.schema.yml` for configuration.
+Remember to run `rake configure` after changing the configuration.
 
 ## Development
 
@@ -41,7 +46,7 @@ Chart Cyanvas is a sekai custom charts platform.
 ### Install dependencies
 
 ```
-make install
+rake install
 ```
 
 ### Start external server for development

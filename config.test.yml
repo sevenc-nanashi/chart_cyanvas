@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./config.schema.yml
+# Configuration template for development environment.
+
+admin_handle: "1073"
+host: "http://192.168.1.2:3000"
+secret_key_base: "af8a3d82ff17801024fe1a8a11b552ac501eb4a0acdf14e4bb7c81d16e7130446bd20a907721ad42741196a5cc1e07ffb2017bd3731a9a12d92c40137fca527c"
+hosts:
+  backend: "http://localhost:3000"
+  frontend: "http://localhost:3100"
+  sub_chart: "http://localhost:3201"
+  sub_audio: "http://localhost:3202"
+  sub_image: "http://localhost:3203"
+s3:
+  user: "minio"
+  password: "secretkey"
+  bucket: "chcy-dev"
+  region: "us-east-1"
+  endpoint: "http://localhost:9000"
+  public: false
+  public_root: ""
+redis_url: "redis://localhost:6379/0"
+postgres:
+  user: "postgres"
+  password: "postgres"
+  database: "chcy-dev"
+  host: "localhost"
+  port: 5432

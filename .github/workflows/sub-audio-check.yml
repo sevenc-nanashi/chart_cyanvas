@@ -5,6 +5,8 @@ on:
     paths:
       - "sub-audio/**"
       - ".github/workflows/sub-audio-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
@@ -12,10 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Copy .env
-        run: cp .env.example .env
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+      - name: Setup .env
+        run: |
+          cp ./config.test.yml ./config.yml
+          rake configure
 
       - name: Setup python
         uses: actions/setup-python@v4
@@ -23,9 +31,9 @@ jobs:
           python-version-file: sub-audio/.python-version
 
       - name: Install poetry
-        uses: Gr1N/setup-poetry@v8
+        uses: Gr1N/setup-poetry@v9
         with:
-          poetry-version: 1.3.1
+          poetry-version: 1.8.2
 
       - name: Config poetry
         run: poetry config virtualenvs.create false

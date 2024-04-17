@@ -12,7 +12,7 @@ class BgmConvertJob < ApplicationJob
     response =
       HTTP
         .post(
-          "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/convert",
+          "#{ENV.fetch("HOSTS_SUB_AUDIO", nil)}/convert",
           json: {
             url: bgm_file.url
           }
@@ -22,17 +22,17 @@ class BgmConvertJob < ApplicationJob
     logger.info "BgmConvertJob: #{bgm_file.id}: downloading: #{response[:id]}"
     bgm_data =
       HTTP.get(
-        "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/download/#{response[:id]}:bgm"
+        "#{ENV.fetch("HOSTS_SUB_AUDIO", nil)}/download/#{response[:id]}:bgm"
       )
     raise "Failed to download bgm file!" if bgm_data.status != 200
     FileResource.upload_from_string(chart_name, :bgm, bgm_data.body.to_s)
     HTTP.delete(
-      "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/download/#{response[:id]}:bgm"
+      "#{ENV.fetch("HOSTS_SUB_AUDIO", nil)}/download/#{response[:id]}:bgm"
     )
 
     preview_data =
       HTTP.get(
-        "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/download/#{response[:id]}:preview"
+        "#{ENV.fetch("HOSTS_SUB_AUDIO", nil)}/download/#{response[:id]}:preview"
       )
     raise "Failed to download preview file!" if preview_data.status != 200
     FileResource.upload_from_string(
@@ -41,7 +41,7 @@ class BgmConvertJob < ApplicationJob
       preview_data.body.to_s
     )
     HTTP.delete(
-      "#{ENV.fetch("SUB_AUDIO_HOST", nil)}/download/#{response[:id]}:preview"
+      "#{ENV.fetch("HOSTS_SUB_AUDIO", nil)}/download/#{response[:id]}:preview"
     )
 
     bgm_file.delete
