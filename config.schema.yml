@@ -131,12 +131,6 @@ properties:
           environment:
             type: "string"
             description: "Sentry environment."
-          release:
-            type: "string"
-            description: "Sentry release."
           traces_sample_rate:
             type: "number"
             description: "Sentry traces sample rate."
-          debug:
-            type: "boolean"
-            description: "Sentry debug."
