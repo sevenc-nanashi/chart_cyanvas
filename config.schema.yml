@@ -9,6 +9,11 @@ properties:
   host:
     type: "string"
     description: "The host that the chart cyanvas will be hosted on."
+  final_port:
+    description: "The final port that the chart cyanvas will be hosted on."
+    oneOf:
+      - type: "null"
+      - type: "integer"
   secret_key_base:
     type: "string"
     description: "Secret key base for the Rails application."

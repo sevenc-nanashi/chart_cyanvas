@@ -2,6 +2,7 @@
 # Configuration template for production environment.
 
 admin_handle: "1073"
+final_port: 8080
 host: "https://example.com"
 # rake secret to generate a new secret key base.
 secret_key_base: ""
