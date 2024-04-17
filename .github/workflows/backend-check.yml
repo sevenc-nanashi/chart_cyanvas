@@ -54,8 +54,7 @@ jobs:
         run: |
           pwd
           cp ../docker-compose.dev.yml ../docker-compose.yml
-          docker compose --env-file ../.env.test --profile test up -d
-          cp ../.env.test ../.env
+          docker compose --env-file ../.env --profile test up -d
           bundle exec rake parallel:setup
           bundle exec rake parallel:spec
   build:
