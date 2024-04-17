@@ -78,6 +78,10 @@ jobs:
         run: |
           pnpm i
           pnpm build
+        env:
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT_FRONTEND: ${{ secrets.SENTRY_PROJECT_FRONTEND }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Build image
         if: github.ref_name == 'main'
         uses: ./.github/actions/build

@@ -67,11 +67,14 @@ const nextConfig = nextTranslate({
   },
 })
 
-module.exports = withSentryConfig(nextConfig, {
-  silent: true,
+if (process.env.SENTRY_ORG) {
+  module.exports = withSentryConfig(nextConfig, {
+    silent: true,
 
-  org: process.env.SENTRY_ORG,
-  project: process.env.SENTRY_PROJECT_FRONTEND,
-  authToken: process.env.SENTRY_AUTH_TOKEN,
-})
-
+    org: process.env.SENTRY_ORG,
+    project: process.env.SENTRY_PROJECT_FRONTEND,
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+  })
+} else {
+  module.exports = nextConfig
+}
