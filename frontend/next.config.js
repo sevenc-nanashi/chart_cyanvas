@@ -6,9 +6,6 @@ const { withSentryConfig } = require("@sentry/nextjs")
 const nextConfig = nextTranslate({
   reactStrictMode: true,
   staticPageGenerationTimeout: 3600,
-  sentry: {
-    hideSourceMaps: true,
-  },
   webpack: function (config) {
     config.module.rules.push({
       test: /\.ya?ml$/,
@@ -68,13 +65,21 @@ const nextConfig = nextTranslate({
 })
 
 if (process.env.SENTRY_ORG) {
-  module.exports = withSentryConfig(nextConfig, {
-    silent: true,
+  module.exports = withSentryConfig(
+    {
+      ...nextConfig,
+      sentry: {
+        hideSourceMaps: true,
+      },
+    },
+    {
+      silent: true,
 
-    org: process.env.SENTRY_ORG,
-    project: process.env.SENTRY_PROJECT_FRONTEND,
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-  })
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT_FRONTEND,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }
+  )
 } else {
   module.exports = nextConfig
 }
