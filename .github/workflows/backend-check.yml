@@ -24,7 +24,7 @@ jobs:
           ruby-version: ${{ steps.ruby-version.outputs.RUBY_VERSION }}
       - name: Setup .env
         run: |
-          cp ./config.dev.yml ./config.yml
+          cp ./config.test.yml ./config.yml
           rake configure
       # - name: Cache gems
       #   uses: actions/cache@v3
