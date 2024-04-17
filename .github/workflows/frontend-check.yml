@@ -6,6 +6,7 @@ on:
       - "frontend/**"
       - ".github/workflows/frontend-*.yml"
       - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:

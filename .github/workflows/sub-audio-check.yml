@@ -6,6 +6,7 @@ on:
       - "sub-audio/**"
       - ".github/workflows/sub-audio-*.yml"
       - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:

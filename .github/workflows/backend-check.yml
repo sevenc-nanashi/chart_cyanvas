@@ -6,6 +6,7 @@ on:
       - "backend/**"
       - ".github/workflows/backend-*.yml"
       - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
