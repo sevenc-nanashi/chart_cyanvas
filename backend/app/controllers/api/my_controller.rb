@@ -38,7 +38,7 @@ module Api
       params.require(:handle)
       require_login!
 
-      handle = params[:handle][1..].to_i
+      handle = params[:handle][1..]
       user = User.find_by(handle:)
       if user.nil? || user.owner_id != session[:user_id]
         render json: { code: "not_found" }, status: 404
@@ -61,7 +61,7 @@ module Api
       params.require(:handle)
       require_login!
 
-      handle = params[:handle]
+      handle = params[:handle][1..]
       user = User.find_by(handle:)
       if user.nil? || user.owner_id != session[:user_id]
         render json: { code: "not_found" }, status: 404
