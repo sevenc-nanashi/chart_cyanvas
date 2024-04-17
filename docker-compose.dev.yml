@@ -81,7 +81,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "10401:80"
+      - "$FINAL_PORT:80"
     depends_on:
       - backend
       - frontend
