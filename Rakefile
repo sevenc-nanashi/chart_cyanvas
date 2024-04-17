@@ -116,3 +116,9 @@ task "format" do
   sh "cd sub-chart && pnpm run lint:fix"
   sh "cd sub-image && cargo fmt"
 end
+
+task "secret" do
+  require "securerandom"
+  secret = SecureRandom.hex(64)
+  puts %(secret_key_base: "#{secret}")
+end

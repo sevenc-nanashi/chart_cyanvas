@@ -603,7 +603,7 @@ const UploadChart: NextPage<
     }
   }, [])
 
-  const canUpload = !isDiscordEnabled() || !!session.discord
+  const canPost = !isDiscordEnabled() || !!session.discord
 
   return (
     <div
@@ -611,7 +611,7 @@ const UploadChart: NextPage<
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
     >
-      <fieldset disabled={isSubmitting || !canUpload}>
+      <fieldset disabled={isSubmitting || !canPost}>
         <Head>
           <title>{t("title") + " | " + rootT("name")}</title>
         </Head>
@@ -772,7 +772,7 @@ const UploadChart: NextPage<
             t("title")
           )}
         </h1>
-        <p className="mb-4">
+        <p className="mb-4 whitespace-pre">
           <Trans
             i18nKey="upload:description"
             components={[
@@ -814,7 +814,7 @@ const UploadChart: NextPage<
           )}
         </p>
         <div className="relative">
-          {!canUpload && (
+          {!session.discord && (
             <div className="absolute z-10 top-0 left-0 w-full h-full bg-white bg-opacity-50 cursor-not-allowed" />
           )}
           <div className="grid xl:grid-cols-3 gap-4">
