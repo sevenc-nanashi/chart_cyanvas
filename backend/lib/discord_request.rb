@@ -57,14 +57,16 @@ class DiscordRequest
       HTTP.request(method, "https://discord.com/api/v10#{path}", **options)
 
     if response.headers["X-RateLimit-Remaining"]
-      @@ratelimits[response.headers["X-RateLimit-Bucket"]] = {
+      @@ratelimits[path] = {
         remaining: response.headers["X-RateLimit-Remaining"].to_i,
         reset: response.headers["X-RateLimit-Reset"].to_f
       }
     end
     if response.status == 429
-      sleep(response.headers["Retry-After"].to_i / 1000.0)
-      request(method, path, **options)
+      retry_after = response.parse["retry_after"]
+      Rails.logger.warn("Rate limited, waiting for #{retry_after}s")
+      sleep(retry_after)
+      return request(method, path, **options)
     end
 
     unless response.status.success?
