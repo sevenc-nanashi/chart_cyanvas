@@ -126,7 +126,7 @@ upload:
   optional: " (optional)"
   dropHere: "Drop to upload"
   unUploadedFiles: "Some files were not uploaded."
-  unUploadedFilesNote: "Supported files: .sus, .mmws, .chs, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif"
+  unUploadedFilesNote: "Supported files: .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif"
 
   filesTooLarge: Files are too large
   filesTooLargeNote: "The sum of the file sizes must be less than 20MB."

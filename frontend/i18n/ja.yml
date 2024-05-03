@@ -121,7 +121,7 @@ upload:
   optional: "（任意）"
   dropHere: "ドロップしてアップロード"
   unUploadedFiles: "対応していないファイルがドロップされました。"
-  unUploadedFilesNote: ".sus、.mmws、.ccmmws、.usc、.json、.mp3、.wav、.ogg、.png、.jpg、.jpegのみ対応しています。"
+  unUploadedFilesNote: ".usc、.json、.mp3、.wav、.ogg、.png、.jpg、.jpegのみ対応しています。"
 
   filesTooLarge: ファイルが大きすぎます。
   filesTooLargeNote: ファイルは合計で最大20MBまでです。

@@ -575,11 +575,7 @@ const UploadChart: NextPage<
     const unUploaded: File[] = []
     for (const file of Array.from(files)) {
       let field: string
-      if (
-        ["sus", "mmws", "ccmmws", "usc", "json", "chs"].includes(
-          file.name.split(".").pop()!
-        )
-      ) {
+      if (["usc"].includes(file.name.split(".").pop()!)) {
         field = "chart"
       } else if (["mp3", "wav", "ogg"].includes(file.name.split(".").pop()!)) {
         field = "bgm"
@@ -833,7 +829,7 @@ const UploadChart: NextPage<
               error={errors["bgm"]}
             />
             <FileUploadButton
-              accept=".sus,.mmws,.ccmmws,.usc,.json,.chs"
+              accept=".sus,.usc,.json"
               name="chart"
               text={t("param.chart")}
               icon={<DocumentRegular />}
