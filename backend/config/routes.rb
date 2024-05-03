@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop:disable Style/FormatStringToken
 require "sidekiq/web"
 
 Rails.application.routes.draw do
@@ -111,4 +110,3 @@ Rails.application.routes.draw do
 
   get "/tempfile/:id", to: "temporary_file#read"
 end
-# rubocop:enable Style/FormatStringToken

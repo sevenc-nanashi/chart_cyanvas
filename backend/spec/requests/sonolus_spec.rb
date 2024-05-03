@@ -35,12 +35,12 @@ RSpec.describe "Sonolus", type: :request do
     xit "encrypts the session correctly" do
       post authenticate_path
 
-      session = JSON.parse(response.body)["session"]
+      session = response.parsed_body["session"]
       session_bytes = Base64.strict_decode64(session)
       decrypted_session = nil
-      expect {
+      expect do
         decrypted_session = secret_key.private_decrypt_oaep(session_bytes)
-      }.not_to raise_error
+      end.not_to raise_error
       match_schema =
         (
           JSON.parse(decrypted_session, symbolize_names: true) in {

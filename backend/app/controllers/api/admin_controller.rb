@@ -28,7 +28,6 @@ module Api
     end
 
     def expire_data
-      count = 0
       chart_list = FileResource.where(kind: :data)
       render json: { code: "ok", data: { count: chart_list.count } }
 
@@ -73,7 +72,7 @@ module Api
         unless chart.author.discord_thread_id
           thread =
             $discord.post(
-              "/channels/#{ENV["DISCORD_WARNING_CHANNEL_ID"]}/threads",
+              "/channels/#{ENV.fetch("DISCORD_WARNING_CHANNEL_ID", nil)}/threads",
               json: {
                 name: "warn-#{chart.author.handle}",
                 type: 12
@@ -100,9 +99,9 @@ module Api
       render json: { code: "ok" }
     end
 
-    around_action do |controller, action|
+    around_action do |_controller, action|
       unless current_user&.admin?
-        logger.warn "Unauthorized admin access attempt by #{current_user&.handle} (Admin handle: #{ENV["ADMIN_HANDLE"]})"
+        logger.warn "Unauthorized admin access attempt by #{current_user&.handle} (Admin handle: #{ENV.fetch("ADMIN_HANDLE", nil)})"
         render json: { code: "forbidden" }, status: :forbidden
         next
       end

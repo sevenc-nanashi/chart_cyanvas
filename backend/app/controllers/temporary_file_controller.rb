@@ -6,7 +6,7 @@ class TemporaryFileController < ApplicationController
 
     file = TemporaryFile.find(params[:id])
 
-    if file && file.path
+    if file&.path
       send_file file.path, disposition: "inline"
     else
       head :not_found

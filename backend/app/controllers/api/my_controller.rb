@@ -15,10 +15,10 @@ module Api
 
       name = params[:name]
       if name.length < 4
-        render json: { code: "bad_request", error: "tooShort" }, status: 400
+        render json: { code: "bad_request", error: "tooShort" }, status: :bad_request
         return
       elsif name.length > 16
-        render json: { code: "bad_request", error: "tooLong" }, status: 400
+        render json: { code: "bad_request", error: "tooLong" }, status: :bad_request
         return
       end
       user =
@@ -29,7 +29,7 @@ module Api
           about_me: "",
           fg_color: "#ffffff",
           bg_color:
-            "#" + ColorGenerator.new(saturation: 0.5, lightness: 0.5).create_hex
+            "##{ColorGenerator.new(saturation: 0.5, lightness: 0.5).create_hex}"
         )
       render json: { code: "ok", data: user.to_frontend }
     end
@@ -41,16 +41,16 @@ module Api
       handle = params[:handle][1..]
       user = User.find_by(handle:)
       if user.nil? || user.owner_id != session[:user_id]
-        render json: { code: "not_found" }, status: 404
+        render json: { code: "not_found" }, status: :not_found
         return
       end
 
       name = params[:name]
       if name.length < 4
-        render json: { code: "bad_request", error: "tooShort" }, status: 400
+        render json: { code: "bad_request", error: "tooShort" }, status: :bad_request
         return
       elsif name.length > 16
-        render json: { code: "bad_request", error: "tooLong" }, status: 400
+        render json: { code: "bad_request", error: "tooLong" }, status: :bad_request
         return
       end
       user.update!(name:)
@@ -64,7 +64,7 @@ module Api
       handle = params[:handle][1..]
       user = User.find_by(handle:)
       if user.nil? || user.owner_id != session[:user_id]
-        render json: { code: "not_found" }, status: 404
+        render json: { code: "not_found" }, status: :not_found
         return
       end
 

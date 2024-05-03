@@ -7,7 +7,6 @@ class User < ApplicationRecord
   belongs_to :owner,
              class_name: "User",
              optional: true,
-             foreign_key: :owner_id,
              inverse_of: :alt_users
   has_many :alt_users,
            foreign_key: :owner_id,
@@ -15,7 +14,7 @@ class User < ApplicationRecord
            class_name: "User",
            inverse_of: :owner
   has_many :likes, dependent: :destroy
-  enum discord_status: %i[no linked joined]
+  enum discord_status: {no: 0, linked: 1, joined: 2}
 
   def display_handle
     owner_id ? "x#{handle}" : handle
@@ -43,7 +42,7 @@ class User < ApplicationRecord
   def discord
     return unless discord_token
     token = discord_token
-    if discord_expires_at < Time.now
+    if discord_expires_at < Time.zone.now
       token = refresh_discord_token
       @discord = nil
     end
@@ -52,10 +51,10 @@ class User < ApplicationRecord
 
   def check_discord
     return false unless discord_token
-    token = discord_token
+    discord_token
     discord_user = discord.get("/users/@me")
     $discord.get(
-      "/guilds/#{ENV["DISCORD_GUILD_ID"]}/members/#{discord_user["id"]}"
+      "/guilds/#{ENV.fetch("DISCORD_GUILD_ID", nil)}/members/#{discord_user["id"]}"
     )
     true
   rescue StandardError
@@ -65,8 +64,8 @@ class User < ApplicationRecord
 
   def refresh_discord_token
     payload = {
-      client_id: ENV["DISCORD_CLIENT_ID"],
-      client_secret: ENV["DISCORD_CLIENT_SECRET"],
+      client_id: ENV.fetch("DISCORD_CLIENT_ID", nil),
+      client_secret: ENV.fetch("DISCORD_CLIENT_SECRET", nil),
       grant_type: "refresh_token",
       refresh_token: discord_refresh_token
     }
@@ -75,13 +74,13 @@ class User < ApplicationRecord
     update!(
       discord_token: response["access_token"],
       discord_refresh_token: response["refresh_token"],
-      discord_expires_at: Time.now + response["expires_in"].to_i.seconds
+      discord_expires_at: Time.zone.now + response["expires_in"].to_i.seconds
     )
     response["access_token"]
   end
 
   def admin?
-    ENV["ADMIN_HANDLE"] && ENV["ADMIN_HANDLE"].split(",").include?(handle)
+    ENV.fetch("ADMIN_HANDLE", nil) && ENV["ADMIN_HANDLE"].split(",").include?(handle)
   end
 
   def self.sync_profile(user_profile)

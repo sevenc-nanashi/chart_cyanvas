@@ -28,7 +28,7 @@ class Chart < ApplicationRecord
   has_many :tags, dependent: :destroy
   enum chart_type: { sus: 0, mmws: 1, chs: 2, vusc: 3, ccmmws: 4 }
 
-  VISIBILITY = { private: 0, public: 1, scheduled: 2 }
+  VISIBILITY = { private: 0, public: 1, scheduled: 2 }.freeze
   enum :visibility, VISIBILITY, prefix: "visibility"
 
   def self.include_all
@@ -100,7 +100,7 @@ class Chart < ApplicationRecord
       title:,
       artists: "#{composer} / #{artist.presence || "-"}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
-      source: ENV["HOST"],
+      source: ENV.fetch("HOST", nil),
       tags: [],
       cover: resources[:cover]&.to_srl || { hash: "", url: "" },
       bgm: resources[:bgm]&.to_srl || { hash: "", url: "" },
@@ -146,7 +146,7 @@ class Chart < ApplicationRecord
       name: "chcy-bg-#{name}-v#{version}",
       version: 2,
       tags: [],
-      source: ENV["HOST"],
+      source: ENV.fetch("HOST", nil),
       title:,
       subtitle: "#{composer}#{artist.presence ? " / #{artist}" : ""}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",

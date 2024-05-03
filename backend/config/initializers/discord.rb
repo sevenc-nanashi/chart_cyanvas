@@ -6,6 +6,10 @@ class Disabled
     raise "Discord disabled"
   end
 
+  def respond_to_missing?(*_args)
+    true
+  end
+
   def enabled?
     false
   end

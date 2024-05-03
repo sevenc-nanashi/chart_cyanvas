@@ -134,7 +134,7 @@ module Sonolus
         :page,
         :type,
         :keywords,
-        *(self.class.search_options.map { |o| o[:query] })
+        *self.class.search_options.pluck(:query)
       )
 
       charts =
@@ -153,11 +153,11 @@ module Sonolus
       ].present?
       case params[:q_sort].to_i
       when 0
-        if params[:q_target].to_i == 1
-          charts = charts.order(updated_at: :desc)
+        charts = if params[:q_target].to_i == 1
+          charts.order(updated_at: :desc)
         else
-          charts = charts.order(published_at: :desc)
-        end
+          charts.order(published_at: :desc)
+                 end
       when 1
         charts = charts.order(published_at: :desc)
       when 2
@@ -256,7 +256,7 @@ module Sonolus
 
       page_count = (charts.count / 20.0).ceil
 
-      charts = charts.offset((params[:page].to_i) * 20).limit(20)
+      charts = charts.offset(params[:page].to_i * 20).limit(20)
 
       render json: {
                items: charts.map(&:to_sonolus),

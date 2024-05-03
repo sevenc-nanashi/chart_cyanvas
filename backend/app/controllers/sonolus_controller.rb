@@ -68,7 +68,7 @@ class SonolusController < ApplicationController
     RequestLocals.store[:sonolus_auth_user] = value
   end
 
-  def dummy_level(key, name, cover: nil, **kwargs)
+  def dummy_level(key, name, cover: nil, **)
     if cover.nil?
       cover_data = { type: "LevelCover", url: "" }
     else
@@ -81,9 +81,9 @@ class SonolusController < ApplicationController
     end
     {
       name: "chcy-sys-#{name}",
-      title: I18n.t("levels.#{key}.title", **kwargs),
-      artists: I18n.t("levels.#{key}.description", **kwargs),
-      author: I18n.t("levels._.author", **kwargs),
+      title: I18n.t("levels.#{key}.title", **),
+      artists: I18n.t("levels.#{key}.description", **),
+      author: I18n.t("levels._.author", **),
       version: 1,
       tags: [],
       rating: 0,
@@ -283,7 +283,7 @@ class SonolusController < ApplicationController
       render json: { error: "Invalid address" }, status: :unauthorized
       return
     end
-    if Time.now.to_i - (params[:time] / 1000) >= 1.minutes
+    if Time.now.to_i - (params[:time] / 1000) >= 1.minute
       logger.warn "Time too old"
       render json: { error: "Expired time" }, status: :unauthorized
       return

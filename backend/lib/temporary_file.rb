@@ -37,6 +37,6 @@ class TemporaryFile
   end
 
   def self.find(id)
-    instance = new(id)
+    new(id)
   end
 end

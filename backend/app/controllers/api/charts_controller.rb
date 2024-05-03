@@ -214,7 +214,7 @@ module Api
         return
       end
 
-      unless (current_user.admin?) || author.id == session[:user_id] ||
+      unless current_user.admin? || author.id == session[:user_id] ||
                author.owner_id == session[:user_id]
         logger.warn "User #{session[:user_id].inspect} is not allowed to upload charts as user #{author.id}"
         render json: {
@@ -236,7 +236,7 @@ module Api
                status: :bad_request
         return
       end
-      unless data_parsed[:authorName]&.present?
+      if data_parsed[:authorName].blank?
         data_parsed[:authorName] = author.name
       end
       [
@@ -312,9 +312,9 @@ module Api
       require_login!
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
-           %i[chart cover bgm].all? { |k|
+           %i[chart cover bgm].all? do |k|
              hash[k].nil? || hash[k].is_a?(ActionDispatch::Http::UploadedFile)
-           }
+           end
         render json: {
                  code: "invalid_request",
                  error: "Invalid request"
@@ -338,7 +338,7 @@ module Api
       end
 
       args = {
-        **(
+        **
           {
             title: data_parsed[:title],
             composer: data_parsed[:composer],
@@ -349,9 +349,8 @@ module Api
             author_id: author.id,
             visibility: data_parsed[:visibility].to_sym,
             is_chart_public: data_parsed[:is_chart_public],
-            scheduled_at: Time.at(data_parsed[:scheduled_at] / 1000)
-          }.compact
-        ),
+            scheduled_at: Time.zone.at(data_parsed[:scheduled_at] / 1000)
+          }.compact,
         variant_id: variant&.id
       }
       if args[:visibility] == :scheduled ||
@@ -367,7 +366,7 @@ module Api
       end
       args[:scheduled_job_id] = nil
       if args[:visibility] == :public && !chart.published_at
-        args[:published_at] = Time.now
+        args[:published_at] = Time.zone.now
       elsif args[:visibility] == :scheduled
         args[:scheduled_job_id] = PublishChartJob
           .set(wait_until: args[:scheduled_at])
@@ -415,7 +414,7 @@ module Api
         return
       end
 
-      user = User.find_by(id: session[:user_id])
+      User.find_by(id: session[:user_id])
       unless chart.author_id == session[:user_id] ||
                chart.author.owner_id == session[:user_id]
         render json: {

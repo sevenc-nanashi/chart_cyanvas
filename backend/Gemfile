@@ -38,23 +38,22 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
 
+  gem "parallel_tests", "~> 4.2"
   gem "rspec", "~> 3.12"
   gem "rspec-rails", "~> 6.0"
-  gem "parallel_tests", "~> 4.2"
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  gem "spring"
   gem "rubocop", "~> 1.42", require: false
   gem "rubocop-rails", "~> 2.17", require: false
-  gem "rubocop-discourse", "~> 3.0", require: false
+  gem "spring"
 
   gem "syntax_tree", "~> 5.1", require: false
 end
 
-gem "puma", "~> 6.3", require: false
 gem "falcon", "~> 0.42"
+gem "puma", "~> 6.3", require: false
 
 gem "shortuuid", "~> 0.6.0"
 

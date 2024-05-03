@@ -52,7 +52,7 @@ class FileResource < ApplicationRecord
   end
 
   def to_frontend
-    begin
+    
       if ENV["S3_PUBLIC_ROOT"].present?
         "#{ENV["S3_PUBLIC_ROOT"]}/#{file.key}"
       elsif ENV["HOSTS_BACKEND"].blank?
@@ -65,7 +65,7 @@ class FileResource < ApplicationRecord
       end
     rescue StandardError
       nil
-    end
+    
   end
 
   alias url to_frontend

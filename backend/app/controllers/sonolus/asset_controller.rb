@@ -53,7 +53,7 @@ module Sonolus
       name += ".#{params[:format]}" if params[:format].present?
       item = Sonolus::AssetController.asset_get(type.delete_suffix("s"), name)
       if item.nil?
-        render json: { error: "not_found", message: "Not Found" }, status: 404
+        render json: { error: "not_found", message: "Not Found" }, status: :not_found
       else
         render json: { item:, description: "", sections: [] }
       end
@@ -72,7 +72,7 @@ module Sonolus
       chart = Chart.find_by(name: params[:chart])
       if chart.nil?
         return(
-          render json: { code: "not_found", message: "Not Found" }, status: 404
+          render json: { code: "not_found", message: "Not Found" }, status: :not_found
         )
       end
       type = params[:type].to_sym
@@ -113,7 +113,7 @@ module Sonolus
                          code: "not_found",
                          message: "Not Found"
                        },
-                       status: 404
+                       status: :not_found
               )
             end
           ensure
@@ -133,7 +133,7 @@ module Sonolus
                        code: "not_found",
                        message: "Not Found"
                      },
-                     status: 404
+                     status: :not_found
             )
           end
         else
@@ -141,10 +141,10 @@ module Sonolus
         end
 
         50.times do
-          if FileResource.where(chart_id: chart.id, kind: type).exists? ||
-               $redis.with { |conn|
+          if FileResource.exists?(chart_id: chart.id, kind: type) ||
+               $redis.with do |conn|
                  conn.get("sonolus:generate:#{chart.id}:#{type}").nil?
-               }
+               end
             break
           end
 
@@ -152,7 +152,7 @@ module Sonolus
 
           sleep 1
         end
-        if FileResource.where(chart_id: chart.id, kind: type).exists?
+        if FileResource.exists?(chart_id: chart.id, kind: type)
           Rails.logger.info("Redirecting to #{type} for #{chart.name}")
           redirect_to FileResource.find_by(
                         chart_id: chart.id,
@@ -161,7 +161,7 @@ module Sonolus
                       allow_other_host: true
         else
           Rails.logger.info("Failed to generate #{type} for #{chart.name}")
-          render json: { code: "not_found", message: "Not Found" }, status: 404
+          render json: { code: "not_found", message: "Not Found" }, status: :not_found
         end
       end
     end
@@ -189,7 +189,7 @@ module Sonolus
             v = asset_get(k, v.delete_prefix("!asset:"))
           elsif v.start_with?("!file:")
             name, srl_type = v.delete_prefix("!file:").split("/")
-            srl_type ||= name
+            srl_type || name
             hash =
               Digest::SHA1.file(
                 Rails.root.join("assets", "#{type}s", name)
@@ -198,7 +198,7 @@ module Sonolus
           end
           [k, v]
         end
-        .merge({ source: ENV["HOST"], tags: [] })
+        .merge({ source: ENV.fetch("HOST", nil), tags: [] })
     end
   end
 end

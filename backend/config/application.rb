@@ -11,7 +11,7 @@ Bundler.require(*Rails.groups)
 Dotenv.overload(
   *(
     %w[../.env ../.env.local ../../.env ../../.env.local].map do |f|
-      __dir__ + "/" + f
+      "#{__dir__}/#{f}"
     end
   )
 )

@@ -6,11 +6,11 @@ require_relative "config/application"
 
 Rails.application.load_tasks
 
-task :lint do
+task lint: :environment do
   sh "rubocop"
 end
 
-task :format do
+task format: :environment do
   sh "stree write ./**/*.rb"
   sh "rubocop -a"
 end

@@ -11,7 +11,6 @@ require:
 
 inherit_gem:
   syntax_tree: config/rubocop.yml
-  rubocop-discourse: default.yml
 
 Layout/EndOfLine:
   Enabled: false
@@ -56,4 +55,16 @@ Rails/I18nLocaleTexts:
   Enabled: false
 
 Style/UnlessLogicalOperators:
+  Enabled: false
+
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+Style/StringConcatenation:
+  Enabled: false
+
+Rails/SkipsModelValidations:
   Enabled: false

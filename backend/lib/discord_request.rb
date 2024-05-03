@@ -9,14 +9,14 @@ class DiscordRequest
     @bot = bot_token ? true : false
   end
 
-  def get(path, **options)
-    request(:get, path, **options)
+  def get(path, **)
+    request(:get, path, **)
   end
-  def post(path, **options)
-    request(:post, path, **options)
+  def post(path, **)
+    request(:post, path, **)
   end
-  def put(path, **options)
-    request(:put, path, **options)
+  def put(path, **)
+    request(:put, path, **)
   end
 
   def inspect

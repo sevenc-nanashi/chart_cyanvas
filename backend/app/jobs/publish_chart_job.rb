@@ -10,7 +10,7 @@ class PublishChartJob < ApplicationJob
     end
 
     args = { visibility: :public, scheduled_job_id: nil }
-    args[:published_at] = Time.now unless chart.published_at
+    args[:published_at] = Time.zone.now unless chart.published_at
 
     chart.update!(**args)
 
