@@ -15,14 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Get ruby version
-        id: ruby-version
-        run: |
-          echo RUBY_VERSION=$(cat backend/.ruby-version) >> $GITHUB_OUTPUT
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ steps.ruby-version.outputs.RUBY_VERSION }}
       - name: Setup .env
         run: |
           cp ./config.test.yml ./config.yml
