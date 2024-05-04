@@ -228,11 +228,11 @@ module Sonolus
       end
       if params[:q_title].present?
         charts =
-          charts.where("LOWER(title) LIKE ?", "%#{params[:q_title].downcase}%")
+          charts.where("LOWER(charts.title) LIKE ?", "%#{params[:q_title].downcase}%")
       end
       if params[:type] == "quick" && params[:keywords].present?
         charts =
-          charts.where("LOWER(title) LIKE ?", "%#{params[:keywords].downcase}%")
+          charts.where("LOWER(charts.title) LIKE ?", "%#{params[:keywords].downcase}%")
       end
       if params[:q_composer].present?
         charts =
