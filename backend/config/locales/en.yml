@@ -47,6 +47,12 @@ en:
         zero: "No variants"
         one: "1 variant"
         other: "%{count} variants"
+
+      visibility:
+        public: "Public"
+        private: "Private"
+        scheduled: "Scheduled"
+
       sections:
         actions: "Actions"
         variant_of: "Vary from"
