@@ -145,16 +145,21 @@ module Sonolus
             ranks.sort_by { |rank| -rank[1] }.first(5).map(&:first)
           end
 
+      popular_charts =
+        Chart
+          .where(id: popular_ids)
+          .includes(:author)
+          .eager_load(:tags, file_resources: { file_attachment: :blob })
+          .where(visibility: :public)
+          .sonolus_listed
+          .map(&:to_sonolus)
+
       popular_section = {
         title: "#POPULAR",
         items:
-          Chart
-            .where(id: popular_ids)
-            .includes(:author)
-            .eager_load(:tags, file_resources: { file_attachment: :blob })
-            .where(visibility: :public)
-            .sonolus_listed
-            .map(&:to_sonolus)
+          popular_ids.map do |id|
+            popular_charts.find { |chart| chart[:name] == id }
+          end
       }
 
       newest_section = {
