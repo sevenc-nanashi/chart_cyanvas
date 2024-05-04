@@ -41,17 +41,19 @@ ja:
       description: "Chart Cyanvas は Sonolus 用の某セカイ創作譜面プラットフォームです。"
       logged_in: "%{name}#%{handle} としてログインしています。"
     levels:
+      published_at: "公開：%{time}前"
       variants: "派生譜面：%{count}個"
+
+      visibility:
+        public: "公開"
+        private: "非公開"
+        scheduled: "予約済"
 
       sections:
         actions: "操作"
         variant_of: "派生元"
         variants: "派生譜面"
 
-    targets:
-      public: "公開"
-      testing: "テスト中"
-      liked: "高評価済"
     search:
       title: "タイトル"
       title_placeholder: "タイトルを入力して下さい..."

@@ -2,6 +2,8 @@
 require "counter_culture"
 
 class Chart < ApplicationRecord
+  include ActionView::Helpers::DateHelper
+
   has_many :co_authors, dependent: :destroy
   belongs_to :author, class_name: "User"
   counter_culture :author,
@@ -103,6 +105,25 @@ class Chart < ApplicationRecord
       source: ENV.fetch("HOST", nil),
       tags: [
         { title: likes_count.to_s, icon: "heart" },
+        (
+          case visibility
+          when "public"
+            {
+              title:
+                I18n.t(
+                  "sonolus.levels.published_at",
+                  time:
+                    time_ago_in_words(
+                      published_at
+                    )
+                )
+            }
+          when "private"
+            { title: I18n.t("sonolus.levels.visibility.private") }
+          when "scheduled"
+            { title: I18n.t("sonolus.levels.visibility.scheduled") }
+          end
+        ),
         *tags.map { |tag| { title: tag.name } }
       ].filter(&:itself),
       cover: resources[:cover]&.to_srl || { hash: "", url: "" },

@@ -24,7 +24,7 @@ en:
       message:
         to_on:
           title: "Liked!"
-          description: "You can see this chart in \"Liked charts\" section in web app. Please tap the upper right button to go back."
+          description: 'You can see this chart in "Liked charts" section in web app. Please tap the upper right button to go back.'
         to_off:
           title: "Unliked."
           description: "Please tap the upper right button to go back."
@@ -40,6 +40,7 @@ en:
       description: "Chart Cyanvas is a sekai custom charts platform for Sonolus."
       logged_in: "Logged in as %{name}#%{handle}."
     levels:
+      published_at: "Published: %{time} ago"
       variants:
         zero: "No variants"
         one: "1 variant"

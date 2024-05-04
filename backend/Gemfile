@@ -93,3 +93,5 @@ gem "jwt", "~> 2.8"
 gem "rbnacl", "~> 7.1"
 
 gem "console-adapter-rails", "~> 0.1.4"
+
+gem "rails-i18n", "~> 7.0"

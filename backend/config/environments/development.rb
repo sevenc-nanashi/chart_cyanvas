@@ -8,6 +8,8 @@ Rails.application.configure do
     Bullet.add_footer = true
   end
 
+  config.i18n.available_locales = %i[ja en]
+
   config.hosts.clear
 
   # Settings specified here will take precedence over those in config/application.rb.
