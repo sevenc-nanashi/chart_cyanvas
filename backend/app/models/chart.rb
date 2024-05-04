@@ -101,7 +101,10 @@ class Chart < ApplicationRecord
       artists: "#{composer} / #{artist.presence || "-"}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
       source: ENV.fetch("HOST", nil),
-      tags: [],
+      tags: [
+        { title: likes_count.to_s, icon: "heart" },
+        *tags.map { |tag| { title: tag.name } }
+      ].filter(&:itself),
       cover: resources[:cover]&.to_srl || { hash: "", url: "" },
       bgm: resources[:bgm]&.to_srl || { hash: "", url: "" },
       preview: resources[:preview]&.to_srl || { hash: "", url: "" },
@@ -150,12 +153,7 @@ class Chart < ApplicationRecord
       title:,
       subtitle: "#{composer}#{artist.presence ? " / #{artist}" : ""}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
-      thumbnail:
-        resources[:cover]&.to_srl ||
-          {
-            hash: "",
-            url: ""
-          },
+      thumbnail: resources[:cover]&.to_srl || { hash: "", url: "" },
       data:,
       image:
         resources[:"background_v#{version}"]&.to_srl ||
@@ -166,15 +164,5 @@ class Chart < ApplicationRecord
           },
       configuration: config
     }
-  end
-
-  def sonolus_description
-    I18n.t(
-      "sonolus.levels.description",
-      tags:
-        tags.map(&:name).join(I18n.t("sonolus.tag_separator")).presence || "-",
-      likes: likes_count,
-      description:
-    )
   end
 end

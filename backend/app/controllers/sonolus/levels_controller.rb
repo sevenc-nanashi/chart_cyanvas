@@ -100,7 +100,7 @@ module Sonolus
               Chart
                 .order(updated_at: :desc)
                 .limit(5)
-                .eager_load(file_resources: { file_attachment: :blob })
+                .eager_load(:tags, :_variants, file_resources: { file_attachment: :blob })
                 .where(
                   visibility: :private,
                   author_id: [current_user.id] + alt_users.map(&:id)
@@ -120,7 +120,7 @@ module Sonolus
                        .order(published_at: :desc)
                        .limit(5)
                        .includes(:author)
-                       .eager_load(file_resources: { file_attachment: :blob })
+                       .eager_load(:tags, file_resources: { file_attachment: :blob })
                        .where(visibility: :public)
                        .sonolus_listed
                        .map(&:to_sonolus)
@@ -140,7 +140,7 @@ module Sonolus
       charts =
         Chart
           .includes(:author)
-          .eager_load(file_resources: { file_attachment: :blob })
+          .eager_load(:tags, :_variants, file_resources: { file_attachment: :blob })
           .sonolus_listed
 
       charts =
@@ -306,7 +306,7 @@ module Sonolus
                        items: chart.variants.map(&:to_sonolus)
                      }
                    ].filter { |section| section[:items].any? },
-                 description: chart.sonolus_description
+                 description: chart.description
                }
       else
         render json: {

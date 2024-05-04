@@ -50,7 +50,6 @@ task "configure" do
 end
 
 task "install" do
-  sh "cd frontend && pnpm install"
   sh "cd backend && bundle install"
   sh "cd sub-audio && poetry install"
   sh "cd sub-chart && pnpm install"

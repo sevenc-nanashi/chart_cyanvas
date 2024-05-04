@@ -52,20 +52,18 @@ class FileResource < ApplicationRecord
   end
 
   def to_frontend
-    
-      if ENV["S3_PUBLIC_ROOT"].present?
-        "#{ENV["S3_PUBLIC_ROOT"]}/#{file.key}"
-      elsif ENV["HOSTS_BACKEND"].blank?
-        file.url
-      else
-        Rails.application.routes.url_helpers.rails_blob_path(
-          file,
-          host: ENV["HOSTS_BACKEND"]
-        )
-      end
-    rescue StandardError
-      nil
-    
+    if ENV["S3_PUBLIC_ROOT"].present?
+      "#{ENV["S3_PUBLIC_ROOT"]}/#{file.key}"
+    elsif ENV["HOSTS_BACKEND"].blank?
+      file.url
+    else
+      Rails.application.routes.url_helpers.rails_blob_path(
+        file,
+        host: ENV["HOSTS_BACKEND"]
+      )
+    end
+  rescue StandardError
+    nil
   end
 
   alias url to_frontend
@@ -73,4 +71,4 @@ class FileResource < ApplicationRecord
   def to_srl
     { hash: sha1, url: to_frontend }
   end
-end
+end

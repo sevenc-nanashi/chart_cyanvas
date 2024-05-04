@@ -4,17 +4,14 @@ class User < ApplicationRecord
            foreign_key: :author_id,
            dependent: :destroy,
            inverse_of: :author
-  belongs_to :owner,
-             class_name: "User",
-             optional: true,
-             inverse_of: :alt_users
+  belongs_to :owner, class_name: "User", optional: true, inverse_of: :alt_users
   has_many :alt_users,
            foreign_key: :owner_id,
            dependent: :destroy,
            class_name: "User",
            inverse_of: :owner
   has_many :likes, dependent: :destroy
-  enum discord_status: {no: 0, linked: 1, joined: 2}
+  enum discord_status: { no: 0, linked: 1, joined: 2 }
 
   def display_handle
     owner_id ? "x#{handle}" : handle
@@ -80,7 +77,8 @@ class User < ApplicationRecord
   end
 
   def admin?
-    ENV.fetch("ADMIN_HANDLE", nil) && ENV["ADMIN_HANDLE"].split(",").include?(handle)
+    ENV.fetch("ADMIN_HANDLE", nil) &&
+      ENV["ADMIN_HANDLE"].split(",").include?(handle)
   end
 
   def self.sync_profile(user_profile)

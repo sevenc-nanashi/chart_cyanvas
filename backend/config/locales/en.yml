@@ -39,12 +39,11 @@ en:
     info:
       description: "Chart Cyanvas is a sekai custom charts platform for Sonolus."
       logged_in: "Logged in as %{name}#%{handle}."
-    tag_separator: ", "
     levels:
-      description: |
-        Likes: %{likes}  /  Tag(s): %{tags}
-
-        %{description}
+      variants:
+        zero: "No variants"
+        one: "1 variant"
+        other: "%{count} variants"
       sections:
         actions: "Actions"
         variant_of: "Vary from"
