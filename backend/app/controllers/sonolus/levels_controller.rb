@@ -152,13 +152,12 @@ module Sonolus
           .eager_load(:tags, file_resources: { file_attachment: :blob })
           .where(visibility: :public)
           .sonolus_listed
-          .map(&:to_sonolus)
 
       popular_section = {
         title: "#POPULAR",
         items:
           popular_ids.map do |id|
-            popular_charts.find { |chart| chart[:name] == id }
+            popular_charts.find { |chart| chart.id == id }.to_sonolus
           end
       }
 
