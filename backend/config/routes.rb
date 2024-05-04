@@ -52,6 +52,8 @@ Rails.application.routes.draw do
     get "/posts/info", to: "sonolus/info#empty_info"
     get "/levels/info", to: "sonolus/levels#info"
     get "/levels/list", to: "sonolus/levels#list"
+
+    get "/backgrounds/chcy-bg-:name", to: "sonolus/levels#background"
   end
   scope "/test" do
     scope "sonolus" do

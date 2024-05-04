@@ -112,10 +112,7 @@ class Chart < ApplicationRecord
               title:
                 I18n.t(
                   "sonolus.levels.published_at",
-                  time:
-                    time_ago_in_words(
-                      published_at
-                    )
+                  time: time_ago_in_words(published_at)
                 )
             }
           when "private"
@@ -171,7 +168,7 @@ class Chart < ApplicationRecord
       version: 2,
       tags: [],
       source: ENV.fetch("HOST", nil),
-      title:,
+      title: I18n.t("sonolus.background.title", name: title, version:),
       subtitle: "#{composer}#{artist.presence ? " / #{artist}" : ""}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
       thumbnail: resources[:cover]&.to_srl || { hash: "", url: "" },

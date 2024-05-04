@@ -390,5 +390,50 @@ module Sonolus
                status: :not_found
       end
     end
+
+    def background
+      params.permit(:name)
+      name, version = params[:name].split("-")
+      unless version.match?(/v[13]/)
+        render json: {
+                 code: "bad_request",
+                 error: "Invalid background name"
+               },
+               status: :bad_request
+        return
+      end
+
+      chart = Chart.find_by(name:)
+      unless chart
+        render json: {
+                 code: "not_found",
+                 error: "Background not found"
+               },
+               status: :not_found
+        return
+      end
+
+      version_num = version.delete_prefix("v").to_i
+
+      render json: {
+               item:
+                 chart.to_sonolus_background(
+                   chart.resources,
+                   version: version_num
+                 ),
+               description: "",
+               sections: [
+                 {
+                   title: "#VERSIONS",
+                   items: [
+                     chart.to_sonolus_background(
+                       chart.resources,
+                       version: version_num == 1 ? 3 : 1
+                     )
+                   ]
+                 }
+               ]
+             }
+    end
   end
 end
