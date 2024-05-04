@@ -128,14 +128,16 @@ module Sonolus
               charts.map do |chart|
                 [
                   chart.id,
-                  likes.count { |like| like.chart_id == chart.id } /
+                  likes.count { |like| like.chart_id == chart.id } *
                     (
-                      [
-                        (
-                          (Time.now.to_i - chart.published_at.to_i) / 1.day.to_f
-                        ) - 3,
-                        0
-                      ].max.to_f + 1
+                      0.9**
+                        [
+                          (
+                            (Time.now.to_i - chart.published_at.to_i) /
+                              1.day.to_f
+                          ) - 1,
+                          0
+                        ].max.to_f
                     )
                 ]
               end
