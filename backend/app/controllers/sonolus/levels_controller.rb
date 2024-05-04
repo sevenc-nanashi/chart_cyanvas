@@ -131,9 +131,9 @@ module Sonolus
                   likes.count { |like| like.chart_id == chart.id } /
                     [
                       (
-                        Math.floor(
-                          (Time.now.to_i - chart.published_at.to_i) / 1.day
-                        ) - 3
+                        (
+                          (Time.now.to_i - chart.published_at.to_i) / 1.day.to_f
+                        ).floor - 3
                       ),
                       1
                     ].max.to_f
