@@ -317,7 +317,7 @@ module Sonolus
 
       page_count = (charts.count / 20.0).ceil
 
-      charts = charts.offset(params[:page].to_i * 20).limit(20)
+      charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
       render json: {
                items: charts.map(&:to_sonolus),
