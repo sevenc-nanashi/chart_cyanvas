@@ -297,7 +297,7 @@ module Sonolus
       if params[:q_author_name].present?
         charts =
           charts.where(
-            "LOWER(author_name) LIKE ?",
+            "LOWER(charts.author_name) LIKE ?",
             "%#{params[:q_author_name].downcase}%"
           )
       end

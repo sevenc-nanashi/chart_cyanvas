@@ -48,6 +48,8 @@ Rails.application.routes.draw do
 
   scope "/sonolus" do
     get "/info", to: "sonolus/info#info"
+    get "/playlists/info", to: "sonolus/info#empty_info"
+    get "/posts/info", to: "sonolus/info#empty_info"
     get "/levels/info", to: "sonolus/levels#info"
     get "/levels/list", to: "sonolus/levels#list"
   end
