@@ -128,8 +128,15 @@ module Sonolus
               charts.map do |chart|
                 [
                   chart.id,
-                  likes.count { |like| like.chart_id == chart.id } *
-                    (chart.published_at.to_i - Time.now.to_i)
+                  likes.count { |like| like.chart_id == chart.id } /
+                    [
+                      (
+                        Math.floor(
+                          (Time.now.to_i - chart.published_at.to_i) / 1.day
+                        ) - 3
+                      ),
+                      1
+                    ].max.to_f
                 ]
               end
 
@@ -228,11 +235,17 @@ module Sonolus
       end
       if params[:q_title].present?
         charts =
-          charts.where("LOWER(charts.title) LIKE ?", "%#{params[:q_title].downcase}%")
+          charts.where(
+            "LOWER(charts.title) LIKE ?",
+            "%#{params[:q_title].downcase}%"
+          )
       end
       if params[:type] == "quick" && params[:keywords].present?
         charts =
-          charts.where("LOWER(charts.title) LIKE ?", "%#{params[:keywords].downcase}%")
+          charts.where(
+            "LOWER(charts.title) LIKE ?",
+            "%#{params[:keywords].downcase}%"
+          )
       end
       if params[:q_composer].present?
         charts =
