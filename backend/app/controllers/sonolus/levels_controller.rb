@@ -220,17 +220,10 @@ module Sonolus
       ].present?
       case params[:q_sort].to_i
       when 0
-        charts =
-          if params[:q_target].to_i == 1
-            charts.order(updated_at: :desc)
-          else
-            charts.order(published_at: :desc)
-          end
-      when 1
         charts = charts.order(published_at: :desc)
-      when 2
+      when 1
         charts = charts.order(updated_at: :desc)
-      when 3
+      when 2
         charts = charts.order(likes_count: :desc)
       end
       if params[:q_title].present?
@@ -309,6 +302,7 @@ module Sonolus
           charts
             .where(author_id: [current_user.id] + alt_users.map(&:id))
             .where.not(visibility: :public)
+            .order(updated_at: :desc)
       when "liked"
         require_login!
         likes =

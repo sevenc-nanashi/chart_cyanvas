@@ -65,10 +65,8 @@ ja:
       author_name_placeholder: "作者の名義を入力して下さい..."
       id: "ID"
       id_placeholder: "#の後のIDを入力して下さい..."
-      target: "表示対象"
       sort: "並び替え"
       sorts:
-        - "デフォルト"
         - "投稿順"
         - "更新順"
         - "高評価順"
