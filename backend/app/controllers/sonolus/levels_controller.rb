@@ -100,7 +100,13 @@ module Sonolus
               Chart
                 .order(updated_at: :desc)
                 .limit(5)
-                .eager_load(:tags, :_variants, file_resources: { file_attachment: :blob })
+                .eager_load(
+                  :tags,
+                  :_variants,
+                  file_resources: {
+                    file_attachment: :blob
+                  }
+                )
                 .where(
                   visibility: :private,
                   author_id: [current_user.id] + alt_users.map(&:id)
@@ -109,22 +115,70 @@ module Sonolus
                 .map(&:to_sonolus)
           }
         end
+
+      popular_ids =
+        Rails
+          .cache
+          .fetch("sonolus:popular", expires_in: 1.hour) do
+            Rails.logger.info("Calculating popular charts")
+            likes = Like.where("created_at > ?", 1.week.ago)
+            charts = Chart.where(id: likes.select(:chart_id), variant_id: nil)
+
+            ranks =
+              charts.map do |chart|
+                [
+                  chart.id,
+                  likes.count { |like| like.chart_id == chart.id } *
+                    (chart.published_at.to_i - Time.now.to_i)
+                ]
+              end
+
+            ranks.sort_by { |rank| -rank[1] }.first(5).map(&:first)
+          end
+
+      popular_section = {
+        title: "#POPULAR",
+        items:
+          Chart
+            .where(id: popular_ids)
+            .includes(:author)
+            .eager_load(:tags, file_resources: { file_attachment: :blob })
+            .where(visibility: :public)
+            .sonolus_listed
+            .map(&:to_sonolus)
+      }
+
+      newest_section = {
+        title: "#NEWEST",
+        items:
+          Chart
+            .order(published_at: :desc)
+            .limit(5)
+            .includes(:author)
+            .eager_load(:tags, file_resources: { file_attachment: :blob })
+            .where(visibility: :public)
+            .sonolus_listed
+            .map(&:to_sonolus)
+      }
+      random_section = {
+        title: "#RANDOM",
+        items:
+          Chart
+            .order(Arel.sql("RANDOM()"))
+            .limit(5)
+            .includes(:author)
+            .eager_load(:tags, file_resources: { file_attachment: :blob })
+            .where(visibility: :public)
+            .sonolus_listed
+            .map(&:to_sonolus)
+      }
       render json: {
                searches:,
                sections: [
                  private_section,
-                 {
-                   title: "#NEWEST",
-                   items:
-                     Chart
-                       .order(published_at: :desc)
-                       .limit(5)
-                       .includes(:author)
-                       .eager_load(:tags, file_resources: { file_attachment: :blob })
-                       .where(visibility: :public)
-                       .sonolus_listed
-                       .map(&:to_sonolus)
-                 }
+                 popular_section,
+                 newest_section,
+                 random_section
                ].compact
              }
     end
@@ -140,7 +194,13 @@ module Sonolus
       charts =
         Chart
           .includes(:author)
-          .eager_load(:tags, :_variants, file_resources: { file_attachment: :blob })
+          .eager_load(
+            :tags,
+            :_variants,
+            file_resources: {
+              file_attachment: :blob
+            }
+          )
           .sonolus_listed
 
       charts =
@@ -153,11 +213,12 @@ module Sonolus
       ].present?
       case params[:q_sort].to_i
       when 0
-        charts = if params[:q_target].to_i == 1
-          charts.order(updated_at: :desc)
-        else
-          charts.order(published_at: :desc)
-                 end
+        charts =
+          if params[:q_target].to_i == 1
+            charts.order(updated_at: :desc)
+          else
+            charts.order(published_at: :desc)
+          end
       when 1
         charts = charts.order(published_at: :desc)
       when 2
