@@ -250,14 +250,14 @@ module Sonolus
       if params[:q_composer].present?
         charts =
           charts.where(
-            "LOWER(composer) LIKE ?",
+            "LOWER(charts.composer) LIKE ?",
             "%#{params[:q_composer].downcase}%"
           )
       end
       if params[:q_artist].present?
         charts =
           charts.where(
-            "LOWER(artist) LIKE ?",
+            "LOWER(charts.artist) LIKE ?",
             "%#{params[:q_artist].downcase}%"
           )
       end
