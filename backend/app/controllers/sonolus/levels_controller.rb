@@ -121,7 +121,7 @@ module Sonolus
           .cache
           .fetch("sonolus:popular", expires_in: 1.hour) do
             Rails.logger.info("Calculating popular charts")
-            likes = Like.where("created_at > ?", 1.week.ago)
+            likes = Like.where("created_at > ?", 3.days.ago)
             charts = Chart.where(id: likes.select(:chart_id), variant_id: nil)
 
             ranks =
