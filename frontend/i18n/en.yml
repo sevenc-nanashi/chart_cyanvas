@@ -135,10 +135,10 @@ upload:
     title: "Publish this chart?"
     description: "This chart..."
     check0: "has originality, (Do not publish a copy of existing chart)"
-    check1: "is completed, (Do not publish unfinished chart)"
+    check1: "is completed, (Do not publish unfinished charts)"
     check2: "uses music that allows fanmade charts, (FYI, songs of these games don't allow making fanmade charts: A new dimension rhythm game, A tatsujin)"
     check3: "has no regligious, political, sexual or other inappropriate content"
-    description2: "Any chart that violates <0>Guideline</0> will be deleted, \
+    description2: "Any chart that violates the <0>guideline</0> will be deleted, \
       and the author will be warned or banned."
     ok: "Publish"
 
