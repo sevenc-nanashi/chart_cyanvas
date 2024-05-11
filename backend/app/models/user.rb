@@ -54,7 +54,9 @@ class User < ApplicationRecord
       "/guilds/#{ENV.fetch("DISCORD_GUILD_ID", nil)}/members/#{discord_user["id"]}"
     )
     true
-  rescue StandardError
+  rescue StandardError => e
+    logger.error "Discord check failed: #{e}"
+
     update!(discord_status: :no, discord_token: nil, discord_refresh_token: nil)
     false
   end
