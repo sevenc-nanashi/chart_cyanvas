@@ -62,7 +62,7 @@ class DiscordRequest
         reset: response.headers["X-RateLimit-Reset"].to_f
       }
     end
-    if response.status == 429
+    if response.status.code == 429
       retry_after = response.parse["retry_after"]
       Rails.logger.warn("Rate limited, waiting for #{retry_after}s")
       sleep(retry_after)
