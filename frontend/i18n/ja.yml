@@ -205,3 +205,6 @@ discordError:
     discordError: Discordとの通信に失敗しました
     notInGuild: サーバーに参加していません
     unknown: 不明なエラーが発生しました
+
+login:
+  title: "ログイン"

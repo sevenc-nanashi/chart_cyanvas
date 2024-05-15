@@ -220,3 +220,6 @@ discordError:
     discordError: Discord API error
     notInGuild: You are not in the server
     unknown: Unknown error
+
+login:
+  title: "Log in"
