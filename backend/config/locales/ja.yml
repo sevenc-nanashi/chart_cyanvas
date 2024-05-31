@@ -13,27 +13,6 @@ ja:
       unknown-user:
         title: "不明な作者です！"
         description: "ユーザーのハンドルが合っているか確認して下さい。"
-    like:
-      button:
-        to_on:
-          title: "この譜面を高評価する"
-          description: "タップで高評価します。"
-        to_off:
-          title: "この譜面の高評価を解除する"
-          description: "タップで高評価を解除します。"
-      message:
-        to_on:
-          title: "この譜面を高評価しました！"
-          description: "高評価した譜面はWebサイトのメニューから見ることができます。右上のボタンで前の画面に戻ります。"
-        to_off:
-          title: "この譜面の高評価を解除しました。"
-          description: "右上のボタンで前の画面に戻ります。"
-        already:
-          title: "この譜面は既に高評価されています。"
-          description: "右上のボタンで前の画面に戻ります。"
-        not:
-          title: "この譜面は高評価されていません。"
-          description: "右上のボタンで前の画面に戻ります。"
 
   sonolus:
     title: "Chart Cyanvas"
@@ -55,6 +34,9 @@ ja:
         actions: "操作"
         variant_of: "派生元"
         variants: "派生譜面"
+
+      like: "いいね"
+      unlike: "いいね解除"
 
     search:
       title: "タイトル"
