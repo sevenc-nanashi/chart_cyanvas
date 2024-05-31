@@ -13,27 +13,6 @@ en:
       unknown-user:
         title: "Unknown author!"
         description: "Make sure the author with the given Handle exists."
-    like:
-      button:
-        to_on:
-          title: "Like this chart"
-          description: "Tap to like this chart."
-        to_off:
-          title: "Unlike this chart"
-          description: "Tap to unlike this chart."
-      message:
-        to_on:
-          title: "Liked!"
-          description: 'You can see this chart in "Liked charts" section in web app. Please tap the upper right button to go back.'
-        to_off:
-          title: "Unliked."
-          description: "Please tap the upper right button to go back."
-        already:
-          title: "Already liked."
-          description: "You have already liked this chart. Please tap the upper right button to go back."
-        not:
-          title: "Not liked."
-          description: "You have not liked this chart. Please tap the upper right button to go back."
   sonolus:
     title: "Chart Cyanvas"
     info:
@@ -57,6 +36,9 @@ en:
         actions: "Actions"
         variant_of: "Vary from"
         variants: "Variants"
+
+      like: "Like"
+      unlike: "Unlike"
 
     targets:
       public: "Public"

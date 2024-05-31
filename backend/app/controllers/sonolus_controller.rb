@@ -250,6 +250,7 @@ class SonolusController < ApplicationController
     params.permit :id
     render json: {
              item: dummy_level("dummy", "dummy", cover: "error"),
+             hasCommunity: false,
              description: "",
              sections: []
            }
@@ -307,7 +308,7 @@ class SonolusController < ApplicationController
            }
   end
 
-  after_action { headers["Sonolus-Version"] = "0.8.1" }
+  after_action { headers["Sonolus-Version"] = "0.8.2" }
 
   around_action do |_controller, action|
     success = false

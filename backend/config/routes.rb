@@ -62,40 +62,40 @@ Rails.application.routes.draw do
     get "/rails/active_storage/*path" =>
           redirect("/rails/active_storage/%{path}")
   end
-  %w[/sonolus /test/sonolus].each do |prefix|
-    scope prefix do
-      get "/levels/chcy-sys-like-on-:name", to: "sonolus/like#to_on"
-      get "/levels/chcy-sys-like-off-:name", to: "sonolus/like#to_off"
-      get "/levels/chcy-:name", to: "sonolus/levels#show"
-      post "/authenticate", to: "sonolus#authenticate"
+  scope "/sonolus" do
+    get "/levels/chcy-sys-like-on-:name", to: "sonolus/like#to_on"
+    get "/levels/chcy-sys-like-off-:name", to: "sonolus/like#to_off"
+    get "/levels/chcy-:name", to: "sonolus/levels#show"
+    get "/levels/chcy-:name/community", to: "sonolus/levels#community"
+    post "/levels/chcy-:name/community", to: "sonolus/levels#post_community"
+    post "/authenticate", to: "sonolus#authenticate"
 
-      scope "/assets" do
-        get "/generate", to: "sonolus/asset#generate"
-        get "/:type/chcy-:name", to: "sonolus/asset#show"
-        get "/:type/:name",
-            to: "sonolus/asset#show_static",
-            constraints: {
-              name: %r{[^/]+}
-            }
-      end
-
-      types = %w[backgrounds effects particles engines skins]
-      get "/:type/info",
-          to: "sonolus/asset#info",
+    scope "/assets" do
+      get "/generate", to: "sonolus/asset#generate"
+      get "/:type/chcy-:name", to: "sonolus/asset#show"
+      get "/:type/:name",
+          to: "sonolus/asset#show_static",
           constraints: {
-            type: Regexp.new(types.join("|"))
-          }
-      get "/:type/list",
-          to: "sonolus/asset#list",
-          constraints: {
-            type: Regexp.new(types.join("|"))
-          }
-      get "/:type/chcy-:name",
-          to: "sonolus/asset#show",
-          constraints: {
-            type: Regexp.new(types.join("|"))
+            name: %r{[^/]+}
           }
     end
+
+    types = %w[backgrounds effects particles engines skins]
+    get "/:type/info",
+        to: "sonolus/asset#info",
+        constraints: {
+          type: Regexp.new(types.join("|"))
+        }
+    get "/:type/list",
+        to: "sonolus/asset#list",
+        constraints: {
+          type: Regexp.new(types.join("|"))
+        }
+    get "/:type/chcy-:name",
+        to: "sonolus/asset#show",
+        constraints: {
+          type: Regexp.new(types.join("|"))
+        }
   end
 
   scope "/auth" do

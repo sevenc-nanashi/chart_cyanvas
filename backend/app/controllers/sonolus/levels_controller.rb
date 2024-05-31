@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require "uri"
+
 module Sonolus
   class LevelsController < SonolusController
     def self.search_options
@@ -346,31 +348,11 @@ module Sonolus
           name: params[:name]
         )
       if chart
-        user_faved = chart.likes.exists?(user_id: current_user&.id)
         render json: {
                  item: chart.to_sonolus,
+                 hasCommunity: true,
                  sections:
                    [
-                     {
-                       title: I18n.t("sonolus.levels.sections.actions"),
-                       items: [
-                         (
-                           if user_faved
-                             dummy_level(
-                               "like.button.to_off",
-                               "like-off-#{chart.name}",
-                               cover: "like_on"
-                             )
-                           else
-                             dummy_level(
-                               "like.button.to_on",
-                               "like-on-#{chart.name}",
-                               cover: "like_off"
-                             )
-                           end
-                         )
-                       ]
-                     },
                      {
                        title: I18n.t("sonolus.levels.sections.variant_of"),
                        items: [chart.variant_of&.to_sonolus]
@@ -388,6 +370,76 @@ module Sonolus
                  error: "Level not found"
                },
                status: :not_found
+      end
+    end
+
+    def community
+      params.require(:name)
+      chart = Chart.find_by(name: params[:name])
+      unless chart
+        render json: {
+                 code: "not_found",
+                 error: "Level not found"
+               },
+               status: :not_found
+        return
+      end
+
+      user_faved =
+        current_user &&
+          Like.find_by(user_id: current_user.id, chart_id: chart.id)
+
+      render json: {
+               actions: [
+                 {
+                   type: "like",
+                   title:
+                     (
+                       if user_faved
+                         I18n.t("sonolus.levels.unlike")
+                       else
+                         I18n.t("sonolus.levels.like")
+                       end
+                     ),
+                   icon: user_faved ? "heart" : "heartHollow",
+                   options: []
+                 }
+               ],
+               topComments: []
+             }
+    end
+
+    def post_community
+      params.require(:name)
+      require_login!
+
+      chart = Chart.find_by(name: params[:name])
+      unless chart
+        render json: {
+                 code: "not_found",
+                 error: "Level not found"
+               },
+               status: :not_found
+        return
+      end
+
+      values = URI.decode_www_form(params[:values]).to_h
+
+      case values["type"]
+      when "like"
+        like = Like.find_by(user_id: current_user.id, chart_id: chart.id)
+        if like
+          like.destroy
+        else
+          Like.create(user_id: current_user.id, chart_id: chart.id)
+        end
+        render json: { shouldUpdateCommunity: true }
+      else
+        render json: {
+                 code: "bad_request",
+                 error: "Invalid type"
+               },
+               status: :bad_request
       end
     end
 
