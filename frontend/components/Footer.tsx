@@ -34,6 +34,14 @@ const Footer = () => {
             href="https://discord.gg/2NP3U3r8Rz"
           >
             Discord
+          </a>{" "}
+          |
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.patreon.com/sevenc_nanashi"
+          >
+            Patreon
           </a>
         </div>
       </footer>
