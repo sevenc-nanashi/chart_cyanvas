@@ -421,30 +421,31 @@ const UploadChart: NextPage<
   ])
   const handleResponse = useCallback(
     async (res: Response) => {
-      if (res.status === 500) {
-        setServerError(true)
-        setIsSubmitting(false)
-        return
-      } else if (res.status === 413) {
-        setShowFileSizeError(true)
-        setIsSubmitting(false)
-        return
-      } else if (res.status === 404) {
-        router.push("/")
-        return
-      }
-      const data = await res.json().catch(() => ({
-        code: "error",
-        errors: {},
-      }))
-      if (data.code !== "ok") {
-        setErrors(mapErrors(data.errors))
+      try {
+        if (res.status === 500) {
+          setServerError(true)
+          return
+        } else if (res.status === 413) {
+          setShowFileSizeError(true)
+          return
+        } else if (res.status === 404) {
+          router.push("/")
+          return
+        }
+        const data = await res.json().catch(() => ({
+          code: "error",
+          errors: {},
+        }))
+        if (data.code !== "ok") {
+          setErrors(mapErrors(data.errors))
 
-        setIsSubmitting(false)
-        return
-      }
+          return
+        }
 
-      return data
+        return data
+      } finally {
+        setIsSubmitting(false)
+      }
     },
     [setErrors, setServerError, mapErrors, router]
   )
