@@ -18,8 +18,16 @@ module Sonolus
       render json: {
                title:,
                banner: banner("banner"),
-               hasMultiplayer: false,
-               hasAuthentication: true,
+               buttons: [
+                 { type: "authentication" },
+                 { type: "level" },
+                 { type: "replay" },
+                 { type: "skin" },
+                 { type: "background" },
+                 { type: "effect" },
+                 { type: "particle" },
+                 { type: "engine" }
+               ],
                description:
              }
     end

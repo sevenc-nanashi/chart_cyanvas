@@ -351,6 +351,7 @@ module Sonolus
         render json: {
                  item: chart.to_sonolus,
                  hasCommunity: true,
+                 leaderboards: [],
                  sections:
                    [
                      {
@@ -473,6 +474,7 @@ module Sonolus
                    chart.resources,
                    version: version_num
                  ),
+               leaderboards: [],
                description: "",
                sections: [
                  {

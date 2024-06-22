@@ -53,9 +53,13 @@ module Sonolus
       name += ".#{params[:format]}" if params[:format].present?
       item = Sonolus::AssetController.asset_get(type.delete_suffix("s"), name)
       if item.nil?
-        render json: { error: "not_found", message: "Not Found" }, status: :not_found
+        render json: {
+                 error: "not_found",
+                 message: "Not Found"
+               },
+               status: :not_found
       else
-        render json: { item:, description: "", sections: [] }
+        render json: { item:, description: "", leaderboards: [], sections: [] }
       end
     end
 
@@ -72,7 +76,11 @@ module Sonolus
       chart = Chart.find_by(name: params[:chart])
       if chart.nil?
         return(
-          render json: { code: "not_found", message: "Not Found" }, status: :not_found
+          render json: {
+                   code: "not_found",
+                   message: "Not Found"
+                 },
+                 status: :not_found
         )
       end
       type = params[:type].to_sym
@@ -142,9 +150,9 @@ module Sonolus
 
         50.times do
           if FileResource.exists?(chart_id: chart.id, kind: type) ||
-               $redis.with do |conn|
+               $redis.with { |conn|
                  conn.get("sonolus:generate:#{chart.id}:#{type}").nil?
-               end
+               }
             break
           end
 
@@ -161,7 +169,11 @@ module Sonolus
                       allow_other_host: true
         else
           Rails.logger.info("Failed to generate #{type} for #{chart.name}")
-          render json: { code: "not_found", message: "Not Found" }, status: :not_found
+          render json: {
+                   code: "not_found",
+                   message: "Not Found"
+                 },
+                 status: :not_found
         end
       end
     end
