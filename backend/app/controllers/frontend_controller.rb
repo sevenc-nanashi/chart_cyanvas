@@ -23,23 +23,29 @@ class FrontendController < ApplicationController
 
   around_action do |_controller, action|
     success = false
-    catch :unauthorized do
+    catch :abort do
       action.call
-      success = true
     end
-    unless success
+  end
+
+  def require_login!
+    unless current_user
       render json: {
                code: "not_logged_in",
                error: "You are not logged in"
              },
              status: :unauthorized
+      throw :abort
     end
   end
-
-  def require_login!
-    throw :unauthorized unless current_user
-  end
   def require_discord!
-    throw :unauthorized unless $discord.enabled? && current_user.check_discord
+    unless $discord.enabled? && current_user.check_discord
+      render json: {
+               code: "no_discord",
+               error: "Failed to verify discord link"
+             },
+             status: :forbidden
+      throw :abort
+    end
   end
 end
