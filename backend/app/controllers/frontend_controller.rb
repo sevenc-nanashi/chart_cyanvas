@@ -22,7 +22,6 @@ class FrontendController < ApplicationController
   end
 
   around_action do |_controller, action|
-    success = false
     catch :abort do
       action.call
     end
