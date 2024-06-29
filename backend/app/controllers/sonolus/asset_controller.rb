@@ -150,9 +150,9 @@ module Sonolus
 
         50.times do
           if FileResource.exists?(chart_id: chart.id, kind: type) ||
-               $redis.with { |conn|
+               $redis.with do |conn|
                  conn.get("sonolus:generate:#{chart.id}:#{type}").nil?
-               }
+               end
             break
           end
 
