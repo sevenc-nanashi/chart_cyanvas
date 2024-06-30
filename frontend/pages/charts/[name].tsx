@@ -395,7 +395,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                     text: rootT("openInSonolus"),
                     icon: OpenRegular,
                     className: "bg-black text-white",
-                    href: `sonolus://${host}/levels/chcy-${chartData.name}`,
+                    href: `https://open.sonolus.com/${host}/levels/chcy-${chartData.name}`,
                   },
                 ]
                   .flatMap((e) => (e ? [e] : []))
