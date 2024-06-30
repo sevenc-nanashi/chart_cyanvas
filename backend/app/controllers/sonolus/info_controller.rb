@@ -21,7 +21,6 @@ module Sonolus
                buttons: [
                  { type: "authentication" },
                  { type: "level" },
-                 { type: "replay" },
                  { type: "skin" },
                  { type: "background" },
                  { type: "effect" },
