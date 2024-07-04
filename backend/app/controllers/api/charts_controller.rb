@@ -21,20 +21,20 @@ class UploadValidator
   validates :title,
             presence: PRESENCE,
             length: {
-              maximum: 50,
+              maximum: 100,
               message: "tooLong"
             }
   validates :description, length: { maximum: 500, message: "tooLong" }
   validates :composer,
             presence: PRESENCE,
             length: {
-              maximum: 50,
+              maximum: 100,
               message: "tooLong"
             }
   validates :artist,
             allow_blank: true,
             length: {
-              maximum: 50,
+              maximum: 100,
               message: "tooLong"
             }
   validates :rating,
@@ -59,7 +59,7 @@ class UploadValidator
   validates :author_name,
             allow_blank: true,
             length: {
-              maximum: 50,
+              maximum: 100,
               message: "tooLong"
             }
   validates :is_chart_public,
