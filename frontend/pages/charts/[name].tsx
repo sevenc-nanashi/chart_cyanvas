@@ -23,13 +23,13 @@ import getConfig from "next/config"
 import ChartSection from "components/ChartSection"
 import OptionalImage from "components/OptionalImage"
 import { useSession } from "lib/atom"
-import { getRatingColor, className, isMine, host, isAdmin } from "lib/utils"
+import { getRatingColor, className, isMine, isAdmin } from "lib/utils"
 import ModalPortal from "components/ModalPortal"
 import TextInput from "components/TextInput"
 import InputTitle from "components/InputTitle"
 import Checkbox from "components/Checkbox"
 
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const { serverRuntimeConfig } = getConfig()
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const chartData = await fetch(
@@ -75,9 +75,11 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
   const [sameAuthorCharts, setSameAuthorCharts] = useState<Chart[] | null>(null)
 
   const isMobile = useRef(true)
+  const [host, setHost] = useState<string>("")
   useEffect(() => {
     isMobile.current = window.navigator.maxTouchPoints > 0
-  })
+    setHost(window.location.host)
+  }, [])
 
   const isSameAuthorChartsFinished = useRef(false)
   const fetchSameAuthorCharts = useCallback(async () => {
@@ -194,7 +196,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
           name="og:image"
           content={
             chartData.cover && chartData.cover.startsWith("/")
-              ? `${publicRuntimeConfig.host}${chartData.cover}`
+              ? `${host}${chartData.cover}`
               : chartData.cover
           }
         />
