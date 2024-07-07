@@ -219,11 +219,11 @@ module Sonolus
           .sonolus_listed
 
       charts =
-        charts.where("charts.rating >= ?", params[:q_rating_min]) if params[
+        charts.where(charts: { rating: (params[:q_rating_min]).. }) if params[
         :q_rating_min
       ].present?
       charts =
-        charts.where("charts.rating <= ?", params[:q_rating_max]) if params[
+        charts.where(charts: { rating: ..(params[:q_rating_max]) }) if params[
         :q_rating_max
       ].present?
       case params[:q_sort].to_i
