@@ -14,7 +14,7 @@ Chart Cyanvas is a sekai custom charts platform.
 - `backend/` - Backend. Built with Rails.
 - `sub-audio/` - Audio processing. Built with Python, FastAPI and ffmpeg.
 - `sub-image/` - Image processing. Built with Rust, axum and [pjsekai-background-gen-rust](https://github.com/sevenc-nanashi/pjsekai-background-gen-rust).
-- `sub-chart/` - Chart file processing. Built with TypeScript, express, and [sonolus-pjsekai-engine-extended](https://github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended).
+- `sub-chart/` - Chart file processing. Built with TypeScript, express, [usctool](https://github.com/sevenc-nanashi/usctool) and [sonolus-pjsekai-engine-extended](https://github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended).
 
 ## Hosting
 1. Copy `config.prod.yml` to `config.yml` and fill it.
