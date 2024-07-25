@@ -310,9 +310,9 @@ module Api
       require_login!
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
-           %i[chart cover bgm].all? { |k|
+           %i[chart cover bgm].all? do |k|
              hash[k].nil? || hash[k].is_a?(ActionDispatch::Http::UploadedFile)
-           }
+           end
         render json: {
                  code: "invalid_request",
                  error: "Invalid request"
