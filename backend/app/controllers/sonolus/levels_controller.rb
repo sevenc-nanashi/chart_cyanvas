@@ -118,49 +118,9 @@ module Sonolus
           }
         end
 
-      popular_ids =
-        Rails
-          .cache
-          .fetch("sonolus:popular", expires_in: 1.hour) do
-            Rails.logger.info("Calculating popular charts")
-            likes = Like.where("created_at > ?", 3.days.ago)
-            charts = Chart.where(id: likes.select(:chart_id), variant_id: nil)
-
-            ranks =
-              charts.map do |chart|
-                [
-                  chart.id,
-                  likes.count { |like| like.chart_id == chart.id } *
-                    (
-                      0.9**
-                        [
-                          (
-                            (Time.now.to_i - chart.published_at.to_i) /
-                              1.day.to_f
-                          ) - 1,
-                          0
-                        ].max.to_f
-                    )
-                ]
-              end
-
-            ranks.sort_by { |rank| -rank[1] }.first(5).map(&:first)
-          end
-
-      popular_charts =
-        Chart
-          .where(id: popular_ids)
-          .includes(:author)
-          .eager_load(:tags, file_resources: { file_attachment: :blob })
-          .where(visibility: :public)
-          .sonolus_listed
-
       popular_section = {
         title: "#POPULAR",
-        items:
-          popular_ids.map do |id|
-            popular_charts.find { |chart| chart.id == id }.to_sonolus
-          end
+        items: self.popular_charts.map(&:to_sonolus)
       }
 
       newest_section = {
@@ -196,6 +156,59 @@ module Sonolus
                  random_section
                ].compact
              }
+    end
+
+    def popular_charts
+      popular_ids =
+        Rails
+          .cache
+          .fetch("sonolus:popular", expires_in: 1.hour) do
+            Rails.logger.info("Calculating popular charts")
+            likes = Like.where("created_at > ?", 3.days.ago)
+            charts =
+              Chart.where(
+                id: likes.select(:chart_id),
+                visibility: :public
+              ).sonolus_listed
+
+            ranks =
+              charts.map do |chart|
+                [
+                  chart.id,
+                  likes.count { |like| like.chart_id == chart.id } *
+                    (
+                      0.9**
+                        [
+                          (
+                            (Time.now.to_i - chart.published_at.to_i) /
+                              1.day.to_f
+                          ) - 1,
+                          0
+                        ].max.to_f
+                    )
+                ]
+              end
+
+            ranks.sort_by { |rank| -rank[1] }.first(5).map(&:first)
+          end
+
+      maybe_popular_charts =
+        Chart
+          .where(id: popular_ids)
+          .includes(:author)
+          .eager_load(:tags, file_resources: { file_attachment: :blob })
+          .where(visibility: :public)
+          .sonolus_listed
+
+      if maybe_popular_charts.to_set(&:id) == popular_ids.to_set
+        maybe_popular_charts
+      else
+        Rails.logger.info(
+          "Missing levels in popular cache, clearing cache and recalculating"
+        )
+        Rails.cache.delete("sonolus:popular")
+        self.popular_charts
+      end
     end
 
     def list
@@ -392,19 +405,23 @@ module Sonolus
 
       render json: {
                actions: [
-                 {
-                   type: "like",
-                   title:
-                     (
-                       if user_faved
-                         I18n.t("sonolus.levels.unlike")
-                       else
-                         I18n.t("sonolus.levels.like")
-                       end
-                     ),
-                   icon: user_faved ? "heart" : "heartHollow",
-                   options: []
-                 }
+                 (
+                   if user_faved
+                     {
+                       type: "unlike",
+                       title: I18n.t("sonolus.levels.unlike"),
+                       icon: "heart",
+                       options: []
+                     }
+                   else
+                     {
+                       type: "like",
+                       title: I18n.t("sonolus.levels.like"),
+                       icon: "heartHollow",
+                       options: []
+                     }
+                   end
+                 )
                ],
                topComments: []
              }
@@ -429,11 +446,11 @@ module Sonolus
       case values["type"]
       when "like"
         like = Like.find_by(user_id: current_user.id, chart_id: chart.id)
-        if like
-          like.destroy
-        else
-          Like.create(user_id: current_user.id, chart_id: chart.id)
-        end
+        Like.create(user_id: current_user.id, chart_id: chart.id) unless like
+        render json: { shouldUpdateCommunity: true }
+      when "unlike"
+        like = Like.find_by(user_id: current_user.id, chart_id: chart.id)
+        like&.destroy
         render json: { shouldUpdateCommunity: true }
       else
         render json: {
