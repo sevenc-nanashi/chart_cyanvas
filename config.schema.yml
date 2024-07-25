@@ -108,6 +108,11 @@ properties:
           warning_channel_id:
             type: "string"
             description: "Discord warning channel ID."
+  discord_webhook:
+    description: "Discord webhook configuration, null to disable."
+    anyOf:
+      - type: "null"
+      - type: "string"
   sentry:
     description: "Sentry configuration, null to disable."
     anyOf:

@@ -236,9 +236,7 @@ module Api
                status: :bad_request
         return
       end
-      if data_parsed[:authorName].blank?
-        data_parsed[:authorName] = author.name
-      end
+      data_parsed[:authorName] = author.name if data_parsed[:authorName].blank?
       [
         {
           title: data_parsed[:title],
@@ -312,9 +310,9 @@ module Api
       require_login!
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
-           %i[chart cover bgm].all? do |k|
+           %i[chart cover bgm].all? { |k|
              hash[k].nil? || hash[k].is_a?(ActionDispatch::Http::UploadedFile)
-           end
+           }
         render json: {
                  code: "invalid_request",
                  error: "Invalid request"
@@ -338,19 +336,18 @@ module Api
       end
 
       args = {
-        **
-          {
-            title: data_parsed[:title],
-            composer: data_parsed[:composer],
-            artist: data_parsed[:artist],
-            description: data_parsed[:description],
-            rating: data_parsed[:rating],
-            author_name: data_parsed[:author_name],
-            author_id: author.id,
-            visibility: data_parsed[:visibility].to_sym,
-            is_chart_public: data_parsed[:is_chart_public],
-            scheduled_at: Time.zone.at(data_parsed[:scheduled_at] / 1000)
-          }.compact,
+        **{
+          title: data_parsed[:title],
+          composer: data_parsed[:composer],
+          artist: data_parsed[:artist],
+          description: data_parsed[:description],
+          rating: data_parsed[:rating],
+          author_name: data_parsed[:author_name],
+          author_id: author.id,
+          visibility: data_parsed[:visibility].to_sym,
+          is_chart_public: data_parsed[:is_chart_public],
+          scheduled_at: Time.zone.at(data_parsed[:scheduled_at] / 1000)
+        }.compact,
         variant_id: variant&.id
       }
       if args[:visibility] == :scheduled ||
@@ -367,6 +364,9 @@ module Api
       args[:scheduled_job_id] = nil
       if args[:visibility] == :public && !chart.published_at
         args[:published_at] = Time.zone.now
+        if (webhook = ENV.fetch("DISCORD_WEBHOOK", nil))
+          $discord.post(webhook, { content: "#{ENV.fetch("HOST")}/charts/#{chart.name}" })
+        end
       elsif args[:visibility] == :scheduled
         args[:scheduled_job_id] = PublishChartJob
           .set(wait_until: args[:scheduled_at])
