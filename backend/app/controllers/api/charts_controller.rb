@@ -365,7 +365,7 @@ module Api
       if args[:visibility] == :public && !chart.published_at
         args[:published_at] = Time.zone.now
         if (webhook = ENV.fetch("DISCORD_WEBHOOK", nil))
-          $discord.post(webhook, { content: "#{ENV.fetch("HOST")}/charts/#{chart.name}" })
+          $discord.post(webhook, json: { content: "#{ENV.fetch("HOST")}/charts/#{chart.name}" })
         end
       elsif args[:visibility] == :scheduled
         args[:scheduled_job_id] = PublishChartJob
