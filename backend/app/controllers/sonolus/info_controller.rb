@@ -25,8 +25,12 @@ module Sonolus
                  { type: "background" },
                  { type: "effect" },
                  { type: "particle" },
-                 { type: "engine" }
+                 { type: "engine" },
+                 { type: "configuration" }
                ],
+               configuration: {
+                 options: []
+               },
                description:
              }
     end

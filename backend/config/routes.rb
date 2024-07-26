@@ -66,8 +66,7 @@ Rails.application.routes.draw do
     get "/levels/chcy-sys-like-on-:name", to: "sonolus/like#to_on"
     get "/levels/chcy-sys-like-off-:name", to: "sonolus/like#to_off"
     get "/levels/chcy-:name", to: "sonolus/levels#show"
-    get "/levels/chcy-:name/community/info", to: "sonolus/levels#community"
-    post "/levels/chcy-:name/community/submit", to: "sonolus/levels#post_community"
+    post "/levels/chcy-:name/submit", to: "sonolus/levels#submit"
     post "/authenticate", to: "sonolus#authenticate"
 
     scope "/assets" do

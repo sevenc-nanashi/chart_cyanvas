@@ -12,9 +12,11 @@ module Sonolus
           .glob("assets/#{type}/*.yml")
           .map { |path| File.basename(path).delete_suffix(".yml") }
       render json: {
+               searches: [],
                sections: [
                  {
                    title: "#ALL",
+                   itemType: type.delete_suffix("s"),
                    items:
                      names.map do |name|
                        Sonolus::AssetController.asset_get(
@@ -59,7 +61,14 @@ module Sonolus
                },
                status: :not_found
       else
-        render json: { item:, description: "", leaderboards: [], sections: [] }
+        render json: {
+                 item:,
+                 actions: [],
+                 hasCommunity: false,
+                 description: "",
+                 leaderboards: [],
+                 sections: []
+               }
       end
     end
 
@@ -150,9 +159,9 @@ module Sonolus
 
         50.times do
           if FileResource.exists?(chart_id: chart.id, kind: type) ||
-               $redis.with do |conn|
+               $redis.with { |conn|
                  conn.get("sonolus:generate:#{chart.id}:#{type}").nil?
-               end
+               }
             break
           end
 

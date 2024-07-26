@@ -168,7 +168,7 @@ class Chart < ApplicationRecord
       version: 2,
       tags: [],
       source: ENV.fetch("HOST", nil),
-      title: I18n.t("sonolus.background.title", name: title, version:),
+      title: I18n.t("sonolus.backgrounds.title", name: title, version:),
       subtitle: "#{composer}#{artist.presence ? " / #{artist}" : ""}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
       thumbnail: resources[:cover]&.to_srl || { hash: "", url: "" },
