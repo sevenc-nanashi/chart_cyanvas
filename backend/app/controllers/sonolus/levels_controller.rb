@@ -9,37 +9,61 @@ module Sonolus
           query: :q_title,
           name: I18n.t("sonolus.search.title"),
           type: "text",
-          placeholder: I18n.t("sonolus.search.title_placeholder")
+          placeholder: I18n.t("sonolus.search.title_placeholder"),
+          required: false,
+          limit: 0,
+          def: "",
+          shortcuts: []
         },
         {
           query: :q_composer,
           name: I18n.t("sonolus.search.composer"),
           type: "text",
-          placeholder: I18n.t("sonolus.search.composer_placeholder")
+          placeholder: I18n.t("sonolus.search.composer_placeholder"),
+          required: false,
+          limit: 0,
+          def: "",
+          shortcuts: []
         },
         {
           query: :q_artist,
           name: I18n.t("sonolus.search.artist"),
           type: "text",
-          placeholder: I18n.t("sonolus.search.artist_placeholder")
+          placeholder: I18n.t("sonolus.search.artist_placeholder"),
+          required: false,
+          limit: 0,
+          def: "",
+          shortcuts: []
         },
         {
           query: :q_author,
           name: I18n.t("sonolus.search.author"),
           type: "text",
-          placeholder: I18n.t("sonolus.search.author_placeholder")
+          placeholder: I18n.t("sonolus.search.author_placeholder"),
+          required: false,
+          limit: 0,
+          def: "",
+          shortcuts: []
         },
         {
           query: :q_author_name,
           name: I18n.t("sonolus.search.author_name"),
           type: "text",
-          placeholder: I18n.t("sonolus.search.author_name_placeholder")
+          placeholder: I18n.t("sonolus.search.author_name_placeholder"),
+          required: false,
+          limit: 0,
+          def: "",
+          shortcuts: []
         },
         {
           query: :q_id,
           name: I18n.t("sonolus.search.id"),
           type: "text",
-          placeholder: I18n.t("sonolus.search.id_placeholder")
+          placeholder: I18n.t("sonolus.search.id_placeholder"),
+          required: false,
+          limit: 0,
+          def: "",
+          shortcuts: []
         },
         {
           query: :q_rating_min,
@@ -48,7 +72,8 @@ module Sonolus
           def: 1,
           min: 1,
           max: 99,
-          step: 1
+          step: 1,
+          required: false
         },
         {
           query: :q_rating_max,
@@ -57,39 +82,29 @@ module Sonolus
           def: 99,
           min: 1,
           max: 99,
-          step: 1
+          step: 1,
+          required: false
         },
         {
           query: :q_sort,
           name: I18n.t("sonolus.search.sort"),
           type: "select",
           def: 0,
-          values: I18n.t("sonolus.search.sorts")
+          values: I18n.t("sonolus.search.sorts"),
+          required: false
         }
       ]
     end
 
     def searches
       [
-        current_user &&
-          [
-            {
-              type: "testing",
-              title: I18n.t("sonolus.targets.testing"),
-              options: []
-            },
-            {
-              type: "liked",
-              title: I18n.t("sonolus.targets.liked"),
-              options: []
-            }
-          ],
         {
           type: "advanced",
           title: "#ADVANCED",
+          requireConfirmation: false,
           options: self.class.search_options
         }
-      ].compact.flatten
+      ]
     end
 
     def info
@@ -98,6 +113,8 @@ module Sonolus
           alt_users = User.where(owner_id: current_user.id)
           {
             title: "#PRIVATE",
+            itemType: "level",
+            searchValues: "type=testing",
             items:
               Chart
                 .order(updated_at: :desc)
@@ -120,11 +137,14 @@ module Sonolus
 
       popular_section = {
         title: "#POPULAR",
+        itemType: "level",
         items: self.popular_charts.map(&:to_sonolus)
       }
 
       newest_section = {
         title: "#NEWEST",
+        itemType: "level",
+        searchValues: "type=newest",
         items:
           Chart
             .order(published_at: :desc)
@@ -137,6 +157,7 @@ module Sonolus
       }
       random_section = {
         title: "#RANDOM",
+        itemType: "level",
         items:
           Chart
             .order(Arel.sql("RANDOM()"))
@@ -318,6 +339,7 @@ module Sonolus
       case params[:type]
       when "testing"
         require_login!
+
         alt_users = User.where(owner_id: current_user.id)
         charts =
           charts
@@ -361,19 +383,57 @@ module Sonolus
           name: params[:name]
         )
       if chart
+        user_faved =
+          current_user &&
+            Like.find_by(user_id: current_user.id, chart_id: chart.id)
+
         render json: {
                  item: chart.to_sonolus,
-                 hasCommunity: true,
+                 hasCommunity: false,
+                 actions: [
+                   (
+                     if user_faved
+                       {
+                         type: "unlike",
+                         title: I18n.t("sonolus.levels.unlike"),
+                         icon: "heart",
+                         requireConfirmation: false,
+                         options: []
+                       }
+                     else
+                       {
+                         type: "like",
+                         title: I18n.t("sonolus.levels.like"),
+                         icon: "heartHollow",
+                         requireConfirmation: false,
+                         options: []
+                       }
+                     end
+                   )
+                 ],
                  leaderboards: [],
                  sections:
                    [
                      {
                        title: I18n.t("sonolus.levels.sections.variant_of"),
+                       itemType: "level",
                        items: [chart.variant_of&.to_sonolus]
                      },
                      {
                        title: I18n.t("sonolus.levels.sections.variants"),
+                       itemType: "level",
                        items: chart.variants.map(&:to_sonolus)
+                     },
+                     {
+                       title: I18n.t("sonolus.levels.sections.backgrounds"),
+                       itemType: "background",
+                       items:
+                         [1, 3].map do |version|
+                           chart.to_sonolus_background(
+                             chart.resources,
+                             version:
+                           )
+                         end
                      }
                    ].filter { |section| section[:items].any? },
                  description: chart.description
@@ -387,47 +447,7 @@ module Sonolus
       end
     end
 
-    def community
-      params.require(:name)
-      chart = Chart.find_by(name: params[:name])
-      unless chart
-        render json: {
-                 code: "not_found",
-                 error: "Level not found"
-               },
-               status: :not_found
-        return
-      end
-
-      user_faved =
-        current_user &&
-          Like.find_by(user_id: current_user.id, chart_id: chart.id)
-
-      render json: {
-               actions: [
-                 (
-                   if user_faved
-                     {
-                       type: "unlike",
-                       title: I18n.t("sonolus.levels.unlike"),
-                       icon: "heart",
-                       options: []
-                     }
-                   else
-                     {
-                       type: "like",
-                       title: I18n.t("sonolus.levels.like"),
-                       icon: "heartHollow",
-                       options: []
-                     }
-                   end
-                 )
-               ],
-               topComments: []
-             }
-    end
-
-    def post_community
+    def submit
       params.require(:name)
       require_login!
 
@@ -447,11 +467,11 @@ module Sonolus
       when "like"
         like = Like.find_by(user_id: current_user.id, chart_id: chart.id)
         Like.create(user_id: current_user.id, chart_id: chart.id) unless like
-        render json: { shouldUpdateCommunity: true }
+        render json: { shouldUpdate: true, key: "", hashes: [] }
       when "unlike"
         like = Like.find_by(user_id: current_user.id, chart_id: chart.id)
         like&.destroy
-        render json: { shouldUpdateCommunity: true }
+        render json: { shouldUpdate: true, key: "", hashes: [] }
       else
         render json: {
                  code: "bad_request",
@@ -491,11 +511,14 @@ module Sonolus
                    chart.resources,
                    version: version_num
                  ),
+               hasCommunity: false,
+               actions: [],
                leaderboards: [],
                description: "",
                sections: [
                  {
-                   title: "#VERSIONS",
+                   title: I18n.t("sonolus.backgrounds.sections.versions"),
+                   itemType: "background",
                    items: [
                      chart.to_sonolus_background(
                        chart.resources,
