@@ -23,6 +23,10 @@ ja:
       title: "%{name}（v%{version}）"
       sections:
         versions: "バージョン"
+
+    targets:
+      liked: "いいねした譜面"
+
     levels:
       published_at: "公開：%{time}前"
       variants: "派生譜面：%{count}個"
