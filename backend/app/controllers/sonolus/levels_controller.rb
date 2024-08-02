@@ -103,8 +103,14 @@ module Sonolus
           title: "#ADVANCED",
           requireConfirmation: false,
           options: self.class.search_options
+        },
+        current_user && {
+          type: "liked",
+          title: I18n.t("sonolus.targets.liked"),
+          requireConfirmation: false,
+          options: []
         }
-      ]
+      ].compact
     end
 
     def info
