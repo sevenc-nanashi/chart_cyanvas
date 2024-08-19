@@ -1,27 +1,26 @@
-import Image from "next/image"
-import { ComponentProps } from "react"
+import clsx from "clsx"
+import type { ComponentProps } from "react"
 
 const OptionalImage: React.FC<
   { src: string | undefined; alt: string | undefined } & Omit<
-    ComponentProps<typeof Image>,
+    ComponentProps<"img">,
     "src" | "alt"
   >
 > = ({ src, alt, ...props }) => {
-  if (src) {
-    return <Image src={src} alt={alt || ""} {...props} />
-  } else {
+  if (!src) {
     return (
       <div
-        className={
-          `bg-white dark:bg-gray-700 flex justify-center items-center animate-pulse ` +
-          props.className
-        }
+        className={clsx(
+          "bg-white dark:bg-gray-700 flex justify-center items-center animate-pulse",
+          props.className,
+        )}
         style={{
           ...props.style,
         }}
       />
     )
   }
+  return <img src={src} alt={alt || ""} {...props} />
 }
 
 export default OptionalImage

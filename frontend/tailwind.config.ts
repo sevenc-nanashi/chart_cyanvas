@@ -1,7 +1,7 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./components/**/*.tsx", "./pages/**/*.tsx", "./lib/**/*.ts"],
+  content: ["./{app,lib,components}/**/*.{tsx,ts}"],
   theme: {
     fontFamily: {
       sans: ["'M PLUS 1p'", "sans-serif"],
@@ -27,6 +27,6 @@ const config: Config = {
     },
   },
   plugins: [],
-}
+};
 
-export default config
+export default config;

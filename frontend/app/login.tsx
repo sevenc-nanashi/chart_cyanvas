@@ -25,7 +25,7 @@ const Login: NextPage = () => {
       loginStarted.current = true
       startLogin()
     }
-  }, [loginState, startLogin])
+  }, [startLogin])
 
   return (
     <div className="flex flex-col gap-2">

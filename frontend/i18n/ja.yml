@@ -10,6 +10,11 @@ openInSonolus: "Sonolus"
 
 adminDecorate: "（管理者）"
 
+notFound:
+  title: "Not Found"
+  heading: "404 Not Found"
+  description: "お探しのページは存在しません。"
+
 header:
   login:
     button: "ログイン"

@@ -36,7 +36,7 @@ const ModalPortal: React.FC<{
         </div>
       )}
     </div>,
-    document.getElementById("__next")!
+    document.querySelector("body")!
   )
 }
 

@@ -6,36 +6,38 @@ import {
   MicRegular,
   MusicNote2Regular,
   TagRegular,
-} from "@fluentui/react-icons"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useState, useEffect, forwardRef } from "react"
-import { className, getRatingColor, randomize } from "../lib/utils"
-import OptionalImage from "./OptionalImage"
+} from "@fluentui/react-icons";
+import { Link, useNavigation } from "@remix-run/react";
+import clsx from "clsx";
+import { forwardRef, useEffect, useState } from "react";
+import type { Chart } from "~/lib/types";
+import { getRatingColor, randomize } from "~/lib/utils.ts";
+import OptionalImage from "./OptionalImage.tsx";
 
-type Props = { data?: Chart; spacer?: boolean }
+type Props = { data?: Chart; spacer?: boolean };
 
 const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
   { data, spacer },
-  ref
+  ref,
 ) {
-  const [random, setRandom] = useState(0)
-  const router = useRouter()
+  const [random, setRandom] = useState(0);
+  const navigate = useNavigation();
+
   useEffect(() => {
-    setRandom(Math.random())
-  }, [])
+    setRandom(Math.random());
+  }, []);
   if (spacer) {
-    return <div className="p-2 h-0 w-[480px]" ref={ref} />
+    return <div className="p-2 h-0 w-[480px]" ref={ref} />;
   }
   const retvar = (
     <div
-      className={className(
+      className={clsx(
         "p-2 h-40 md:h-48 w-[480px] max-w-[calc(100vw_-_2rem)] shadow-sm rounded-xl flex relative",
         "dark:shadow-slate-700/25",
         data?.visibility === "public"
           ? "bg-slate-100 dark:bg-slate-900"
           : "bg-slate-200 dark:bg-gray-900",
-        data && "transition-shadow duration-200 hover:shadow-theme/50"
+        data && "transition-shadow duration-200 hover:shadow-theme/50",
       )}
       ref={ref}
     >
@@ -50,9 +52,9 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
       {data ? (
         <>
           <div
-            className={className(
+            className={clsx(
               "absolute text-xs top-2 left-2 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white",
-              getRatingColor(data.rating)
+              getRatingColor(data.rating),
             )}
           >
             Lv. {data.rating}
@@ -103,7 +105,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
               )}
             </p>
             <Link
-              href={`/users/${data.author.handle}`}
+              to={`/users/${data.author.handle}`}
               onClick={(e) => e.stopPropagation()}
             >
               <p className="text-xs hover:text-blue-400 transition-colors duration-200">
@@ -147,19 +149,19 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
         </>
       )}
     </div>
-  )
+  );
   if (data) {
     return (
       <div
         className="text-normal cursor-pointer"
-        onClick={() => router.push(`/charts/${data.name}`)}
+        onClick={() => navigate(`/charts/${data.name}`)}
       >
         {retvar}
       </div>
-    )
+    );
   } else {
-    return retvar
+    return retvar;
   }
-})
+});
 
-export default ChartCard
+export default ChartCard;

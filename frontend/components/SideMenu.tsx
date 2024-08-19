@@ -5,17 +5,21 @@ import {
   HeartRegular,
   SignOutRegular,
   TagRegular,
-} from "@fluentui/react-icons"
-import Link from "next/link"
-import router from "next/router"
-import useTranslation from "next-translate/useTranslation"
-import { createElement } from "react"
-import { useSession } from "lib/atom"
+} from "@fluentui/react-icons";
+import clsx from "clsx";
+import { useTranslation } from "react-i18next";
+import { createElement } from "react";
+import { useSession } from "~/lib/contexts.ts";
+import { Link, useNavigate } from "@remix-run/react";
+import i18next from "i18next";
 
 const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
-  const [session, setSession] = useSession()
-  const { t } = useTranslation("menu")
-  if (!session || !session.loggedIn) return null
+  const session = useSession();
+  const { t } = useTranslation("menu");
+
+  const navigate = useNavigate();
+
+  if (!session || !session.loggedIn) return null;
 
   return (
     <div
@@ -26,7 +30,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
         className="absolute right-2 top-2 min-w-64 h-[calc(100svh_-_16px)] bg-white dark:bg-slate-900 shadow-lg rounded-lg p-4 flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <Link href={`/users/${session.user.handle}`} onClick={close}>
+        <Link to={`/users/${session.user.handle}`} onClick={close}>
           <div className="flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer">
             <div
               className="rounded-full w-10 h-10 mr-2"
@@ -48,7 +52,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
               text: t("post"),
               icon: DocumentAddRegular,
 
-              href: `/charts/upload`,
+              href: "/charts/upload",
             },
             {
               type: "line",
@@ -59,14 +63,14 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
               text: t("my"),
               icon: DocumentBriefcaseRegular,
 
-              href: `/charts/my`,
+              href: "/charts/my",
             },
             {
               type: "button",
               text: t("liked"),
               icon: HeartRegular,
 
-              href: `/charts/liked`,
+              href: "/charts/liked",
             },
             {
               type: "line",
@@ -87,7 +91,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
               icon: DocumentTextRegular,
 
               href: `https://cc-wiki.sevenc7c.com/${
-                router.locale || "en"
+                i18next.language
               }/guideline`,
             },
             {
@@ -100,10 +104,9 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
               className: "text-red-400",
 
               onClick: () => {
-                setSession({ loggedIn: false })
                 fetch("/api/login/session", { method: "delete" }).then(() => {
-                  router.push("/")
-                })
+                  navigate("/");
+                });
               },
             },
           ].map((item, i) => {
@@ -114,27 +117,27 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                     className="w-full h-[1px] my-2 bg-slate-100 dark:bg-slate-800"
                     key={i}
                   />
-                )
+                );
               case "space":
-                return <div className="min-h-4 flex-grow" key={i} />
+                return <div className="min-h-4 flex-grow" key={i} />;
               case "button":
                 return (
                   <div
-                    className={
-                      "flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer " +
-                      item.className
-                    }
+                    className={clsx(
+                      "flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer",
+                      item.className,
+                    )}
                     onClick={() => {
                       if (item.href) {
                         if (item.href.startsWith("http")) {
-                          window.open(item.href, "_blank")
+                          window.open(item.href, "_blank");
                         } else {
-                          router.push(item.href)
+													navigate(item.href);
                         }
                       } else {
-                        item.onClick?.()
+                        item.onClick?.();
                       }
-                      close()
+                      close();
                     }}
                     key={i}
                     role="button"
@@ -148,15 +151,15 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                     )}
                     <div className="text-lg">{item.text}</div>
                   </div>
-                )
+                );
               default:
-                throw new Error(`Unknown item type: ${item.type}`)
+                throw new Error(`Unknown item type: ${item.type}`);
             }
           })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SideMenu
+export default SideMenu;

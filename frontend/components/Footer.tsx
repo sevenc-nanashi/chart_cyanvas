@@ -1,19 +1,19 @@
-import { className } from "lib/utils"
+import clsx from "clsx";
 
 const Footer = () => {
   return (
     <>
       <footer
-        className={className(
+        className={clsx(
           "bg-slate-300 dark:bg-slate-600 flex items-center h-20 align-center justify-center text-white dark:text-slate-300 text-sm",
           "flex flex-col md:gap-2",
-          "[&_a]text-blue-500 [&_a]dark:text-theme"
+          "[&_a]text-blue-500 [&_a]dark:text-theme",
         )}
       >
         <div className="flex flex-col md:flex-row md:gap-2 items-center">
           <div>Chart Cyanvas - A sekai custom chart platform.</div>
           <div>
-            &copy; 2022-2023,{" "}
+            &copy; 2022-2024,{" "}
             <a target="_blank" rel="noreferrer" href="https://sevenc7c.com">
               Nanashi. &lt;sevenc-nanashi&gt;
             </a>
@@ -46,7 +46,7 @@ const Footer = () => {
         </div>
       </footer>
     </>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

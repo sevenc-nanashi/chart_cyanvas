@@ -1,4 +1,4 @@
-import getConfig from "next/config"
+import type {Chart, Session} from "./types"
 
 export const getRatingColor = (difficulty: number) => {
   if (difficulty < 9) return "bg-green-500 dark:bg-green-400"
@@ -10,8 +10,9 @@ export const getRatingColor = (difficulty: number) => {
 }
 
 export const randomize = (base: number, seed: number) => {
+  let result = base
   for (let i = 0; i < seed; i++) {
-    base = Math.sin(base * 10) / 2 + 0.5
+    result = Math.sin(result * 10) / 2 + 0.5
   }
   return base
 }
@@ -35,27 +36,19 @@ export const isAdmin = (session: Session) => {
   return session.user.handle === publicRuntimeConfig.adminHandle
 }
 
-const { publicRuntimeConfig } = getConfig()
-export let host: string
-try {
-  host = new URL(publicRuntimeConfig.host).hostname
-} catch (e) {
-  host = ""
-}
-
 export const parseIntPlus = (base: string) => {
-  return parseInt(
+  return Number.parseInt(
     base.replace(/[０-９]/g, (s) =>
       String.fromCharCode(
-        s.charCodeAt(0) - "０".charCodeAt(0) + "0".charCodeAt(0)
-      )
-    )
+        s.charCodeAt(0) - "０".charCodeAt(0) + "0".charCodeAt(0),
+      ),
+    ),
   )
 }
 
 export const parseIntOrFallback = (base: string, fallback: number) => {
   const retvar = parseIntPlus(base)
-  if (isNaN(retvar)) return fallback
+  if (Number.isNaN(retvar)) return fallback
   return retvar
 }
 

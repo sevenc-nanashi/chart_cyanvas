@@ -1,69 +1,80 @@
-import { NextPage } from "next"
-import Head from "next/head"
-import useTranslation from "next-translate/useTranslation"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useCallback, useEffect, useState } from "react"
-import requireLogin from "lib/requireLogin"
-import { className } from "lib/utils"
+import { useCallback, useEffect, useState } from "react";
+import { Link, type MetaFunction, json, useNavigate } from "@remix-run/react";
+import requireLogin from "lib/requireLogin";
+import {useTranslation} from "react-i18next";
+import clsx from "clsx";
+import {getFixedT} from "i18next";
+import {LoaderFunctionArgs} from "@remix-run/node";
 
-const Admin: NextPage = () => {
-  const { t } = useTranslation("admin")
-  const { t: rootT } = useTranslation()
-  const router = useRouter()
+export async function loader({ request }: LoaderFunctionArgs) {
+  const rootT = getFixedT(request);
+  const t = getFixedT(request)
+  const title = `${t("title")} | ${rootT("name")}`
+  return json({ title });
+}
+
+// meta
+export const meta: MetaFunction<
+  typeof loader
+> = ({ data }) => {
+  // metaは翻訳されたものをセットするだけ
+  return { title: data.title };
+};
+
+const Admin = () => {
+  const { t } = useTranslation("admin");
+  const { t: rootT } = useTranslation();
+  const navigate = useNavigate();
 
   const fetchAdmin = useCallback(() => {
     fetch("/api/admin").then(async (res) => {
-      const json = await res.json()
+      const json = await res.json();
       if (json.code === "forbidden") {
-        router.push("/")
+        navigate("/");
       }
 
-      setData(json.data)
-    })
-  }, [router])
+      setData(json.data);
+    });
+  }, [navigate]);
   useEffect(() => {
-    fetchAdmin()
-    const interval = setInterval(fetchAdmin, 10000)
-    return () => clearInterval(interval)
-  }, [fetchAdmin])
+    fetchAdmin();
+    const interval = setInterval(fetchAdmin, 10000);
+    return () => clearInterval(interval);
+  }, [fetchAdmin]);
 
   const [data, setData] = useState<{
     stats: {
       charts: {
-        public: number
-        private: number
-      }
+        public: number;
+        private: number;
+      };
 
       users: {
-        original: number
-        alt: number
-        discord: number
-      }
-      files: Record<string, number>
+        original: number;
+        alt: number;
+        discord: number;
+      };
+      files: Record<string, number>;
       db: {
-        size: number
-        connections: number
-        busy: number
-        dead: number
-        idle: number
-        waiting: number
-        checkout_timeout: number
-      }
-    }
-  } | null>(null)
+        size: number;
+        connections: number;
+        busy: number;
+        dead: number;
+        idle: number;
+        waiting: number;
+        checkout_timeout: number;
+      };
+    };
+  } | null>(null);
 
-  const card = "bg-slate-100 dark:bg-slate-800 rounded-md p-4"
-  const statCard = className(card, "w-full md:w-80")
-  const actionCard = className(card, "w-full")
+  const card = "bg-slate-100 dark:bg-slate-800 rounded-md p-4";
+  const statCard = clsx(card, "w-full md:w-80");
+  const actionCard = clsx(card, "w-full");
 
-  if (!data) return null
+  if (!data) return null;
 
   return (
     <>
-      <Head>
-        <title>{t("title") + " | " + rootT("name")}</title>
-      </Head>
       <div>
         <h1 className="text-2xl font-bold">{t("title")}</h1>
         <div className="flex flex-col md:flex-row md:flex-wrap gap-4">
@@ -128,7 +139,7 @@ const Admin: NextPage = () => {
           <div className={statCard}>
             <h2 className="text-xl font-bold">{t("sidekiq.title")}</h2>
             <p className="text-md">
-              <Link href="/admin/sidekiq" target="_blank">
+              <Link to="/admin/sidekiq" target="_blank">
                 {t("sidekiq.description")}
               </Link>
             </p>
@@ -148,8 +159,8 @@ const Admin: NextPage = () => {
                   data: { count },
                 } = await fetch("/api/admin/expire-data", {
                   method: "POST",
-                }).then((res) => res.json())
-                alert(t("actions.expireData.success", { count }))
+                }).then((res) => res.json());
+                alert(t("actions.expireData.success", { count }));
               }}
             >
               {t("actions.expireData.button")}
@@ -158,7 +169,7 @@ const Admin: NextPage = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default requireLogin(Admin)
+export default requireLogin(Admin);

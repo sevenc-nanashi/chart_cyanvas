@@ -1,19 +1,20 @@
+@import "@acab/reset.css";
 @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
+body {
   @apply font-sans;
 }
 
 a {
-  @apply text-blue-500;
+  @apply text-blue-500 no-underline;
 }
 
-p > a,
-li > a,
-.text > a {
+p>a,
+li>a,
+.text>a {
   @apply text-blue-500 underline;
 }
 
@@ -28,6 +29,7 @@ li > a,
 .bg-input {
   @apply bg-white dark:bg-slate-900;
 }
+
 input,
 textarea {
   @extend .bg-input;
@@ -54,19 +56,23 @@ textarea {
 .tag-input {
   .react-tags-wrapper {
     @extend .text-input;
+
     .ReactTags__selected {
       @apply flex flex-wrap gap-1;
     }
 
     .tag-wrapper {
       @apply bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white px-1 py-[2px] rounded;
+
       button {
         @apply outline-none ml-1;
       }
     }
+
     .ReactTags__tagInput {
       @apply flex-grow;
     }
+
     .ReactTags__tagInputField {
       @apply bg-transparent outline-none w-full py-[2px] border-b border-slate-300 dark:border-slate-700;
     }
@@ -86,6 +92,7 @@ textarea {
   &.disabled {
     @apply opacity-50 cursor-not-allowed;
   }
+
   &:not(:disabled):not(.disabled) {
     @apply cursor-pointer;
   }
@@ -94,6 +101,7 @@ textarea {
 .button-danger {
   @extend .button;
   @apply bg-red-500 text-white bg-opacity-100;
+
   &:not(:disabled) {
     @apply hover:bg-opacity-80 focus:bg-opacity-80;
   }
@@ -102,6 +110,7 @@ textarea {
 .button-primary {
   @extend .button;
   @apply bg-theme text-white bg-opacity-100;
+
   &:not(:disabled):not(.disabled) {
     @apply hover:bg-opacity-80 focus:bg-opacity-80;
   }

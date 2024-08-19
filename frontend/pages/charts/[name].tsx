@@ -11,43 +11,36 @@ import {
   NumberSymbolFilled,
   ArrowTurnLeftDownFilled,
   ArrowDownloadRegular,
-} from "@fluentui/react-icons"
-import { GetServerSideProps, NextPage } from "next"
-import Head from "next/head"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useState, useEffect, useCallback, useRef, createElement } from "react"
-import useTranslation from "next-translate/useTranslation"
-import urlcat from "urlcat"
-import getConfig from "next/config"
-import ChartSection from "components/ChartSection"
-import OptionalImage from "components/OptionalImage"
-import { useSession } from "lib/atom"
-import { getRatingColor, className, isMine, isAdmin } from "lib/utils"
-import ModalPortal from "components/ModalPortal"
-import TextInput from "components/TextInput"
-import InputTitle from "components/InputTitle"
-import Checkbox from "components/Checkbox"
-
-const { serverRuntimeConfig } = getConfig()
+} from "@fluentui/react-icons";
+import { useState, useEffect, useCallback, useRef, createElement } from "react";
+import { useTranslation } from "react-i18next";
+import { pathcat } from "pathcat";
+import ChartSection from "~/components/ChartSection";
+import OptionalImage from "~/components/OptionalImage";
+import { useSession } from "~/lib/contexts";
+import { getRatingColor, className, isMine, isAdmin } from "~/lib/utils";
+import ModalPortal from "~/components/ModalPortal";
+import TextInput from "~/components/TextInput";
+import InputTitle from "~/components/InputTitle";
+import Checkbox from "~/components/Checkbox";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const chartData = await fetch(
-    urlcat(serverRuntimeConfig.backendHost!, "/api/charts/:name", {
+    pathcat("/api/charts/:name", {
       name: context.params!.name,
     }),
     {
       method: "GET",
-    }
+    },
   ).then(async (res) => {
-    const json = await res.json()
+    const json = await res.json();
 
     if (json.code === "ok") {
-      return json.chart
+      return json.chart;
     } else {
-      return null
+      return null;
     }
-  })
+  });
 
   if (!chartData) {
     return {
@@ -55,59 +48,61 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         chartData: null,
       },
       notFound: true,
-    }
+    };
   }
 
   return {
     props: {
       chartData,
     },
-  }
-}
-const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
-  const { t: rootT } = useTranslation()
-  const { t } = useTranslation("chart")
+  };
+};
+const ChartPage = ({ chartData }) => {
+  const { t: rootT } = useTranslation();
+  const { t } = useTranslation("chart");
 
-  const router = useRouter()
-  const [session] = useSession()
-  const { name } = router.query as { name: string }
+  const router = useRouter();
+  const [session] = useSession();
+  const { name } = router.query as { name: string };
 
-  const [sameAuthorCharts, setSameAuthorCharts] = useState<Chart[] | null>(null)
+  const [sameAuthorCharts, setSameAuthorCharts] = useState<Chart[] | null>(
+    null,
+  );
 
-  const isMobile = useRef(true)
-  const [host, setHost] = useState<string>("")
+  const isMobile = useRef(true);
+  const [host, setHost] = useState<string>("");
   useEffect(() => {
-    isMobile.current = window.navigator.maxTouchPoints > 0
-    setHost(window.location.host)
-  }, [])
+    isMobile.current = window.navigator.maxTouchPoints > 0;
+    setHost(window.location.host);
+  }, []);
 
-  const isSameAuthorChartsFinished = useRef(false)
+  const isSameAuthorChartsFinished = useRef(false);
   const fetchSameAuthorCharts = useCallback(async () => {
-    if (!chartData) return
+    if (!chartData) return;
     const res = await fetch(
       urlcat(`/api/charts`, {
         author: chartData.author.handle,
         count: 5,
         offset: sameAuthorCharts?.length || 0,
-      })
-    )
-    const json = await res.json()
+      }),
+    );
+    const json = await res.json();
     if (json.code == "ok") {
-      setSameAuthorCharts((prev) => [...(prev || []), ...json.charts])
+      setSameAuthorCharts((prev) => [...(prev || []), ...json.charts]);
       if (json.charts.length < 5) {
-        isSameAuthorChartsFinished.current = true
+        isSameAuthorChartsFinished.current = true;
       }
     }
-  }, [chartData, sameAuthorCharts])
+  }, [chartData, sameAuthorCharts]);
 
   useEffect(() => {
-    setSameAuthorCharts(null)
-    isSameAuthorChartsFinished.current = false
-  }, [name, router])
+    setSameAuthorCharts(null);
+    isSameAuthorChartsFinished.current = false;
+  }, [name, router]);
 
-  const [showDeletionModal, setShowDeletionModal] = useState(false)
+  const [showDeletionModal, setShowDeletionModal] = useState(false);
 
-  const [warnAuthor, setWarnAuthor] = useState(false)
+  const [warnAuthor, setWarnAuthor] = useState(false);
 
   const sendDeleteRequest = useCallback(async () => {
     if (isAdmin(session)) {
@@ -125,12 +120,12 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
             warn: warnAuthor,
             reason: (
               document.querySelector(
-                "[data-name=warnReason]"
+                "[data-name=warnReason]",
               ) as HTMLInputElement
             ).value,
           }),
-        }
-      )
+        },
+      );
     } else {
       await fetch(
         urlcat(`/api/charts/:name`, {
@@ -138,25 +133,25 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
         }),
         {
           method: "DELETE",
-        }
-      )
+        },
+      );
     }
-    router.push("/charts/my")
-  }, [name, router, session, warnAuthor])
+    router.push("/charts/my");
+  }, [name, router, session, warnAuthor]);
 
-  const doesUserOwn = isMine(session, chartData) || isAdmin(session)
-  const adminDecoration = isAdmin(session) ? rootT("adminDecorate") : ""
+  const doesUserOwn = isMine(session, chartData) || isAdmin(session);
+  const adminDecoration = isAdmin(session) ? rootT("adminDecorate") : "";
 
-  let wrappedDescription: string
+  let wrappedDescription: string;
   if (chartData.description.split(/\n/g).length > 3) {
     wrappedDescription =
       chartData.description
         .split(/\n/g)
         .splice(0, 3)
         .join("\n")
-        .substring(0, 100) + "\n..."
+        .substring(0, 100) + "\n...";
   } else {
-    wrappedDescription = chartData.description
+    wrappedDescription = chartData.description;
   }
 
   return (
@@ -231,17 +226,17 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
           <div
             className="px-4 py-2 rounded text-sm border-2 border-slate-500 dark:border-white text-normal cursor-pointer"
             onClick={() => {
-              setShowDeletionModal(false)
+              setShowDeletionModal(false);
             }}
           >
             {rootT("cancel")}
           </div>
           <div
             className={className(
-              "px-4 py-2 rounded text-sm bg-red-500 text-white cursor-pointer"
+              "px-4 py-2 rounded text-sm bg-red-500 text-white cursor-pointer",
             )}
             onClick={() => {
-              sendDeleteRequest()
+              sendDeleteRequest();
             }}
           >
             {t("deletionModal.ok")}
@@ -263,7 +258,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
             <h1
               className={className(
                 "text-4xl font-bold break-words",
-                !!chartData.data || "text-yellow-700"
+                !!chartData.data || "text-yellow-700",
               )}
             >
               {chartData.title}
@@ -353,8 +348,8 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
             <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">
               {[
                 (item: {
-                  icon: React.FC<{ className: string }>
-                  text: string
+                  icon: React.FC<{ className: string }>;
+                  text: string;
                 }) => (
                   <>
                     {createElement(item.icon, {
@@ -379,20 +374,20 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                           icon: DeleteRegular,
                           className: "bg-red-500 text-white",
                           onClick: () => {
-                            setShowDeletionModal(true)
+                            setShowDeletionModal(true);
                           },
                         },
                       ]
                     : chartData.chart
-                    ? [
-                        {
-                          href: `/api/charts/${name}/download_chart`,
-                          icon: ArrowDownloadRegular,
-                          className: "bg-theme text-white",
-                          text: t("download"),
-                        },
-                      ]
-                    : []),
+                      ? [
+                          {
+                            href: `/api/charts/${name}/download_chart`,
+                            icon: ArrowDownloadRegular,
+                            className: "bg-theme text-white",
+                            text: t("download"),
+                          },
+                        ]
+                      : []),
                   isMobile && {
                     text: rootT("openInSonolus"),
                     icon: OpenRegular,
@@ -408,7 +403,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                         key={i}
                         className={className(
                           "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
-                          item.className
+                          item.className,
                         )}
                         onClick={item.onClick}
                       >
@@ -419,14 +414,14 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
                         key={i}
                         className={className(
                           "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer",
-                          item.className
+                          item.className,
                         )}
                         onClick={item.onClick}
                       >
                         {inner(item)}
                       </div>
-                    )
-                  )
+                    ),
+                  ),
               )}
             </div>
           </div>
@@ -439,7 +434,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
               items: chartData?.variants || null,
               isFinished: true,
               fetchMore: async () => {
-                null
+                null;
               },
               itemsCountPerPage: 0,
             },
@@ -454,7 +449,7 @@ const ChartPage: NextPage<{ chartData: Chart }> = ({ chartData }) => {
         />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ChartPage
+export default ChartPage;

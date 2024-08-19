@@ -3,7 +3,7 @@ import {
   CheckboxUncheckedRegular,
 } from "@fluentui/react-icons"
 import { useRef } from "react"
-import { className } from "lib/utils"
+import { clsx } from "clsx"
 
 const Checkbox: React.FC<
   Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> & {
@@ -25,12 +25,12 @@ const Checkbox: React.FC<
 
   return (
     <label
-      className={className(
+      className={clsx(
         "flex text-normal gap-2",
         labelClass,
         ref.current?.disabled
           ? "cursor-not-allowed text-slate-400"
-          : "cursor-pointer"
+          : "cursor-pointer",
       )}
     >
       <input
@@ -45,10 +45,10 @@ const Checkbox: React.FC<
         data-name={props.name}
       />
       {checked ? (
-        <CheckboxCheckedFilled className={className("text-theme", sizeClass)} />
+        <CheckboxCheckedFilled className={clsx("text-theme", sizeClass)} />
       ) : (
         <CheckboxUncheckedRegular
-          className={className("text-slate-500", sizeClass)}
+          className={clsx("text-slate-500", sizeClass)}
         />
       )}
       {label}
