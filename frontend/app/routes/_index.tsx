@@ -1,19 +1,32 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation, Trans } from "react-i18next";
-import { pathcat } from "pathcat";
+import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { Chart } from "~/lib/types";
-import ChartCard from "~/components/ChartCard";
-import { type LoaderFunction, json } from "@remix-run/node";
-import { i18n } from "~/lib/i18n";
+import { pathcat } from "pathcat";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { useChangeLanguage } from "remix-i18next/react";
+import ChartCard from "~/components/ChartCard";
+import { detectLocale, i18n } from "~/lib/i18n.server.ts";
+import type { Chart } from "~/lib/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const locale = await i18n.getLocale(request);
-  return json({ locale });
+  const locale = await detectLocale(request);
+  const rootT = await i18n.getFixedT(locale, "root");
+
+  const title = rootT("name");
+
+  return json({ locale, title });
 };
+
 export const handle = {
   i18n: "home",
+};
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    {
+      title: data.title,
+    },
+  ];
 };
 
 export const Home = () => {
@@ -21,9 +34,7 @@ export const Home = () => {
   useChangeLanguage(locale);
 
   const { t, i18n } = useTranslation("home");
-  const { t: rootT } = useTranslation();
   const [newCharts, setNewCharts] = useState<Chart[]>([]);
-  const [reachedBottom, setReachedBottom] = useState(false);
 
   const newChartsRef = useRef<HTMLDivElement>(null);
   const isFetching = useRef(false);
@@ -41,9 +52,6 @@ export const Home = () => {
         const data = await res.json();
         if (data.code === "ok") {
           setNewCharts((prev) => [...prev, ...data.charts]);
-          if (data.charts.length < 20) {
-            setReachedBottom(true);
-          }
         }
       })
       .finally(() => {
@@ -73,16 +81,20 @@ export const Home = () => {
         />
       </div>
       <div>
-        <h1 className="text-2xl font-bold">{t("newCharts")}</h1>
+        <h1 className="page-title">{t("newCharts")}</h1>
         <div
           className="flex flex-wrap mt-2 gap-4 justify-center"
           ref={newChartsRef}
         >
-          {newCharts.length > 0 &&
-            newCharts.map((chart) => (
-              <ChartCard key={chart.name} data={chart} />
-            ))}
-          {[...Array(20)].map((_, i) => (
+          {newCharts.length > 0
+            ? newCharts.map((chart) => (
+                <ChartCard key={chart.name} data={chart} />
+              ))
+            : new Array(20)
+                .fill(undefined)
+                .map((_, i) => <ChartCard data={undefined} key={i} />)}
+
+          {new Array(20).fill(undefined).map((_, i) => (
             <ChartCard spacer key={i} />
           ))}
         </div>

@@ -17,3 +17,8 @@ const parseTranslations: (
 
 export const jaTranslation = parseTranslations(jaTranslations);
 export const enTranslation = parseTranslations(enTranslations);
+
+export const languages = {
+  supportedLanguages: ["ja", "en"],
+  fallbackLanguage: "en",
+};

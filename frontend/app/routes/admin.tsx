@@ -1,29 +1,35 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, type MetaFunction, json, useNavigate } from "@remix-run/react";
-import requireLogin from "lib/requireLogin";
-import {useTranslation} from "react-i18next";
+import { Link, type MetaFunction, useNavigate } from "@remix-run/react";
+import requireLogin from "~/lib/requireLogin.tsx";
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import {getFixedT} from "i18next";
-import {LoaderFunctionArgs} from "@remix-run/node";
+import { detectLocale, i18n } from "~/lib/i18n.server.ts";
+import { type LoaderFunction, json } from "@remix-run/node";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const rootT = getFixedT(request);
-  const t = getFixedT(request)
-  const title = `${t("title")} | ${rootT("name")}`
-  return json({ title });
-}
+export const loader: LoaderFunction = async ({ request }) => {
+  const locale = await detectLocale(request);
+  const rootT = await i18n.getFixedT(locale, "root");
+  const t = await i18n.getFixedT(locale, "admin");
 
-// meta
-export const meta: MetaFunction<
-  typeof loader
-> = ({ data }) => {
-  // metaは翻訳されたものをセットするだけ
-  return { title: data.title };
+  const title = `${t("title")} | ${rootT("name")}`;
+
+  return json({ locale, title });
+};
+
+export const handle = {
+  i18n: "admin",
+};
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    {
+      title: data.title,
+    },
+  ];
 };
 
 const Admin = () => {
   const { t } = useTranslation("admin");
-  const { t: rootT } = useTranslation();
   const navigate = useNavigate();
 
   const fetchAdmin = useCallback(() => {
@@ -76,7 +82,7 @@ const Admin = () => {
   return (
     <>
       <div>
-        <h1 className="text-2xl font-bold">{t("title")}</h1>
+        <h1 className="page-title">{t("title")}</h1>
         <div className="flex flex-col md:flex-row md:flex-wrap gap-4">
           <div className={statCard}>
             <h2 className="text-xl font-bold">{t("stats.users.title")}</h2>

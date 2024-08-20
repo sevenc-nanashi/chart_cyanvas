@@ -105,7 +105,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
 
               onClick: () => {
                 fetch("/api/login/session", { method: "delete" }).then(() => {
-                  navigate("/");
+                  window.location.href = "/";
                 });
               },
             },
@@ -132,7 +132,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                         if (item.href.startsWith("http")) {
                           window.open(item.href, "_blank");
                         } else {
-													navigate(item.href);
+                          navigate(item.href);
                         }
                       } else {
                         item.onClick?.();

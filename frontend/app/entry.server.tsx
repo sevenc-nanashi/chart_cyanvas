@@ -1,15 +1,15 @@
+import { PassThrough } from "node:stream";
 import {
   type EntryContext,
   createReadableStreamFromReadable,
 } from "@remix-run/node";
-import { createInstance } from "i18next";
-import { renderToPipeableStream } from "react-dom/server";
-import { PassThrough } from "node:stream";
-import { I18nextProvider, initReactI18next } from "react-i18next";
-import { i18n } from "~/lib/i18n";
-import { enTranslation, jaTranslation } from "~/lib/translations";
 import { RemixServer } from "@remix-run/react";
+import { createInstance } from "i18next";
 import { isbot } from "isbot";
+import { renderToPipeableStream } from "react-dom/server";
+import { I18nextProvider, initReactI18next } from "react-i18next";
+import { i18n } from "~/lib/i18n.server.ts";
+import { enTranslation, jaTranslation } from "~/lib/translations";
 
 const ABORT_DELAY = 5000;
 

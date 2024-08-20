@@ -3,7 +3,7 @@ import i18next from "i18next";
 import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
-import { enTranslation, jaTranslation } from "~/lib/translations";
+import { enTranslation, jaTranslation, languages } from "~/lib/translations";
 import languageDetector from "i18next-browser-languagedetector";
 
 i18next
@@ -14,7 +14,8 @@ i18next
       ja: jaTranslation,
       en: enTranslation,
     },
-    fallbackLng: "en",
+    supportedLngs: languages.supportedLanguages,
+    fallbackLng: languages.fallbackLanguage,
     defaultNS: "root",
 
     interpolation: {

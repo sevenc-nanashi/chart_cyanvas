@@ -6,13 +6,10 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import favicon from "~/assets/favicon.svg?url";
 import Footer from "~/components/Footer.tsx";
 import Header from "~/components/Header.tsx";
-import enTranslation from "~/i18n/en.yml";
-import jaTranslation from "~/i18n/ja.yml";
 import { SessionContext } from "~/lib/contexts";
 import styles from "~/styles/globals.scss?url";
 import { useEffect, useState } from "react";

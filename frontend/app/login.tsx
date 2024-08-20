@@ -1,36 +1,36 @@
-import type { NextPage } from "next"
+import type { NextPage } from "next";
 
-import Head from "next/head"
-import useTranslation from "next-translate/useTranslation"
+import Head from "next/head";
+import useTranslation from "next-translate/useTranslation";
 
-import Trans from "next-translate/Trans"
-import Link from "next/link"
-import { useEffect, useRef } from "react"
-import { useLogin } from "lib/useLogin"
+import Trans from "next-translate/Trans";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { useLogin } from "lib/useLogin";
 
 const Login: NextPage = () => {
-  const { t } = useTranslation("login")
-  const { t: rootT } = useTranslation()
+  const { t } = useTranslation("login");
+  const { t: rootT } = useTranslation();
 
   const { loginState, startLogin } = useLogin({
     onLoginSuccess: () => {
-      const params = new URLSearchParams(window.location.search)
-      window.location.href = params.get("to") || "/"
+      const params = new URLSearchParams(window.location.search);
+      window.location.href = params.get("to") || "/";
     },
-  })
+  });
 
-  const loginStarted = useRef(false)
+  const loginStarted = useRef(false);
   useEffect(() => {
     if (!loginStarted.current) {
-      loginStarted.current = true
-      startLogin()
+      loginStarted.current = true;
+      startLogin();
     }
-  }, [startLogin])
+  }, [startLogin]);
 
   return (
     <div className="flex flex-col gap-2">
       <Head>
-        <title>{t("title") + " | " + rootT("name")}</title>
+        <title>{`${t("title")} | ${rootT("name")}`}</title>
       </Head>
       <div>
         <h1 className="text-2xl font-bold mb-2">{t("title")}</h1>
@@ -43,7 +43,7 @@ const Login: NextPage = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

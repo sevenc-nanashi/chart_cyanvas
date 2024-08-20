@@ -6,6 +6,12 @@
 
 body {
   @apply font-sans;
+
+  --global-theme-text: theme("colors.themeDark");
+
+  @media (prefers-color-scheme: dark) {
+    --global-theme-text: theme("colors.theme");
+  }
 }
 
 a {
@@ -16,6 +22,11 @@ p>a,
 li>a,
 .text>a {
   @apply text-blue-500 underline;
+}
+
+.page-title {
+  @apply text-2xl font-bold mb-2 drop-shadow-sm text-themeText;
+  border-bottom: 1px solid var(--global-theme-text);
 }
 
 .square {

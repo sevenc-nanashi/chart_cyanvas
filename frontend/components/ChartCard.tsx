@@ -7,7 +7,7 @@ import {
   MusicNote2Regular,
   TagRegular,
 } from "@fluentui/react-icons";
-import { Link, useNavigation } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { forwardRef, useEffect, useState } from "react";
 import type { Chart } from "~/lib/types";
@@ -21,7 +21,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
   ref,
 ) {
   const [random, setRandom] = useState(0);
-  const navigate = useNavigation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setRandom(Math.random());

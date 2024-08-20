@@ -22,7 +22,7 @@ header:
     description: |
       Log in with your Sonolus account.<br/>
       This page will be refreshed automatically after logging in.<br/>
-      Didn't get a popup? <link>Click here</link>.
+      Didn't get a popup? <0>Click here.</0>
 home:
   newCharts: "New charts"
   welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."

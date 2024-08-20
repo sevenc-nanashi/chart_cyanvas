@@ -23,6 +23,9 @@ const config: Config = {
     extend: {
       colors: {
         theme: "#83ccd2",
+        themeText: "var(--global-theme-text)",
+        themeDark: "#2ac3d1",
+
       },
     },
   },

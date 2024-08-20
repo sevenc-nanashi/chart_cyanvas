@@ -58,13 +58,15 @@ const Header = () => {
         <h1 className="text-xl font-bold mb-2">{t("login.title")}</h1>
         <p className="whitespace-pre-wrap">
           <Trans
-            i18nKey="header:login.description"
-            components={{
-              link: (
-                <a href={loginState?.url?.toString() || ""} target="_blank" />
-              ),
-              br: <br />,
-            }}
+            ns="header"
+            i18nKey="login.description"
+            components={[
+              <a
+                key={0}
+                href={loginState?.url?.toString() || ""}
+                target="_blank"
+              />,
+            ]}
           />
         </p>
       </ModalPortal>
