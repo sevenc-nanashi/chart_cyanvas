@@ -130,7 +130,7 @@ const UserPage = () => {
           <div className="flex flex-col flex-grow max-w-[calc(100%_-_128px)]">
             {userData ? (
               <>
-                <h1 className="text-4xl font-bold">
+                <h1 className="page-title-larger mr-2">
                   {userData.name}
                   <span className="text-xl">#{userData.handle}</span>
                 </h1>

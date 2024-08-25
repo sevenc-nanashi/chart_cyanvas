@@ -237,7 +237,7 @@ const ChartPage = () => {
             )}
             <h1
               className={clsx(
-                "text-4xl font-bold break-words",
+                "page-title-larger break-words mr-2",
                 !!chartData.data || "text-yellow-700",
               )}
             >
