@@ -497,6 +497,7 @@ const UploadChart: NextPage<
     useState(false),
     useState(false),
     useState(false),
+    useState(false),
   ]
   const isAllPublicConfirmsChecked = publishConfirms.every(([value]) => value)
 
