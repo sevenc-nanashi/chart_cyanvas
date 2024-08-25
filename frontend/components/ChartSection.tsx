@@ -8,7 +8,6 @@ const ChartSection: React.FC<{
   sections: {
     title: string;
     items: Chart[];
-    hasMore: boolean;
     listUrl?: string | undefined;
   }[];
 }> = ({ sections }) => {

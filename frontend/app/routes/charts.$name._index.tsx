@@ -2,7 +2,6 @@ import {
   ArrowDownloadRegular,
   ArrowTurnDownRightFilled,
   ArrowTurnLeftDownFilled,
-  ArrowTurnRightFilled,
   ClockRegular,
   DeleteRegular,
   EditRegular,
@@ -34,7 +33,7 @@ import { useServerSettings, useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types.ts";
 import { getRatingColor, isAdmin, isMine } from "~/lib/utils.ts";
-import { backendUrl } from "~/lib/config.server.ts";
+import { backendUrl, host } from "~/lib/config.server.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -69,7 +68,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return json({
     chartData,
     title,
-    host: process.env.HOST!,
+    host,
   });
 };
 export const handle = {
@@ -416,12 +415,10 @@ const ChartPage = () => {
             {
               title: t("variants"),
               items: chartData?.variants || null,
-              hasMore: false,
             },
             {
               title: t("sameAuthor"),
               items: chartData?.variants || null,
-              hasMore: false,
               listUrl: pathcat("/users/:handle", {
                 handle: chartData?.author.handle,
               }),
