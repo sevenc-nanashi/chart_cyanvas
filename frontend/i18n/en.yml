@@ -2,6 +2,8 @@ name: "Chart Cyanvas"
 close: "Close"
 cancel: "Cancel"
 backToHome: "Return to top page"
+separator: ", "
+brackets: " ({{content}})"
 
 serverError: "An error occurred on the server!"
 serverErrorNote: "Please let us know <0>on our Discord server</0>."
@@ -131,7 +133,7 @@ upload:
   optional: " (optional)"
   dropHere: "Drop to upload"
   unUploadedFiles: "Some files were not uploaded."
-  unUploadedFilesNote: "Supported files: .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif"
+  unUploadedFilesNote: "Supported files: .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
 
   filesTooLarge: Files are too large
   filesTooLargeNote: "The sum of the file sizes must be less than 20MB."

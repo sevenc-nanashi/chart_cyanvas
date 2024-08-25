@@ -6,6 +6,7 @@ import {
   type LoaderFunctionArgs,
 } from "@remix-run/node";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
+import { useTranslation } from "react-i18next";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -30,6 +31,13 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 function UploadChart() {
-  return <ChartForm isEdit={false} />;
+  const { t } = useTranslation("upload");
+  return (
+    <>
+      <h1 className="page-title">{t("title")}</h1>
+
+      <ChartForm isEdit={false} />
+    </>
+  );
 }
 export default requireLogin(UploadChart);

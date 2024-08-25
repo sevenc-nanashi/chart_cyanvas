@@ -13,6 +13,7 @@
   "dependencies": {
     "@acab/reset.css": "^0.10.0",
     "@fluentui/react-icons": "2.0.253",
+    "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@remix-run/node": "^2.11.2",
@@ -29,12 +30,12 @@
     "isbot": "^4.4.0",
     "pathcat": "^1.3.2",
     "react": "^18.3.1",
+    "react-dnd": "^14.0.2",
+    "react-dnd-html5-backend": "^14.0.2",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.0.1",
     "react-range": "^1.10.0",
     "react-tag-input": "^6.10.3",
-    "react-dnd": "^14.0.2",
-    "react-dnd-html5-backend": "^14.0.2",
     "remix-i18next": "^6.3.0"
   },
   "devDependencies": {

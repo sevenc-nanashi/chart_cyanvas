@@ -384,7 +384,9 @@ const ChartForm: React.FC<
         field = "chart";
       } else if (["mp3", "wav", "ogg"].includes(file.name.split(".").pop()!)) {
         field = "bgm";
-      } else if (["jpg", "jpeg", "png"].includes(file.name.split(".").pop()!)) {
+      } else if (
+        ["jpg", "jpeg", "png", "webp"].includes(file.name.split(".").pop()!)
+      ) {
         field = "cover";
       } else {
         unUploaded.push(file);
@@ -484,8 +486,8 @@ const ChartForm: React.FC<
             </div>
           ))}
           <Checkbox
-            onChange={(e) => {
-              setIsChartPublic(e.target.checked);
+            onChange={(checked) => {
+              setIsChartPublic(checked);
             }}
             label={t("isChartPublic")}
             checked={isChartPublic}
@@ -513,9 +515,9 @@ const ChartForm: React.FC<
           <Checkbox
             label={t(`publishModal.check${i}`)}
             checked={checked}
-            onChange={(e) => {
+            onChange={(checked) => {
               const newConfirms = [...publishConfirms];
-              newConfirms[i] = e.target.checked;
+              newConfirms[i] = checked;
               setPublishConfirms(newConfirms);
             }}
             size="sm"
@@ -559,21 +561,7 @@ const ChartForm: React.FC<
         </div>
       </ModalPortal>
 
-      <h1 className="page-title">
-        {isEdit ? (
-          <>
-            {t("titleEdit", { title: chartData.title })}
-            {chartData.visibility === "public" || (
-              <span className="ml-2 text-slate-900 dark:text-white">
-                <LockClosedRegular />
-              </span>
-            )}
-          </>
-        ) : (
-          t("title")
-        )}
-      </h1>
-      <p className="mb-4 whitespace-pre">
+      <p className="mb-4">
         <budoux-ja>
           <Trans
             i18nKey="upload:description"
@@ -587,6 +575,7 @@ const ChartForm: React.FC<
           />
           {serverSettings.discordEnabled && (
             <>
+              <br />
               <br />
               {t("discordInfo.description")}
               <br />
@@ -625,6 +614,7 @@ const ChartForm: React.FC<
             text={t("param.cover")}
             icon={<ImageRegular />}
             error={errors.cover}
+            extensions={["jpg", "png", "webp"]}
           />
           <FileUploadButton
             accept="audio/*,.mp3,.wav,.ogg"
@@ -632,6 +622,7 @@ const ChartForm: React.FC<
             text={t("param.bgm")}
             icon={<MusicNote2Regular />}
             error={errors.bgm}
+            extensions={["mp3", "wav", "ogg"]}
           />
           <FileUploadButton
             accept=".sus,.usc,.json"
@@ -639,6 +630,7 @@ const ChartForm: React.FC<
             text={t("param.chart")}
             icon={<DocumentRegular />}
             error={errors.chart}
+            extensions={["usc", "sus"]}
           />
         </div>
         <div className="items-middle pt-2 hidden lg:flex">
@@ -753,7 +745,7 @@ const ChartForm: React.FC<
                 data-reached-max={tags.length >= 5}
               >
                 <ReactTags
-                  tags={tags.map((tag) => ({ className: "", ...tag }))}
+                  tags={tags.map((tag) => ({ className: "", text: tag.text }))}
                   allowDragDrop={false}
                   placeholder=""
                   separators={[" ", ","]}

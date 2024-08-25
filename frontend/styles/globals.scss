@@ -13,9 +13,13 @@ body {
   @apply font-sans;
 
   --global-theme-text: theme("colors.themeDark");
+  --global-background: theme("colors.white");
+  --global-input-border: theme("colors.slate.300");
 
   @media (prefers-color-scheme: dark) {
     --global-theme-text: theme("colors.theme");
+    --global-background: theme("colors.slate.800");
+    --global-input-border: theme("colors.slate.700");
   }
 }
 
@@ -55,9 +59,14 @@ textarea {
   @extend .bg-input;
 }
 
+.input-border {
+  @apply border-2 border-inputBorder focus-within:border-theme focus-within:outline-none rounded;
+}
+
 .text-input {
   @extend .bg-input;
-  @apply text-slate-900 dark:text-white p-2 rounded border-2 border-slate-300 dark:border-slate-700 focus-within:border-theme focus-within:outline-none transition-colors duration-200;
+  @extend .input-border;
+  @apply text-slate-900 dark:text-white p-2 transition-colors duration-200;
 
   &:disabled,
   &.disabled {

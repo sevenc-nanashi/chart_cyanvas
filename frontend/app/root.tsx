@@ -32,8 +32,6 @@ export const loader = async () => {
 };
 
 export const links: LinksFunction = () => {
-  // <link rel="icon" type="image/svg+xml" href={favicon} />
-  // <link rel="stylesheet" href={styles} />
   return [
     { rel: "icon", type: "image/svg+xml", href: favicon },
     { rel: "stylesheet", href: styles },
@@ -91,7 +89,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-white dark:bg-slate-800 text-normal min-h-screen flex flex-col">
+      <body className="bg-background text-normal min-h-screen flex flex-col">
         <SessionContext.Provider value={session}>
           <ServerErrorContext.Provider value={setServerError}>
             <ServerSettingsContext.Provider value={loaderData.serverSettings}>

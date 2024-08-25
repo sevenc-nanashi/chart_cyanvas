@@ -25,6 +25,8 @@ const config: Config = {
         theme: "#83ccd2",
         themeText: "var(--global-theme-text)",
         themeDark: "#2ac3d1",
+        background: "var(--global-background)",
+        inputBorder: "var(--global-input-border)",
       },
     },
   },
