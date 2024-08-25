@@ -1,10 +1,10 @@
-import { LockClosedRegular } from "@fluentui/react-icons";
+import { ArrowLeftFilled, LockClosedRegular } from "@fluentui/react-icons";
 import {
   type LoaderFunctionArgs,
   type MetaFunction,
   json,
 } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
+import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -93,6 +93,9 @@ function EditChart() {
   return (
     <>
       <h1 className="page-title">
+        <Link to={`/charts/${name}`} className="underline text-themeText flex items-center mr-2">
+          <ArrowLeftFilled />
+        </Link>
         {t("titleEdit", { title: chartData.title })}
         {chartData.visibility === "public" || <LockClosedRegular />}
       </h1>

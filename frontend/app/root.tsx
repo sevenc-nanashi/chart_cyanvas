@@ -7,7 +7,7 @@ import {
   json,
   useRouteLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { useTranslation } from "react-i18next";
 import favicon from "~/assets/favicon.svg?url";
 import Footer from "~/components/Footer.tsx";
@@ -21,9 +21,13 @@ import styles from "~/styles/globals.scss?url";
 import { useEffect, useState } from "react";
 import type { ServerSettings, Session } from "~/lib/types";
 import { discordEnabled, host } from "~/lib/config.server.ts";
+import { detectLocale } from "~/lib/i18n.server";
+import { useChangeLanguage } from "remix-i18next/react";
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const locale = await detectLocale(request);
   return json({
+    locale,
     serverSettings: {
       discordEnabled,
       host,
@@ -51,6 +55,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | undefined>(undefined);
   const [serverError, setServerError] = useState<Error | undefined>();
   const { i18n } = useTranslation();
+  if (i18n.language !== loaderData.locale) {
+    i18n.changeLanguage(loaderData.locale);
+  }
   useEffect(() => {
     if (session && session.loggedIn !== undefined) {
       return;
@@ -81,7 +88,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     });
   }, [session]);
   return (
-    <html lang={i18n.language}>
+    <html lang={loaderData.locale}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

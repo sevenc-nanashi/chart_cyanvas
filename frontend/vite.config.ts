@@ -11,7 +11,6 @@ const backendUrl = process.env.HOSTS_BACKEND;
 
 export default defineConfig({
   plugins: [
-    httpsImports(),
     yaml(),
     svgr({}),
     cjsInterop({

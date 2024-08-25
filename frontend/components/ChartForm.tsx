@@ -5,7 +5,6 @@ import {
   DocumentRegular,
   ImageRegular,
   InfoRegular,
-  LockClosedRegular,
   MusicNote2Regular,
 } from "@fluentui/react-icons";
 import { pathcat } from "pathcat";
@@ -57,11 +56,13 @@ const ChartForm: React.FC<
     }
   | {
       isEdit: false;
+      variantOf?: string | undefined;
     }
 > = (props) => {
-  const { isEdit, chartData, chartName, adminOnlyAuthorData } = {
+  const { isEdit, chartData, chartName, variantOf, adminOnlyAuthorData } = {
     chartData: undefined,
     chartName: "",
+    variantOf: undefined,
     adminOnlyAuthorData: undefined,
     ...props,
   };
@@ -732,7 +733,7 @@ const ChartForm: React.FC<
                 monospace
                 optional
                 prefix="#"
-                defaultValue={chartData?.variant}
+                defaultValue={variantOf || chartData?.variant}
               />
             </InputTitle>
             <InputTitle
@@ -745,7 +746,11 @@ const ChartForm: React.FC<
                 data-reached-max={tags.length >= 5}
               >
                 <ReactTags
-                  tags={tags.map((tag) => ({ className: "", text: tag.text }))}
+                  tags={tags.map((tag) => ({
+                    className: "",
+                    text: tag.text,
+                    id: tag.id,
+                  }))}
                   allowDragDrop={false}
                   placeholder=""
                   separators={[" ", ","]}

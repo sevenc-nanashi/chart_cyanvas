@@ -38,7 +38,7 @@ li a,
 }
 
 .page-title {
-  @apply text-2xl font-bold mb-2 drop-shadow-sm text-themeText;
+  @apply text-2xl font-bold mb-2 drop-shadow-sm text-themeText flex items-center;
   border-bottom: 1px solid var(--global-theme-text);
 }
 
@@ -147,7 +147,7 @@ textarea {
 
 .button-secondary {
   @extend .button;
-  @apply text-theme border-2 border-theme bg-theme bg-opacity-0;
+  @apply text-themeText border-2 border-theme bg-theme bg-opacity-0;
 
   &:not(:disabled):not(.disabled) {
     @apply hover:bg-opacity-10 focus:bg-opacity-10;

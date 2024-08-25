@@ -42,6 +42,7 @@ chart:
   sameAuthor: "Charts by the same author"
   edit: "Edit"
   delete: "Delete"
+  createVariant: "Create variant"
   download: "Download chart"
 
   deletionModal:
@@ -68,7 +69,7 @@ liked:
   empty: "You haven't liked any charts yet. "
   description: |
     Charts you liked are listed below.
-    You can like a chart by clicking the heart icon in "Recommended" section in sonolus.
+    You can like a chart by clicking the heart icon in sonolus.
 
 upload:
   title: "Post chart"
@@ -90,7 +91,7 @@ upload:
 
     variant: "Variant of"
     description: "Description"
-    cover: "Cover image"
+    cover: "Jacket image"
     chart: "Chart file"
     bgm: "BGM file"
 

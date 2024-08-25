@@ -1,6 +1,8 @@
 import {
   ArrowDownloadRegular,
+  ArrowTurnDownRightFilled,
   ArrowTurnLeftDownFilled,
+  ArrowTurnRightFilled,
   ClockRegular,
   DeleteRegular,
   EditRegular,
@@ -20,7 +22,7 @@ import {
 import { Link, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
-import { createElement, useCallback, useEffect, useRef, useState } from "react";
+import { createElement, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
 import Checkbox from "~/components/Checkbox";
@@ -173,17 +175,6 @@ const ChartPage = () => {
     (session?.loggedIn && session.user.userType === "admin");
   const adminDecoration = isAdmin(session) ? rootT("adminDecorate") : "";
 
-  let wrappedDescription: string;
-  if (chartData.description.split(/\n/g).length > 3) {
-    wrappedDescription = `${chartData.description
-      .split(/\n/g)
-      .splice(0, 3)
-      .join("\n")
-      .substring(0, 100)}...`;
-  } else {
-    wrappedDescription = chartData.description;
-  }
-
   return (
     <>
       <ModalPortal isOpen={showDeletionModal}>
@@ -195,7 +186,7 @@ const ChartPage = () => {
             <Checkbox
               label={t("deletionModal.warnAuthor")}
               checked={warnAuthor}
-              onChange={(e) => setWarnAuthor(e.target.checked)}
+              onChange={(e) => setWarnAuthor(e)}
             />
             <InputTitle text={t("deletionModal.warnReason")}>
               <TextInput
@@ -352,16 +343,24 @@ const ChartPage = () => {
                     {
                       href: `/charts/${chartName}/edit`,
                       icon: EditRegular,
-                      className: "bg-theme text-white",
+                      className: "button-primary",
                       text: t("edit") + adminDecoration,
                     },
                     {
                       text: t("delete") + adminDecoration,
                       icon: DeleteRegular,
-                      className: "bg-red-500 text-white",
+                      className: "button-danger",
                       onClick: () => {
                         setShowDeletionModal(true);
                       },
+                    },
+                    {
+                      text: t("createVariant"),
+                      icon: ArrowTurnDownRightFilled,
+                      className: "button-secondary",
+                      href: pathcat("/charts/upload", {
+                        variantOf: chartName,
+                      }),
                     },
                   ],
                   chartData.chart && [
@@ -418,6 +417,14 @@ const ChartPage = () => {
               title: t("variants"),
               items: chartData?.variants || null,
               hasMore: false,
+            },
+            {
+              title: t("sameAuthor"),
+              items: chartData?.variants || null,
+              hasMore: false,
+              listUrl: pathcat("/users/:handle", {
+                handle: chartData?.author.handle,
+              }),
             },
           ]}
         />

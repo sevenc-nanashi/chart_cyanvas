@@ -7,6 +7,7 @@ import {
 } from "@remix-run/node";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "@remix-run/react";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -32,11 +33,15 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 function UploadChart() {
   const { t } = useTranslation("upload");
+  const [params] = useSearchParams();
   return (
     <>
       <h1 className="page-title">{t("title")}</h1>
 
-      <ChartForm isEdit={false} />
+      <ChartForm
+        isEdit={false}
+        variantOf={params.get("variantOf") || undefined}
+      />
     </>
   );
 }

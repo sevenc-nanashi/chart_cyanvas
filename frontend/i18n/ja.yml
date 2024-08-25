@@ -41,6 +41,7 @@ chart:
   sameAuthor: "同じ作者の譜面"
   edit: "編集"
   delete: "削除"
+  createVariant: "派生を作成"
   download: "譜面をDL"
 
   deletionModal:
