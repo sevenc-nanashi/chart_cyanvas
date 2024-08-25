@@ -1,8 +1,13 @@
-@import "@acab/reset.css";
+@use "./reset.css";
 @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+}
 
 body {
   @apply font-sans;
@@ -18,9 +23,13 @@ a {
   @apply text-blue-500 no-underline;
 }
 
-p>a,
-li>a,
-.text>a {
+svg {
+  @apply inline-block;
+}
+
+p a,
+li a,
+.text a {
   @apply text-blue-500 underline;
 }
 

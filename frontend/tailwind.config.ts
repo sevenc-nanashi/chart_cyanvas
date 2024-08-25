@@ -25,11 +25,16 @@ const config: Config = {
         theme: "#83ccd2",
         themeText: "var(--global-theme-text)",
         themeDark: "#2ac3d1",
-
       },
     },
   },
-  plugins: [],
+  plugins: [
+    {
+      handler: (plugin) => {
+        plugin.addVariant("starting", "@starting-style");
+      },
+    },
+  ],
 };
 
 export default config;

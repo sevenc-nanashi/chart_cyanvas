@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react"
-import { createPortal } from "react-dom"
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const ModalPortal: React.FC<{
-  children: React.ReactNode
-  isOpen: boolean
-  close?: () => void
+  children: React.ReactNode;
+  isOpen: boolean;
+  close?: () => void;
 }> = ({ children, isOpen, close }) => {
-  const [hide, setHide] = useState(true)
+  const [hide, setHide] = useState(true);
 
   useEffect(() => {
-    setHide(false)
-  }, [])
+    setHide(false);
+  }, []);
 
   if (hide) {
-    return null
+    return null;
   }
 
   return createPortal(
@@ -24,7 +24,7 @@ const ModalPortal: React.FC<{
         opacity: isOpen ? 1 : 0,
       }}
       onClick={() => {
-        close?.()
+        close?.();
       }}
     >
       {isOpen && (
@@ -36,8 +36,8 @@ const ModalPortal: React.FC<{
         </div>
       )}
     </div>,
-    document.querySelector("body")!
-  )
-}
+    document.body,
+  );
+};
 
-export default ModalPortal
+export default ModalPortal;

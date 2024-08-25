@@ -2,7 +2,7 @@ export type Chart = {
   name: string;
   title: string;
   composer: string;
-  artist: string | undefined;
+  artist: string | null;
   author: User;
   authorName: string;
   coAuthors: User[];
@@ -11,16 +11,16 @@ export type Chart = {
   cover: string;
   bgm: string;
   chart: {
-    url: string | undefined;
-    type: "sus" | "mmws" | "chs";
+    url: string | null;
+    type: "sus" | "mmws" | "chs" | "usc";
   };
-  data: string | undefined;
+  data: string | null;
   variants: Chart[];
-  variantOf: Chart | undefined;
+  variantOf: Chart | null;
   tags: string[];
   visibility: "public" | "private" | "scheduled";
   isChartPublic: boolean;
-  scheduledAt: string | undefined;
+  scheduledAt: string | null;
   rating: number;
   description: string;
   likes: number;
@@ -33,9 +33,10 @@ export type User = {
   bgColor: string;
   fgColor: string;
   chartCount: number;
+  userType: "admin" | "user";
 };
 
-export type AdminUser = User & { altUsers: User[] };
+export type AdminOnlyUserData = User & { altUsers: User[] };
 
 export type DiscordInfo = {
   displayName: string;
@@ -51,3 +52,8 @@ export type Session =
       discord: DiscordInfo | undefined;
     }
   | { loggedIn: false };
+
+export type ServerSettings = {
+  discordEnabled: boolean;
+  host: string;
+};

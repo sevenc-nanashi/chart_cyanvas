@@ -5,6 +5,7 @@ import { hydrateRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { enTranslation, jaTranslation, languages } from "~/lib/translations";
 import languageDetector from "i18next-browser-languagedetector";
+import "budoux/module/webcomponents/budoux-ja";
 
 i18next
   .use(initReactI18next) // passes i18n down to react-i18next

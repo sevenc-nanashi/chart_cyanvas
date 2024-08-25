@@ -1,0 +1,1 @@
+import{r as e}from"./context-vN2-4QuS.js";const r=e.createContext(void 0),s=e.createContext(void 0),o=e.createContext(()=>{}),S=()=>e.useContext(r),c=()=>e.useContext(o),a=()=>{const t=e.useContext(s);if(!t)throw new Error("Server settings not found");return t};export{r as S,o as a,s as b,a as c,c as d,S as u};

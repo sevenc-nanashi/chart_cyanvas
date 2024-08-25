@@ -1,33 +1,49 @@
 import {
-  MusicNote2Regular,
-  MicRegular,
+  ArrowDownloadRegular,
+  ArrowTurnLeftDownFilled,
+  ClockRegular,
+  DeleteRegular,
   EditRegular,
   HeartRegular,
   LockClosedRegular,
-  DeleteRegular,
-  ClockRegular,
-  TagRegular,
-  OpenRegular,
+  MicRegular,
+  MusicNote2Regular,
   NumberSymbolFilled,
-  ArrowTurnLeftDownFilled,
-  ArrowDownloadRegular,
+  OpenRegular,
+  TagRegular,
 } from "@fluentui/react-icons";
-import { useState, useEffect, useCallback, useRef, createElement } from "react";
-import { useTranslation } from "react-i18next";
+import {
+  type LoaderFunctionArgs,
+  type MetaFunction,
+  json,
+} from "@remix-run/node";
+import { Link, useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import clsx from "clsx";
 import { pathcat } from "pathcat";
+import { createElement, useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
-import OptionalImage from "~/components/OptionalImage";
-import { useSession } from "~/lib/contexts";
-import { getRatingColor, className, isMine, isAdmin } from "~/lib/utils";
-import ModalPortal from "~/components/ModalPortal";
-import TextInput from "~/components/TextInput";
-import InputTitle from "~/components/InputTitle";
 import Checkbox from "~/components/Checkbox";
+import InputTitle from "~/components/InputTitle";
+import ModalPortal from "~/components/ModalPortal";
+import OptionalImage from "~/components/OptionalImage";
+import TextInput from "~/components/TextInput";
+import { useServerSettings, useSession } from "~/lib/contexts.ts";
+import { detectLocale, i18n } from "~/lib/i18n.server.ts";
+import type { Chart } from "~/lib/types.ts";
+import { getRatingColor, isAdmin, isMine } from "~/lib/utils.ts";
+import { backendUrl } from "~/lib/config.server.ts";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+  const locale = await detectLocale(request);
+  const rootT = await i18n.getFixedT(locale, "root");
+  const t = await i18n.getFixedT(locale, "chart");
+
+  const title = `${t("title")} | ${rootT("name")}`;
+
   const chartData = await fetch(
-    pathcat("/api/charts/:name", {
-      name: context.params!.name,
+    pathcat(backendUrl, "/api/charts/:name", {
+      name: params.name,
     }),
     {
       method: "GET",
@@ -36,166 +52,140 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const json = await res.json();
 
     if (json.code === "ok") {
-      return json.chart;
+      return json.chart as Chart;
     } else {
       return null;
     }
   });
 
   if (!chartData) {
-    return {
-      props: {
-        chartData: null,
-      },
-      notFound: true,
-    };
+    throw new Response(null, {
+      status: 404,
+    });
   }
 
-  return {
-    props: {
-      chartData,
-    },
-  };
+  return json({
+    chartData,
+    title,
+    host: process.env.HOST!,
+  });
 };
-const ChartPage = ({ chartData }) => {
+export const handle = {
+  i18n: "chart",
+};
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const chartData = data!.chartData;
+  return [
+    {
+      title: data!.title,
+    },
+
+    {
+      name: "og:type",
+      content: "article",
+    },
+    {
+      name: "og:article:published_time",
+      content: chartData.publishedAt,
+    },
+    {
+      name: "og:article:modified_time",
+      content: chartData.updatedAt,
+    },
+    {
+      name: "og:site_name",
+      content: `Chart Cyanvas - ${chartData.authorName || chartData.author.name}#${chartData.author.handle}`,
+    },
+    {
+      name: "og:description",
+      content: chartData.description,
+    },
+    {
+      name: "og:title",
+      content: `${chartData.title} - ${chartData.composer}${chartData.artist ? ` / ${chartData.artist}` : ""} (Lv. ${chartData.rating}, \u{2661}${chartData.likes})`,
+    },
+    {
+      name: "og:url",
+      content: `${data!.host}/charts/${chartData.name}`,
+    },
+    {
+      name: "og:image",
+      content: chartData.cover?.startsWith("/")
+        ? `${data!.host}${chartData.cover}`
+        : chartData.cover,
+    },
+  ];
+};
+
+const ChartPage = () => {
+  const { chartData } = useLoaderData<typeof loader>();
+  const { name: chartName } = useParams();
+  if (!chartName) {
+    throw new Error("chartName is required");
+  }
   const { t: rootT } = useTranslation();
   const { t } = useTranslation("chart");
 
-  const router = useRouter();
-  const [session] = useSession();
-  const { name } = router.query as { name: string };
-
-  const [sameAuthorCharts, setSameAuthorCharts] = useState<Chart[] | null>(
-    null,
-  );
-
-  const isMobile = useRef(true);
-  const [host, setHost] = useState<string>("");
-  useEffect(() => {
-    isMobile.current = window.navigator.maxTouchPoints > 0;
-    setHost(window.location.host);
-  }, []);
-
-  const isSameAuthorChartsFinished = useRef(false);
-  const fetchSameAuthorCharts = useCallback(async () => {
-    if (!chartData) return;
-    const res = await fetch(
-      urlcat(`/api/charts`, {
-        author: chartData.author.handle,
-        count: 5,
-        offset: sameAuthorCharts?.length || 0,
-      }),
-    );
-    const json = await res.json();
-    if (json.code == "ok") {
-      setSameAuthorCharts((prev) => [...(prev || []), ...json.charts]);
-      if (json.charts.length < 5) {
-        isSameAuthorChartsFinished.current = true;
-      }
-    }
-  }, [chartData, sameAuthorCharts]);
-
-  useEffect(() => {
-    setSameAuthorCharts(null);
-    isSameAuthorChartsFinished.current = false;
-  }, [name, router]);
+  const navigate = useNavigate();
+  const serverSettings = useServerSettings();
+  const session = useSession();
 
   const [showDeletionModal, setShowDeletionModal] = useState(false);
 
   const [warnAuthor, setWarnAuthor] = useState(false);
 
   const sendDeleteRequest = useCallback(async () => {
-    if (isAdmin(session)) {
-      await fetch(
-        urlcat(`/api/admin/delete-chart`, {
-          name,
-        }),
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            warn: warnAuthor,
-            reason: (
-              document.querySelector(
-                "[data-name=warnReason]",
-              ) as HTMLInputElement
-            ).value,
-          }),
+    if (session?.loggedIn && session.user.userType === "admin") {
+      await fetch("/api/admin/delete-chart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          name: chartName,
+          warn: warnAuthor,
+          reason: (
+            document.querySelector("[data-name=warnReason]") as HTMLInputElement
+          ).value,
+        }),
+      });
+      navigate(
+        pathcat("/users/:handle", {
+          handle: chartData.author.handle,
+        }),
       );
     } else {
       await fetch(
-        urlcat(`/api/charts/:name`, {
-          name,
+        pathcat("/api/charts/:name", {
+          name: chartName,
         }),
         {
           method: "DELETE",
         },
       );
+      navigate("/charts/my");
     }
-    router.push("/charts/my");
-  }, [name, router, session, warnAuthor]);
+  }, [chartName, navigate, session, warnAuthor, chartData]);
 
-  const doesUserOwn = isMine(session, chartData) || isAdmin(session);
+  const doesUserOwn =
+    isMine(session, chartData) ||
+    (session?.loggedIn && session.user.userType === "admin");
   const adminDecoration = isAdmin(session) ? rootT("adminDecorate") : "";
 
   let wrappedDescription: string;
   if (chartData.description.split(/\n/g).length > 3) {
-    wrappedDescription =
-      chartData.description
-        .split(/\n/g)
-        .splice(0, 3)
-        .join("\n")
-        .substring(0, 100) + "\n...";
+    wrappedDescription = `${chartData.description
+      .split(/\n/g)
+      .splice(0, 3)
+      .join("\n")
+      .substring(0, 100)}...`;
   } else {
     wrappedDescription = chartData.description;
   }
 
   return (
     <>
-      <Head>
-        <title>{chartData.title + " | " + rootT("name")}</title>
-        <meta name="og:type" content="article" />
-        <meta
-          name="og:article:published_time"
-          content={chartData.publishedAt}
-        />
-        <meta name="og:article:modified_time" content={chartData.updatedAt} />
-        {/*<meta
-          name="og:article:author:first_name"
-          content={chartData.authorName || chartData.author.name}
-        />
-        <meta
-          name="og:article:author:last_name"
-          content={`#${chartData.author.handle}`}
-        />*/}
-
-        <meta
-          name="og:site_name"
-          content={`Chart Cyanvas - ${
-            chartData.authorName || chartData.author.name
-          }#${chartData.author.handle}`}
-        />
-        <meta name="og:description" content={wrappedDescription} />
-        <meta
-          name="og:title"
-          content={`${chartData.title} - ${chartData.composer}${
-            chartData.artist ? ` / ${chartData.artist}` : ""
-          } (Lv. ${chartData.rating}, \u{2661}${chartData.likes})`}
-        />
-        <meta name="og:url" content={`${host}/charts/${chartData.name}`} />
-        <meta
-          name="og:image"
-          content={
-            chartData.cover && chartData.cover.startsWith("/")
-              ? `${host}${chartData.cover}`
-              : chartData.cover
-          }
-        />
-      </Head>
       <ModalPortal isOpen={showDeletionModal}>
         <h1 className="text-xl font-bold text-normal mb-2 break-word">
           {t("deletionModal.title")}
@@ -232,7 +222,7 @@ const ChartPage = ({ chartData }) => {
             {rootT("cancel")}
           </div>
           <div
-            className={className(
+            className={clsx(
               "px-4 py-2 rounded text-sm bg-red-500 text-white cursor-pointer",
             )}
             onClick={() => {
@@ -249,14 +239,14 @@ const ChartPage = ({ chartData }) => {
           <div className="flex flex-col flex-grow max-w-[calc(100%_-_128px)]">
             {chartData.variantOf && (
               <h4 className="text-gray-500">
-                <Link href={`/charts/${chartData.variantOf.name}`}>
+                <Link to={`/charts/${chartData.variantOf.name}`}>
                   <ArrowTurnLeftDownFilled />
                   {chartData.variantOf.title}{" "}
                 </Link>
               </h4>
             )}
             <h1
-              className={className(
+              className={clsx(
                 "text-4xl font-bold break-words",
                 !!chartData.data || "text-yellow-700",
               )}
@@ -302,7 +292,7 @@ const ChartPage = ({ chartData }) => {
               )}
             </p>
             <p className="text-lg">
-              <Link href={`/users/${chartData.author.handle}`}>
+              <Link to={`/users/${chartData.author.handle}`}>
                 <EditRegular className="mr-1 h-6 w-6" />
                 {chartData.authorName || chartData.author.name}
                 <span className="text-xs">#{chartData.author.handle}</span>
@@ -316,7 +306,7 @@ const ChartPage = ({ chartData }) => {
 
             <p className="text-gray-500 font-monospace text-sm">
               <NumberSymbolFilled className="mr-1 h-4 w-4" />
-              {name}
+              {chartName}
             </p>
 
             <p className="flex-grow mt-4 whitespace-pre-wrap">
@@ -335,10 +325,7 @@ const ChartPage = ({ chartData }) => {
               />
               {chartData && (
                 <div
-                  className={
-                    "absolute text-xs top-0 left-0 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white " +
-                    getRatingColor(chartData.rating)
-                  }
+                  className={`absolute text-xs top-0 left-0 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white ${getRatingColor(chartData.rating)}`}
                 >
                   Lv. {chartData.rating}
                 </div>
@@ -361,62 +348,60 @@ const ChartPage = ({ chartData }) => {
                 ),
               ].map((inner) =>
                 [
-                  ...(doesUserOwn
-                    ? [
-                        {
-                          href: `/charts/${name}/edit`,
-                          icon: EditRegular,
-                          className: "bg-theme text-white",
-                          text: t("edit") + adminDecoration,
-                        },
-                        {
-                          text: t("delete") + adminDecoration,
-                          icon: DeleteRegular,
-                          className: "bg-red-500 text-white",
-                          onClick: () => {
-                            setShowDeletionModal(true);
-                          },
-                        },
-                      ]
-                    : chartData.chart
-                      ? [
-                          {
-                            href: `/api/charts/${name}/download_chart`,
-                            icon: ArrowDownloadRegular,
-                            className: "bg-theme text-white",
-                            text: t("download"),
-                          },
-                        ]
-                      : []),
-                  isMobile && {
+                  doesUserOwn && [
+                    {
+                      href: `/charts/${chartName}/edit`,
+                      icon: EditRegular,
+                      className: "bg-theme text-white",
+                      text: t("edit") + adminDecoration,
+                    },
+                    {
+                      text: t("delete") + adminDecoration,
+                      icon: DeleteRegular,
+                      className: "bg-red-500 text-white",
+                      onClick: () => {
+                        setShowDeletionModal(true);
+                      },
+                    },
+                  ],
+                  chartData.chart && [
+                    {
+                      href: `/api/charts/${chartName}/download_chart`,
+                      icon: ArrowDownloadRegular,
+                      className: "bg-theme text-white",
+                      text: t("download"),
+                    },
+                  ],
+                  {
                     text: rootT("openInSonolus"),
                     icon: OpenRegular,
                     className: "bg-black text-white",
-                    href: `https://open.sonolus.com/${host}/levels/chcy-${chartData.name}`,
+                    href: `https://open.sonolus.com/${serverSettings.host}/levels/chcy-${chartData.name}`,
                   },
                 ]
-                  .flatMap((e) => (e ? [e] : []))
+                  .flat()
+                  .flatMap((x) => (x ? [x] : []))
                   .map((item, i) =>
                     item.href ? (
                       <Link
-                        href={item.href}
+                        to={item.href}
                         key={i}
-                        className={className(
+                        className={clsx(
                           "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
                           item.className,
                         )}
-                        onClick={item.onClick}
+                        onClick={"onClick" in item ? item.onClick : undefined}
                       >
                         {inner(item)}
                       </Link>
                     ) : (
                       <div
                         key={i}
-                        className={className(
+                        className={clsx(
                           "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer",
                           item.className,
                         )}
-                        onClick={item.onClick}
+                        onClick={"onClick" in item ? item.onClick : undefined}
                       >
                         {inner(item)}
                       </div>
@@ -428,22 +413,11 @@ const ChartPage = ({ chartData }) => {
         </div>
         <ChartSection
           key={chartData?.name}
-          items={[
+          sections={[
             {
               title: t("variants"),
               items: chartData?.variants || null,
-              isFinished: true,
-              fetchMore: async () => {
-                null;
-              },
-              itemsCountPerPage: 0,
-            },
-            {
-              title: t("sameAuthor"),
-              items: sameAuthorCharts,
-              isFinished: isSameAuthorChartsFinished.current,
-              fetchMore: fetchSameAuthorCharts,
-              itemsCountPerPage: 5,
+              hasMore: false,
             },
           ]}
         />

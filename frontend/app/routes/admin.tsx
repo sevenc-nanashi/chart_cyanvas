@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { type LoaderFunction, type LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, type MetaFunction, useNavigate } from "@remix-run/react";
-import requireLogin from "~/lib/requireLogin.tsx";
-import { useTranslation } from "react-i18next";
 import clsx from "clsx";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
-import { type LoaderFunction, json } from "@remix-run/node";
+import requireLogin from "~/lib/requireLogin.tsx";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
   const rootT = await i18n.getFixedT(locale, "root");
   const t = await i18n.getFixedT(locale, "admin");
@@ -23,7 +23,7 @@ export const handle = {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
-      title: data.title,
+      title: data!.title,
     },
   ];
 };

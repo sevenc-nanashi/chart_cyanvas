@@ -24,7 +24,8 @@ class User < ApplicationRecord
       aboutMe: about_me,
       bgColor: bg_color,
       fgColor: fg_color,
-      chartCount: charts_count
+      chartCount: charts_count,
+      userType: admin? ? "admin" : "user",
     }
   end
 

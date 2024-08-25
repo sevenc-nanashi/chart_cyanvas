@@ -27,7 +27,7 @@ const TextInput = (props: {
 			</div>
 			<input
 				type="text"
-				className="outline-none p-2 w-full"
+				className="outline-none p-2 w-full cursor-text"
 				disabled={props.disabled}
 				maxLength={props.maxLength}
 				defaultValue={props.defaultValue}
