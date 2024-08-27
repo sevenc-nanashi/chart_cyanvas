@@ -16,13 +16,13 @@ import {
   ServerErrorContext,
   ServerSettingsContext,
   SessionContext,
+  SetSessionContext,
 } from "~/lib/contexts";
 import styles from "~/styles/globals.scss?url";
 import { useEffect, useState } from "react";
 import type { ServerSettings, Session } from "~/lib/types";
 import { discordEnabled, host } from "~/lib/config.server.ts";
 import { detectLocale } from "~/lib/i18n.server";
-import { useChangeLanguage } from "remix-i18next/react";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -98,19 +98,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-background text-normal min-h-screen flex flex-col">
         <SessionContext.Provider value={session}>
-          <ServerErrorContext.Provider value={setServerError}>
-            <ServerSettingsContext.Provider value={loaderData.serverSettings}>
-              <Header />
-              <main className="py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow">
-                {children}
-              </main>
+          <SetSessionContext.Provider value={setSession}>
+            <ServerErrorContext.Provider value={setServerError}>
+              <ServerSettingsContext.Provider value={loaderData.serverSettings}>
+                <Header />
+                <main className="py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow">
+                  {children}
+                </main>
 
-              <Footer />
+                <Footer />
 
-              <ScrollRestoration />
-              <Scripts />
-            </ServerSettingsContext.Provider>
-          </ServerErrorContext.Provider>
+                <ScrollRestoration />
+                <Scripts />
+              </ServerSettingsContext.Provider>
+            </ServerErrorContext.Provider>
+          </SetSessionContext.Provider>
         </SessionContext.Provider>
       </body>
     </html>

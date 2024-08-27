@@ -32,12 +32,11 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
   const retvar = (
     <div
       className={clsx(
-        "p-2 h-40 md:h-48 w-[480px] max-w-[calc(100vw_-_2rem)] shadow-sm rounded-xl flex relative",
-        "dark:shadow-slate-700/25",
-        data?.visibility === "public"
-          ? "bg-slate-100 dark:bg-slate-900"
-          : "bg-slate-200 dark:bg-gray-900",
-        data && "transition-shadow duration-200 hover:shadow-theme/50",
+        "h-40 md:h-48 w-full md:w-[480px] flex relative",
+        "card",
+
+        data?.visibility === "public" || "card-darker",
+        data && "card-clickable",
       )}
       ref={ref}
     >
@@ -104,16 +103,17 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
                 </>
               )}
             </p>
-            <Link
-              to={`/users/${data.author.handle}`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <p className="text-xs hover:text-blue-400 transition-colors duration-200">
+
+            <p className="text-xs blue-link">
+              <Link
+                to={`/users/${data.author.handle}`}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <EditRegular className="mr-1 w-4 h-4" />
                 {data.authorName || data.author.name}
                 <span className="text-xs">#{data.author.handle}</span>
-              </p>
-            </Link>
+              </Link>
+            </p>
             <p className="text-xs text-red-400">
               <HeartRegular className="mr-1 w-4 h-4" />
               {data.likes}

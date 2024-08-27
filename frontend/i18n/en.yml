@@ -55,7 +55,8 @@ chart:
 user:
   totalCharts: "Total charts: {{count}}"
   totalLikes: "Total likes: {{count}}"
-  userCharts: "Charts by this author"
+  secretUserInfo: "Discord: {{discord}}, Warnings: {{warn}}"
+  userCharts: "Charts by this user"
 
 chartSection:
   notFound: "No charts found."

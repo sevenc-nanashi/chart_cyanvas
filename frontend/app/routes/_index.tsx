@@ -83,7 +83,7 @@ export const Home = () => {
       <div>
         <h1 className="page-title">{t("newCharts")}</h1>
         <div
-          className="flex flex-wrap mt-2 gap-4 justify-center"
+          className="flex flex-col md:flex-row md:flex-wrap mt-2 gap-4 justify-center"
           ref={newChartsRef}
         >
           {newCharts.length > 0

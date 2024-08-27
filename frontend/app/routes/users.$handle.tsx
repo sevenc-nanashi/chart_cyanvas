@@ -6,7 +6,7 @@ import {
 } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { pathcat } from "pathcat";
-import { createElement, useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
 import { useSession } from "~/lib/contexts.ts";
@@ -94,11 +94,6 @@ const UserPage = () => {
     setRandom(Math.random());
   }, []);
 
-  const isMobile = useRef(true);
-  useEffect(() => {
-    isMobile.current = window.navigator.maxTouchPoints > 0;
-  });
-
   const [secretUserInfo, setSecretUserInfo] = useState<{
     discord: DiscordInfo;
     warnCount: number;
@@ -127,10 +122,10 @@ const UserPage = () => {
     <>
       <div className="flex flex-col">
         <div className="min-h-[300px] w-full flex relative">
-          <div className="flex flex-col flex-grow max-w-[calc(100%_-_128px)]">
+          <div className="flex flex-col flex-grow">
             {userData ? (
               <>
-                <h1 className="page-title-larger mr-2">
+                <h1 className="page-title-larger">
                   {userData.name}
                   <span className="text-xl">#{userData.handle}</span>
                 </h1>
@@ -141,9 +136,13 @@ const UserPage = () => {
                 </p>
 
                 {secretUserInfo && (
-                  <p className="text-md mt-4">
-                    Discord: {secretUserInfo.discord.username}, Warn:{" "}
-                    {secretUserInfo.warnCount}
+                  <p className="text-md mt-4 card">
+                  {
+                    t("secretUserInfo", {
+                      discord: secretUserInfo.discord.username,
+                      warn: secretUserInfo.warnCount,
+                    })
+                  }
                   </p>
                 )}
                 <p className="flex-grow mt-4 mr-4 whitespace-pre-wrap break-words w-full">
@@ -174,7 +173,7 @@ const UserPage = () => {
             )}
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col ml-2">
             <div
               className="md:h-40 md:w-40 rounded-xl bg-gray-300 square w-32 h-32"
               style={{ backgroundColor: userData.bgColor }}
@@ -211,11 +210,11 @@ const UserPage = () => {
                   //       },
                   //     ]
                   //   : []),
-                  isMobile && {
+                  {
                     text: rootT("openInSonolus"),
                     icon: OpenRegular,
                     className: "bg-black text-white",
-                    href: `sonolus://players/id/${userData.handle}`,
+                    href: `https://open.sonolus.com/players/id/${userData.handle}`,
                   },
                 ]
                   .flatMap((e) => (e ? [e] : []))

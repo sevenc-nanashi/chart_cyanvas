@@ -24,7 +24,7 @@ body {
 }
 
 a {
-  @apply text-blue-500 no-underline;
+  @apply no-underline;
 }
 
 svg {
@@ -33,8 +33,17 @@ svg {
 
 p a,
 li a,
-.text a {
+.text a,
+.blue-link {
   @apply text-blue-500 underline;
+}
+
+.gray-link {
+  @apply text-slate-500 dark:text-gray-400 border-b-[1px] border-slate-500 dark:border-gray-400;
+
+  &:hover {
+    @apply text-slate-700 dark:text-gray-300 border-slate-700 dark:border-gray-300;
+  }
 }
 
 .page-title {
@@ -152,9 +161,21 @@ textarea {
 
 .button-secondary {
   @extend .button;
-  @apply text-themeText border-2 border-theme bg-theme bg-opacity-0;
+  @apply text-themeText outline -outline-offset-1 outline-2 outline-themeText bg-theme bg-opacity-0;
 
   &:not(:disabled):not(.disabled) {
     @apply hover:bg-opacity-10 focus:bg-opacity-10;
   }
+}
+
+.card {
+  @apply p-2 bg-slate-100 dark:bg-slate-900 shadow-slate-200/25 dark:shadow-slate-700/25 shadow-sm rounded-xl;
+}
+
+.card-darker {
+  @apply bg-slate-200 dark:bg-gray-900 dark:shadow-slate-700/25;
+}
+
+.card-clickable {
+  @apply transition-shadow duration-200 hover:shadow-theme/50 cursor-pointer;
 }

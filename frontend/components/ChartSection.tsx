@@ -3,6 +3,7 @@ import type { Chart } from "~/lib/types.ts";
 import ChartCard from "./ChartCard.tsx";
 import { ArrowRightFilled } from "@fluentui/react-icons";
 import { Link } from "@remix-run/react";
+import clsx from "clsx";
 
 const ChartSection: React.FC<{
   sections: {
@@ -17,11 +18,18 @@ const ChartSection: React.FC<{
       {sections.map((section, i) => (
         <div className="flex flex-col mt-8" key={i}>
           <h2 className="text-2xl font-bold flex items-center">
-            {section.title}
-            {section.listUrl && (
-              <Link to={section.listUrl} className="ml-2 flex items-center">
-                <ArrowRightFilled className="text-slate-500 dark:text-gray-400 hover:text-slate-700 dark:hover:text-gray-300" />
-              </Link>
+            {section.listUrl ? (
+              <>
+                <Link
+                  to={section.listUrl}
+                  className="flex items-center gray-link"
+                >
+                  {section.title}
+                  <ArrowRightFilled className="ml-2" />
+                </Link>
+              </>
+            ) : (
+              section.title
             )}
           </h2>
           <div className="overflow-x-scroll">
