@@ -36,7 +36,7 @@ jobs:
         working-directory: ./frontend
         run: |
           pnpm i
-          pnpm lint
+          pnpm check
 
       - name: Run frontend typecheck
         working-directory: ./frontend

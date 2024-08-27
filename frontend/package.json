@@ -5,6 +5,8 @@
   "description": "",
   "scripts": {
     "dev": "remix vite:dev --port 3100",
+    "check": "biome check",
+    "typecheck": "tsc --noEmit",
     "build": "remix vite:build"
   },
   "keywords": [],
