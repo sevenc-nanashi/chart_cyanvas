@@ -1,12 +1,14 @@
+import { OpenRegular } from "@fluentui/react-icons";
 import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useChangeLanguage } from "remix-i18next/react";
 import ChartList from "~/components/ChartList";
+import { useServerSettings } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types";
+import {sonolusUrl} from "~/lib/utils";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const locale = await detectLocale(request);
@@ -14,7 +16,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const title = rootT("name");
 
-  return json({ locale, title });
+  return json({ title });
 };
 
 export const handle = {
@@ -30,8 +32,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export const Home = () => {
-  const { locale } = useLoaderData<typeof loader>();
-  useChangeLanguage(locale);
+  const serverSettings = useServerSettings();
 
   const { t, i18n } = useTranslation("home");
   const [newCharts, setNewCharts] = useState<Chart[] | undefined>(undefined);
@@ -79,6 +80,15 @@ export const Home = () => {
           ]}
         />
       </p>
+      <button>
+        <a
+          className="px-2 py-1 button bg-black text-white inline-flex items-center"
+          href={sonolusUrl(serverSettings, "/")}
+        >
+          <OpenRegular className="h-5 w-5 mr-1" />
+          {t("openInSonolus")}
+        </a>
+      </button>
       <div>
         <h1 className="page-title">{t("newCharts")}</h1>
         <ChartList charts={newCharts} />

@@ -1,4 +1,4 @@
-import type { Chart, Session } from "./types.ts";
+import type { Chart, ServerSettings, Session } from "./types.ts";
 
 export const getRatingColor = (difficulty: number) => {
   if (difficulty < 9) return "bg-green-500 dark:bg-green-400";
@@ -43,4 +43,12 @@ export const parseIntOrFallback = (base: string, fallback: number) => {
   const retvar = parseIntPlus(base);
   if (Number.isNaN(retvar)) return fallback;
   return retvar;
+};
+
+export const sonolusUrl = (serverSettings: ServerSettings, path: string) => {
+  const host = new URL(serverSettings.host);
+  const ret = new URL("https://open.sonolus.com");
+  ret.pathname = `${host.host}${host.pathname}${path}`.replace(/\/+/g, "/");
+
+  return ret.toString();
 };

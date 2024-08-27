@@ -28,6 +28,7 @@ header:
 home:
   newCharts: "新着譜面"
   welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
+  openInSonolus: "Sonolusで開く"
 menu:
   post: "譜面投稿"
   my: "自分の譜面"

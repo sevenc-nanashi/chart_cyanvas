@@ -28,6 +28,7 @@ header:
 home:
   newCharts: "New charts"
   welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
+  openInSonolus: "Open in Sonolus"
 
 menu:
   post: "Post chart"

@@ -21,7 +21,7 @@ import {
 import { Link, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
-import { createElement, useCallback, useState } from "react";
+import { Fragment, createElement, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
 import Checkbox from "~/components/Checkbox";
@@ -29,11 +29,11 @@ import InputTitle from "~/components/InputTitle";
 import ModalPortal from "~/components/ModalPortal";
 import OptionalImage from "~/components/OptionalImage";
 import TextInput from "~/components/TextInput";
+import { backendUrl, host } from "~/lib/config.server.ts";
 import { useServerSettings, useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types.ts";
-import { getRatingColor, isAdmin, isMine } from "~/lib/utils.ts";
-import { backendUrl, host } from "~/lib/config.server.ts";
+import { getRatingColor, isAdmin, isMine, sonolusUrl } from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -324,88 +324,83 @@ const ChartPage = () => {
 
             <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">
               {[
-                (item: {
-                  icon: React.FC<{ className: string }>;
-                  text: string;
-                }) => (
-                  <>
-                    {createElement(item.icon, {
-                      className: "h-5 w-5 mr-1",
-                    })}
-
-                    {item.text}
-                  </>
-                ),
-              ].map((inner) =>
-                [
-                  doesUserOwn && [
-                    {
-                      href: `/charts/${chartName}/edit`,
-                      icon: EditRegular,
-                      className: "button-primary",
-                      text: t("edit") + adminDecoration,
-                    },
-                    {
-                      text: t("delete") + adminDecoration,
-                      icon: DeleteRegular,
-                      className: "button-danger",
-                      onClick: () => {
-                        setShowDeletionModal(true);
-                      },
-                    },
-                    {
-                      text: t("createVariant"),
-                      icon: ArrowTurnDownRightFilled,
-                      className: "button-secondary",
-                      href: pathcat("/charts/upload", {
-                        variantOf: chartName,
-                      }),
-                    },
-                  ],
-                  chartData.chart && [
-                    {
-                      href: `/api/charts/${chartName}/download_chart`,
-                      icon: ArrowDownloadRegular,
-                      className: "bg-theme text-white",
-                      text: t("download"),
-                    },
-                  ],
+                doesUserOwn && [
                   {
-                    text: rootT("openInSonolus"),
-                    icon: OpenRegular,
-                    className: "bg-black text-white",
-                    href: `https://open.sonolus.com/${serverSettings.host}/levels/chcy-${chartData.name}`,
+                    href: `/charts/${chartName}/edit`,
+                    icon: EditRegular,
+                    className: "button-primary",
+                    text: t("edit") + adminDecoration,
                   },
-                ]
-                  .flat()
-                  .flatMap((x) => (x ? [x] : []))
-                  .map((item, i) =>
-                    item.href ? (
-                      <Link
-                        to={item.href}
-                        key={i}
-                        className={clsx(
-                          "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
-                          item.className,
-                        )}
-                        onClick={"onClick" in item ? item.onClick : undefined}
-                      >
-                        {inner(item)}
-                      </Link>
-                    ) : (
-                      <div
-                        key={i}
-                        className={clsx(
-                          "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer",
-                          item.className,
-                        )}
-                        onClick={"onClick" in item ? item.onClick : undefined}
-                      >
-                        {inner(item)}
-                      </div>
-                    ),
-                  ),
-              )}
+                  {
+                    text: t("delete") + adminDecoration,
+                    icon: DeleteRegular,
+                    className: "button-danger",
+                    onClick: () => {
+                      setShowDeletionModal(true);
+                    },
+                  },
+                  {
+                    text: t("createVariant"),
+                    icon: ArrowTurnDownRightFilled,
+                    className: "button-secondary",
+                    href: pathcat("/charts/upload", {
+                      variantOf: chartName,
+                    }),
+                  },
+                ],
+                chartData.chart && [
+                  {
+                    href: `/api/charts/${chartName}/download_chart`,
+                    icon: ArrowDownloadRegular,
+                    className: "button-tertiary",
+                    text: t("download"),
+                  },
+                ],
+                {
+                  text: rootT("openInSonolus"),
+                  icon: OpenRegular,
+                  className: "bg-black text-white",
+                  href: sonolusUrl(serverSettings, `/levels/chcy-${chartName}`),
+                },
+              ]
+                .flat()
+                .flatMap((x) => (x ? [x] : []))
+                .map((item, i) => {
+                  const inner = (
+                    <Fragment key={i}>
+                      {createElement(item.icon, {
+                        className: "h-5 w-5 mr-1",
+                      })}
+
+                      {item.text}
+                    </Fragment>
+                  );
+
+                  return item.href ? (
+                    <Link
+                      to={item.href}
+                      key={i}
+                      className={clsx(
+                        "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
+                        item.className,
+                      )}
+                      onClick={"onClick" in item ? item.onClick : undefined}
+                    >
+                      {inner}
+                    </Link>
+                  ) : (
+                    <div
+                      key={i}
+                      className={clsx(
+                        "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer",
+                        item.className,
+                      )}
+                      onClick={"onClick" in item ? item.onClick : undefined}
+                    >
+                      {inner}
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>
