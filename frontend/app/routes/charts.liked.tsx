@@ -6,7 +6,7 @@ import { pathcat } from "pathcat";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import type { Chart } from "~/lib/types.ts";
-import ChartCard from "~/components/ChartCard";
+import ChartList from "~/components/ChartList.tsx";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -32,8 +32,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 const MyCharts = () => {
   const { t } = useTranslation("liked");
-  const [myCharts, setLikedCharts] = useState<Chart[]>([]);
-  const [reachedBottom, setReachedBottom] = useState(false);
+  const [likedCharts, setLikedCharts] = useState<Chart[] | undefined>(undefined);
 
   const isFetching = useRef(false);
 
@@ -43,17 +42,14 @@ const MyCharts = () => {
     fetch(
       pathcat("/api/charts", {
         count: 20,
-        offset: myCharts.length,
+        offset: likedCharts?.length || 0,
         liked: true,
       }),
     )
       .then(async (res) => {
         const data = await res.json();
         if (data.code === "ok") {
-          setLikedCharts((prev) => [...prev, ...data.charts]);
-          if (data.charts.length < 20) {
-            setReachedBottom(true);
-          }
+          setLikedCharts(data.charts);
         }
       })
       .finally(() => {
@@ -61,12 +57,12 @@ const MyCharts = () => {
           isFetching.current = false;
         }, 0);
       });
-  }, [myCharts]);
+  }, [likedCharts]);
 
   useEffect(() => {
-    if (myCharts.length) return;
+    if (likedCharts?.length) return;
     fetchNewCharts();
-  }, [myCharts, fetchNewCharts]);
+  }, [likedCharts, fetchNewCharts]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -74,22 +70,10 @@ const MyCharts = () => {
         <h1 className="page-title">{t("title")}</h1>
         <Trans i18nKey="liked:description" />
         <div className="h-4" />
-        {myCharts.length === 0 && reachedBottom ? (
+        {likedCharts?.length === 0 ? (
           <div className="text-center">{t("empty")}</div>
         ) : (
-          <div className="flex flex-wrap gap-4 justify-center">
-            {myCharts.length > 0
-              ? myCharts.map((chart) => (
-                  <ChartCard key={chart.name} data={chart} />
-                ))
-              : new Array(20)
-                  .fill(undefined)
-                  .map((_, i) => <ChartCard data={undefined} key={i} />)}
-
-            {new Array(20).fill(undefined).map((_, i) => (
-              <ChartCard spacer key={i} />
-            ))}
-          </div>
+          <ChartList charts={likedCharts} />
         )}
       </div>
     </div>

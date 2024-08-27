@@ -4,7 +4,7 @@ import { pathcat } from "pathcat";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useChangeLanguage } from "remix-i18next/react";
-import ChartCard from "~/components/ChartCard";
+import ChartList from "~/components/ChartList";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types";
 
@@ -34,9 +34,8 @@ export const Home = () => {
   useChangeLanguage(locale);
 
   const { t, i18n } = useTranslation("home");
-  const [newCharts, setNewCharts] = useState<Chart[]>([]);
+  const [newCharts, setNewCharts] = useState<Chart[] | undefined>(undefined);
 
-  const newChartsRef = useRef<HTMLDivElement>(null);
   const isFetching = useRef(false);
 
   const fetchNewCharts = useCallback(() => {
@@ -44,14 +43,14 @@ export const Home = () => {
     isFetching.current = true;
     fetch(
       pathcat("/api/charts", {
-        offset: newCharts.length,
+        offset: newCharts?.length || 0,
         count: 20,
       }),
     )
       .then(async (res) => {
         const data = await res.json();
         if (data.code === "ok") {
-          setNewCharts((prev) => [...prev, ...data.charts]);
+          setNewCharts((prev) => [...(prev || []), ...data.charts]);
         }
       })
       .finally(() => {
@@ -62,7 +61,7 @@ export const Home = () => {
   }, [newCharts]);
 
   useEffect(() => {
-    if (newCharts.length) return;
+    if (newCharts?.length) return;
     fetchNewCharts();
   }, [newCharts, fetchNewCharts]);
 
@@ -82,22 +81,7 @@ export const Home = () => {
       </p>
       <div>
         <h1 className="page-title">{t("newCharts")}</h1>
-        <div
-          className="flex flex-col md:flex-row md:flex-wrap mt-2 gap-4 justify-center"
-          ref={newChartsRef}
-        >
-          {newCharts.length > 0
-            ? newCharts.map((chart) => (
-                <ChartCard key={chart.name} data={chart} />
-              ))
-            : new Array(20)
-                .fill(undefined)
-                .map((_, i) => <ChartCard data={undefined} key={i} />)}
-
-          {new Array(20).fill(undefined).map((_, i) => (
-            <ChartCard spacer key={i} />
-          ))}
-        </div>
+        <ChartList charts={newCharts} />
       </div>
     </div>
   );

@@ -142,11 +142,12 @@ upload:
 
   publishModal:
     title: "Publish this chart?"
-    description: "This chart..."
-    check0: "has originality, (Do not publish a copy of existing chart)"
-    check1: "is completed, (Do not publish unfinished charts)"
-    check2: "uses music that allows fanmade charts, (FYI, songs of these games don't allow making fanmade charts: A new dimension rhythm game, A tatsujin)"
-    check3: "has no regligious, political, sexual or other inappropriate content"
+    description: "Your chart must..."
+    check0: "have originality, (Do not publish a copy of existing chart)"
+    check1: "be completed, (Do not publish unfinished charts)"
+    check2: "use music that allows fanmade charts, (FYI, songs of these games don't allow making fanmade charts: A new dimension rhythm game, A tatsujin)"
+    check3: "not have regligious, political, sexual or other inappropriate content,"
+    check4: "have the correct information. (title, composer, artist, BPM, etc.)"
     description2: "Any chart that violates the <0>guideline</0> will be deleted, \
       and the author will be warned or banned."
     ok: "Publish"

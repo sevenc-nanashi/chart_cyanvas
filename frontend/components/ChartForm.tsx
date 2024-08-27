@@ -27,6 +27,7 @@ import Checkbox from "./Checkbox.tsx";
 import clsx from "clsx";
 import { isAdmin } from "~/lib/utils.ts";
 import Select from "./Select.tsx";
+import RadioItem, { RadioGroup } from "./RadioButton.tsx";
 
 type Tag = { id: string; text: string };
 type ChartFormData = {
@@ -301,6 +302,7 @@ const ChartForm: React.FC<
     false,
     false,
     false,
+    false,
   ]);
   const isAllPublicConfirmsChecked = publishConfirms.every(
     (checked) => checked,
@@ -310,7 +312,7 @@ const ChartForm: React.FC<
     useState<CallableFunction | null>(null);
 
   const publishChart = useCallback(() => {
-    setPublishConfirms([false, false, false, false]);
+    setPublishConfirms([false, false, false, false, false]);
     new Promise<boolean>((resolve) => {
       setWaitForPublishConfirm(() => resolve);
     }).then((confirmed) => {
@@ -449,28 +451,20 @@ const ChartForm: React.FC<
         </h1>
 
         <div className="flex flex-col gap-4">
-          {(["public", "scheduled", "private"] as const).map((key) => (
-            <div key={key} className="flex">
-              <div className="w-6 mr-2 flex-shrink-0">
-                <div
-                  className="rounded-full mt-1 h-6 box-border border-2 border-slate-300 dark:border-slate-700 p-1 cursor-pointer"
-                  onClick={() => setVisibility(key)}
-                >
-                  {key === visibility && (
-                    <div className="rounded-full w-full h-full bg-theme" />
-                  )}
-                </div>
-              </div>
-
-              <div className="flex-grow flex flex-col">
-                <label
-                  onClick={() => setVisibility(key)}
-                  className="cursor-pointer"
-                >
-                  <h5 className="text-lg font-bold">
-                    {t(`visibility.${key}`)}
-                  </h5>
-                </label>
+          <RadioGroup
+            value={visibility}
+            onValueChange={(value) =>
+              setVisibility(value as "public" | "scheduled" | "private")
+            }
+            className="flex flex-col gap-4"
+          >
+            {(["public", "scheduled", "private"] as const).map((key) => (
+              <RadioItem
+                key={key}
+                value={key}
+                className="flex-grow flex flex-col"
+              >
+                <h5 className="text-lg font-bold">{t(`visibility.${key}`)}</h5>
                 <div className="text-sm">
                   {t(`visibility.description.${key}`)}
                 </div>
@@ -483,9 +477,9 @@ const ChartForm: React.FC<
                     }}
                   />
                 )}
-              </div>
-            </div>
-          ))}
+              </RadioItem>
+            ))}
+          </RadioGroup>
           <Checkbox
             onChange={(checked) => {
               setIsChartPublic(checked);
@@ -538,27 +532,23 @@ const ChartForm: React.FC<
           />
         </p>
         <div className="flex justify-end mt-4 gap-2">
-          <div
-            className="px-4 py-2 rounded text-sm border-2 border-slate-500 dark:border-white text-normal cursor-pointer"
+          <button
+            className="px-4 py-2 button-tertiary"
             onClick={() => {
               waitForPublishConfirm?.(false);
             }}
           >
             {rootT("cancel")}
-          </div>
-          <div
-            className={clsx(
-              "px-4 py-2 rounded text-sm bg-theme text-white",
-              isAllPublicConfirmsChecked
-                ? "cursor-pointer"
-                : "bg-opacity-70 cursor-not-allowed",
-            )}
+          </button>
+          <button
+            className="px-4 py-2 button-primary"
+            disabled={!isAllPublicConfirmsChecked}
             onClick={() => {
               isAllPublicConfirmsChecked && waitForPublishConfirm?.(true);
             }}
           >
             {t("publishModal.ok")}
-          </div>
+          </button>
         </div>
       </ModalPortal>
 

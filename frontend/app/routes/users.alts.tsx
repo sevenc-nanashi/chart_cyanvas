@@ -242,7 +242,7 @@ const MyAlts = () => {
                   <input
                     type="text"
                     className={clsx(
-                      "text-input w-80",
+                      "text-input w-full md:w-80",
                       errorText && "border-red-500",
                     )}
                     maxLength={16}
@@ -250,7 +250,9 @@ const MyAlts = () => {
                     defaultValue={altUser.name}
                     ref={editNameInput}
                   />
-                  <span className="text-sm">#{altUser.handle}</span>
+                  <span className="hidden md:inline text-sm">
+                    #{altUser.handle}
+                  </span>
                 </div>
                 <div className="flex flex-row justify-end gap-2 items-center w-full">
                   <p className="text-sm text-red-500 mr-4">

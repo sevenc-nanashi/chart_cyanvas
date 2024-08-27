@@ -168,6 +168,15 @@ textarea {
   }
 }
 
+.button-tertiary {
+  @extend .button;
+  @apply outline -outline-offset-1 outline-2 outline-slate-500 dark:outline-white bg-slate-500 dark:bg-slate-800 bg-opacity-0;
+
+  &:not(:disabled):not(.disabled) {
+    @apply hover:bg-opacity-10 focus:bg-opacity-10;
+  }
+}
+
 .card {
   @apply p-2 bg-slate-100 dark:bg-slate-900 shadow-slate-200/25 dark:shadow-slate-700/25 shadow-sm rounded-xl;
 }

@@ -27,7 +27,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
     setRandom(Math.random());
   }, []);
   if (spacer) {
-    return <div className="p-2 h-0 w-[480px]" ref={ref} />;
+    return <div className="p-2 h-0 w-full md:w-[480px]" ref={ref} />;
   }
   const retvar = (
     <div

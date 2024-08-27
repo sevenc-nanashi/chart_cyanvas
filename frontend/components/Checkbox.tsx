@@ -1,7 +1,8 @@
 import { CheckmarkFilled } from "@fluentui/react-icons";
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
-import { useId, useRef } from "react";
+import { useId } from "react";
 import { clsx } from "clsx";
+import { useLocalId } from "~/lib/useLocalId";
 
 const Checkbox: React.FC<
   {
@@ -23,13 +24,12 @@ const Checkbox: React.FC<
       }
   )
 > = ({ label, size, checked, onChange, disabled, defaultChecked }) => {
-  const nonce = useId();
-  const id = `chcy-checkbox-${nonce}`;
+  const id = useLocalId("checkbox");
 
   return (
     <div
       className={clsx(
-        "flex text-normal gap-2",
+        "flex items-center text-normal gap-2",
         size === "sm" ? "text-sm" : "text-md",
       )}
     >
@@ -48,7 +48,7 @@ const Checkbox: React.FC<
         id={id}
       >
         <RadixCheckbox.Indicator
-          className={clsx("inline-block", checked && "text-white")}
+          className={clsx("grid place-content-center", checked && "text-white")}
         >
           <CheckmarkFilled />
         </RadixCheckbox.Indicator>
