@@ -64,7 +64,7 @@ chartSection:
 my:
   title: "My charts"
   empty: "You haven't posted any charts yet. <0>Post a chart</0> to get started!"
-  description: "Your charts are listed below. Padlock icon means the chart is private."
+  description: "Your charts are listed below. Padlock icon represents the chart is private."
 liked:
   title: "Liked charts"
   empty: "You haven't liked any charts yet. "
