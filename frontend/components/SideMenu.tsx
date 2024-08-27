@@ -17,8 +17,6 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
   const session = useSession();
   const { t } = useTranslation("menu");
 
-  const navigate = useNavigate();
-
   if (!session || !session.loggedIn) return null;
 
   return (
@@ -120,25 +118,13 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                 );
               case "space":
                 return <div className="min-h-4 flex-grow" key={i} />;
-              case "button":
-                return (
+              case "button": {
+                const inner = (
                   <div
                     className={clsx(
                       "flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer",
                       item.className,
                     )}
-                    onClick={() => {
-                      if (item.href) {
-                        if (item.href.startsWith("http")) {
-                          window.open(item.href, "_blank");
-                        } else {
-                          navigate(item.href);
-                        }
-                      } else {
-                        item.onClick?.();
-                      }
-                      close();
-                    }}
                     key={i}
                     role="button"
                   >
@@ -152,6 +138,23 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                     <div className="text-lg">{item.text}</div>
                   </div>
                 );
+
+                if (item.href) {
+                  return (
+                    <Link to={item.href} key={i} onClick={close}>
+                      {inner}
+                    </Link>
+                  );
+                } else if (item.onClick) {
+                  return (
+                    <div key={i} onClick={item.onClick}>
+                      {inner}
+                    </div>
+                  );
+                } else {
+                  throw new Error("Either href or onClick must be provided");
+                }
+              }
               default:
                 throw new Error(`Unknown item type: ${item.type}`);
             }
