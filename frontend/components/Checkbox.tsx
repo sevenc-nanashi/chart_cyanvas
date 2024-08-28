@@ -1,12 +1,10 @@
 import { CheckmarkFilled } from "@fluentui/react-icons";
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
-import { useId } from "react";
 import { clsx } from "clsx";
 import { useLocalId } from "~/lib/useLocalId";
 
 const Checkbox: React.FC<
   {
-    label: string;
     size?: "sm" | "md";
     name?: string;
     disabled?: boolean;
@@ -22,8 +20,22 @@ const Checkbox: React.FC<
         checked: boolean;
         onChange: (checked: boolean) => void;
       }
-  )
-> = ({ label, size, checked, onChange, disabled, defaultChecked }) => {
+  ) &
+    (
+      | {
+          label: string;
+        }
+      | {
+          children: React.ReactNode;
+        }
+    )
+> = (props) => {
+  const { label, children, size, checked, onChange, disabled, defaultChecked } =
+    {
+      label: undefined,
+      children: undefined,
+      ...props,
+    };
   const id = useLocalId("checkbox");
 
   return (
@@ -59,7 +71,7 @@ const Checkbox: React.FC<
         )}
         htmlFor={id}
       >
-        {label}
+        {label || children}
       </label>
     </div>
   );

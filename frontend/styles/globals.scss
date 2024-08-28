@@ -129,7 +129,7 @@ textarea {
 }
 
 .button {
-  @apply transition-colors duration-200 box-border rounded text-center;
+  @apply transition-opacity duration-200 box-border rounded text-center;
 
   &:disabled,
   &.disabled {

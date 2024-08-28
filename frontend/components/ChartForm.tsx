@@ -418,7 +418,10 @@ const ChartForm: React.FC<
       onDrop={onDrop}
     >
       <DisablePortal isShown={isSubmitting} />
-      <ModalPortal isOpen={unUploadedFiles.length > 0}>
+      <ModalPortal
+        isOpen={unUploadedFiles.length > 0}
+        close={() => setUnUploadedFiles([])}
+      >
         <h1 className="text-xl font-bold mb-2">{t("unUploadedFiles")}</h1>
         <p className="text-sm text-gray-500">{t("unUploadedFilesNote")}</p>
         <div className="flex justify-end mt-4">
@@ -431,7 +434,10 @@ const ChartForm: React.FC<
         </div>
       </ModalPortal>
 
-      <ModalPortal isOpen={showFileSizeError}>
+      <ModalPortal
+        isOpen={showFileSizeError}
+        close={() => setShowFileSizeError(false)}
+      >
         <h1 className="text-xl font-bold mb-2">{t("filesTooLarge")}</h1>
         <p className="text-sm text-gray-500">{t("filesTooLargeNote")}</p>
 
@@ -445,7 +451,10 @@ const ChartForm: React.FC<
         </div>
       </ModalPortal>
 
-      <ModalPortal isOpen={isVisibilityDialogOpen}>
+      <ModalPortal
+        isOpen={isVisibilityDialogOpen}
+        close={() => setIsVisibilityDialogOpen(false)}
+      >
         <h1 className="text-xl font-bold text-normal mb-2">
           {t("visibility.title")}
         </h1>
@@ -499,7 +508,10 @@ const ChartForm: React.FC<
         </div>
       </ModalPortal>
 
-      <ModalPortal isOpen={waitForPublishConfirm !== null}>
+      <ModalPortal
+        isOpen={waitForPublishConfirm !== null}
+        close={() => waitForPublishConfirm?.(false)}
+      >
         <h1 className="text-xl font-bold text-normal mb-2">
           {t("publishModal.title")}
         </h1>
@@ -508,7 +520,6 @@ const ChartForm: React.FC<
         </p>
         {publishConfirms.map((checked, i) => (
           <Checkbox
-            label={t(`publishModal.check${i}`)}
             checked={checked}
             onChange={(checked) => {
               const newConfirms = [...publishConfirms];
@@ -517,7 +528,17 @@ const ChartForm: React.FC<
             }}
             size="sm"
             key={i}
-          />
+          >
+            <h5 className="font-bold">
+              <Trans t={t} i18nKey={`publishModal.check${i}.title`} />
+            </h5>
+            {t(`publishModal.check${i}.description`) !==
+              `publishModal.check${i}.description` && (
+              <p className="text-sm">
+                <Trans t={t} i18nKey={`publishModal.check${i}.description`} />
+              </p>
+            )}
+          </Checkbox>
         ))}
         <p className="text-sm text-gray-500 text-normal mt-1">
           <Trans

@@ -75,7 +75,12 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
             </div>
           )}
           <div className="ml-2 flex flex-col overflow-hidden">
-            <h2 className="font-bold text-lg md:text-2xl w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
+            <h2
+              className={clsx(
+                "font-bold text-lg md:text-2xl w-full whitespace-nowrap overflow-hidden overflow-ellipsis",
+                data.visibility !== "public" && "pr-8",
+              )}
+            >
               {data.title}
             </h2>
             <div className="flex-grow" />
@@ -122,25 +127,29 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
         <>
           <div className="ml-2 flex flex-col">
             <h2
-              className="h-8 bg-gray-300 rounded animate-pulse"
+              className="h-8 bg-gray-500/50 rounded animate-pulse"
               style={{ width: `${50 + random("title") * 50}%` }}
             />
 
             <div className="flex-grow" />
             <p
-              className="h-4 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
+              className="h-3 bg-gray-500/50 rounded animate-pulse mt-2 opacity-75"
               style={{ width: `${50 + random("composer") * 50}%` }}
             />
             <p
-              className="h-4 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
+              className="h-3 bg-gray-500/50 rounded animate-pulse mt-2 opacity-75"
               style={{ width: `${50 + random("artist") * 50}%` }}
             />
             <p
-              className="h-4 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
+              className="h-3 bg-gray-500/50 rounded animate-pulse mt-2 opacity-75"
               style={{ width: `${50 + random("charter") * 50}%` }}
             />
             <p
-              className="h-4 bg-red-300 rounded animate-pulse mt-2 opacity-75"
+              className="h-3 bg-blue-500/50 rounded animate-pulse mt-2 opacity-75"
+              style={{ width: `${50 + random("charter") * 50}%` }}
+            />
+            <p
+              className="h-3 bg-red-500/50 rounded animate-pulse mt-2 opacity-75"
               style={{ width: `${10 + random("likes") * 20}%` }}
             />
           </div>

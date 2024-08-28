@@ -1,6 +1,6 @@
 import { InfoRegular } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
-import { type ReactNode, useState } from "react";
+import type { ReactNode } from "react";
 import { clsx } from "clsx";
 import Tooltip from "./Tooltip.tsx";
 
@@ -21,7 +21,7 @@ const InputTitle = (props: {
         {props.optional && t("optional")}
         {props.tooltip && (
           <Tooltip text={props.tooltip}>
-            <InfoRegular />
+            <InfoRegular className="ml-1 cursor-help" />
           </Tooltip>
         )}
         {props.error && (

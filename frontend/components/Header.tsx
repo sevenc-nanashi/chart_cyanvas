@@ -6,6 +6,7 @@ import LogoCF from "~/assets/logo-cf.svg?react";
 import { useSession } from "~/lib/contexts";
 import SideMenu from "./SideMenu.tsx";
 import ModalPortal from "./ModalPortal.tsx";
+import { useLogin } from "~/lib/useLogin.ts";
 
 type LoginState = { uuid: string; url: URL };
 const Header = () => {
@@ -14,45 +15,18 @@ const Header = () => {
   const session = useSession();
   const [showMenu, setShowMenu] = useState(false);
 
-  const [loginState, setLoginState] = useState<LoginState | undefined>();
-  const loginUuid = useRef<string | undefined>();
-  useEffect(() => {
-    if (loginState) {
-      loginUuid.current = loginState.uuid;
-    }
-  }, [loginState]);
-  const loginInterval = useRef<number | undefined>();
-  const checkLogin = useCallback(() => {
-    fetch(pathcat("/api/login/status", { uuid: loginUuid.current }), {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((state: { code: string }) => {
-        if (state.code === "ok") {
-          window.location.reload();
-        }
-      });
-  }, []);
-  const onLogin = useCallback(() => {
-    fetch("/api/login/start", { method: "POST" })
-      .then((res) => res.json())
-      .then((state: { uuid: string; url: string }) => {
-        setLoginState({ uuid: state.uuid, url: new URL(state.url) });
-        loginInterval.current = setInterval(
-          checkLogin,
-          2500,
-        ) as unknown as number;
-        window.open(state.url, "_blank");
-      });
-  }, [checkLogin]);
+  const { loginState, startLogin, cancelLogin } = useLogin({
+    onLoginSuccess: () => {
+      window.location.reload();
+    },
+  });
 
   return (
     <>
       <ModalPortal
         isOpen={!!loginState}
         close={() => {
-          setLoginState(undefined);
-          clearInterval(loginInterval.current);
+          cancelLogin();
         }}
       >
         <h1 className="text-xl font-bold mb-2">{t("login.title")}</h1>
@@ -110,7 +84,7 @@ const Header = () => {
           ) : (
             <button
               className="p-2 px-4 rounded font-bold bg-white dark:bg-theme text-theme dark:text-slate-900 ml-2"
-              onClick={onLogin}
+              onClick={startLogin}
             >
               {t("login.button")}
             </button>

@@ -19,10 +19,10 @@ notFound:
 
 header:
   login:
-    button: "Log in"
-    title: "Logging in..."
+    button: "Sign in"
+    title: "Signing in..."
     description: |
-      Log in with your Sonolus account.<br/>
+      Sign in with your Sonolus account.<br/>
       This page will be refreshed automatically after logging in.<br/>
       Didn't get a popup? <0>Click here.</0>
 home:
@@ -36,7 +36,7 @@ menu:
   liked: "Liked charts"
   myAlts: "My alts"
   guideline: "Guideline"
-  logout: "Log out"
+  logout: "Sign out"
 chart:
   notFound: "Couldn't find the chart."
   variants: "Variants"
@@ -144,12 +144,26 @@ upload:
   publishModal:
     title: "Publish this chart?"
     description: "Your chart must..."
-    check0: "have originality, (Do not publish a copy of existing chart)"
-    check1: "be completed, (Do not publish unfinished charts)"
-    check2: "use music that allows fanmade charts, (FYI, songs of these games don't allow making fanmade charts: A new dimension rhythm game, A tatsujin)"
-    check3: "not have regligious, political, sexual or other inappropriate content,"
-    check4: "have the correct information. (title, composer, artist, BPM, etc.)"
-    description2: "Any chart that violates the <0>guideline</0> will be deleted, \
+    check0:
+      title: "be completed"
+      description: Publishing incomplete charts is not allowed, and <strong>may result in instant ban!</strong>
+    check1:
+      title: "have originality"
+      description: |
+        Do not publish a chart that intends to copy existing charts.
+        Porting a chart from another game is not allowed as well.
+    check2:
+      title: "use music that allows fanmade charts"
+      description: |
+        Some games do not allow fanmade charts using their music. (For example, Arcaea and Taiko do not allow fanmade charts.)
+    check3:
+      title: "not have regligious, political, sexual or other inappropriate content"
+    check4:
+      title: "have the correct information"
+      description: |
+        Make sure the title, composer, artist, BPM, and other information are correct.
+    description2:
+      "Any chart that violates the <0>guideline</0> will be deleted, \
       and you will be warned or banned."
     ok: "Publish"
 
@@ -233,4 +247,4 @@ discordError:
     unknown: Unknown error
 
 login:
-  title: "Log in"
+  title: "Sign in"

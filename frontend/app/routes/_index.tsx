@@ -8,7 +8,7 @@ import ChartList from "~/components/ChartList";
 import { useServerSettings } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types";
-import {sonolusUrl} from "~/lib/utils";
+import { sonolusUrl } from "~/lib/utils";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const locale = await detectLocale(request);
@@ -80,7 +80,7 @@ export const Home = () => {
           ]}
         />
       </p>
-      <button>
+      <div className="flex justify-center">
         <a
           className="px-2 py-1 button bg-black text-white inline-flex items-center"
           href={sonolusUrl(serverSettings, "/")}
@@ -88,7 +88,7 @@ export const Home = () => {
           <OpenRegular className="h-5 w-5 mr-1" />
           {t("openInSonolus")}
         </a>
-      </button>
+      </div>
       <div>
         <h1 className="page-title">{t("newCharts")}</h1>
         <ChartList charts={newCharts} />
