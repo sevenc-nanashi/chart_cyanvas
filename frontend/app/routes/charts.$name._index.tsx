@@ -194,51 +194,51 @@ const ChartPage = () => {
   return (
     <>
       <ModalPortal isOpen={showDeletionModal}>
-        <h1 className="text-xl font-bold text-normal mb-2 break-word">
-          {t("deletionModal.title")}
-        </h1>
-        {isAdmin(session) ? (
-          <>
-            <Checkbox
-              label={t("deletionModal.warnAuthor")}
-              checked={warnAuthor}
-              onChange={(e) => setWarnAuthor(e)}
-            />
-            <InputTitle text={t("deletionModal.warnReason")}>
-              <TextInput
-                name="warnReason"
-                textarea
-                optional
-                className="w-full h-32"
-                disabled={!warnAuthor}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendDeleteRequest();
+          }}
+        >
+          <h1 className="text-xl font-bold text-normal mb-2 break-word">
+            {t("deletionModal.title")}
+          </h1>
+          {isAdmin(session) ? (
+            <>
+              <Checkbox
+                label={t("deletionModal.warnAuthor")}
+                checked={warnAuthor}
+                onChange={(e) => setWarnAuthor(e)}
               />
-            </InputTitle>
-          </>
-        ) : (
-          <p className="text-sm text-gray-500 text-normal mb-1">
-            {t("deletionModal.description")}
-          </p>
-        )}
-        <div className="flex justify-end mt-4 gap-2">
-          <div
-            className="px-4 py-2 rounded text-sm border-2 border-slate-500 dark:border-white text-normal cursor-pointer"
-            onClick={() => {
-              setShowDeletionModal(false);
-            }}
-          >
-            {rootT("cancel")}
+              <InputTitle text={t("deletionModal.warnReason")}>
+                <TextInput
+                  name="warnReason"
+                  textarea
+                  optional
+                  className="w-full h-32"
+                  disabled={!warnAuthor}
+                />
+              </InputTitle>
+            </>
+          ) : (
+            <p className="text-sm text-gray-500 text-normal mb-1">
+              {t("deletionModal.description")}
+            </p>
+          )}
+          <div className="flex justify-end mt-4 gap-2">
+            <button
+              className="px-4 py-2 button-cancel"
+              onClick={() => {
+                setShowDeletionModal(false);
+              }}
+            >
+              {rootT("cancel")}
+            </button>
+            <button type="submit" className={clsx("px-4 py-2 button-danger")}>
+              {t("deletionModal.ok")}
+            </button>
           </div>
-          <div
-            className={clsx(
-              "px-4 py-2 rounded text-sm bg-red-500 text-white cursor-pointer",
-            )}
-            onClick={() => {
-              sendDeleteRequest();
-            }}
-          >
-            {t("deletionModal.ok")}
-          </div>
-        </div>
+        </form>
       </ModalPortal>
 
       <div className="flex flex-col">

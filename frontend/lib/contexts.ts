@@ -18,6 +18,11 @@ export const ServerSettingsContext = createContext<ServerSettings | undefined>(
 export const ServerErrorContext = createContext<(error: Error) => void>(
   () => {},
 );
+  export const IsSubmittingContext = createContext<boolean>(false);
+
+export const SetIsSubmittingContext = createContext<
+  Dispatch<SetStateAction<boolean>> | undefined
+>(undefined);
 
 export const useSession = () => {
   return useContext(SessionContext);
@@ -43,3 +48,15 @@ export const useServerSettings = () => {
   }
   return serverSettings;
 };
+
+export const useSetIsSubmitting = () => {
+  const setIsSubmitting = useContext(SetIsSubmittingContext);
+  if (!setIsSubmitting) {
+    throw new Error("IsSubmitting provider not found");
+  }
+  return setIsSubmitting;
+};
+
+export const useIsSubmitting = () => {
+  return useContext(IsSubmittingContext);
+}

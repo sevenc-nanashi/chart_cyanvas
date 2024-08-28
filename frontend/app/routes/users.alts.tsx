@@ -8,7 +8,9 @@ import { useTranslation } from "react-i18next";
 import DisablePortal from "~/components/DisablePortal.tsx";
 import ModalPortal from "~/components/ModalPortal.tsx";
 import {
+  useIsSubmitting,
   useSession,
+  useSetIsSubmitting,
   useSetServerError,
   useSetSession,
 } from "~/lib/contexts.ts";
@@ -43,19 +45,20 @@ const MyAlts = () => {
   const { t: rootT } = useTranslation();
   const session = useSession();
   const setSession = useSetSession();
+  const isSubmitting = useIsSubmitting();
+  const setIsSubmitting = useSetIsSubmitting();
 
   if (!session?.loggedIn) {
     throw new Error("Not logged in");
   }
 
   const [errorText, setErrorText] = useState<string | undefined>(undefined);
-  const [isSending, setIsSending] = useState(false);
   const newNameInput = useRef<HTMLInputElement>(null);
   const setServerError = useSetServerError();
 
   const createAltUser = useCallback(async () => {
     if (!newNameInput.current) return;
-    if (isSending) return;
+    if (isSubmitting) return;
 
     setErrorText(undefined);
     const name = newNameInput.current.value;
@@ -64,7 +67,7 @@ const MyAlts = () => {
       return;
     }
 
-    setIsSending(true);
+    setIsSubmitting(true);
     const result = await fetch("/api/my/alt_users", {
       method: "POST",
       body: JSON.stringify({ name }),
@@ -72,7 +75,7 @@ const MyAlts = () => {
         "Content-Type": "application/json",
       },
     });
-    setIsSending(false);
+    setIsSubmitting(false);
     if (result.status === 500) {
       setServerError(new Error("Failed to create alt user"));
       return;
@@ -84,7 +87,7 @@ const MyAlts = () => {
       return;
     }
     newNameInput.current.value = "";
-  }, [isSending, setServerError]);
+  }, [isSubmitting, setServerError, setIsSubmitting]);
 
   const editNameInput = useRef<HTMLInputElement>(null);
   const [editingUsersHandle, setEditingUsersHandle] = useState<
@@ -93,7 +96,7 @@ const MyAlts = () => {
 
   const update = useCallback(async () => {
     if (!editNameInput.current) return;
-    if (isSending) return;
+    if (isSubmitting) return;
 
     setErrorText(undefined);
     const name = editNameInput.current.value;
@@ -102,7 +105,7 @@ const MyAlts = () => {
       return;
     }
 
-    setIsSending(true);
+    setIsSubmitting(true);
     const result = await fetch(
       pathcat("/api/my/alt_users/:handle", { handle: editingUsersHandle }),
       {
@@ -113,7 +116,7 @@ const MyAlts = () => {
         },
       },
     );
-    setIsSending(false);
+    setIsSubmitting(false);
     if (result.status === 500) {
       setServerError(new Error("failed to update alt user"));
       return;
@@ -124,8 +127,8 @@ const MyAlts = () => {
       setErrorText(resultData.error);
       return;
     }
-    setSession((before: Session) => {
-      if (!before.loggedIn) return before;
+    setSession((before: Session | undefined) => {
+      if (!before?.loggedIn) return before;
       return {
         ...before,
 
@@ -135,24 +138,24 @@ const MyAlts = () => {
       };
     });
     setEditingUsersHandle(undefined);
-  }, [editingUsersHandle, isSending, setServerError, setSession]);
+  }, [editingUsersHandle, isSubmitting, setServerError, setSession, setIsSubmitting]);
 
   const [deletingUsersHandle, setDeletingUsersHandle] = useState<
     string | undefined
   >(undefined);
 
   const deleteAltUser = useCallback(async () => {
-    if (isSending) return;
+    if (isSubmitting) return;
 
     setErrorText(undefined);
-    setIsSending(true);
+    setIsSubmitting(true);
     const result = await fetch(
       pathcat("/api/my/alt_users/:handle", { handle: deletingUsersHandle }),
       {
         method: "DELETE",
       },
     );
-    setIsSending(false);
+    setIsSubmitting(false);
     if (result.status === 500) {
       setServerError(
         new Error(`Failed to delete alt user ${deletingUsersHandle}`),
@@ -165,8 +168,8 @@ const MyAlts = () => {
       setErrorText(resultData.error);
       return;
     }
-    setSession((before: Session) => {
-      if (!before.loggedIn) return before;
+    setSession((before: Session | undefined) => {
+      if (!before?.loggedIn) return before;
       return {
         ...before,
 
@@ -176,7 +179,7 @@ const MyAlts = () => {
       };
     });
     setDeletingUsersHandle(undefined);
-  }, [deletingUsersHandle, isSending, setServerError, setSession]);
+  }, [deletingUsersHandle, isSubmitting, setServerError, setSession, setIsSubmitting]);
 
   const deletingUser = session.altUsers.find(
     (u) => u.handle === deletingUsersHandle,
@@ -184,7 +187,6 @@ const MyAlts = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <DisablePortal isShown={isSending} />
       <ModalPortal isOpen={!!deletingUsersHandle}>
         <h1 className="text-xl font-bold text-normal mb-2 break-word">
           {t("deletionModal.title")}
@@ -263,7 +265,7 @@ const MyAlts = () => {
                     onClick={update}
                     disabled={
                       !(editNameInput.current?.value !== altUser.name) ||
-                      isSending
+                      isSubmitting
                     }
                     key="save"
                   >
@@ -273,7 +275,7 @@ const MyAlts = () => {
                     className="px-4 py-2 button-danger"
                     onClick={() => setEditingUsersHandle(undefined)}
                     key="cancel"
-                    disabled={isSending}
+                    disabled={isSubmitting}
                   >
                     {t("cancel")}
                   </button>

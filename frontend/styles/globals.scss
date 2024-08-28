@@ -168,7 +168,8 @@ textarea {
   }
 }
 
-.button-tertiary {
+.button-tertiary,
+.button-cancel {
   @extend .button;
   @apply outline -outline-offset-1 outline-2 outline-slate-500 dark:outline-white bg-slate-500 dark:bg-slate-800 bg-opacity-0;
 

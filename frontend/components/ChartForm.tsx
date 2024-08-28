@@ -14,6 +14,7 @@ import {
   useServerSettings,
   useSession,
   useSetServerError,
+  useSetIsSubmitting,
 } from "~/lib/contexts";
 import type { AdminOnlyUserData, Chart } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
@@ -155,7 +156,7 @@ const ChartForm: React.FC<
     };
   }, [isAltUserSelectorOpen, closeAltUserSelector]);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const setIsSubmitting = useSetIsSubmitting();
   const [showFileSizeError, setShowFileSizeError] = useState(false);
   const createFormData = useCallback(() => {
     const errors: Record<string, string> = {};
@@ -252,7 +253,7 @@ const ChartForm: React.FC<
         setIsSubmitting(false);
       }
     },
-    [setServerError, mapErrors, navigate],
+    [setServerError, mapErrors, navigate, setIsSubmitting],
   );
   const submitChart = useCallback(() => {
     const formData = createFormData();
@@ -271,7 +272,7 @@ const ChartForm: React.FC<
       }
       navigate(`/charts/${data.chart.name}`);
     });
-  }, [createFormData, handleResponse, navigate]);
+  }, [createFormData, handleResponse, navigate, setIsSubmitting]);
 
   const updateChart = useCallback(() => {
     const formData = createFormData();
@@ -295,7 +296,7 @@ const ChartForm: React.FC<
       }
       navigate(`/charts/${data.chart.name}`);
     });
-  }, [createFormData, handleResponse, chartName, navigate]);
+  }, [createFormData, handleResponse, chartName, navigate, setIsSubmitting]);
 
   const [publishConfirms, setPublishConfirms] = useState([
     false,
@@ -340,7 +341,7 @@ const ChartForm: React.FC<
         navigate(`/charts/${data.chart.name}`);
       });
     });
-  }, [navigate, chartName, handleResponse, createFormData]);
+  }, [navigate, chartName, handleResponse, setIsSubmitting, createFormData]);
   const unpublishChart = useCallback(() => {
     setIsSubmitting(true);
     const formData = createFormData();
@@ -373,7 +374,7 @@ const ChartForm: React.FC<
       }
       navigate(`/charts/${data.chart.name}`);
     });
-  }, [navigate, chartName, createFormData, setServerError]);
+  }, [navigate, chartName, createFormData, setServerError, setIsSubmitting]);
 
   const [unUploadedFiles, setUnUploadedFiles] = useState<File[]>([]);
   const onDrop = useCallback((e: React.DragEvent) => {
@@ -417,7 +418,6 @@ const ChartForm: React.FC<
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
     >
-      <DisablePortal isShown={isSubmitting} />
       <ModalPortal
         isOpen={unUploadedFiles.length > 0}
         close={() => setUnUploadedFiles([])}

@@ -6,18 +6,23 @@ import {
   Scripts,
   ScrollRestoration,
   json,
+  useLocation,
+  useNavigation,
   useRouteLoaderData,
 } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import favicon from "~/assets/favicon.svg?url";
+import DisablePortal from "~/components/DisablePortal";
 import Footer from "~/components/Footer.tsx";
 import Header from "~/components/Header.tsx";
 import { discordEnabled, host } from "~/lib/config.server.ts";
 import {
+  IsSubmittingContext,
   ServerErrorContext,
   ServerSettingsContext,
   SessionContext,
+  SetIsSubmittingContext,
   SetSessionContext,
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
@@ -53,7 +58,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }
 
   const [session, setSession] = useState<Session | undefined>(undefined);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<Error | undefined>();
+  const navigation = useNavigation();
+  const location = useLocation();
+  const mainNodeRef = useRef(null);
+  const prevChildrenRef = useRef<
+    [React.ReactNode, React.ReactNode | undefined]
+  >([undefined, children]);
+  useEffect(() => {
+    prevChildrenRef.current = [prevChildrenRef.current[1], children];
+  }, [children]);
+
+  const isSubmittingOrTransitioning = useMemo(
+    () => isSubmitting || navigation.state !== "idle",
+    [isSubmitting, navigation],
+  );
   const { i18n } = useTranslation();
   if (i18n.language !== loaderData.locale) {
     i18n.changeLanguage(loaderData.locale);
@@ -101,15 +121,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <SetSessionContext.Provider value={setSession}>
             <ServerErrorContext.Provider value={setServerError}>
               <ServerSettingsContext.Provider value={loaderData.serverSettings}>
-                <Header />
-                <main className="py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow">
-                  {children}
-                </main>
+                <IsSubmittingContext.Provider value={isSubmitting}>
+                  <SetIsSubmittingContext.Provider value={setIsSubmitting}>
+                    <DisablePortal isShown={isSubmittingOrTransitioning} />
+                    <Header />
+                    <main
+                      ref={mainNodeRef}
+                      className="py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow"
+                      key={location.pathname}
+                    >
+                      {children}
+                    </main>
 
-                <Footer />
+                    <Footer />
 
-                <ScrollRestoration />
-                <Scripts />
+                    <ScrollRestoration />
+                    <Scripts />
+                  </SetIsSubmittingContext.Provider>
+                </IsSubmittingContext.Provider>
               </ServerSettingsContext.Provider>
             </ServerErrorContext.Provider>
           </SetSessionContext.Provider>
