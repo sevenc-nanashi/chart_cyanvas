@@ -40,7 +40,7 @@ menu:
 chart:
   notFound: "Couldn't find the chart."
   variants: "Variants"
-  sameAuthor: "Charts by the same author"
+  sameAuthor: "Charts by this charter"
   edit: "Edit"
   delete: "Delete"
   createVariant: "Create variant"
@@ -49,7 +49,7 @@ chart:
   deletionModal:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
-    warnAuthor: "Warn the author"
+    warnAuthor: "Warn the charter"
     warnReason: "Reason for warning"
     ok: "Delete"
 
@@ -99,7 +99,7 @@ upload:
 
     tags: "Tags"
 
-    author: "Author"
+    author: "Charter"
 
   tooltip:
     rating: |
@@ -150,7 +150,7 @@ upload:
     check3: "not have regligious, political, sexual or other inappropriate content,"
     check4: "have the correct information. (title, composer, artist, BPM, etc.)"
     description2: "Any chart that violates the <0>guideline</0> will be deleted, \
-      and the author will be warned or banned."
+      and you will be warned or banned."
     ok: "Publish"
 
 errors:

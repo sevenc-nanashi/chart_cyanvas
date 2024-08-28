@@ -19,7 +19,7 @@ import clsx from "clsx";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
   const rootT = await i18n.getFixedT(locale, "root");
-  const t = await i18n.getFixedT(locale, "altUsers");
+  const t = await i18n.getFixedT(locale, "myAlts");
 
   const title = `${t("title")} | ${rootT("name")}`;
 
@@ -27,7 +27,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export const handle = {
-  i18n: "altUsers",
+  i18n: "myAlts",
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -222,7 +222,7 @@ const MyAlts = () => {
         </div>
       </ModalPortal>
       <div>
-        <h1 className="text-2xl font-bold mb-2">{t("title")}</h1>
+        <h1 className="page-title">{t("title")}</h1>
         <p>{t("description")}</p>
         <div className="h-4" />
         <div className="flex flex-col gap-2">

@@ -9,10 +9,11 @@ import {
 } from "@fluentui/react-icons";
 import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef } from "react";
 import type { Chart } from "~/lib/types";
-import { getRatingColor, randomize } from "~/lib/utils.ts";
+import { getRatingColor } from "~/lib/utils.ts";
 import OptionalImage from "./OptionalImage.tsx";
+import { useRandomValue } from "~/lib/useRandomValue.ts";
 
 type Props = { data?: Chart; spacer?: boolean };
 
@@ -20,19 +21,16 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
   { data, spacer },
   ref,
 ) {
-  const [random, setRandom] = useState(0);
+  const random = useRandomValue();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setRandom(Math.random());
-  }, []);
   if (spacer) {
     return <div className="p-2 h-0 w-full md:w-[480px]" ref={ref} />;
   }
   const retvar = (
     <div
       className={clsx(
-        "h-40 md:h-48 w-full md:w-[480px] flex relative",
+        "h-40 md:h-48 w-full md:w-[480px] grid grid-cols-[9rem_1fr] md:grid-cols-[11rem_1fr] relative overflow-x-auto",
         "card",
 
         data?.visibility === "public" || "card-darker",
@@ -76,21 +74,21 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
               <ClockRegular className="h-6 w-6 text-slate-900 dark:text-white" />
             </div>
           )}
-          <div className="ml-2 flex flex-col flex-grow">
-            <h2 className="font-bold text-2xl w-full break-all overflow-hidden">
+          <div className="ml-2 flex flex-col overflow-hidden">
+            <h2 className="font-bold text-lg md:text-2xl w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
               {data.title}
             </h2>
             <div className="flex-grow" />
 
-            <p className="text-xs">
+            <p className="text-xs whitespace-nowrap overflow-x-hidden overflow-ellipsis">
               <MusicNote2Regular className="mr-1 w-4 h-4" />
               {data.composer}
             </p>
-            <p className="text-xs">
+            <p className="text-xs whitespace-nowrap overflow-x-hidden overflow-ellipsis">
               <MicRegular className="mr-1 w-4 h-4" />
               {data.artist || "-"}
             </p>
-            <p className="text-xs">
+            <p className="text-xs whitespace-nowrap overflow-x-hidden overflow-ellipsis">
               {data.tags.length > 0 ? (
                 <>
                   <TagRegular className="mr-1 w-4 h-4" />
@@ -104,7 +102,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
               )}
             </p>
 
-            <p className="text-xs blue-link">
+            <p className="text-xs blue-link overflow-x-hidden whitespace-nowrap overflow-ellipsis">
               <Link
                 to={`/users/${data.author.handle}`}
                 onClick={(e) => e.stopPropagation()}
@@ -114,7 +112,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
                 <span className="text-xs">#{data.author.handle}</span>
               </Link>
             </p>
-            <p className="text-xs text-red-400">
+            <p className="text-xs text-red-400 overflow-x-hidden whitespace-nowrap overflow-ellipsis">
               <HeartRegular className="mr-1 w-4 h-4" />
               {data.likes}
             </p>
@@ -124,26 +122,26 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
         <>
           <div className="ml-2 flex flex-col">
             <h2
-              className="h-8 bg-gray-300 rounded animate-pulse mt-4"
-              style={{ width: `${50 + random * 50}%` }}
+              className="h-8 bg-gray-300 rounded animate-pulse"
+              style={{ width: `${50 + random("title") * 50}%` }}
             />
 
             <div className="flex-grow" />
             <p
               className="h-4 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
-              style={{ width: `${50 + randomize(random, 1) * 50}%` }}
+              style={{ width: `${50 + random("composer") * 50}%` }}
             />
             <p
               className="h-4 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
-              style={{ width: `${50 + randomize(random, 3) * 50}%` }}
+              style={{ width: `${50 + random("artist") * 50}%` }}
             />
             <p
               className="h-4 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
-              style={{ width: `${50 + randomize(random, 5) * 50}%` }}
+              style={{ width: `${50 + random("charter") * 50}%` }}
             />
             <p
               className="h-4 bg-red-300 rounded animate-pulse mt-2 opacity-75"
-              style={{ width: `${50 + randomize(random, 5) * 50}%` }}
+              style={{ width: `${10 + random("likes") * 20}%` }}
             />
           </div>
         </>

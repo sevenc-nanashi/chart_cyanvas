@@ -9,14 +9,6 @@ export const getRatingColor = (difficulty: number) => {
   return "bg-slate-800";
 };
 
-export const randomize = (base: number, seed: number) => {
-  let result = base;
-  for (let i = 0; i < seed; i++) {
-    result = Math.sin(result * 10) / 2 + 0.5;
-  }
-  return base;
-};
-
 export const isMine = (session: Session | undefined, chart: Chart) => {
   if (!session?.loggedIn) return false;
   return [

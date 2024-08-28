@@ -12,9 +12,10 @@ import ChartSection from "~/components/ChartSection";
 import { useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart, DiscordInfo, User } from "~/lib/types.ts";
-import { isAdmin, randomize } from "~/lib/utils.ts";
+import { isAdmin } from "~/lib/utils.ts";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import clsx from "clsx";
+import { useRandomValue } from "~/lib/useRandomValue";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -87,12 +88,9 @@ const UserPage = () => {
   const { t } = useTranslation("user");
   const { userData, userCharts } = useLoaderData<typeof loader>();
 
-  const session = useSession();
+  const random = useRandomValue();
 
-  const [random, setRandom] = useState(0);
-  useEffect(() => {
-    setRandom(Math.random());
-  }, []);
+  const session = useSession();
 
   const [secretUserInfo, setSecretUserInfo] = useState<{
     discord: DiscordInfo;
@@ -137,12 +135,10 @@ const UserPage = () => {
 
                 {secretUserInfo && (
                   <p className="text-md mt-4 card">
-                  {
-                    t("secretUserInfo", {
+                    {t("secretUserInfo", {
                       discord: secretUserInfo.discord.username,
                       warn: secretUserInfo.warnCount,
-                    })
-                  }
+                    })}
                   </p>
                 )}
                 <p className="flex-grow mt-4 mr-4 whitespace-pre-wrap break-words w-full">
@@ -153,7 +149,7 @@ const UserPage = () => {
               <>
                 <h1
                   className="h-10 bg-gray-300 rounded animate-pulse"
-                  style={{ width: `${150 + randomize(random, 1) * 100}px` }}
+                  style={{ width: `${150 + random("name") * 100}px` }}
                 />
 
                 <p className="h-6 bg-gray-300 rounded animate-pulse mt-6 opacity-75 w-[150px]" />
@@ -164,7 +160,7 @@ const UserPage = () => {
                   <p
                     className="h-4 bg-gray-300 rounded animate-pulse mt-2 opacity-75"
                     style={{
-                      width: `${150 + randomize(random, 10) * 300}px`,
+                      width: `${150 + random("description", i) * 300}px`,
                     }}
                     key={i}
                   />
