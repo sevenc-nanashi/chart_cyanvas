@@ -1,33 +1,33 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { WithContext as ReactTags } from "react-tag-input";
-import { useTranslation, Trans } from "react-i18next";
 import {
   DocumentRegular,
   ImageRegular,
   InfoRegular,
   MusicNote2Regular,
 } from "@fluentui/react-icons";
+import { Link, useNavigate } from "@remix-run/react";
+import clsx from "clsx";
 import { pathcat } from "pathcat";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { WithContext as ReactTags } from "react-tag-input";
 import {
   useServerSettings,
   useSession,
   useSetServerError,
 } from "~/lib/contexts";
 import type { AdminOnlyUserData, Chart } from "~/lib/types.ts";
-import { Link, useNavigate } from "@remix-run/react";
-import ScheduleInput from "./ScheduleInput.tsx";
-import FileUploadButton from "./FileUploadButton.tsx";
-import NumberInput from "./NumberInput.tsx";
-import RangeInput from "./RangeInput.tsx";
+import { isAdmin } from "~/lib/utils.ts";
+import Checkbox from "./Checkbox.tsx";
 import DisablePortal from "./DisablePortal.tsx";
-import TextInput from "./TextInput.tsx";
+import FileUploadButton from "./FileUploadButton.tsx";
 import InputTitle from "./InputTitle.tsx";
 import ModalPortal from "./ModalPortal.tsx";
-import Checkbox from "./Checkbox.tsx";
-import clsx from "clsx";
-import { isAdmin } from "~/lib/utils.ts";
-import Select from "./Select.tsx";
+import NumberInput from "./NumberInput.tsx";
 import RadioItem, { RadioGroup } from "./RadioButton.tsx";
+import RangeInput from "./RangeInput.tsx";
+import ScheduleInput from "./ScheduleInput.tsx";
+import Select from "./Select.tsx";
+import TextInput from "./TextInput.tsx";
 
 type Tag = { id: string; text: string };
 type ChartFormData = {

@@ -1,6 +1,6 @@
-import jaTranslations from "~/i18n/ja.yml";
-import enTranslations from "~/i18n/en.yml";
 import type { Resource } from "i18next";
+import enTranslations from "~/i18n/en.yml";
+import jaTranslations from "~/i18n/ja.yml";
 
 const parseTranslations: (
   translations: Record<string, string | unknown>,

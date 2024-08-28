@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation, Trans } from "react-i18next";
-import { pathcat } from "pathcat";
 import { Link } from "@remix-run/react";
+import { pathcat } from "pathcat";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import LogoCF from "~/assets/logo-cf.svg?react";
 import { useSession } from "~/lib/contexts";
-import SideMenu from "./SideMenu.tsx";
-import ModalPortal from "./ModalPortal.tsx";
 import { useLogin } from "~/lib/useLogin.ts";
+import ModalPortal from "./ModalPortal.tsx";
+import SideMenu from "./SideMenu.tsx";
 
 type LoginState = { uuid: string; url: URL };
 const Header = () => {

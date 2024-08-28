@@ -1,7 +1,7 @@
 import {
-  json,
   type LoaderFunctionArgs,
   type MetaFunction,
+  json,
 } from "@remix-run/node";
 import { Link, useBeforeUnload } from "@remix-run/react";
 import { useCallback, useEffect, useRef } from "react";

@@ -1,5 +1,5 @@
-import clsx from "clsx"
-import type { ComponentProps } from "react"
+import clsx from "clsx";
+import type { ComponentProps } from "react";
 
 const OptionalImage: React.FC<
   { src: string | undefined; alt: string | undefined } & Omit<
@@ -18,9 +18,9 @@ const OptionalImage: React.FC<
           ...props.style,
         }}
       />
-    )
+    );
   }
-  return <img src={src} alt={alt || ""} {...props} />
-}
+  return <img src={src} alt={alt || ""} {...props} />;
+};
 
-export default OptionalImage
+export default OptionalImage;

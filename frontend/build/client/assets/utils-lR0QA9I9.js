@@ -1,1 +1,0 @@
-const g=r=>r<9?"bg-green-500 dark:bg-green-400":r<15?"bg-blue-400":r<20?"bg-yellow-500 dark:bg-yellow-400":r<28?"bg-red-400":r<40?"bg-purple-400":"bg-slate-800",n=(r,e)=>r,t=(r,e)=>r!=null&&r.loggedIn?[r.user.handle,...r.altUsers.map(a=>a.handle)].includes(e.author.handle):!1,u=r=>(r==null?void 0:r.loggedIn)&&r.user.userType==="admin";export{u as a,g,t as i,n as r};

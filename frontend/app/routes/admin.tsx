@@ -1,4 +1,8 @@
-import { type LoaderFunction, type LoaderFunctionArgs, json } from "@remix-run/node";
+import {
+  type LoaderFunction,
+  type LoaderFunctionArgs,
+  json,
+} from "@remix-run/node";
 import { Link, type MetaFunction, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";

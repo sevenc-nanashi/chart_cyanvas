@@ -11,9 +11,9 @@ import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { forwardRef } from "react";
 import type { Chart } from "~/lib/types";
+import { useRandomValue } from "~/lib/useRandomValue.ts";
 import { getRatingColor } from "~/lib/utils.ts";
 import OptionalImage from "./OptionalImage.tsx";
-import { useRandomValue } from "~/lib/useRandomValue.ts";
 
 type Props = { data?: Chart; spacer?: boolean };
 

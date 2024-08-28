@@ -6,12 +6,12 @@ import {
   SignOutRegular,
   TagRegular,
 } from "@fluentui/react-icons";
-import clsx from "clsx";
-import { useTranslation } from "react-i18next";
-import { createElement } from "react";
-import { useSession } from "~/lib/contexts.ts";
 import { Link, useNavigate } from "@remix-run/react";
+import clsx from "clsx";
 import i18next from "i18next";
+import { createElement } from "react";
+import { useTranslation } from "react-i18next";
+import { useSession } from "~/lib/contexts.ts";
 
 const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
   const session = useSession();

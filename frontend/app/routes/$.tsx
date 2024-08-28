@@ -1,8 +1,8 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/react";
+import cookie from "cookie";
 import { useTranslation } from "react-i18next";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
-import cookie from "cookie";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);

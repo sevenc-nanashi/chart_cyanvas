@@ -1,1 +1,0 @@
-import{j as n}from"./context-vN2-4QuS.js";import{u as e}from"./useTranslation-CesOUbzQ.js";const i={i18n:"notFound"},r=({data:t})=>[{title:t.title}];function a(){const[t]=e("notFound");return n.jsxs("div",{children:[n.jsx("h1",{className:"page-title",children:t("heading")}),n.jsx("p",{children:t("description")})]})}export{a as default,i as handle,r as meta};

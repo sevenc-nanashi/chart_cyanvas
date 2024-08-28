@@ -1,10 +1,10 @@
 import { RemixBrowser } from "@remix-run/react";
 import i18next from "i18next";
+import languageDetector from "i18next-browser-languagedetector";
 import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { enTranslation, jaTranslation, languages } from "~/lib/translations";
-import languageDetector from "i18next-browser-languagedetector";
 import "budoux/module/webcomponents/budoux-ja";
 
 i18next

@@ -1,9 +1,9 @@
-import { useTranslation } from "react-i18next";
-import type { Chart } from "~/lib/types.ts";
-import ChartCard from "./ChartCard.tsx";
 import { ArrowRightFilled } from "@fluentui/react-icons";
 import { Await, Link } from "@remix-run/react";
 import { Suspense } from "react";
+import { useTranslation } from "react-i18next";
+import type { Chart } from "~/lib/types.ts";
+import ChartCard from "./ChartCard.tsx";
 
 const ChartSection: React.FC<{
   sections: {

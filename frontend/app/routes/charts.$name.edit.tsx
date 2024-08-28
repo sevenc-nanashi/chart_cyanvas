@@ -93,7 +93,10 @@ function EditChart() {
   return (
     <>
       <h1 className="page-title">
-        <Link to={`/charts/${name}`} className="underline text-themeText flex items-center mr-2">
+        <Link
+          to={`/charts/${name}`}
+          className="underline text-themeText flex items-center mr-2"
+        >
           <ArrowLeftFilled />
         </Link>
         {t("titleEdit", { title: chartData.title })}

@@ -5,17 +5,17 @@ import {
   defer,
 } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { createElement, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
+import { backendUrl, host } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart, DiscordInfo, User } from "~/lib/types.ts";
-import { isAdmin } from "~/lib/utils.ts";
-import { backendUrl, host } from "~/lib/config.server.ts";
-import clsx from "clsx";
 import { useRandomValue } from "~/lib/useRandomValue";
+import { isAdmin } from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);

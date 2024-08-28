@@ -1,5 +1,5 @@
-import { useEffect, useReducer, useRef } from "react";
 import { clsx } from "clsx";
+import { useEffect, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 const FileUploadButton = (props: {

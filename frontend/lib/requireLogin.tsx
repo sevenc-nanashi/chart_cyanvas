@@ -1,6 +1,6 @@
+import { useNavigate } from "@remix-run/react";
 import { createElement } from "react";
 import { useSession } from "./contexts.ts";
-import { useNavigate } from "@remix-run/react";
 
 const requireLogin = <T extends React.FC<never>>(component: T) => {
   return (props: never) => {

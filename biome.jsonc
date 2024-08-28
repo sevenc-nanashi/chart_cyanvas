@@ -3,9 +3,12 @@
   "organizeImports": {
     "enabled": true
   },
+  "files": {
+    "ignore": ["./frontend/build", "./frontend/node_modules"]
+  },
   "formatter": {
     "indentStyle": "space",
-    "lineEnding":"lf"
+    "lineEnding": "lf"
   },
   "linter": {
     "enabled": true,

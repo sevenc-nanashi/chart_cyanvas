@@ -1,5 +1,5 @@
-import { createPortal } from "react-dom";
 import clsx from "clsx";
+import { createPortal } from "react-dom";
 
 const DisablePortal: React.FC<{ isShown: boolean }> = ({ isShown }) => {
   return createPortal(

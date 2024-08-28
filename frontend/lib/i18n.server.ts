@@ -1,7 +1,7 @@
+import cookie from "cookie";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { RemixI18Next } from "remix-i18next/server";
 import { enTranslation, jaTranslation, languages } from "./translations.ts";
-import cookie from "cookie";
 
 export const i18n = new RemixI18Next({
   detection: languages,

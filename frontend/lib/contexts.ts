@@ -1,9 +1,14 @@
-import { createContext, useContext } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  createContext,
+  useContext,
+} from "react";
 import type { ServerSettings, Session } from "./types.ts";
 
 export const SessionContext = createContext<Session | undefined>(undefined);
 export const SetSessionContext = createContext<
-  (setter: (session: Session) => Session) => void
+  Dispatch<SetStateAction<Session | undefined>>
 >(() => {
   throw new Error("Session provider not found");
 });

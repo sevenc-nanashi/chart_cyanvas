@@ -1,1 +1,0 @@
-import{j as e,r as i}from"./context-vN2-4QuS.js";import{u as n}from"./contexts-CgsfAxcF.js";import{q as a}from"./components-NKq783Lw.js";const p=s=>t=>{const r=n(),o=a();return r?r.loggedIn?i.createElement(s,t):(o("/login"),e.jsx("div",{})):e.jsx("div",{})};export{p as r};

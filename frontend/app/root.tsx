@@ -1,3 +1,4 @@
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -7,22 +8,21 @@ import {
   json,
   useRouteLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import favicon from "~/assets/favicon.svg?url";
 import Footer from "~/components/Footer.tsx";
 import Header from "~/components/Header.tsx";
+import { discordEnabled, host } from "~/lib/config.server.ts";
 import {
   ServerErrorContext,
   ServerSettingsContext,
   SessionContext,
   SetSessionContext,
 } from "~/lib/contexts";
-import styles from "~/styles/globals.scss?url";
-import { useEffect, useState } from "react";
-import type { ServerSettings, Session } from "~/lib/types";
-import { discordEnabled, host } from "~/lib/config.server.ts";
 import { detectLocale } from "~/lib/i18n.server";
+import type { ServerSettings, Session } from "~/lib/types";
+import styles from "~/styles/globals.scss?url";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);

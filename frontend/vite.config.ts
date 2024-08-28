@@ -1,9 +1,9 @@
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
-import svgr from "vite-plugin-svgr";
 import yaml from "@modyfi/vite-plugin-yaml";
-import { cjsInterop } from "vite-plugin-cjs-interop";
+import { vitePlugin as remix } from "@remix-run/dev";
 import { config } from "dotenv";
+import { defineConfig } from "vite";
+import { cjsInterop } from "vite-plugin-cjs-interop";
+import svgr from "vite-plugin-svgr";
 
 config({ path: "../.env" });
 

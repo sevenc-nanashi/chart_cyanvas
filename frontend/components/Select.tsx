@@ -1,7 +1,7 @@
 import {
   CheckmarkRegular,
-  ChevronUpRegular,
   ChevronDownRegular,
+  ChevronUpRegular,
 } from "@fluentui/react-icons";
 import * as RadixSelect from "@radix-ui/react-select";
 import clsx from "clsx";
@@ -71,7 +71,10 @@ const Select: React.FC<{
     onValueChange={props.onChange}
   >
     <RadixSelect.Trigger
-      className={clsx("text-input relative cursor-pointer", props.disabled && "disabled")}
+      className={clsx(
+        "text-input relative cursor-pointer",
+        props.disabled && "disabled",
+      )}
     >
       <RadixSelect.Value>{props.children}</RadixSelect.Value>
       <RadixSelect.Icon>

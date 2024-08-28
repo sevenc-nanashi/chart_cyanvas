@@ -6,6 +6,6 @@
 
 declare namespace JSX {
   interface IntrinsicElements {
-    "budoux-ja": unknown
+    "budoux-ja": unknown;
   }
 }

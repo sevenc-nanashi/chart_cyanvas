@@ -1,6 +1,6 @@
-import { json, type LoaderFunction, type MetaFunction } from "@remix-run/node";
-import { useTranslation } from "react-i18next";
+import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 
 export const loader: LoaderFunction = async ({ request }) => {

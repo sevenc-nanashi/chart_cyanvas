@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect, useCallback } from "react";
 import { pathcat } from "pathcat";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type LoginState = { uuid: string; url: URL };
 export const useLogin = ({
