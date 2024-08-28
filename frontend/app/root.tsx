@@ -11,6 +11,7 @@ import {
   useRouteLoaderData,
 } from "@remix-run/react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import favicon from "~/assets/favicon.svg?url";
 import DisablePortal from "~/components/DisablePortal";
@@ -62,13 +63,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const [serverError, setServerError] = useState<Error | undefined>();
   const navigation = useNavigation();
   const location = useLocation();
-  const mainNodeRef = useRef(null);
-  const prevChildrenRef = useRef<
-    [React.ReactNode, React.ReactNode | undefined]
-  >([undefined, children]);
-  useEffect(() => {
-    prevChildrenRef.current = [prevChildrenRef.current[1], children];
-  }, [children]);
 
   const isSubmittingOrTransitioning = useMemo(
     () => isSubmitting || navigation.state !== "idle",
@@ -126,8 +120,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <DisablePortal isShown={isSubmittingOrTransitioning} />
                     <Header />
                     <main
-                      ref={mainNodeRef}
-                      className="py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow"
+                      className={clsx(
+                        "py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow relative",
+                        "starting:translate-y-2 starting:opacity-0 translate-y-0 opacity-1 motion-reduce:!translate-y-0 transition-[transform_opaicty] duration-300",
+                      )}
                       key={location.pathname}
                     >
                       {children}
