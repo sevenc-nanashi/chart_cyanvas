@@ -2,13 +2,13 @@ import { useTranslation } from "react-i18next";
 import type { Chart } from "~/lib/types.ts";
 import ChartCard from "./ChartCard.tsx";
 import { ArrowRightFilled } from "@fluentui/react-icons";
-import { Link } from "@remix-run/react";
-import clsx from "clsx";
+import { Await, Link } from "@remix-run/react";
+import { Suspense } from "react";
 
 const ChartSection: React.FC<{
   sections: {
     title: string;
-    items: Chart[];
+    items: Chart[] | Promise<Chart[]>;
     listUrl?: string | undefined;
   }[];
 }> = ({ sections }) => {
@@ -34,13 +34,23 @@ const ChartSection: React.FC<{
           </h2>
           <div className="overflow-x-scroll">
             <div className="flex flex-nowrap flex-shrink min-h-[208px] mt-4 gap-4 relative min-w-max">
-              {section.items.length > 0 ? (
-                section.items.map((chart) => (
-                  <ChartCard key={chart.name} data={chart} />
-                ))
-              ) : (
-                <p className="text-lg">{t("notFound")}</p>
-              )}
+              <Suspense
+                fallback={new Array(5)
+                  .fill(undefined)
+                  .map((_, i) => <ChartCard data={undefined} key={i} />)}
+              >
+                <Await resolve={section.items}>
+                  {(items) =>
+                    items.length > 0 ? (
+                      items.map((chart) => (
+                        <ChartCard key={chart.name} data={chart} />
+                      ))
+                    ) : (
+                      <p className="text-lg">{t("notFound")}</p>
+                    )
+                  }
+                </Await>
+              </Suspense>
             </div>
           </div>
         </div>

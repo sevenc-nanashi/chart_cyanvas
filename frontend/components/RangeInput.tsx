@@ -59,7 +59,11 @@ const RangeInput = (props: {
           </div>
         )}
         renderThumb={({ props }) => (
-          <div {...props} className="w-4 h-4 bg-theme rounded-full" />
+          <div
+            {...props}
+            key={props.key}
+            className="w-4 h-4 bg-theme rounded-full"
+          />
         )}
       />
       <input

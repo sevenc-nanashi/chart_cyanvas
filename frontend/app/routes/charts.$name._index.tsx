@@ -16,7 +16,7 @@ import {
 import {
   type LoaderFunctionArgs,
   type MetaFunction,
-  json,
+  defer,
 } from "@remix-run/node";
 import { Link, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import clsx from "clsx";
@@ -38,9 +38,6 @@ import { getRatingColor, isAdmin, isMine, sonolusUrl } from "~/lib/utils.ts";
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
   const rootT = await i18n.getFixedT(locale, "root");
-  const t = await i18n.getFixedT(locale, "chart");
-
-  const title = `${t("title")} | ${rootT("name")}`;
 
   const chartData = await fetch(
     pathcat(backendUrl, "/api/charts/:name", {
@@ -65,8 +62,28 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     });
   }
 
-  return json({
+  const chartsByThisCharter = fetch(
+    pathcat(backendUrl, "/api/charts", {
+      author: chartData.author.handle,
+    }),
+    {
+      method: "GET",
+    },
+  ).then(async (res) => {
+    const json = await res.json();
+
+    if (json.code === "ok") {
+      return json.charts as Chart[];
+    } else {
+      return [];
+    }
+  });
+
+  const title = `${chartData.title} | ${rootT("name")}`;
+
+  return defer({
     chartData,
+    chartsByThisCharter,
     title,
     host,
   });
@@ -120,7 +137,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 const ChartPage = () => {
-  const { chartData } = useLoaderData<typeof loader>();
+  const { chartData, chartsByThisCharter } = useLoaderData<typeof loader>();
   const { name: chartName } = useParams();
   if (!chartName) {
     throw new Error("chartName is required");
@@ -413,9 +430,9 @@ const ChartPage = () => {
             },
             {
               title: t("sameAuthor"),
-              items: chartData?.variants || null,
-              listUrl: pathcat("/users/:handle", {
-                handle: chartData?.author.handle,
+              items: chartsByThisCharter,
+              listUrl: pathcat("/charts", {
+                user: chartData?.author.handle,
               }),
             },
           ]}

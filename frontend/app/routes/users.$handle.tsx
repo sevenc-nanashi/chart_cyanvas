@@ -2,7 +2,7 @@ import { MusicNote2Regular, OpenRegular } from "@fluentui/react-icons";
 import {
   type LoaderFunctionArgs,
   type MetaFunction,
-  json,
+  defer,
 } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { pathcat } from "pathcat";
@@ -44,7 +44,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     });
   }
 
-  const userCharts = await fetch(
+  const userCharts = fetch(
     pathcat(backendUrl, "/api/charts", {
       author: userData.handle,
     }),
@@ -63,7 +63,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const title = `${userData.name}#${userData.handle} | ${rootT("name")}`;
 
-  return json({
+  return defer({
     userData,
     userCharts,
     title,
