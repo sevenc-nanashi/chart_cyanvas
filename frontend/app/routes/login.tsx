@@ -12,7 +12,7 @@ import { useLogin } from "~/lib/useLogin.ts";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
   const rootT = await i18n.getFixedT(locale, "root");
-  const t = await i18n.getFixedT(locale, "liked");
+  const t = await i18n.getFixedT(locale, "login");
 
   const title = `${t("title")} | ${rootT("name")}`;
 
@@ -57,9 +57,9 @@ const Login = () => {
         <h1 className="page-title">{t("title")}</h1>
         <p>
           <Trans
-            i18nKey="header:login.description"
+            i18nKey="menu:login.description"
             components={[
-              <Link key={0} to={loginState?.url || ""} target="_blank" />,
+              <a key={0} href={loginState?.url.toString()} target="_blank" />,
             ]}
           />
         </p>

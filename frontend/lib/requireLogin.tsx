@@ -6,9 +6,14 @@ const requireLogin = <T extends React.FC<never>>(component: T) => {
   return (props: never) => {
     const session = useSession();
     const navigate = useNavigate();
+
+    useEffect(() => {
+      if (session?.loggedIn === false) {
+        navigate("/login");
+      }
+    }, [session]);
     if (!session) return <div />;
     if (session.loggedIn) return createElement(component, props);
-    navigate("/login");
     return <div />;
   };
 };
