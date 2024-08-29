@@ -65,7 +65,7 @@ Rails.application.routes.draw do
   scope "/sonolus" do
     get "/levels/chcy-:name", to: "sonolus/levels#show"
     post "/levels/chcy-:name/submit", to: "sonolus/levels#submit"
-    get "/sonolus/level/result/info", to: "sonolus/levels#result_info"
+    get "/levels/result/info", to: "sonolus/levels#result_info"
     post "/authenticate", to: "sonolus#authenticate"
 
     scope "/assets" do
