@@ -426,8 +426,19 @@ const ChartForm: React.FC<
       onSubmit={(e) => {
         e.preventDefault();
         if (isEdit) {
-          updateChart();
-        } else {
+          if (
+            (visibility !== "private") !==
+            (chartData.visibility !== "private")
+          ) {
+            if (chartData.visibility !== "private") {
+              unpublishChart();
+            } else {
+              publishChart();
+            }
+          } else {
+            updateChart();
+          }
+        } else if (canPost) {
           submitChart();
         }
       }}
@@ -810,32 +821,21 @@ const ChartForm: React.FC<
             (visibility !== "private") !==
             (chartData.visibility !== "private") ? (
               chartData.visibility !== "private" ? (
-                <button
-                  className="p-2 w-full button-danger"
-                  onClick={unpublishChart}
-                >
+                <button className="p-2 w-full button-danger">
                   {t("unpublish")}
                 </button>
               ) : (
-                <button
-                  className="p-2 w-full button-primary"
-                  onClick={publishChart}
-                >
+                <button className="p-2 w-full button-primary">
                   {t("publish")}
                 </button>
               )
             ) : (
-              <button
-                className="p-2 w-full button-secondary"
-                onClick={updateChart}
-              >
+              <button className="p-2 w-full button-secondary">
                 {t("update")}
               </button>
             )
           ) : (
-            <button className="p-2 w-full button-primary" onClick={submitChart}>
-              {t("submit")}
-            </button>
+            <button className="p-2 w-full button-primary">{t("submit")}</button>
           )}
         </div>
       </div>

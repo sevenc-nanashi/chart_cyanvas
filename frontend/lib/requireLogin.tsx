@@ -1,5 +1,5 @@
 import { useNavigate } from "@remix-run/react";
-import { createElement } from "react";
+import { createElement, useEffect } from "react";
 import { useSession } from "./contexts.ts";
 
 const requireLogin = <T extends React.FC<never>>(component: T) => {
@@ -11,7 +11,7 @@ const requireLogin = <T extends React.FC<never>>(component: T) => {
       if (session?.loggedIn === false) {
         navigate("/login");
       }
-    }, [session]);
+    }, [session, navigate]);
     if (!session) return <div />;
     if (session.loggedIn) return createElement(component, props);
     return <div />;
