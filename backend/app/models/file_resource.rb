@@ -3,7 +3,7 @@ class FileResource < ApplicationRecord
   has_one_attached :file
   belongs_to :chart
 
-  enum kind: {
+  enum :kind, {
          data: 0,
          cover: 1,
          bgm: 2,

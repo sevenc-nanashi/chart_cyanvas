@@ -205,7 +205,6 @@ module Api
 
       length = 20 if length <= 0 || length > 20
       charts = Chart.preload(%i[author co_authors tags])
-      order = { published_at: :desc }
 
       if params[:liked] == "true"
         unless (user_id = session[:user_id])
@@ -216,15 +215,15 @@ module Api
                  status: :unauthorized
           return
         end
-        charts = charts.where(id: Like.where(user_id:).pluck(:chart_id))
+        charts = charts.where(id: Like.where(user_id:).select(:chart_id))
       end
 
-      if params[:title]
+      if params[:title].present?
         charts =
           charts.where(
             "LOWER(charts.title) LIKE ?",
             "%#{params[:title].downcase}%"
-          ) if params[:title].present?
+          )
       end
 
       if params[:composer]
@@ -244,11 +243,11 @@ module Api
       end
 
       if params[:ratingMin]
-        charts = charts.where("charts.rating >= ?", params[:ratingMin].to_i)
+        charts = charts.where(charts: { rating: params[:ratingMin].to_i.. })
       end
 
       if params[:ratingMax]
-        charts = charts.where("charts.rating <= ?", params[:ratingMax].to_i)
+        charts = charts.where(charts: { rating: ..params[:ratingMax].to_i })
       end
 
       if params[:authorHandles].present?
@@ -299,14 +298,14 @@ module Api
         charts = charts.where(variant_id: nil, visibility: :public)
       end
 
-      case params[:sort]
+      charts = case params[:sort]
       when "updatedAt"
-        charts = charts.order(updated_at: :desc)
+        charts.order(updated_at: :desc)
       when "likes"
-        charts = charts.order(likes_count: :desc)
+        charts.order(likes_count: :desc)
       else
-        charts = charts.order(published_at: :desc)
-      end
+        charts.order(published_at: :desc)
+               end
 
       num_charts = charts.count
       charts = charts.limit(length).offset(params[:offset].to_i || 0)
@@ -466,9 +465,9 @@ module Api
       require_login!
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
-           %i[chart cover bgm].all? { |k|
+           %i[chart cover bgm].all? do |k|
              hash[k].nil? || hash[k].is_a?(ActionDispatch::Http::UploadedFile)
-           }
+           end
         render json: {
                  code: "invalid_request",
                  error: "Invalid request"
