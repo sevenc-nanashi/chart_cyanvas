@@ -1,0 +1,25 @@
+diff --git a/renderer/getStyleSheetForBucket.esm.js b/renderer/getStyleSheetForBucket.esm.js
+index d9933206e2a1ad7449fa3063213861fe53ffa775..9900fd12ae8a645be291b07ed60c44aec55c69b9 100644
+--- a/renderer/getStyleSheetForBucket.esm.js
++++ b/renderer/getStyleSheetForBucket.esm.js
+@@ -65,7 +65,7 @@ function getStyleSheetForBucket(bucketName, targetDocument, insertionPoint, rend
+     }));
+     renderer.stylesheets[stylesheetKey] = stylesheet;
+     if (targetDocument && tag) {
+-      targetDocument.head.insertBefore(tag, findInsertionPoint(targetDocument, insertionPoint, bucketName, renderer, metadata));
++      targetDocument.head?.insertBefore(tag, findInsertionPoint(targetDocument, insertionPoint, bucketName, renderer, metadata));
+     }
+   }
+   return renderer.stylesheets[stylesheetKey];
+@@ -95,9 +95,9 @@ function findInsertionPoint(targetDocument, insertionPoint, targetBucket, render
+   // a positive value is increasing sort order
+   // a negative value is decreasing sort order
+   let comparer = el => targetOrder - styleBucketOrderingMap[el.getAttribute(DATA_BUCKET_ATTR)];
+-  let styleElements = targetDocument.head.querySelectorAll(`[${DATA_BUCKET_ATTR}]`);
++  let styleElements = targetDocument.head?.querySelectorAll(`[${DATA_BUCKET_ATTR}]`);
+   if (targetBucket === 'm') {
+-    const mediaElements = targetDocument.head.querySelectorAll(`[${DATA_BUCKET_ATTR}="${targetBucket}"]`);
++    const mediaElements = targetDocument.head?.querySelectorAll(`[${DATA_BUCKET_ATTR}="${targetBucket}"]`);
+     // only reduce the scope of the search and change comparer
+     // if there are other media buckets already on the page
+     if (mediaElements.length) {

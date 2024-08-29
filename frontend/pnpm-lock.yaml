@@ -8,6 +8,9 @@ patchedDependencies:
   '@fluentui/react-icons@2.0.253':
     hash: oclfjfgyaogepo64ivb377buqi
     path: patches/@fluentui__react-icons@2.0.253.patch
+  '@griffel/core@1.18.0':
+    hash: z3e4w3ybsf5qaw7grevyhr7vpy
+    path: patches/@griffel__core@1.18.0.patch
 
 importers:
 
@@ -4337,7 +4340,7 @@ snapshots:
       react: 18.3.1
       tslib: 2.7.0
 
-  '@griffel/core@1.18.0':
+  '@griffel/core@1.18.0(patch_hash=z3e4w3ybsf5qaw7grevyhr7vpy)':
     dependencies:
       '@emotion/hash': 0.9.2
       '@griffel/style-types': 1.2.0
@@ -4348,7 +4351,7 @@ snapshots:
 
   '@griffel/react@1.5.25(react@18.3.1)':
     dependencies:
-      '@griffel/core': 1.18.0
+      '@griffel/core': 1.18.0(patch_hash=z3e4w3ybsf5qaw7grevyhr7vpy)
       react: 18.3.1
       tslib: 2.7.0
 
