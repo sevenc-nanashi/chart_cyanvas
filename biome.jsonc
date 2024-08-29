@@ -4,7 +4,12 @@
     "enabled": true
   },
   "files": {
-    "ignore": ["./frontend/build", "./frontend/node_modules"]
+    "ignore": [
+      "./frontend/build",
+      "./frontend/node_modules",
+      "./sub-chart/node_modules",
+      "./sub-chart/dist"
+    ]
   },
   "formatter": {
     "indentStyle": "space",

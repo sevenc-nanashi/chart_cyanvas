@@ -1,6 +1,7 @@
-import app from "./server"
+import app from "./server.ts";
+import { serve } from "@hono/node-server";
 
-const port = 3201
-app.listen(port, () => {
-  console.log(`Server is listening on http://localhost:${port}`)
-})
+const port = 3201;
+serve({ port, fetch: app.fetch }, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});

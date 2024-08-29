@@ -1,105 +1,110 @@
-import { gzip as gzipBase } from "zlib"
-import { promisify } from "util"
-import { randomUUID } from "crypto"
-import { promises as fs } from "fs"
-import { write as temporaryWrite } from "tempy"
+import { gzip as gzipBase } from "node:zlib";
+import { promisify } from "node:util";
+import { randomUUID } from "node:crypto";
+import fs from "node:fs";
+import { Readable } from "node:stream";
+import { write as temporaryWrite } from "tempy";
+import axios from "axios";
+import dotenv from "dotenv";
+import { Hono } from "hono";
+import { logger } from "hono/logger";
+import { stream } from "hono/streaming";
+import { sentry } from "@hono/sentry";
+import { anyToUSC } from "usctool";
+import { uscToLevelData } from "sonolus-pjsekai-engine-extended/dist/convert.cjs";
+import { zValidator } from "@hono/zod-validator";
+import * as z from "zod";
+import urlJoin from "url-join";
 
-import axios from "axios"
-import dotenv from "dotenv"
-import Express, { json as jsonHandler } from "express"
-import morgan from "morgan"
+dotenv.config({ path: ".env" });
+dotenv.config({ path: "../.env" });
 
-import { anyToUSC } from "usctool"
-import { uscToLevelData } from "sonolus-pjsekai-engine-extended"
-import * as sentry from "@sentry/node"
-import urlJoin from "url-join"
+const sentryEnabled = !!process.env.SENTRY_DSN_SUB_CHART;
 
-dotenv.config({ path: ".env" })
-dotenv.config({ path: "../.env" })
+const gzip = promisify(gzipBase);
 
-const sentryEnabled = !!process.env.SENTRY_DSN_SUB_CHART
-
-const gzip = promisify(gzipBase)
-
-const app = Express()
+const app = new Hono();
 
 if (sentryEnabled) {
-  const tracesSampleRate = parseFloat(
-    process.env.SENTRY_TRACE_SAMPLE_RATE || "0.1"
-  )
-  sentry.init({
-    dsn: process.env.SENTRY_DSN_SUB_CHART,
-    tracesSampleRate,
-  })
+  app.use("*", sentry({ dsn: process.env.SENTRY_DSN_SUB_CHART }));
 }
 
-const files = new Map<string, { path: string; date: Date }>()
+const files = new Map<string, { path: string; date: Date }>();
 
-const HOSTS_BACKEND = process.env.HOSTS_BACKEND!
+const HOSTS_BACKEND = process.env.HOSTS_BACKEND!;
 
-if (sentryEnabled) app.use(sentry.Handlers.requestHandler())
+app.use(logger());
+app.get("/", (c) => {
+  return c.json({ code: "ok" });
+});
 
-app.use(jsonHandler())
-app.use(morgan("combined"))
-app.get("/", (_req, res) => {
-  res.json({ code: "ok" })
-})
+app.post(
+  "/convert",
+  zValidator(
+    "json",
+    z.object({
+      url: z.string(),
+    }),
+  ),
+  async (c) => {
+    const { url: originalUrl } = c.req.valid("json");
+    const url = originalUrl.startsWith("http")
+      ? originalUrl
+      : urlJoin(HOSTS_BACKEND, originalUrl);
 
-app.post("/convert", async (req, res) => {
-  const { url: originalUrl } = req.body as { url: string }
-  const url = originalUrl.startsWith("http")
-    ? originalUrl
-    : urlJoin(HOSTS_BACKEND, originalUrl)
+    try {
+      console.log("Converting", url);
+      const chart = await axios.get(url, {
+        responseType: "arraybuffer",
+      });
+      if (chart.status !== 200) {
+        return c.json(
+          {
+            code: "invalid_request",
+            message: "Failed to get chart file",
+          },
+          400,
+        );
+      }
+      const { format, usc } = anyToUSC(chart.data);
+      console.log(`Converted from ${format} to USC`);
 
-  try {
-    console.log("Converting", url)
-    const chart = await axios.get(url, {
-      responseType: "arraybuffer",
-    })
-    if (chart.status !== 200) {
-      res
-        .status(400)
-        .json({ code: "invalid_request", message: "Failed to get chart file" })
-      return
+      const baseJson = uscToLevelData(usc);
+      const json = JSON.stringify(baseJson);
+      const buffer = Buffer.from(json);
+      const compressed = await gzip(buffer);
+      const tempFile = await temporaryWrite(compressed);
+
+      const id = randomUUID();
+      files.set(id, { path: tempFile, date: new Date() });
+
+      console.log("Registered as", id);
+
+      return c.json({ code: "ok", id, type: format });
+    } catch (e) {
+      console.error("Failed to convert", e);
+      return c.json({ code: "internal_server_error", error: String(e) }, 500);
     }
-    const { format, usc } = anyToUSC(chart.data)
-    console.log(`Converted from ${format} to USC`)
+  },
+);
 
-    const baseJson = uscToLevelData(usc)
-    const json = JSON.stringify(baseJson)
-    const buffer = Buffer.from(json)
-    const compressed = await gzip(buffer)
-    const tempFile = await temporaryWrite(compressed)
+app.get("/download/:id", async (c) => {
+  const id = c.req.param("id");
 
-    const id = randomUUID()
-    files.set(id, { path: tempFile, date: new Date() })
-
-    console.log("Registered as", id)
-
-    res.json({ code: "ok", id, type: format })
-  } catch (e) {
-    console.error("Failed to convert", e)
-    res.status(500).json({ code: "internal_server_error" })
-  }
-})
-
-app.get("/download/:id", async (req, res) => {
-  const { id } = req.params
-
-  const file = files.get(id)
+  const file = files.get(id);
   if (!file) {
-    res.status(404).json({ code: "not_found", message: "File not found" })
-    return
+    return c.json({ code: "not_found", message: "File not found" }, 404);
   }
 
-  res.sendFile(file.path)
-  res.on("finish", () => {
-    files.delete(id)
-    fs.unlink(file.path)
-    console.log("Deleted", id)
-  })
-})
+  return stream(c, async (stream) => {
+    const fileStream = fs.createReadStream(file.path);
+    const webStream = Readable.toWeb(fileStream) as ReadableStream;
+    await stream.pipe(webStream);
 
-if (sentryEnabled) app.use(sentry.Handlers.errorHandler())
+    files.delete(id);
+    await fs.promises.unlink(file.path);
+    console.log("Deleted", id);
+  });
+});
 
-export default app
+export default app;

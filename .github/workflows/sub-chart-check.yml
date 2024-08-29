@@ -34,7 +34,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version-file: sub-chart/.node-version
+          node-version-file: .node-version
           cache: "pnpm"
           cache-dependency-path: sub-chart/pnpm-lock.yaml
 

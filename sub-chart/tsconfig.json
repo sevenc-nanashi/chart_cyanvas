@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "module": "esnext",
     "outDir": "dist",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "paths": {
       "~/*": ["./src/*"]
     },
