@@ -186,7 +186,7 @@ upload:
       title: "have originality"
       description: |
         Do not publish a chart that intends to copy existing charts.
-        Porting a chart from another game is not allowed as well.
+        Porting a chart from another game, or applying only minor changes (such as adding flick to every note) is not allowed.
     check2:
       title: "use music that allows fanmade charts"
       description: |
