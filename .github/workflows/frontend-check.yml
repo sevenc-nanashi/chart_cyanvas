@@ -7,6 +7,8 @@ on:
       - ".github/workflows/frontend-*.yml"
       - "Rakefile"
       - "config.test.yml"
+    branches:
+      - main
   pull_request:
     paths:
       - "frontend/**"
@@ -28,9 +30,7 @@ jobs:
           cp ./config.test.yml ./config.yml
           rake configure
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9.2.0
+        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v4
         with:

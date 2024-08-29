@@ -13,6 +13,7 @@
   },
   "keywords": [],
   "author": "",
+  "packageManager": "pnpm@9.9.0",
   "dependencies": {
     "@acab/reset.css": "^0.10.0",
     "@fluentui/react-icons": "2.0.253",

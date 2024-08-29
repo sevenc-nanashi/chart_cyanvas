@@ -18,6 +18,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "packageManager": "pnpm@9.9.0",
   "dependencies": {
     "@sentry/node": "^7.111.0",
     "axios": "^1.6.8",
