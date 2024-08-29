@@ -56,7 +56,7 @@ export const ChartList: React.FC<{
 
   return (
     <div className="flex flex-col">
-      {props.pagination && (
+      {props.pagination && charts?.length !== 0 && (
         <Pagination
           currentPage={page}
           setCurrentPage={handlePageChange}
@@ -98,45 +98,43 @@ export const ChartList: React.FC<{
                 <ChartCard data={undefined} key={i} className="mb-4" />
               ))}
 
-        {new Array(20).fill(undefined).map((_, i) => (
-          <ChartCard spacer key={i} />
-        ))}
+        {charts?.length !== 0 &&
+          new Array(20)
+            .fill(undefined)
+            .map((_, i) => <ChartCard spacer key={i} />)}
         {charts?.length === 0 && props.onEmpty()}
-        {props.pagination && (
-          <Pagination
-            currentPage={page}
-            setCurrentPage={handlePageChange}
-            totalPages={totalPages}
-            edgePageCount={2}
-            middlePagesSiblingCount={2}
-            truncableText="..."
-            className="flex flex-row justify-center items-center"
-          >
-            <Pagination.PrevButton
-              className={clsx("gray-link", page === 0 && "disabled")}
-            >
-              <ArrowLeftFilled />
-            </Pagination.PrevButton>
-
-            <ul className="flex items-center px-2 gap-2">
-              <Pagination.PageButton
-                activeClassName="theme-link"
-                inactiveClassName="gray-link"
-                className="cursor-pointer no-underline"
-              />
-            </ul>
-
-            <Pagination.NextButton
-              className={clsx(
-                "gray-link",
-                page === totalPages - 1 && "disabled",
-              )}
-            >
-              <ArrowRightFilled />
-            </Pagination.NextButton>
-          </Pagination>
-        )}
       </div>
+      {props.pagination && charts?.length !== 0 && (
+        <Pagination
+          currentPage={page}
+          setCurrentPage={handlePageChange}
+          totalPages={totalPages}
+          edgePageCount={2}
+          middlePagesSiblingCount={2}
+          truncableText="..."
+          className="flex flex-row justify-center items-center"
+        >
+          <Pagination.PrevButton
+            className={clsx("gray-link", page === 0 && "disabled")}
+          >
+            <ArrowLeftFilled />
+          </Pagination.PrevButton>
+
+          <ul className="flex items-center px-2 gap-2">
+            <Pagination.PageButton
+              activeClassName="theme-link"
+              inactiveClassName="gray-link"
+              className="cursor-pointer no-underline"
+            />
+          </ul>
+
+          <Pagination.NextButton
+            className={clsx("gray-link", page === totalPages - 1 && "disabled")}
+          >
+            <ArrowRightFilled />
+          </Pagination.NextButton>
+        </Pagination>
+      )}
     </div>
   );
 };

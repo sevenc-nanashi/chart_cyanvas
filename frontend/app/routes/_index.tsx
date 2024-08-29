@@ -1,4 +1,4 @@
-import { OpenRegular } from "@fluentui/react-icons";
+import { ArrowRightFilled, OpenRegular } from "@fluentui/react-icons";
 import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { pathcat } from "pathcat";
@@ -78,7 +78,12 @@ export const Home = () => {
         </a>
       </div>
       <div>
-        <h1 className="page-title flex items-center">{t("newCharts")}</h1>
+        <h1 className="page-title">
+          <Link to="/charts" className="flex items-center">
+            {t("newCharts")}
+            <ArrowRightFilled className="ml-2" />
+          </Link>
+        </h1>
         <ChartList
           fetchCharts={fetchNewCharts}
           onEmpty={() => <div className="text-center">{t("empty")}</div>}

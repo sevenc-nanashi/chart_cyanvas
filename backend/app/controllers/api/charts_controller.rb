@@ -134,7 +134,7 @@ class SearchValidator
               message: "invalid"
             },
             if: -> {
-              !author_handles.present? ||
+              author_handles.nil? || author_handles.blank? ||
                 author_handles
                   .split(",")
                   .all? { |h| h.length >= 4 && h.match?(/\Ax?[0-9]+\z/) }

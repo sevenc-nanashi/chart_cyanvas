@@ -22,3 +22,8 @@ export const languages = {
   supportedLanguages: ["ja", "en"],
   fallbackLanguage: "en",
 };
+
+export const languageNames = {
+  ja: jaTranslations.language,
+  en: enTranslations.language,
+};

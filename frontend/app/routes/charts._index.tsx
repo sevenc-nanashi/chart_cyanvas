@@ -3,9 +3,9 @@ import * as RadixCollapsible from "@radix-ui/react-collapsible";
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { type MetaFunction, useSearchParams } from "@remix-run/react";
 import { pathcat } from "pathcat";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { WithContext as ReactTags } from "react-tag-input";
 import ChartList from "~/components/ChartList.tsx";
 import InputTitle from "~/components/InputTitle.tsx";
@@ -13,7 +13,7 @@ import NumberInput from "~/components/NumberInput.tsx";
 import RangeInput from "~/components/RangeInput";
 import Select from "~/components/Select.tsx";
 import TextInput from "~/components/TextInput.tsx";
-import { useMyFetch, useSetServerError } from "~/lib/contexts";
+import { useMyFetch } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -43,6 +43,7 @@ type Sort = (typeof sorts)[number];
 
 const Search = () => {
   const [params, setParams] = useSearchParams();
+  const { t: rootT } = useTranslation("root");
   const { t } = useTranslation("searchCharts");
   const [searchCount, setSearchCount] = useState(0);
   const [open, setOpen] = useState(false);
@@ -81,6 +82,7 @@ const Search = () => {
       ratingMax: ratingMax === 99 ? undefined : ratingMax.toString(),
     };
 
+    setCurrentQuery(buildCurrentQuery());
     setParams(
       Object.entries(newParams).filter(([, v]) => v !== undefined) as [
         string,
@@ -120,6 +122,39 @@ const Search = () => {
     [myFetch, form],
   );
 
+  const buildCurrentQuery = useCallback(() => {
+    const params = form.getValues();
+
+    const mappedParams: Record<string, string> = {};
+    if (params.title) {
+      mappedParams[t("param.title")] = params.title;
+    }
+    if (params.composer) {
+      mappedParams[t("param.composer")] = params.composer;
+    }
+    if (params.artist) {
+      mappedParams[t("param.artist")] = params.artist;
+    }
+    if (params.authorName) {
+      mappedParams[t("param.authorName")] = params.authorName;
+    }
+    if (params.authorHandles.length > 0) {
+      mappedParams[t("param.authorHandles")] = params.authorHandles.join(
+        rootT("separator"),
+      );
+    }
+    if (params.ratingMin !== 1 || params.ratingMax !== 99) {
+      mappedParams[t("param.rating")] =
+        `${params.ratingMin} - ${params.ratingMax}`;
+    }
+    mappedParams[t("param.sort")] = t(`sort.${params.sort}`);
+
+    return Object.entries(mappedParams)
+      .map(([key, value]) => rootT("kv", { key, value }))
+      .join(rootT("separator"));
+  }, [form, t, rootT]);
+  const [currentQuery, setCurrentQuery] = useState(buildCurrentQuery);
+
   return (
     <div className="flex flex-col gap-2">
       <div>
@@ -129,6 +164,9 @@ const Search = () => {
             <RadixCollapsible.Trigger className="flex max-sm:justify-between items-center w-full p-2">
               <h2 className="font-bold text-lg mr-2">{t("queries")}</h2>
               {open ? <ChevronUpFilled /> : <ChevronDownFilled />}
+              <div className="ml-4 h-6 contain-strict flex-grow overflow-ellipsis overflow-hidden text-right">
+                {currentQuery}
+              </div>
             </RadixCollapsible.Trigger>
             <RadixCollapsible.Content className="flex flex-col gap-2">
               <div className="mt-2 border-t-2 border-slate-300 dark:border-slate-700" />
@@ -245,7 +283,6 @@ const Search = () => {
                       className="w-full"
                       value={form.watch("sort")}
                       onChange={(value) => form.setValue("sort", value as Sort)}
-                      defaultValue={form.watch("sort")}
                       items={sorts.map((sort) => ({
                         type: "item" as const,
                         value: sort,

@@ -1,9 +1,12 @@
+language: "English"
+
 name: "Chart Cyanvas"
 close: "Close"
 cancel: "Cancel"
 backToHome: "Return to top page"
 separator: ", "
 brackets: " ({{content}})"
+kv: "{{key}}: {{value}}"
 
 serverError: "An error occurred on the server!"
 serverErrorNote: "Please let us know <0>on our Discord server</0>."
@@ -17,14 +20,6 @@ notFound:
   heading: "404 Not Found"
   description: "The page you are looking for does not exist."
 
-header:
-  login:
-    button: "Sign in"
-    title: "Signing in..."
-    description: |
-      Sign in with your Sonolus account.<br/>
-      This page will be refreshed automatically after logging in.<br/>
-      Didn't get a popup? <0>Click here.</0>
 home:
   newCharts: "New charts"
   welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
@@ -32,12 +27,26 @@ home:
   openInSonolus: "Open in Sonolus"
 
 menu:
+  search: "Search charts"
   post: "Post chart"
   my: "My charts"
   liked: "Liked charts"
   myAlts: "My alts"
   guideline: "Guideline"
   logout: "Sign out"
+  settings: "Settings"
+  login:
+    button: "Sign in"
+    title: "Signing in..."
+    description: |
+      Sign in with your Sonolus account.<br/>
+      This page will be refreshed automatically after logging in.<br/>
+      Didn't get a popup? <0>Click here.</0>
+
+settings:
+  title: "Settings"
+  lang: "Language"
+  langAuto: "Auto"
 chart:
   notFound: "Couldn't find the chart."
   variants: "Variants"
@@ -58,6 +67,7 @@ searchCharts:
   title: "Search charts"
   queries: "Search queries"
   search: "Search"
+  empty: "No charts found."
   param:
     title: "Title"
     composer: "Composer"
@@ -68,7 +78,7 @@ searchCharts:
     sort: "Sort by"
   description:
     rating: "You can select difficulty from 1 to 99. Use the input box beside the slider to set difficulty more than 40."
-    authorHandles: "Separate handles (1234, x456) with spaces."
+    authorHandles: "Separate handles (1234, x567) with spaces."
   sort:
     publishedAt: "Last published"
     updatedAt: "Last updated"

@@ -441,7 +441,7 @@ const ChartForm: React.FC<
         <p className="text-sm text-gray-500">{t("unUploadedFilesNote")}</p>
         <div className="flex justify-end mt-4">
           <div
-            className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
+            className="px-4 py-2 button-cancel"
             onClick={() => setUnUploadedFiles([])}
           >
             {rootT("close")}
@@ -458,7 +458,7 @@ const ChartForm: React.FC<
 
         <div className="flex justify-end mt-4">
           <div
-            className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
+            className="px-4 py-2 button-cancel"
             onClick={() => setShowFileSizeError(false)}
           >
             {rootT("close")}
@@ -515,7 +515,7 @@ const ChartForm: React.FC<
 
         <div className="flex justify-end mt-4">
           <div
-            className="px-4 py-2 rounded text-sm bg-theme text-white cursor-pointer"
+            className="px-4 py-2 button-cancel"
             onClick={() => setIsVisibilityDialogOpen(false)}
           >
             {rootT("close")}
@@ -743,7 +743,6 @@ const ChartForm: React.FC<
                   value: user.handle,
                 }))}
                 value={authorHandle}
-                defaultValue={defaultAuthorHandle}
                 onChange={setAuthorHandle}
               >
                 #{authorHandle}

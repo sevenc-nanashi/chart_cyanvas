@@ -1,9 +1,12 @@
+language: "日本語"
+
 name: "Chart Cyanvas"
 close: "閉じる"
 cancel: "キャンセル"
 backToHome: "トップへ戻る"
 separator: "、"
 brackets: "（{{content}}）"
+kv: "{{key}}：{{value}}"
 
 serverError: "サーバーでエラーが発生しました！"
 serverErrorNote: "<0>Discordサーバー</0>に報告してください。"
@@ -17,7 +20,20 @@ notFound:
   heading: "404 Not Found"
   description: "お探しのページは存在しません。"
 
-header:
+home:
+  newCharts: "新着譜面"
+  welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
+  openInSonolus: "Sonolusで開く"
+menu:
+  search: "譜面検索"
+  post: "譜面投稿"
+  my: "自分の譜面"
+  liked: "高評価した譜面"
+  myAlts: "名義の管理"
+  guideline: "ガイドライン"
+  logout: "ログアウト"
+  settings: "設定"
+
   login:
     button: "ログイン"
     title: "ログイン中..."
@@ -25,17 +41,10 @@ header:
       Sonolusアカウントでログインしてください。
       ログイン後、このページは自動的に更新されます。
       ポップアップが表示されない場合は、<0>ここをクリックしてください。</0>
-home:
-  newCharts: "新着譜面"
-  welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
-  openInSonolus: "Sonolusで開く"
-menu:
-  post: "譜面投稿"
-  my: "自分の譜面"
-  liked: "高評価した譜面"
-  myAlts: "名義の管理"
-  guideline: "ガイドライン"
-  logout: "ログアウト"
+settings:
+  title: "設定"
+  lang: "言語"
+  langAuto: "自動"
 chart:
   notFound: "譜面が見付かりませんでした。"
   variants: "派生譜面"
@@ -51,6 +60,27 @@ chart:
     warnAuthor: "譜面作者に警告をする"
     warnReason: "警告理由"
     ok: "削除"
+
+searchCharts:
+  title: "譜面検索"
+  queries: "検索クエリ"
+  search: "検索"
+  empty: "検索結果がありません。"
+  param:
+    title: "タイトル"
+    composer: "作曲者"
+    artist: "ボーカル"
+    authorName: "作者名義"
+    authorHandles: "譜面作者"
+    rating: "難易度"
+    sort: "並び替え"
+  description:
+    rating: "1から99までを指定できます。右の入力欄から直接入力することもできます。"
+    authorHandles: "作者のハンドル（例：1234、x567）をスペース区切りで入力してください。"
+  sort:
+    publishedAt: "投稿順"
+    updatedAt: "更新順"
+    likes: "高評価順"
 
 user:
   totalCharts: "総譜面数：{{count}}"

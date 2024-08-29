@@ -69,6 +69,7 @@ const Select: React.FC<{
   <RadixSelect.Root
     defaultValue={props.defaultValue}
     disabled={props.disabled}
+    value={props.value}
     onValueChange={props.onChange}
   >
     <RadixSelect.Trigger
@@ -86,7 +87,7 @@ const Select: React.FC<{
 
     <RadixSelect.Portal>
       <RadixSelect.Content
-        className="p-2 flex flex-row bg-input drop-shadow-lg rounded"
+        className="p-2 flex flex-row bg-input drop-shadow-lg rounded z-[9999]"
         position="popper"
       >
         <RadixSelect.ScrollUpButton>
