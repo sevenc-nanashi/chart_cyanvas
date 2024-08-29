@@ -1,11 +1,11 @@
 import cookies from "cookie";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSetTheme, useTheme } from "~/lib/contexts.ts";
 import { languageNames } from "~/lib/translations.ts";
+import type { Theme } from "~/lib/types.ts";
 import InputTitle from "./InputTitle.tsx";
 import Select, { type SelectItems } from "./Select.tsx";
-import { useSetTheme, useTheme } from "~/lib/contexts.ts";
-import type { Theme } from "~/lib/types.ts";
 
 type Language = "auto" | keyof typeof languageNames;
 
