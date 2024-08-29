@@ -47,7 +47,6 @@ jobs:
           pnpm typecheck
 
       - name: Build production
-        if: github.ref_name == 'main'
         working-directory: ./sub-chart
         run: |
           pnpm build

@@ -54,7 +54,6 @@ jobs:
           bundle exec rake parallel:spec
   build:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main'
     needs:
       - check
     permissions:
