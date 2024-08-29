@@ -150,7 +150,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <main
                       className={clsx(
                         "py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow relative",
-                        "starting:translate-y-2 starting:opacity-0 translate-y-0 opacity-1 motion-reduce:!translate-y-0 transition-[transform_opaicty] duration-300",
+                        "starting:translate-y-2 starting:opacity-0 translate-y-0 opacity-100 motion-reduce:!translate-y-0 transition-[transform,_opaicty] duration-300",
                       )}
                       key={location.pathname}
                     >
