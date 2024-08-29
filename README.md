@@ -14,13 +14,10 @@ Chart Cyanvas is a sekai custom charts platform.
 - `backend/` - Backend. Built with Rails.
 - `sub-audio/` - Audio processing. Built with Python, FastAPI and ffmpeg.
 - `sub-image/` - Image processing. Built with Rust, axum and [pjsekai-background-gen-rust](https://github.com/sevenc-nanashi/pjsekai-background-gen-rust).
-- `sub-chart/` - Chart file processing. Built with TypeScript, express, [usctool](https://github.com/sevenc-nanashi/usctool) and [sonolus-pjsekai-engine-extended](https://github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended).
+- `sub-chart/` - Chart file processing. Built with TypeScript, Hono, [usctool](https://github.com/sevenc-nanashi/usctool) and [sonolus-pjsekai-engine-extended](https://github.com/sevenc-nanashi/sonolus-pjsekai-engine-extended).
 
 ## Hosting
-1. Copy `config.prod.yml` to `config.yml` and fill it.
-2. `rake configure`
-3. Copy `docker-compose.prod.yml` to `docker-compose.yml`
-4. `docker compose up -d`
+Please refer to the [hosting guide](./hosting.md) for more information.
 
 ### Configuration
 
@@ -37,7 +34,7 @@ Remember to run `rake configure` after changing the configuration.
 - [Python 3.9](https://python.org)
   - [Poetry](https://python-poetry.org/)
     - [poethepoet](https://github.com/nat-n/poethepoet) as a Poetry plugin
-- [Node.js 18](https://nodejs.org)
+- [Node.js 22](https://nodejs.org)
   - [pnpm](https://pnpm.io)
 - [Rust 1.71](https://www.rust-lang.org/)
 - [Docker](https://www.docker.com/)
@@ -52,7 +49,8 @@ rake install
 ### Start external server for development
 
 ```
-docker compose --profile dev up -d
+cp ./docker-compose.dev.yml ./docker-compose.yml
+docker compose up -d
 ```
 
 ### Start all development server

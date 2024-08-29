@@ -2,7 +2,7 @@
 # Configuration template for development environment.
 
 admin_handle: "1073"
-final_host: "http://192.168.1.2:3000"
+final_host: "https://hogehoge-fugafuga-foo-bar.trycloudflare.com"
 # rake secret to generate a new secret key base.
 secret_key_base: ""
 hosts:

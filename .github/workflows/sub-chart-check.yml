@@ -38,11 +38,11 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: sub-chart/pnpm-lock.yaml
 
-      - name: Run sub-chart lint
+      - name: Run sub-chart check
         working-directory: ./sub-chart
         run: |
           pnpm i
-          pnpm lint
+          pnpm check
       - name: Run sub-chart test
         working-directory: ./sub-chart
         run: |
