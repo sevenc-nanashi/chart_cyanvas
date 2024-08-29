@@ -7,6 +7,14 @@ on:
       - ".github/workflows/backend-*.yml"
       - "Rakefile"
       - "config.test.yml"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
