@@ -11,7 +11,7 @@ class User < ApplicationRecord
            class_name: "User",
            inverse_of: :owner
   has_many :likes, dependent: :destroy
-  enum discord_status: { no: 0, linked: 1, joined: 2 }
+  enum :discord_status, { no: 0, linked: 1, joined: 2 }
 
   def display_handle
     owner_id ? "x#{handle}" : handle
@@ -24,7 +24,8 @@ class User < ApplicationRecord
       aboutMe: about_me,
       bgColor: bg_color,
       fgColor: fg_color,
-      chartCount: charts_count
+      chartCount: charts_count,
+      userType: admin? ? "admin" : "user",
     }
   end
 

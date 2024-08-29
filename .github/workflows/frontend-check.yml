@@ -7,6 +7,12 @@ on:
       - ".github/workflows/frontend-*.yml"
       - "Rakefile"
       - "config.test.yml"
+  pull_request:
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
@@ -36,7 +42,7 @@ jobs:
         working-directory: ./frontend
         run: |
           pnpm i
-          pnpm lint
+          pnpm check
 
       - name: Run frontend typecheck
         working-directory: ./frontend
@@ -45,7 +51,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main'
     needs:
       - check
     permissions:
@@ -63,13 +68,6 @@ jobs:
           node-version-file: frontend/.node-version
           cache: "pnpm"
           cache-dependency-path: frontend/pnpm-lock.yaml
-      - name: Cache .next
-        uses: actions/cache@v3
-        with:
-          path: frontend/.next
-          key: ${{ runner.os }}-next-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-next-
 
       - name: Build production
         working-directory: ./frontend

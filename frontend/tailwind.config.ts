@@ -1,7 +1,7 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./components/**/*.tsx", "./pages/**/*.tsx", "./lib/**/*.ts"],
+  content: ["./{app,lib,components}/**/*.{tsx,ts}"],
   theme: {
     fontFamily: {
       sans: ["'M PLUS 1p'", "sans-serif"],
@@ -23,10 +23,20 @@ const config: Config = {
     extend: {
       colors: {
         theme: "#83ccd2",
+        themeText: "var(--global-theme-text)",
+        themeDark: "#2ac3d1",
+        background: "var(--global-background)",
+        inputBorder: "var(--global-input-border)",
       },
     },
   },
-  plugins: [],
-}
+  plugins: [
+    {
+      handler: (plugin) => {
+        plugin.addVariant("starting", "@starting-style");
+      },
+    },
+  ],
+};
 
-export default config
+export default config;

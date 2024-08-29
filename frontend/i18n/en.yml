@@ -1,7 +1,12 @@
+language: "English"
+
 name: "Chart Cyanvas"
 close: "Close"
 cancel: "Cancel"
 backToHome: "Return to top page"
+separator: ", "
+brackets: " ({{content}})"
+kv: "{{key}}: {{value}}"
 
 serverError: "An error occurred on the server!"
 serverErrorNote: "Please let us know <0>on our Discord server</0>."
@@ -10,44 +15,84 @@ openInSonolus: "Sonolus"
 
 adminDecorate: " (Admin)"
 
-header:
-  login:
-    button: "Log in"
-    title: "Logging in..."
-    description: |
-      Log in with your Sonolus account.<br/>
-      This page will be refreshed automatically after logging in.<br/>
-      Didn't get a popup? <link>Click here</link>.
+notFound:
+  title: "Not Found"
+  heading: "404 Not Found"
+  description: "The page you are looking for does not exist."
+
 home:
   newCharts: "New charts"
   welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
+  empty: "No charts found."
+  openInSonolus: "Open in Sonolus"
+  more: "More"
 
 menu:
+  search: "Search charts"
   post: "Post chart"
   my: "My charts"
   liked: "Liked charts"
   myAlts: "My alts"
   guideline: "Guideline"
-  logout: "Log out"
+  logout: "Sign out"
+  settings: "Settings"
+  login:
+    button: "Sign in"
+    title: "Signing in..."
+    description: |
+      Sign in with your Sonolus account.<br/>
+      This page will be refreshed automatically after logging in.<br/>
+      Didn't get a popup? <0>Click here.</0>
+
+settings:
+  title: "Settings"
+  lang: "Language"
+  langAuto: "Auto"
 chart:
   notFound: "Couldn't find the chart."
   variants: "Variants"
-  sameAuthor: "Charts by the same author"
+  sameAuthor: "Charts by this charter"
   edit: "Edit"
   delete: "Delete"
+  createVariant: "Create variant"
   download: "Download chart"
+  noLevelData: |
+    No level data found.
+    The chart may not have been played since the engine was updated, or the conversion of the chart may have failed.
 
   deletionModal:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
-    warnAuthor: "Warn the author"
+    warnAuthor: "Warn the charter"
     warnReason: "Reason for warning"
     ok: "Delete"
+
+searchCharts:
+  title: "Search charts"
+  queries: "Search queries"
+  search: "Search"
+  empty: "No charts found."
+  param:
+    title: "Title"
+    composer: "Composer"
+    artist: "Vocal"
+    authorName: "Charter name"
+    authorHandles: "Charter handle"
+    rating: "Difficulty"
+    sort: "Sort by"
+  description:
+    rating: "You can select difficulty from 1 to 99. Use the input box beside the slider to set difficulty more than 40."
+    authorHandles: "Separate handles (1234, x567) with spaces."
+  sort:
+    publishedAt: "Last published"
+    updatedAt: "Last updated"
+    likes: "Most liked"
 
 user:
   totalCharts: "Total charts: {{count}}"
   totalLikes: "Total likes: {{count}}"
-  userCharts: "Charts by this author"
+  secretUserInfo: "Discord: {{discord}}, Warnings: {{warn}}"
+  userCharts: "Charts by this user"
 
 chartSection:
   notFound: "No charts found."
@@ -55,13 +100,13 @@ chartSection:
 my:
   title: "My charts"
   empty: "You haven't posted any charts yet. <0>Post a chart</0> to get started!"
-  description: "Your charts are listed below. Padlock icon means the chart is private."
+  description: "Your charts are listed below. Padlock icon represents the chart is private."
 liked:
   title: "Liked charts"
   empty: "You haven't liked any charts yet. "
   description: |
     Charts you liked are listed below.
-    You can like a chart by clicking the heart icon in "Recommended" section in sonolus.
+    You can like a chart by clicking the heart icon in sonolus.
 
 upload:
   title: "Post chart"
@@ -83,13 +128,13 @@ upload:
 
     variant: "Variant of"
     description: "Description"
-    cover: "Cover image"
+    cover: "Jacket image"
     chart: "Chart file"
     bgm: "BGM file"
 
     tags: "Tags"
 
-    author: "Author"
+    author: "Charter"
 
   tooltip:
     rating: |
@@ -126,7 +171,7 @@ upload:
   optional: " (optional)"
   dropHere: "Drop to upload"
   unUploadedFiles: "Some files were not uploaded."
-  unUploadedFilesNote: "Supported files: .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif"
+  unUploadedFilesNote: "Supported files: .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
 
   filesTooLarge: Files are too large
   filesTooLargeNote: "The sum of the file sizes must be less than 20MB."
@@ -134,13 +179,27 @@ upload:
   publishModal:
     title: "Publish this chart?"
     description: "Your chart must..."
-    check0: "have originality, (Do not publish a copy of existing chart)"
-    check1: "be completed, (Do not publish unfinished charts)"
-    check2: "use music that allows fanmade charts, (FYI, songs of these games don't allow making fanmade charts: A new dimension rhythm game, A tatsujin)"
-    check3: "not have regligious, political, sexual or other inappropriate content,"
-    check4: "have the correct information. (title, composer, artist, BPM, etc.)"
-    description2: "Any chart that violates the <0>guideline</0> will be deleted, \
-      and the author will be warned or banned."
+    check0:
+      title: "be completed"
+      description: Publishing incomplete charts is not allowed, and <strong>may result in instant ban!</strong>
+    check1:
+      title: "have originality"
+      description: |
+        Do not publish a chart that intends to copy existing charts.
+        Porting a chart from another game is not allowed as well.
+    check2:
+      title: "use music that allows fanmade charts"
+      description: |
+        Some games do not allow fanmade charts using their music. (For example, Arcaea and Taiko do not allow fanmade charts.)
+    check3:
+      title: "not have regligious, political, sexual or other inappropriate content"
+    check4:
+      title: "have the correct information"
+      description: |
+        Make sure the title, composer, artist, BPM, and other information are correct.
+    description2:
+      "Any chart that violates the <0>guideline</0> will be deleted, \
+      and you will be warned or banned."
     ok: "Publish"
 
 errors:
@@ -223,4 +282,4 @@ discordError:
     unknown: Unknown error
 
 login:
-  title: "Log in"
+  title: "Sign in"

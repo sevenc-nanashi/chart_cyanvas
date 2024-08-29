@@ -55,7 +55,7 @@ en:
       artist: "Artist"
       artist_placeholder: "Please enter the name of the artist..."
       author: "Author"
-      author_placeholder: "Please enter the handle of the author, with space separated..."
+      author_placeholder: "Please enter the handle of the author, with space separated... (ex: 1234 x567)"
       author_name: "Author name"
       author_name_placeholder: "Please enter the name of the author..."
       id: "ID"

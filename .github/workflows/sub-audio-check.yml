@@ -7,6 +7,12 @@ on:
       - ".github/workflows/sub-audio-*.yml"
       - "Rakefile"
       - "config.test.yml"
+  pull_request:
+    paths:
+      - "sub-audio/**"
+      - ".github/workflows/sub-audio-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
@@ -59,7 +65,6 @@ jobs:
           poetry run poe test
 
       - name: Build image
-        if: github.ref_name == 'main'
         uses: ./.github/actions/build
         with:
           directory-name: sub-audio

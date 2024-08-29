@@ -1,20 +1,16 @@
-import { NextPage } from "next"
-import { useRouter } from "next/router"
-import { createElement } from "react"
-import { useSession } from "lib/atom"
+import { useNavigate } from "@remix-run/react";
+import { createElement } from "react";
+import { useSession } from "./contexts.ts";
 
-const requireLogin = <T,>(component: NextPage<T>) => {
-  const Inner: NextPage<T> = (props) => {
-    const [session] = useSession()
-    const router = useRouter()
-    if (session.loggedIn === undefined) return <div></div>
-    // @ts-expect-error createElement limitation?
-    if (session.loggedIn) return createElement(component, props)
-    router.push("/")
-    return <div></div>
-  }
-  Inner.displayName = `RequireLogin(${component.displayName})`
-  return Inner
-}
+const requireLogin = <T extends React.FC<never>>(component: T) => {
+  return (props: never) => {
+    const session = useSession();
+    const navigate = useNavigate();
+    if (!session) return <div />;
+    if (session.loggedIn) return createElement(component, props);
+    navigate("/login");
+    return <div />;
+  };
+};
 
-export default requireLogin
+export default requireLogin;
