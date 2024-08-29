@@ -5,7 +5,8 @@ const Footer = () => {
     <>
       <footer
         className={clsx(
-          "bg-slate-300 dark:bg-slate-600 flex items-center h-20 align-center justify-center text-white dark:text-slate-300 text-sm",
+          "bg-slate-300 dark:bg-slate-600 flex items-center h-20 align-center justify-center text-sm",
+          "text-gray-800 dark:text-slate-200",
           "flex flex-col md:gap-2",
           "[&_a]text-blue-500 [&_a]dark:text-theme",
         )}
@@ -20,7 +21,7 @@ const Footer = () => {
               href="https://sevenc7c.com"
               className="underline"
             >
-              Nanashi. &lt;sevenc-nanashi&gt;
+              Nanashi. {"<https://sevenc7c.com>"}
             </a>
           </div>
         </div>
