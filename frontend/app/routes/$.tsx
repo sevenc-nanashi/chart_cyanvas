@@ -21,6 +21,11 @@ export const loader: LoaderFunction = async ({ request }) => {
       },
     });
   }
+  if (url.pathname.match(/levels\/chcy-([0-9a-zA-Z]+)/)) {
+    const levelId = url.pathname.match(/levels\/chcy-([0-9a-zA-Z]+)/)![1];
+    return redirect(`/charts/${levelId}`, { status: 308 });
+  }
+
   const locale = await detectLocale(request);
   const rootT = await i18n.getFixedT(locale, "root");
   const t = await i18n.getFixedT(locale, "notFound");
