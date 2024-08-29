@@ -26,6 +26,8 @@ import {
   SessionContext,
   SetIsSubmittingContext,
   SetSessionContext,
+  SetThemeContext,
+  ThemeContext,
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
 import type { ServerSettings, Session } from "~/lib/types";
@@ -64,6 +66,38 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const [serverError, setServerError] = useState<Error | undefined>();
   const navigation = useNavigation();
   const location = useLocation();
+
+  const [theme, setTheme] = useState<"light" | "dark" | "auto">("auto");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (theme === "auto") {
+      setIsDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches);
+    } else {
+      setIsDarkMode(theme === "dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+  useEffect(() => {
+    const listener = (e: MediaQueryListEvent) => {
+      if (theme === "auto") {
+        setIsDarkMode(e.matches);
+      }
+    };
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    mediaQuery.addEventListener("change", listener);
+    return () => {
+      mediaQuery.removeEventListener("change", listener);
+    };
+  }, [theme]);
+  useEffect(() => {
+    const rawTheme = localStorage.getItem("theme");
+    if (rawTheme === "light" || rawTheme === "dark") {
+      setTheme(rawTheme);
+    } else {
+      setTheme("auto");
+    }
+  }, []);
 
   const isSubmittingOrTransitioning = useMemo(
     () => isSubmitting || navigation.state !== "idle",
@@ -111,56 +145,70 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-background text-normal min-h-screen flex flex-col">
+      <body
+        className={clsx(
+          "bg-background text-normal min-h-screen flex flex-col",
+          {
+            dark: isDarkMode,
+          },
+        )}
+      >
         <SessionContext.Provider value={session}>
           <SetSessionContext.Provider value={setSession}>
             <ServerErrorContext.Provider value={setServerError}>
               <ServerSettingsContext.Provider value={loaderData.serverSettings}>
                 <IsSubmittingContext.Provider value={isSubmitting}>
                   <SetIsSubmittingContext.Provider value={setIsSubmitting}>
-                    <DisablePortal isShown={isSubmittingOrTransitioning} />
-                    <ModalPortal isOpen={!!serverError}>
-                      <h1 className="text-xl font-bold mb-2">
-                        {t("serverError")}
-                      </h1>
-                      <p className="text-sm text-gray-500">
-                        <Trans
-                          components={[
-                            <a href="https://discord.gg/2NP3U3r8Rz" key="0" />,
-                          ]}
-                          i18nKey="serverErrorNote"
-                        />
-                      </p>
+                    <SetThemeContext.Provider value={setTheme}>
+                      <ThemeContext.Provider value={theme}>
+                        <DisablePortal isShown={isSubmittingOrTransitioning} />
+                        <ModalPortal isOpen={!!serverError}>
+                          <h1 className="text-xl font-bold mb-2">
+                            {t("serverError")}
+                          </h1>
+                          <p className="text-sm text-gray-500">
+                            <Trans
+                              components={[
+                                <a
+                                  href="https://discord.gg/2NP3U3r8Rz"
+                                  key="0"
+                                />,
+                              ]}
+                              i18nKey="serverErrorNote"
+                            />
+                          </p>
 
-                      <textarea
-                        readOnly
-                        className="card font-monospace overflow-scroll block w-[80vw] md:w-[480px] h-48 whitespace-pre"
-                        value={`${serverError?.message}\n${serverError?.stack}`}
-                      />
-                      <div className="flex justify-end mt-4">
-                        <button
-                          className="px-4 py-2 button-cancel"
-                          onClick={() => setServerError(undefined)}
+                          <textarea
+                            readOnly
+                            className="card font-monospace overflow-scroll block w-[80vw] md:w-[480px] h-48 whitespace-pre"
+                            value={`${serverError?.message}\n${serverError?.stack}`}
+                          />
+                          <div className="flex justify-end mt-4">
+                            <button
+                              className="px-4 py-2 button-cancel"
+                              onClick={() => setServerError(undefined)}
+                            >
+                              {t("close")}
+                            </button>
+                          </div>
+                        </ModalPortal>
+                        <Header />
+                        <main
+                          className={clsx(
+                            "py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow relative",
+                            "starting:translate-y-2 starting:opacity-0 translate-y-0 opacity-100 motion-reduce:!translate-y-0 transition-[transform,_opaicty] duration-300",
+                          )}
+                          key={location.pathname}
                         >
-                          {t("close")}
-                        </button>
-                      </div>
-                    </ModalPortal>
-                    <Header />
-                    <main
-                      className={clsx(
-                        "py-4 px-4 md:px-40 lg:px-60 max-w-[100vw] flex-grow relative",
-                        "starting:translate-y-2 starting:opacity-0 translate-y-0 opacity-100 motion-reduce:!translate-y-0 transition-[transform,_opaicty] duration-300",
-                      )}
-                      key={location.pathname}
-                    >
-                      {children}
-                    </main>
+                          {children}
+                        </main>
 
-                    <Footer />
+                        <Footer />
 
-                    <ScrollRestoration />
-                    <Scripts />
+                        <ScrollRestoration />
+                        <Scripts />
+                      </ThemeContext.Provider>
+                    </SetThemeContext.Provider>
                   </SetIsSubmittingContext.Provider>
                 </IsSubmittingContext.Provider>
               </ServerSettingsContext.Provider>

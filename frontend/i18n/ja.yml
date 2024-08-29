@@ -46,8 +46,15 @@ menu:
       ポップアップが表示されない場合は、<0>ここをクリックしてください。</0>
 settings:
   title: "設定"
-  lang: "言語"
-  langAuto: "自動"
+  lang:
+    title: "言語"
+    auto: "自動"
+  theme:
+    title: "テーマ"
+    auto: "自動"
+    light: "ライト"
+    dark: "ダーク"
+
 chart:
   notFound: "譜面が見付かりませんでした。"
   variants: "派生譜面"

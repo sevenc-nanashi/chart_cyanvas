@@ -47,8 +47,14 @@ menu:
 
 settings:
   title: "Settings"
-  lang: "Language"
-  langAuto: "Auto"
+  lang:
+    title: "Language"
+    auto: "Auto"
+  theme:
+    title: "Theme"
+    auto: "Auto"
+    light: "Light"
+    dark: "Dark"
 chart:
   notFound: "Couldn't find the chart."
   variants: "Variants"

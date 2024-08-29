@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: ["./{app,lib,components}/**/*.{tsx,ts}"],
+  darkMode: "selector",
   theme: {
     fontFamily: {
       sans: ["'M PLUS 1p'", "sans-serif"],

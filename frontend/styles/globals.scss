@@ -21,7 +21,7 @@ body {
   --global-background: theme("colors.white");
   --global-input-border: theme("colors.slate.300");
 
-  @media (prefers-color-scheme: dark) {
+  &.dark {
     --global-theme-text: theme("colors.theme");
     --global-background: theme("colors.slate.800");
     --global-input-border: theme("colors.slate.700");

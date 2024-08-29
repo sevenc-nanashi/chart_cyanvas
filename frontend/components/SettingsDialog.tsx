@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { languageNames } from "~/lib/translations.ts";
 import InputTitle from "./InputTitle.tsx";
 import Select, { type SelectItems } from "./Select.tsx";
+import { useSetTheme, useTheme } from "~/lib/contexts.ts";
+import type { Theme } from "~/lib/types.ts";
 
 type Language = "auto" | keyof typeof languageNames;
 
@@ -17,7 +19,7 @@ const SettingsDialog = (props: {
     {
       type: "item",
       value: "auto",
-      label: t("langAuto"),
+      label: t("lang.auto"),
     },
     ...Object.entries(languageNames).map(([lang, languageName]) => ({
       type: "item" as const,
@@ -35,11 +37,14 @@ const SettingsDialog = (props: {
     }
   }, []);
 
+  const theme = useTheme();
+  const setTheme = useSetTheme();
+
   return (
     <div className="flex flex-col w-96 gap-2">
       <h1 className="page-title">{t("title")}</h1>
 
-      <InputTitle text={t("lang")}>
+      <InputTitle text={t("lang.title")}>
         <Select
           className="w-full"
           items={languageOptions}
@@ -54,8 +59,37 @@ const SettingsDialog = (props: {
           }}
         >
           {selectedLanguage === "auto"
-            ? t("langAuto")
+            ? t("lang.auto")
             : languageNames[selectedLanguage]}
+        </Select>
+      </InputTitle>
+
+      <InputTitle text={t("theme.title")}>
+        <Select
+          className="w-full"
+          items={[
+            {
+              type: "item",
+              value: "auto",
+              label: t("theme.auto"),
+            },
+            {
+              type: "item",
+              value: "light",
+              label: t("theme.light"),
+            },
+            {
+              type: "item",
+              value: "dark",
+              label: t("theme.dark"),
+            },
+          ]}
+          value={theme}
+          onChange={(value) => {
+            setTheme(value as Theme);
+          }}
+        >
+          {t(`theme.${theme}`)}
         </Select>
       </InputTitle>
 

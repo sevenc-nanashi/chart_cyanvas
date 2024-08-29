@@ -57,3 +57,5 @@ export type ServerSettings = {
   discordEnabled: boolean;
   host: string;
 };
+
+export type Theme = "dark" | "light" | "auto";

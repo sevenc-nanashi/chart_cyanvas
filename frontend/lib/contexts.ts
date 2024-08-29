@@ -5,7 +5,7 @@ import {
   useCallback,
   useContext,
 } from "react";
-import type { ServerSettings, Session } from "./types.ts";
+import type { ServerSettings, Session, Theme } from "./types.ts";
 
 export const SessionContext = createContext<Session | undefined>(undefined);
 export const SetSessionContext = createContext<
@@ -20,6 +20,12 @@ export const ServerErrorContext = createContext<(error: Error) => void>(
   () => {},
 );
 export const IsSubmittingContext = createContext<boolean>(false);
+export const ThemeContext = createContext<Theme>("auto");
+export const SetThemeContext = createContext<Dispatch<SetStateAction<Theme>>>(
+  () => {
+    throw new Error("Theme provider not found");
+  },
+);
 
 export const SetIsSubmittingContext = createContext<
   Dispatch<SetStateAction<boolean>> | undefined
@@ -78,4 +84,20 @@ export const useSetIsSubmitting = () => {
 
 export const useIsSubmitting = () => {
   return useContext(IsSubmittingContext);
+};
+
+export const useTheme = () => {
+  const theme = useContext(ThemeContext);
+  if (!theme) {
+    throw new Error("Theme provider not found");
+  }
+  return theme;
+};
+
+export const useSetTheme = () => {
+  const setTheme = useContext(SetThemeContext);
+  if (!setTheme) {
+    throw new Error("Theme provider not found");
+  }
+  return setTheme;
 };
