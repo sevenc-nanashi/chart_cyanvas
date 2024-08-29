@@ -9,7 +9,7 @@
     "format": "biome check --write app components lib styles",
     "typecheck": "tsc --noEmit",
     "build": "remix vite:build",
-    "start": "cross-env PORT=3100 NODE_ENV=production remix-serve build/server/index.js"
+    "start": "dotenv -- cross-env PORT=3100 NODE_ENV=production remix-serve build/server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,7 @@
     "cookie": "^0.6.0",
     "cross-env": "^7.0.3",
     "deepmerge-ts": "^7.1.0",
+    "dotenv-cli": "^7.4.2",
     "i18next": "^23.14.0",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-resources-to-backend": "^1.2.1",
