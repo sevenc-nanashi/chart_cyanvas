@@ -9,7 +9,7 @@
     "format": "biome check --write app components lib styles",
     "typecheck": "tsc --noEmit",
     "build": "remix vite:build",
-    "start": "dotenv -- cross-env PORT=3100 NODE_ENV=production remix-serve build/server/index.js"
+    "start": "dotenv -- cross-env HOST=0.0.0.0 PORT=3100 NODE_ENV=production remix-serve build/server/index.js"
   },
   "keywords": [],
   "author": "",
