@@ -7,6 +7,12 @@ on:
       - ".github/workflows/sub-chart-*.yml"
       - "Rakefile"
       - "config.test.yml"
+  pull_request:
+    paths:
+      - "sub-chart/**"
+      - ".github/workflows/sub-chart-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:

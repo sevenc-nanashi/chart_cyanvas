@@ -7,6 +7,12 @@ on:
       - ".github/workflows/sub-image-*.yml"
       - "Rakefile"
       - "config.test.yml"
+  pull_request:
+    paths:
+      - "sub-image/**"
+      - ".github/workflows/sub-image-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:

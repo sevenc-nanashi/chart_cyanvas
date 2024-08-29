@@ -7,6 +7,12 @@ on:
       - ".github/workflows/sub-audio-*.yml"
       - "Rakefile"
       - "config.test.yml"
+  pull_request:
+    paths:
+      - "sub-audio/**"
+      - ".github/workflows/sub-audio-*.yml"
+      - "Rakefile"
+      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
