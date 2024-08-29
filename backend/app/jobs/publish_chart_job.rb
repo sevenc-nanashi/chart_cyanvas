@@ -14,6 +14,15 @@ class PublishChartJob < ApplicationJob
 
     chart.update!(**args)
 
+    if (webhook = ENV.fetch("DISCORD_WEBHOOK", nil))
+      $discord.post(
+        webhook,
+        json: {
+          content: "#{ENV.fetch("FINAL_HOST")}/charts/#{chart.name}"
+        }
+      )
+    end
+
     Rails.logger.info("Chart ##{chart.name} published")
   end
 end
