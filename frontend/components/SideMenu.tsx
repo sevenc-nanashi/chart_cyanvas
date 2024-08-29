@@ -272,7 +272,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                     }
                   }
                   default:
-                    throw new Error(`Unknown item type: ${item.type}`);
+                    throw new Error(`Unknown item type: ${item}`);
                 }
               })}
           </div>
