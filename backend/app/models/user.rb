@@ -25,7 +25,7 @@ class User < ApplicationRecord
       bgColor: bg_color,
       fgColor: fg_color,
       chartCount: charts_count,
-      userType: admin? ? "admin" : "user",
+      userType: admin? ? "admin" : "user"
     }
   end
 
@@ -80,8 +80,12 @@ class User < ApplicationRecord
   end
 
   def admin?
-    ENV.fetch("ADMIN_HANDLE", nil) &&
-      ENV["ADMIN_HANDLE"].split(",").include?(handle)
+    return false unless (admin_handle = ENV.fetch("ADMIN_HANDLE", nil))
+    if admin_handle.start_with?("[")
+      JSON.parse(admin_handle).include?(handle)
+    else
+      handle == admin_handle
+    end
   end
 
   def self.sync_profile(user_profile)

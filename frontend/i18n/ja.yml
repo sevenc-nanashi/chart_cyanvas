@@ -32,6 +32,7 @@ menu:
   my: "自分の譜面"
   liked: "高評価した譜面"
   myAlts: "名義の管理"
+  admin: "管理者ページ"
   guideline: "ガイドライン"
   logout: "ログアウト"
   settings: "設定"

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => "/admin/sidekiq",
         :constraints => ->(req) {
-          User.find_by(id: req.session[:user_id])&.handle == ENV["ADMIN_HANDLE"]
+          User.find_by(id: req.session[:user_id])&.admin?
         }
   get "/admin/sidekiq" => redirect("/")
   get "/admin/sidekiq/*path" => redirect("/")

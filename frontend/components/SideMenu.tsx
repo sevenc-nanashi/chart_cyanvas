@@ -1,4 +1,5 @@
 import {
+  DataBarVerticalRegular,
   DocumentAddRegular,
   DocumentBriefcaseRegular,
   DocumentTextRegular,
@@ -18,6 +19,22 @@ import { useSession } from "~/lib/contexts.ts";
 import { useLogin } from "~/lib/useLogin.ts";
 import ModalPortal from "./ModalPortal.tsx";
 import SettingsDialog from "./SettingsDialog.tsx";
+
+type MenuItem =
+  | {
+      type: "line";
+    }
+  | {
+      type: "space";
+    }
+  | {
+      type: "button";
+      text: string;
+      icon?: React.ComponentType<{ className: string }>;
+      href?: string;
+      onClick?: () => void;
+      className?: string;
+    };
 
 const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
   const session = useSession();
@@ -144,6 +161,19 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
 
                   href: "/users/alts",
                 },
+
+                session.user.userType === "admin" && [
+                  {
+                    type: "line",
+                  },
+                  {
+                    type: "button",
+                    text: t("admin"),
+                    icon: DataBarVerticalRegular,
+
+                    href: "/admin",
+                  },
+                ],
               ],
               {
                 type: "space",
@@ -188,8 +218,9 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                 },
               ],
             ]
-              .flat()
+              .flat(Number.POSITIVE_INFINITY)
               .filter((item) => !!item)
+              .map((item) => item as MenuItem)
               .map((item, i) => {
                 switch (item.type) {
                   case "line":

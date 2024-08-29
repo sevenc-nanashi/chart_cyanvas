@@ -1,12 +1,14 @@
 import { NavigationFilled } from "@fluentui/react-icons";
 import { Link } from "@remix-run/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import LogoCF from "~/assets/logo-cf.svg?react";
 import { useSession } from "~/lib/contexts";
 import SideMenu from "./SideMenu.tsx";
 
 const Header = () => {
   const session = useSession();
+  const { t: rootT } = useTranslation("root");
   const [showMenu, setShowMenu] = useState(false);
 
   return (
@@ -44,7 +46,10 @@ const Header = () => {
             />
             <div className="font-bold text-xl text-white md:block hidden">
               {session.user.name}
-              <span className="text-sm">#{session.user.handle}</span>
+              <span className="text-sm">
+                #{session.user.handle}
+                {session.user.userType === "admin" && rootT("adminDecorate")}
+              </span>
             </div>
           </div>
         ) : (

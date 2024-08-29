@@ -4,8 +4,13 @@ type: "object"
 description: "Chart Cyanvas configuration. Please run `rake configure` after editing this file."
 properties:
   admin_handle:
-    type: "string"
-    description: "Your Sonolus handle."
+    oneOf:
+      - type: "string"
+        description: "Your Sonolus handle."
+      - type: "array"
+        items:
+          type: "string"
+        description: "Your Sonolus handles."
   final_host:
     type: "string"
     description: "The host that the chart cyanvas will be hosted on."

@@ -36,6 +36,7 @@ menu:
   guideline: "Guideline"
   logout: "Sign out"
   settings: "Settings"
+  admin: "Admin"
   login:
     button: "Sign in"
     title: "Signing in..."

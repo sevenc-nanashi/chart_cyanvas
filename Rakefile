@@ -27,6 +27,7 @@ end
 
 task "configure" do
   require "yaml"
+  require "json"
   config_env = {}
   def search_env(config_env, content, parents = [])
     content.each do |key, value|
@@ -34,7 +35,7 @@ task "configure" do
         search_env(config_env, value, parents + [key])
       else
         env_key = (parents + [key]).join("_").upcase
-        config_env[env_key] = value
+        config_env[env_key] = (value.is_a?(String) ? value : JSON.dump(value))
       end
     end
   end
