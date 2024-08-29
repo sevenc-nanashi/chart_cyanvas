@@ -3,7 +3,7 @@ import {
   type MetaFunction,
   json,
 } from "@remix-run/node";
-import { Link, useBeforeUnload } from "@remix-run/react";
+import { useBeforeUnload } from "@remix-run/react";
 import { useCallback, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { detectLocale, i18n } from "~/lib/i18n.server";
