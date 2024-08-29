@@ -1,4 +1,6 @@
 ja:
+  auth:
+    external_done: "ログインに成功しました！Webページに戻って下さい。"
   test:
     title: "このサーバーは使用しないで下さい！"
     description: "このサーバーはもう使用されていません。"

@@ -1,4 +1,6 @@
 en:
+  auth:
+    external_done: "Successfully signed in! Now please go back to the website."
   test:
     title: "Do not use this server!"
     description: "This server is no longer in use."
@@ -17,7 +19,7 @@ en:
     title: "Chart Cyanvas"
     info:
       description: "Chart Cyanvas is a sekai custom charts platform for Sonolus."
-      logged_in: "Logged in as %{name}#%{handle}."
+      logged_in: "Signed in as %{name}#%{handle}."
     backgrounds:
       title: "%{name} (v%{version})"
       sections:
