@@ -219,7 +219,7 @@ module Sonolus
           end
           [k, v]
         end
-        .merge({ source: ENV.fetch("HOST", nil), tags: [] })
+        .merge({ source: ENV.fetch("FINAL_HOST", nil), tags: [] })
     end
   end
 end

@@ -102,7 +102,7 @@ class Chart < ApplicationRecord
       title:,
       artists: "#{composer} / #{artist.presence || "-"}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
-      source: ENV.fetch("HOST", nil),
+      source: ENV.fetch("FINAL_HOST", nil),
       tags: [
         { title: likes_count.to_s, icon: "heart" },
         (
@@ -167,7 +167,7 @@ class Chart < ApplicationRecord
       name: "chcy-bg-#{name}-v#{version}",
       version: 2,
       tags: [],
-      source: ENV.fetch("HOST", nil),
+      source: ENV.fetch("FINAL_HOST", nil),
       title: I18n.t("sonolus.backgrounds.title", name: title, version:),
       subtitle: "#{composer}#{artist.presence ? " / #{artist}" : ""}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",

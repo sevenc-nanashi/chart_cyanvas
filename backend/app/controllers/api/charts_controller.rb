@@ -523,7 +523,7 @@ module Api
           $discord.post(
             webhook,
             json: {
-              content: "#{ENV.fetch("HOST")}/charts/#{chart.name}"
+              content: "#{ENV.fetch("FINAL_HOST")}/charts/#{chart.name}"
             }
           )
         end

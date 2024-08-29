@@ -7,7 +7,7 @@ module Api
     def redirect_uri
       "#{
         ENV.fetch(
-          "HOST",
+          "FINAL_HOST",
           "#{Rails.env.development? ? "http://" : "https://"}#{request.host_with_port}"
         )
       }/api/discord/callback"

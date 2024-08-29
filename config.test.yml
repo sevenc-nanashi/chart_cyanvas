@@ -2,7 +2,7 @@
 # Configuration template for development environment.
 
 admin_handle: "1073"
-host: "http://192.168.1.2:3000"
+final_host: "http://192.168.1.2:3000"
 secret_key_base: "af8a3d82ff17801024fe1a8a11b552ac501eb4a0acdf14e4bb7c81d16e7130446bd20a907721ad42741196a5cc1e07ffb2017bd3731a9a12d92c40137fca527c"
 hosts:
   backend: "http://localhost:3000"

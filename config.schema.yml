@@ -6,7 +6,7 @@ properties:
   admin_handle:
     type: "string"
     description: "Your Sonolus handle."
-  host:
+  final_host:
     type: "string"
     description: "The host that the chart cyanvas will be hosted on."
   final_port:

@@ -279,7 +279,7 @@ class SonolusController < ApplicationController
       render json: { error: "Invalid type" }, status: :unauthorized
       return
     end
-    if params[:address].exclude?(ENV["HOST"])
+    if params[:address].exclude?(ENV["FINAL_HOST"])
       logger.warn "Invalid address"
       render json: { error: "Invalid address" }, status: :unauthorized
       return
