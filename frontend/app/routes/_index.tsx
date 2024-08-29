@@ -87,6 +87,14 @@ export const Home = () => {
           fetchCharts={fetchNewCharts}
           onEmpty={() => <div className="text-center">{t("empty")}</div>}
         />
+        <div className="flex justify-center">
+          <Link
+            to="/charts"
+            className="px-2 py-1 button-primary"
+          >
+            {t("more")}
+          </Link>
+        </div>
       </div>
     </div>
   );

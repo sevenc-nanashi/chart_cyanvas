@@ -164,7 +164,7 @@ const Search = () => {
             <RadixCollapsible.Trigger className="flex max-sm:justify-between items-center w-full p-2">
               <h2 className="font-bold text-lg mr-2">{t("queries")}</h2>
               {open ? <ChevronUpFilled /> : <ChevronDownFilled />}
-              <div className="ml-4 h-6 contain-strict flex-grow overflow-ellipsis overflow-hidden text-right">
+              <div className="ml-4 h-6 contain-strict flex-grow overflow-ellipsis overflow-hidden whitespace-nowrap text-right break-keep">
                 {currentQuery}
               </div>
             </RadixCollapsible.Trigger>
