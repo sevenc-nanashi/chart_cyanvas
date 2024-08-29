@@ -49,7 +49,7 @@ module Api
         conn.set("sonolus_login/#{uuid}", user.id, ex: 30.minutes)
       end
 
-      render json: { message: I18n.t("auth.external_done") }
+      render json: { message: I18n.t("sonolus.auth.external_done") }
     end
 
     def status

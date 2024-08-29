@@ -1,6 +1,4 @@
 ja:
-  auth:
-    external_done: "ログインに成功しました！Webページに戻って下さい。"
   test:
     title: "このサーバーは使用しないで下さい！"
     description: "このサーバーはもう使用されていません。"
@@ -11,14 +9,13 @@ ja:
     dummy:
       title: "このレベルはプレイできません！"
       description: "一つ前のページに戻って、タイトルを読んで下さい。"
-    search:
-      unknown-user:
-        title: "不明な作者です！"
-        description: "ユーザーのハンドルが合っているか確認して下さい。"
 
   sonolus:
     title: "Chart Cyanvas"
-    info:
+
+    auth:
+      external_done: "ログインに成功しました！Webページに戻って下さい。"
+      info:
       description: "Chart Cyanvas は Sonolus 用の某セカイ創作譜面プラットフォームです。"
       logged_in: "%{name}#%{handle} としてログインしています。"
     backgrounds:
@@ -67,3 +64,4 @@ ja:
         - "高評価順"
       rating_max: "難易度（最高）"
       rating_min: "難易度（最低）"
+      unknown_author: "作者が見付かりません。作者のハンドルが合っているか確認して下さい。"

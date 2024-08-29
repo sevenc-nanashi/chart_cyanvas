@@ -316,22 +316,9 @@ module Sonolus
           end
         if authors.any?(nil)
           render json: {
-                   items: [
-                     dummy_level(
-                       "search.unknown-user",
-                       "no-results",
-                       cover: "error"
-                     )
-                   ],
-                   searches: [
-                     {
-                       type: "advanced",
-                       title: "#ADVANCED",
-                       options: self.class.search_options
-                     }
-                   ],
-                   pageCount: 1
-                 }
+                   message: I18n.t("sonolus.search.unknown_author")
+                 },
+                 status: :bad_request
           return
         end
         charts = charts.where(author_id: authors)

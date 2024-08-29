@@ -1,6 +1,4 @@
 en:
-  auth:
-    external_done: "Successfully signed in! Now please go back to the website."
   test:
     title: "Do not use this server!"
     description: "This server is no longer in use."
@@ -17,6 +15,9 @@ en:
         description: "Make sure the author with the given Handle exists."
   sonolus:
     title: "Chart Cyanvas"
+
+    auth:
+      external_done: "Successfully signed in! Now please go back to the website."
     info:
       description: "Chart Cyanvas is a sekai custom charts platform for Sonolus."
       logged_in: "Signed in as %{name}#%{handle}."
@@ -56,10 +57,10 @@ en:
       composer_placeholder: "Please enter the name of the composer..."
       artist: "Artist"
       artist_placeholder: "Please enter the name of the artist..."
-      author: "Author"
-      author_placeholder: "Please enter the handle of the author, with space separated... (ex: 1234 x567)"
-      author_name: "Author name"
-      author_name_placeholder: "Please enter the name of the author..."
+      author: "Charter handle"
+      author_placeholder: "Please enter the handle of the charter, with space separated... (ex: 1234 x567)"
+      author_name: "Charter name"
+      author_name_placeholder: "Please enter the name of the charter..."
       id: "ID"
       id_placeholder: "Please enter the ID..."
       sort: "Sort"
@@ -69,3 +70,4 @@ en:
         - "Most liked"
       rating_max: "Difficulty (Max)"
       rating_min: "Difficulty (Min)"
+      unknown_author: "Failed to find charters. Make sure you have the correct handles."
