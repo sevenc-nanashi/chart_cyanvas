@@ -1,15 +1,11 @@
+import { NavigationFilled } from "@fluentui/react-icons";
 import { Link } from "@remix-run/react";
-import { pathcat } from "pathcat";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { useState } from "react";
 import LogoCF from "~/assets/logo-cf.svg?react";
 import { useSession } from "~/lib/contexts";
 import SideMenu from "./SideMenu.tsx";
-import { NavigationFilled } from "@fluentui/react-icons";
 
 const Header = () => {
-  const { t } = useTranslation("header");
-
   const session = useSession();
   const [showMenu, setShowMenu] = useState(false);
 

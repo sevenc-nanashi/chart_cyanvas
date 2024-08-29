@@ -3,7 +3,7 @@ import * as RadixCollapsible from "@radix-ui/react-collapsible";
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { type MetaFunction, useSearchParams } from "@remix-run/react";
 import { pathcat } from "pathcat";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { WithContext as ReactTags } from "react-tag-input";

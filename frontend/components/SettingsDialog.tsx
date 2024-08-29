@@ -1,9 +1,9 @@
+import cookies from "cookie";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { languageNames } from "~/lib/translations.ts";
 import InputTitle from "./InputTitle.tsx";
 import Select, { type SelectItems } from "./Select.tsx";
-import { useEffect, useState } from "react";
-import cookies from "cookie";
 
 type Language = "auto" | keyof typeof languageNames;
 

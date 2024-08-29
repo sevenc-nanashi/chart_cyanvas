@@ -64,6 +64,7 @@ export default async function handleRequest(
         },
         onError(error: unknown) {
           didError = true;
+          reject(error);
         },
       },
     );

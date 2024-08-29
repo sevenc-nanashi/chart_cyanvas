@@ -15,7 +15,6 @@ import {
   useServerSettings,
   useSession,
   useSetIsSubmitting,
-  useSetServerError,
 } from "~/lib/contexts";
 import type { AdminOnlyUserData, Chart } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";

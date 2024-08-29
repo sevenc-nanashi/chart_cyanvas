@@ -14,8 +14,8 @@ import clsx from "clsx";
 import i18next from "i18next";
 import { createElement, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useLogin } from "~/lib/useLogin.ts";
 import { useSession } from "~/lib/contexts.ts";
+import { useLogin } from "~/lib/useLogin.ts";
 import ModalPortal from "./ModalPortal.tsx";
 import SettingsDialog from "./SettingsDialog.tsx";
 
@@ -206,7 +206,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                       <div
                         className={clsx(
                           "flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer",
-                          item.className,
+                          "className" in item && item.className,
                         )}
                         key={i}
                         role="button"
@@ -222,13 +222,13 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                       </div>
                     );
 
-                    if (item.href) {
+                    if ("href" in item && item.href) {
                       return (
                         <Link to={item.href} key={i} onClick={close}>
                           {inner}
                         </Link>
                       );
-                    } else if (item.onClick) {
+                    } else if ("onClick" in item) {
                       return (
                         <div key={i} onClick={item.onClick}>
                           {inner}

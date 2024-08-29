@@ -2,12 +2,11 @@ import { ArrowRightFilled, OpenRegular } from "@fluentui/react-icons";
 import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { pathcat } from "pathcat";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ChartList from "~/components/ChartList";
-import { useServerSettings, useMyFetch } from "~/lib/contexts";
+import { useMyFetch, useServerSettings } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
-import type { Chart } from "~/lib/types";
 import { sonolusUrl } from "~/lib/utils";
 
 export const loader: LoaderFunction = async ({ request }) => {

@@ -1,13 +1,12 @@
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { pathcat } from "pathcat";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ChartList from "~/components/ChartList.tsx";
 import { useMyFetch } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import requireLogin from "~/lib/requireLogin.tsx";
-import type { Chart } from "~/lib/types.ts";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
