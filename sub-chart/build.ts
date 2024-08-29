@@ -1,9 +1,9 @@
-import { rollup } from "rollup";
-import esbuild from "rollup-plugin-esbuild";
-import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
+import { rollup } from "rollup";
+import esbuild from "rollup-plugin-esbuild";
 
 const bundle = await rollup({
   input: `${import.meta.dirname}/src/index.ts`,

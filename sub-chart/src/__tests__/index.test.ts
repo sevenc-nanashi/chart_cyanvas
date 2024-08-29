@@ -1,8 +1,8 @@
-import http from "node:http";
 import fs from "node:fs";
-import { gunzip as gunzipCb } from "node:zlib";
+import http from "node:http";
 import { promisify } from "node:util";
-import { test, describe, beforeAll, afterAll, it, expect } from "vitest";
+import { gunzip as gunzipCb } from "node:zlib";
+import { afterAll, beforeAll, describe, expect, it, test } from "vitest";
 import app from "~/server.ts";
 
 const gunzip = promisify(gunzipCb);
@@ -73,7 +73,7 @@ describe("POST /convert", () => {
     });
     const { id } = await convertResponse.json();
 
-    const response = await (app).request(`/download/${id}`);
+    const response = await app.request(`/download/${id}`);
 
     expect(response.status).toBe(200);
 

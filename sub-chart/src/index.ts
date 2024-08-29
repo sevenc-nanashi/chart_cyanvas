@@ -1,5 +1,5 @@
-import app from "./server.ts";
 import { serve } from "@hono/node-server";
+import app from "./server.ts";
 
 const port = 3201;
 serve({ port, fetch: app.fetch }, () => {
