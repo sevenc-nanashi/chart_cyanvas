@@ -15,17 +15,17 @@ import { useRandomValue } from "~/lib/useRandomValue.ts";
 import { getRatingColor } from "~/lib/utils.ts";
 import OptionalImage from "./OptionalImage.tsx";
 
-type Props = { data?: Chart; spacer?: boolean };
+type Props = { data?: Chart; spacer?: boolean; className?: string };
 
 const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
-  { data, spacer },
+  { data, spacer, className }: Props,
   ref,
 ) {
   const random = useRandomValue();
   const navigate = useNavigate();
 
   if (spacer) {
-    return <div className="p-2 h-0 w-full md:w-[480px]" ref={ref} />;
+    return <div className="px-2 h-0 w-full md:w-[480px]" ref={ref} />;
   }
   const retvar = (
     <div
@@ -34,7 +34,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
         "card",
 
         data?.visibility === "public" || "card-darker",
-        data && "card-clickable",
+        data ? "card-clickable" : className,
       )}
       ref={ref}
     >
@@ -160,7 +160,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
   if (data) {
     return (
       <div
-        className="text-normal cursor-pointer"
+        className={clsx("text-normal cursor-pointer", className)}
         onClick={() => navigate(`/charts/${data.name}`)}
       >
         {retvar}

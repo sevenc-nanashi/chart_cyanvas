@@ -1,18 +1,24 @@
 import clsx from "clsx";
+import { type Ref, forwardRef } from "react";
 
-const TextInput = (props: {
-  name: string;
-  placeholder?: string;
-  monospace?: boolean;
-  prefix?: string;
-  defaultValue?: string;
-  error?: string | undefined;
-  disabled?: boolean;
-  maxLength?: number;
-  className?: string;
-  textarea?: boolean;
-  optional?: boolean;
-}) => {
+const TextInput = forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  {
+    name: string;
+    placeholder?: string;
+    monospace?: boolean;
+    prefix?: string;
+    defaultValue?: string;
+    error?: string | undefined;
+    disabled?: boolean;
+    maxLength?: number;
+    className?: string;
+    textarea?: boolean;
+    optional?: boolean;
+    value?: string;
+    onChange?: (value: string) => void;
+  }
+>((props, ref) => {
   return props.prefix ? (
     <div
       className={clsx(
@@ -34,6 +40,9 @@ const TextInput = (props: {
         data-name={props.name}
         data-optional={props.optional}
         placeholder={props.placeholder}
+        value={props.value}
+        onChange={(e) => props.onChange?.(e.target.value)}
+        ref={ref as Ref<HTMLInputElement>}
       />
     </div>
   ) : props.textarea ? (
@@ -50,6 +59,9 @@ const TextInput = (props: {
       data-name={props.name}
       data-optional={props.optional}
       placeholder={props.placeholder}
+      value={props.value}
+      onChange={(e) => props.onChange?.(e.target.value)}
+      ref={ref as Ref<HTMLTextAreaElement>}
     />
   ) : (
     <input
@@ -66,8 +78,11 @@ const TextInput = (props: {
       data-name={props.name}
       data-optional={props.optional}
       placeholder={props.placeholder}
+      value={props.value}
+      onChange={(e) => props.onChange?.(e.target.value)}
+      ref={ref as Ref<HTMLInputElement>}
     />
   );
-};
+});
 
 export default TextInput;

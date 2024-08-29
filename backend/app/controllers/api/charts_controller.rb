@@ -95,14 +95,116 @@ class UploadValidator
   end
 end
 
+class SearchValidator
+  include ActiveModel::Validations
+
+  attr_reader :count,
+              :offset,
+              :author,
+              :liked,
+              :title,
+              :composer,
+              :artist,
+              :rating_min,
+              :rating_max,
+              :author_name,
+              :author_handles,
+              :sort,
+              :include_non_public
+
+  validates :count,
+            numericality: {
+              only_integer: true,
+              greater_than: 0,
+              less_than_or_equal_to: 20,
+              message: "invalid"
+            },
+            allow_blank: true
+  validates :offset,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 0,
+              allow_nil: true,
+              message: "invalid"
+            }
+
+  validates :author_handles,
+            length: {
+              minimum: 4,
+              message: "invalid"
+            },
+            if: -> {
+              !author_handles.present? ||
+                author_handles
+                  .split(",")
+                  .all? { |h| h.length >= 4 && h.match?(/\Ax?[0-9]+\z/) }
+            },
+            allow_blank: true
+
+  validates :sort,
+            inclusion: {
+              in: %w[publishedAt updatedAt likes],
+              message: "invalid"
+            },
+            allow_blank: true
+
+  validates :liked,
+            inclusion: {
+              in: %w[true false],
+              message: "invalid"
+            },
+            allow_blank: true
+  validates :include_non_public,
+            inclusion: {
+              in: %w[true false],
+              message: "invalid"
+            },
+            allow_blank: true
+
+  def initialize(params)
+    @sort = params[:sort]
+    @author_name = params[:authorName]
+    @author_handles = params[:authorHandles]
+    @rating_max = params[:ratingMax]
+    @rating_min = params[:ratingMin]
+    @artist = params[:artist]
+    @composer = params[:composer]
+    @title = params[:title]
+    @liked = params[:liked]
+    @offset = params[:offset]
+    @count = params[:count]
+  end
+end
+
 module Api
   class ChartsController < FrontendController
     def all
-      params.permit(:count, :offset, :author, :liked, :include_non_public)
+      params.permit(
+        :count,
+        :offset,
+        :title,
+        :composer,
+        :artist,
+        :ratingMin,
+        :ratingMax,
+        :authorName,
+        :authorHandles,
+        :sort,
+        :includeNonPublic
+      )
+      validator = SearchValidator.new(params)
+      unless validator.valid?
+        render json: {
+                 code: "invalid_request",
+                 errors: validator.errors.messages.transform_values { |v| v[0] }
+               },
+               status: :bad_request
+        return
+      end
       length = params[:count].to_i
 
       length = 20 if length <= 0 || length > 20
-      cond = { visibility: :public }
+      charts = Chart.preload(%i[author co_authors tags])
       order = { published_at: :desc }
 
       if params[:liked] == "true"
@@ -114,23 +216,72 @@ module Api
                  status: :unauthorized
           return
         end
-        cond[:id] = Like.where(user_id:).pluck(:chart_id)
+        charts = charts.where(id: Like.where(user_id:).pluck(:chart_id))
       end
 
-      if params[:author]
-        user = User.find_by(handle: params[:author].delete_prefix("x"))
-        unless user
+      if params[:title]
+        charts =
+          charts.where(
+            "LOWER(charts.title) LIKE ?",
+            "%#{params[:title].downcase}%"
+          ) if params[:title].present?
+      end
+
+      if params[:composer]
+        charts =
+          charts.where(
+            "LOWER(charts.composer) LIKE ?",
+            "%#{params[:composer].downcase}%"
+          )
+      end
+
+      if params[:artist]
+        charts =
+          charts.where(
+            "LOWER(charts.artist) LIKE ?",
+            "%#{params[:artist].downcase}%"
+          )
+      end
+
+      if params[:ratingMin]
+        charts = charts.where("charts.rating >= ?", params[:ratingMin].to_i)
+      end
+
+      if params[:ratingMax]
+        charts = charts.where("charts.rating <= ?", params[:ratingMax].to_i)
+      end
+
+      if params[:authorHandles].present?
+        authors =
+          params[:authorHandles].split.map do |author|
+            user =
+              if author.start_with?("x")
+                User.find_by(handle: author[1..])
+              else
+                User.find_by(handle: author)
+              end
+            user&.id
+          end
+        if authors.any?(nil)
           render json: {
-                   code: "not_found",
-                   error: "User not found"
-                 },
-                 status: :not_found
+                   code: "invalid_request",
+                   errors: {
+                     authorHandles: "notFound"
+                   }
+                 }
           return
         end
-        cond[:author_id] = user.id
+        charts = charts.where(author_id: authors)
+      end
+      if params[:authorName].present?
+        charts =
+          charts.where(
+            "LOWER(charts.author_name) LIKE ?",
+            "%#{params[:authorName].downcase}%"
+          )
       end
 
-      if params[:include_non_public] == "true"
+      if params[:includeNonPublic] == "true"
         unless (user_id = session[:user_id])
           render json: {
                    code: "not_authorized",
@@ -139,21 +290,26 @@ module Api
                  status: :unauthorized
           return
         end
-        cond.delete(:visibility)
         alts = User.where(owner_id: user_id).pluck(:id)
-        cond[:author_id] = [user_id, *alts]
-        order = { updated_at: :desc }
+        charts =
+          charts.where(author_id: [current_user.id] + alts).order(
+            updated_at: :desc
+          )
       else
-        cond[:variant_id] = nil
+        charts = charts.where(variant_id: nil, visibility: :public)
       end
 
-      charts =
-        Chart
-          .preload(%i[author co_authors tags])
-          .limit(length)
-          .offset(params[:offset].to_i || 0)
-          .where(**cond)
-          .order(**order)
+      case params[:sort]
+      when "updatedAt"
+        charts = charts.order(updated_at: :desc)
+      when "likes"
+        charts = charts.order(likes_count: :desc)
+      else
+        charts = charts.order(published_at: :desc)
+      end
+
+      num_charts = charts.count
+      charts = charts.limit(length).offset(params[:offset].to_i || 0)
       chart_ids = charts.map(&:id)
       file_resources =
         FileResource
@@ -167,7 +323,7 @@ module Api
           chart.define_singleton_method(:file_resources) { file_resources }
           chart.to_frontend(user: session_data && session_data[:user])
         end
-      render json: { code: "ok", charts: }
+      render json: { code: "ok", charts:, total: num_charts }
     end
 
     def show
@@ -310,9 +466,9 @@ module Api
       require_login!
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
-           %i[chart cover bgm].all? do |k|
+           %i[chart cover bgm].all? { |k|
              hash[k].nil? || hash[k].is_a?(ActionDispatch::Http::UploadedFile)
-           end
+           }
         render json: {
                  code: "invalid_request",
                  error: "Invalid request"
@@ -365,7 +521,12 @@ module Api
       if args[:visibility] == :public && !chart.published_at
         args[:published_at] = Time.zone.now
         if (webhook = ENV.fetch("DISCORD_WEBHOOK", nil))
-          $discord.post(webhook, json: { content: "#{ENV.fetch("HOST")}/charts/#{chart.name}" })
+          $discord.post(
+            webhook,
+            json: {
+              content: "#{ENV.fetch("HOST")}/charts/#{chart.name}"
+            }
+          )
         end
       elsif args[:visibility] == :scheduled
         args[:scheduled_job_id] = PublishChartJob

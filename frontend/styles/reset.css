@@ -96,6 +96,8 @@ body {
   font-size: inherit;
   letter-spacing: inherit;
   word-spacing: inherit;
+
+  outline: none;
 }
 
 /* Change textarea resize to vertical only and block only if the browser supports that */

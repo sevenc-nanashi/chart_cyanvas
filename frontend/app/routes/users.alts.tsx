@@ -9,6 +9,7 @@ import DisablePortal from "~/components/DisablePortal.tsx";
 import ModalPortal from "~/components/ModalPortal.tsx";
 import {
   useIsSubmitting,
+  useMyFetch,
   useSession,
   useSetIsSubmitting,
   useSetServerError,
@@ -54,7 +55,7 @@ const MyAlts = () => {
 
   const [errorText, setErrorText] = useState<string | undefined>(undefined);
   const newNameInput = useRef<HTMLInputElement>(null);
-  const setServerError = useSetServerError();
+  const myFetch = useMyFetch();
 
   const createAltUser = useCallback(async () => {
     if (!newNameInput.current) return;
@@ -68,18 +69,13 @@ const MyAlts = () => {
     }
 
     setIsSubmitting(true);
-    const result = await fetch("/api/my/alt_users", {
+    const result = await myFetch("/api/my/alt_users", {
       method: "POST",
       body: JSON.stringify({ name }),
       headers: {
         "Content-Type": "application/json",
       },
-    });
-    setIsSubmitting(false);
-    if (result.status === 500) {
-      setServerError(new Error("Failed to create alt user"));
-      return;
-    }
+    }).finally(() => setIsSubmitting(false));
 
     const resultData = await result.json();
     if (resultData.code !== "ok") {
@@ -87,7 +83,7 @@ const MyAlts = () => {
       return;
     }
     newNameInput.current.value = "";
-  }, [isSubmitting, setServerError, setIsSubmitting]);
+  }, [isSubmitting, myFetch, setIsSubmitting]);
 
   const editNameInput = useRef<HTMLInputElement>(null);
   const [editingUsersHandle, setEditingUsersHandle] = useState<
@@ -106,7 +102,7 @@ const MyAlts = () => {
     }
 
     setIsSubmitting(true);
-    const result = await fetch(
+    const result = await myFetch(
       pathcat("/api/my/alt_users/:handle", { handle: editingUsersHandle }),
       {
         method: "PUT",
@@ -115,12 +111,7 @@ const MyAlts = () => {
           "Content-Type": "application/json",
         },
       },
-    );
-    setIsSubmitting(false);
-    if (result.status === 500) {
-      setServerError(new Error("failed to update alt user"));
-      return;
-    }
+    ).finally(() => setIsSubmitting(false));
 
     const resultData = await result.json();
     if (resultData.code !== "ok") {
@@ -138,7 +129,7 @@ const MyAlts = () => {
       };
     });
     setEditingUsersHandle(undefined);
-  }, [editingUsersHandle, isSubmitting, setServerError, setSession, setIsSubmitting]);
+  }, [editingUsersHandle, isSubmitting, myFetch, setSession, setIsSubmitting]);
 
   const [deletingUsersHandle, setDeletingUsersHandle] = useState<
     string | undefined
@@ -149,19 +140,12 @@ const MyAlts = () => {
 
     setErrorText(undefined);
     setIsSubmitting(true);
-    const result = await fetch(
+    const result = await myFetch(
       pathcat("/api/my/alt_users/:handle", { handle: deletingUsersHandle }),
       {
         method: "DELETE",
       },
-    );
-    setIsSubmitting(false);
-    if (result.status === 500) {
-      setServerError(
-        new Error(`Failed to delete alt user ${deletingUsersHandle}`),
-      );
-      return;
-    }
+    ).finally(() => setIsSubmitting(false));
 
     const resultData = await result.json();
     if (resultData.code !== "ok") {
@@ -179,7 +163,7 @@ const MyAlts = () => {
       };
     });
     setDeletingUsersHandle(undefined);
-  }, [deletingUsersHandle, isSubmitting, setServerError, setSession, setIsSubmitting]);
+  }, [deletingUsersHandle, isSubmitting, myFetch, setSession, setIsSubmitting]);
 
   const deletingUser = session.altUsers.find(
     (u) => u.handle === deletingUsersHandle,

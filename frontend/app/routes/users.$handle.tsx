@@ -46,7 +46,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const userCharts = fetch(
     pathcat(backendUrl, "/api/charts", {
-      author: userData.handle,
+      authorHandles: userData.handle,
     }),
     {
       method: "GET",
@@ -249,7 +249,7 @@ const UserPage = () => {
               title: t("userCharts"),
               items: userCharts,
               listUrl: pathcat("/charts", {
-                user: userData?.handle,
+                authorHandles: userData?.handle,
               }),
             },
           ]}

@@ -4,6 +4,7 @@ import { pathcat } from "pathcat";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ChartList from "~/components/ChartList.tsx";
+import { useMyFetch } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import requireLogin from "~/lib/requireLogin.tsx";
 import type { Chart } from "~/lib/types.ts";
@@ -32,39 +33,24 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 const MyCharts = () => {
   const { t } = useTranslation("liked");
-  const [likedCharts, setLikedCharts] = useState<Chart[] | undefined>(
-    undefined,
+  const myFetch = useMyFetch();
+  const fetchCharts = useCallback(
+    async (page: number) => {
+      const res = await myFetch(
+        pathcat("/api/charts", {
+          count: 20,
+          offset: page * 20,
+          liked: true,
+        }),
+      );
+      const data = await res.json();
+      if (data.code === "ok") {
+        return { charts: data.charts, totalPages: Math.ceil(data.total / 20) };
+      }
+      throw new Error(data.message);
+    },
+    [myFetch],
   );
-
-  const isFetching = useRef(false);
-
-  const fetchNewCharts = useCallback(() => {
-    if (isFetching.current) return;
-    isFetching.current = true;
-    fetch(
-      pathcat("/api/charts", {
-        count: 20,
-        offset: likedCharts?.length || 0,
-        liked: true,
-      }),
-    )
-      .then(async (res) => {
-        const data = await res.json();
-        if (data.code === "ok") {
-          setLikedCharts(data.charts);
-        }
-      })
-      .finally(() => {
-        setTimeout(() => {
-          isFetching.current = false;
-        }, 0);
-      });
-  }, [likedCharts]);
-
-  useEffect(() => {
-    if (likedCharts?.length) return;
-    fetchNewCharts();
-  }, [likedCharts, fetchNewCharts]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -72,11 +58,11 @@ const MyCharts = () => {
         <h1 className="page-title">{t("title")}</h1>
         <Trans i18nKey="liked:description" />
         <div className="h-4" />
-        {likedCharts?.length === 0 ? (
-          <div className="text-center">{t("empty")}</div>
-        ) : (
-          <ChartList charts={likedCharts} />
-        )}
+        <ChartList
+          fetchCharts={fetchCharts}
+          pagination
+          onEmpty={() => <div className="text-center">{t("empty")}</div>}
+        />
       </div>
     </div>
   );

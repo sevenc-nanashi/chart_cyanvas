@@ -14,7 +14,12 @@ const Footer = () => {
           <div>Chart Cyanvas - A sekai custom chart platform.</div>
           <div>
             &copy; 2022-2024,{" "}
-            <a target="_blank" rel="noreferrer" href="https://sevenc7c.com">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://sevenc7c.com"
+              className="underline"
+            >
               Nanashi. &lt;sevenc-nanashi&gt;
             </a>
           </div>
@@ -24,6 +29,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             href="https://github.com/sevenc-nanashi/chart_cyanvas"
+            className="underline"
           >
             GitHub
           </a>{" "}
@@ -32,6 +38,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             href="https://discord.gg/2NP3U3r8Rz"
+            className="underline"
           >
             Discord
           </a>{" "}
@@ -40,6 +47,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             href="https://www.patreon.com/sevenc_nanashi"
+            className="underline"
           >
             Patreon
           </a>

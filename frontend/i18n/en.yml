@@ -28,6 +28,7 @@ header:
 home:
   newCharts: "New charts"
   welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
+  empty: "No charts found."
   openInSonolus: "Open in Sonolus"
 
 menu:
@@ -52,6 +53,26 @@ chart:
     warnAuthor: "Warn the charter"
     warnReason: "Reason for warning"
     ok: "Delete"
+
+searchCharts:
+  title: "Search charts"
+  queries: "Search queries"
+  search: "Search"
+  param:
+    title: "Title"
+    composer: "Composer"
+    artist: "Vocal"
+    authorName: "Charter name"
+    authorHandles: "Charter handle"
+    rating: "Difficulty"
+    sort: "Sort by"
+  description:
+    rating: "You can select difficulty from 1 to 99. Use the input box beside the slider to set difficulty more than 40."
+    authorHandles: "Separate handles (1234, x456) with spaces."
+  sort:
+    publishedAt: "Last published"
+    updatedAt: "Last updated"
+    likes: "Most liked"
 
 user:
   totalCharts: "Total charts: {{count}}"

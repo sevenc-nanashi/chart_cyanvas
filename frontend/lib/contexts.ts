@@ -2,6 +2,7 @@ import {
   type Dispatch,
   type SetStateAction,
   createContext,
+  useCallback,
   useContext,
 } from "react";
 import type { ServerSettings, Session } from "./types.ts";
@@ -18,7 +19,7 @@ export const ServerSettingsContext = createContext<ServerSettings | undefined>(
 export const ServerErrorContext = createContext<(error: Error) => void>(
   () => {},
 );
-  export const IsSubmittingContext = createContext<boolean>(false);
+export const IsSubmittingContext = createContext<boolean>(false);
 
 export const SetIsSubmittingContext = createContext<
   Dispatch<SetStateAction<boolean>> | undefined
@@ -41,6 +42,24 @@ export const useSetServerError = () => {
   return setServerError;
 };
 
+export const useMyFetch = () => {
+  const setServerError = useSetServerError();
+  return useCallback(
+    async (url: string, init?: RequestInit) => {
+      const res = await fetch(url, init);
+      if (res.status.toString().startsWith("5")) {
+        const error = new Error(
+          `Server error: ${res.status} @ ${init?.method ?? "GET"} ${url}`,
+        );
+        setServerError(error);
+        throw error;
+      }
+      return res;
+    },
+    [setServerError],
+  );
+};
+
 export const useServerSettings = () => {
   const serverSettings = useContext(ServerSettingsContext);
   if (!serverSettings) {
@@ -59,4 +78,4 @@ export const useSetIsSubmitting = () => {
 
 export const useIsSubmitting = () => {
   return useContext(IsSubmittingContext);
-}
+};

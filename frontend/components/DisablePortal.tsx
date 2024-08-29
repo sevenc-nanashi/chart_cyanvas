@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 const DisablePortal: React.FC<{ isShown: boolean }> = ({ isShown }) => {
@@ -8,7 +8,7 @@ const DisablePortal: React.FC<{ isShown: boolean }> = ({ isShown }) => {
     if (!initialized && typeof window.document !== "undefined") {
       setInitialized(true);
     }
-  })
+  });
   if (!initialized) return null;
   return createPortal(
     <div

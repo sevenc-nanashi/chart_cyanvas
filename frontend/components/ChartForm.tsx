@@ -11,15 +11,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { WithContext as ReactTags } from "react-tag-input";
 import {
+  useMyFetch,
   useServerSettings,
   useSession,
-  useSetServerError,
   useSetIsSubmitting,
+  useSetServerError,
 } from "~/lib/contexts";
 import type { AdminOnlyUserData, Chart } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
 import Checkbox from "./Checkbox.tsx";
-import DisablePortal from "./DisablePortal.tsx";
 import FileUploadButton from "./FileUploadButton.tsx";
 import InputTitle from "./InputTitle.tsx";
 import ModalPortal from "./ModalPortal.tsx";
@@ -76,7 +76,7 @@ const ChartForm: React.FC<
 
   const session = useSession();
 
-  const setServerError = useSetServerError();
+  const myFetch = useMyFetch();
 
   if (!session?.loggedIn) {
     throw new Error("Not logged in");
@@ -228,10 +228,7 @@ const ChartForm: React.FC<
   const handleResponse = useCallback(
     async (res: Response) => {
       try {
-        if (res.status === 500) {
-          setServerError(new Error("/api/charts returned 500"));
-          return;
-        } else if (res.status === 413) {
+        if (res.status === 413) {
           setShowFileSizeError(true);
           return;
         } else if (res.status === 404) {
@@ -253,7 +250,7 @@ const ChartForm: React.FC<
         setIsSubmitting(false);
       }
     },
-    [setServerError, mapErrors, navigate, setIsSubmitting],
+    [mapErrors, navigate, setIsSubmitting],
   );
   const submitChart = useCallback(() => {
     const formData = createFormData();
@@ -262,7 +259,7 @@ const ChartForm: React.FC<
     }
 
     setIsSubmitting(true);
-    fetch("/api/charts", {
+    myFetch("/api/charts", {
       method: "POST",
       body: formData,
     }).then(async (res) => {
@@ -272,7 +269,7 @@ const ChartForm: React.FC<
       }
       navigate(`/charts/${data.chart.name}`);
     });
-  }, [createFormData, handleResponse, navigate, setIsSubmitting]);
+  }, [myFetch, createFormData, handleResponse, navigate, setIsSubmitting]);
 
   const updateChart = useCallback(() => {
     const formData = createFormData();
@@ -281,7 +278,7 @@ const ChartForm: React.FC<
     }
 
     setIsSubmitting(true);
-    fetch(
+    myFetch(
       pathcat("/api/charts/:name", {
         name: chartName,
       }),
@@ -296,7 +293,14 @@ const ChartForm: React.FC<
       }
       navigate(`/charts/${data.chart.name}`);
     });
-  }, [createFormData, handleResponse, chartName, navigate, setIsSubmitting]);
+  }, [
+    myFetch,
+    createFormData,
+    handleResponse,
+    chartName,
+    navigate,
+    setIsSubmitting,
+  ]);
 
   const [publishConfirms, setPublishConfirms] = useState([
     false,
@@ -330,7 +334,7 @@ const ChartForm: React.FC<
         return;
       }
 
-      fetch(pathcat("/api/charts/:name", { name: chartName }), {
+      myFetch(pathcat("/api/charts/:name", { name: chartName }), {
         method: "PUT",
         body: formData,
       }).then(async (res) => {
@@ -341,40 +345,43 @@ const ChartForm: React.FC<
         navigate(`/charts/${data.chart.name}`);
       });
     });
-  }, [navigate, chartName, handleResponse, setIsSubmitting, createFormData]);
+  }, [
+    myFetch,
+    navigate,
+    chartName,
+    handleResponse,
+    setIsSubmitting,
+    createFormData,
+  ]);
   const unpublishChart = useCallback(() => {
     setIsSubmitting(true);
     const formData = createFormData();
     if (!formData) {
       return;
     }
-    fetch(pathcat("/api/charts/:name", { name: chartName }), {
+    myFetch(pathcat("/api/charts/:name", { name: chartName }), {
       method: "PUT",
       body: formData,
-    }).then(async (res) => {
-      if (res.status === 500) {
-        setServerError(new Error(`PUT /api/charts/${chartName} returned 500`));
-        setIsSubmitting(false);
-        return;
-      } else if (res.status === 413) {
-        setShowFileSizeError(true);
-        setIsSubmitting(false);
-        return;
-      }
-      const data = (await res.json()) as {
-        code: string;
-        chart: Chart;
-        errors: Partial<Record<keyof FormData, string>>;
-      };
-      if (data.code !== "ok") {
-        setErrors(data.errors);
+    })
+      .then(async (res) => {
+        if (res.status === 413) {
+          setShowFileSizeError(true);
+          return;
+        }
+        const data = (await res.json()) as {
+          code: string;
+          chart: Chart;
+          errors: Partial<Record<keyof FormData, string>>;
+        };
+        if (data.code !== "ok") {
+          setErrors(data.errors);
 
-        setIsSubmitting(false);
-        return;
-      }
-      navigate(`/charts/${data.chart.name}`);
-    });
-  }, [navigate, chartName, createFormData, setServerError, setIsSubmitting]);
+          return;
+        }
+        navigate(`/charts/${data.chart.name}`);
+      })
+      .finally(() => setIsSubmitting(false));
+  }, [navigate, chartName, createFormData, myFetch, setIsSubmitting]);
 
   const [unUploadedFiles, setUnUploadedFiles] = useState<File[]>([]);
   const onDrop = useCallback((e: React.DragEvent) => {
@@ -417,6 +424,14 @@ const ChartForm: React.FC<
       className="flex flex-col gap-2"
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (isEdit) {
+          updateChart();
+        } else {
+          submitChart();
+        }
+      }}
     >
       <ModalPortal
         isOpen={unUploadedFiles.length > 0}
@@ -518,28 +533,30 @@ const ChartForm: React.FC<
         <p className="text-sm text-gray-500 text-normal mb-1">
           {t("publishModal.description")}
         </p>
-        {publishConfirms.map((checked, i) => (
-          <Checkbox
-            checked={checked}
-            onChange={(checked) => {
-              const newConfirms = [...publishConfirms];
-              newConfirms[i] = checked;
-              setPublishConfirms(newConfirms);
-            }}
-            size="sm"
-            key={i}
-          >
-            <h5 className="font-bold">
-              <Trans t={t} i18nKey={`publishModal.check${i}.title`} />
-            </h5>
-            {t(`publishModal.check${i}.description`) !==
-              `publishModal.check${i}.description` && (
-              <p className="text-sm">
-                <Trans t={t} i18nKey={`publishModal.check${i}.description`} />
-              </p>
-            )}
-          </Checkbox>
-        ))}
+        <div className="flex flex-col gap-2">
+          {publishConfirms.map((checked, i) => (
+            <Checkbox
+              checked={checked}
+              onChange={(checked) => {
+                const newConfirms = [...publishConfirms];
+                newConfirms[i] = checked;
+                setPublishConfirms(newConfirms);
+              }}
+              size="sm"
+              key={i}
+            >
+              <h5 className="font-bold">
+                <Trans t={t} i18nKey={`publishModal.check${i}.title`} />
+              </h5>
+              {t(`publishModal.check${i}.description`) !==
+                `publishModal.check${i}.description` && (
+                <p className="text-sm">
+                  <Trans t={t} i18nKey={`publishModal.check${i}.description`} />
+                </p>
+              )}
+            </Checkbox>
+          ))}
+        </div>
         <p className="text-sm text-gray-500 text-normal mt-1">
           <Trans
             i18nKey="upload:publishModal.description2"
@@ -791,47 +808,37 @@ const ChartForm: React.FC<
         </div>
         <div className="mt-4 border-t-2 border-slate-300 dark:border-slate-700" />
         <div className="mt-4">
-          {[
-            isEdit
-              ? (visibility !== "private") !==
-                (chartData.visibility !== "private")
-                ? chartData.visibility !== "private"
-                  ? {
-                      isPrimary: true,
-                      text: t("unpublish"),
-                      onClick: unpublishChart,
-                      isDanger: true,
-                    }
-                  : {
-                      isPrimary: true,
-                      text: t("publish"),
-                      onClick: publishChart,
-                    }
-                : {
-                    text: t("update"),
-                    onClick: updateChart,
-                  }
-              : {
-                  isPrimary: true,
-                  text: t("submit"),
-                  onClick: submitChart,
-                },
-          ].map((button, i) => (
-            <div
-              key={i}
-              className={clsx(
-                "p-2 w-full",
-                button.isDanger
-                  ? "button-danger"
-                  : button.isPrimary
-                    ? "button-primary"
-                    : "button-secondary",
-              )}
-              onClick={button.onClick}
-            >
-              {button.text}
-            </div>
-          ))}
+          {isEdit ? (
+            (visibility !== "private") !==
+            (chartData.visibility !== "private") ? (
+              chartData.visibility !== "private" ? (
+                <button
+                  className="p-2 w-full button-danger"
+                  onClick={unpublishChart}
+                >
+                  {t("unpublish")}
+                </button>
+              ) : (
+                <button
+                  className="p-2 w-full button-primary"
+                  onClick={publishChart}
+                >
+                  {t("publish")}
+                </button>
+              )
+            ) : (
+              <button
+                className="p-2 w-full button-secondary"
+                onClick={updateChart}
+              >
+                {t("update")}
+              </button>
+            )
+          ) : (
+            <button className="p-2 w-full button-primary" onClick={submitChart}>
+              {t("submit")}
+            </button>
+          )}
         </div>
       </div>
     </form>

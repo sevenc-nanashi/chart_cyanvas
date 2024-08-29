@@ -9,6 +9,11 @@
   margin: 0;
 }
 
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
 body {
   @apply font-sans;
 
@@ -41,9 +46,31 @@ li a,
 .gray-link {
   @apply text-slate-500 dark:text-gray-400 border-b-[1px] border-slate-500 dark:border-gray-400;
 
-  &:hover {
+  &:hover:not(.disabled) {
     @apply text-slate-700 dark:text-gray-300 border-slate-700 dark:border-gray-300;
   }
+
+  &.disabled {
+    @apply border-transparent;
+  }
+
+}
+
+.theme-link {
+  @apply text-themeText border-b-[1px] border-themeText;
+
+  &:hover:not(.disabled) {
+    @apply text-themeDark border-themeDark;
+  }
+
+  &.disabled {
+    @apply border-transparent;
+  }
+
+}
+
+.disabled {
+  @apply opacity-50 cursor-not-allowed;
 }
 
 .page-title {
@@ -129,7 +156,7 @@ textarea {
 }
 
 .button {
-  @apply transition-opacity duration-200 box-border rounded text-center;
+  @apply transition-[opacity,_background] duration-200 box-border rounded text-center;
 
   &:disabled,
   &.disabled {

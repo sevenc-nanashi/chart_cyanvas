@@ -1,23 +1,43 @@
 import { useState } from "react";
 import { Range, getTrackBackground } from "react-range";
 
-const RangeInput = (props: {
-  min: number;
-  max: number;
-  step: number;
-  name: string;
-  defaultValue?: number;
-  value?: number;
-  onChange?: (value: number) => void;
-}) => {
-  const [values, setValues] = useState([props.defaultValue ?? props.min]);
+const clamp = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, value));
 
-  const value = [
-    Math.max(
-      props.min,
-      Math.min(props.max, props.value != null ? props.value : values[0]),
-    ),
-  ];
+const RangeInput = (
+  props: {
+    min: number;
+    max: number;
+    step: number;
+    name: string;
+  } & (
+    | {
+        dual?: false;
+        defaultValue?: number;
+        value?: number;
+        onChange?: (value: number) => void;
+      }
+    | {
+        dual: true;
+        defaultValue?: [number, number];
+        value?: [number, number];
+        onChange?: (value: [number, number]) => void;
+      }
+  ),
+) => {
+  const [internalValues, setValues] = useState(
+    props.dual
+      ? props.defaultValue ?? [props.min, props.max]
+      : [props.defaultValue ?? props.min],
+  );
+
+  const values = (
+    props.value !== undefined
+      ? props.dual
+        ? props.value
+        : [props.value]
+      : internalValues
+  ).map((v) => clamp(v, props.min, props.max));
 
   return (
     <>
@@ -25,10 +45,14 @@ const RangeInput = (props: {
         step={props.step}
         min={props.min}
         max={props.max}
-        values={value}
+        values={values}
         onChange={(values) => {
           if (props.value != null) {
-            props.onChange?.(values[0]);
+            if (props.dual) {
+              props.onChange?.(values as [number, number]);
+            } else {
+              props.onChange?.(values[0]);
+            }
           } else {
             setValues(values);
           }
@@ -47,8 +71,10 @@ const RangeInput = (props: {
               className="h-2 w-full self-center rounded"
               style={{
                 background: getTrackBackground({
-                  values: value,
-                  colors: ["#83ccd2", "#0000"],
+                  values: values,
+                  colors: props.dual
+                    ? ["#0000", "#83ccd2", "#0000"]
+                    : ["#83ccd2", "#0000"],
                   min: props.min,
                   max: props.max,
                 }),
@@ -68,7 +94,7 @@ const RangeInput = (props: {
       />
       <input
         type="range"
-        value={values[0]}
+        value={internalValues[0]}
         data-name={props.name}
         readOnly
         hidden

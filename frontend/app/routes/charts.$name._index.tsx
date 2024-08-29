@@ -64,7 +64,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const chartsByThisCharter = fetch(
     pathcat(backendUrl, "/api/charts", {
-      author: chartData.author.handle,
+      authorHandles: chartData.author.handle,
     }),
     {
       method: "GET",
@@ -396,6 +396,9 @@ const ChartPage = () => {
                   return item.href ? (
                     <Link
                       to={item.href}
+                      target={
+                        item.href.startsWith("http") ? "_blank" : undefined
+                      }
                       key={i}
                       className={clsx(
                         "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
@@ -432,7 +435,7 @@ const ChartPage = () => {
               title: t("sameAuthor"),
               items: chartsByThisCharter,
               listUrl: pathcat("/charts", {
-                user: chartData?.author.handle,
+                authorHandles: chartData?.author.handle,
               }),
             },
           ]}

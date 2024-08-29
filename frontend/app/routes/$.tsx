@@ -43,7 +43,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export default function NotFound() {
-  const [t] = useTranslation("notFound");
+  const { t } = useTranslation("notFound");
   return (
     <div>
       <h1 className="page-title">{t("heading")}</h1>

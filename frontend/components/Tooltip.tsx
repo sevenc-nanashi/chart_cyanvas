@@ -13,7 +13,7 @@ const Tooltip: React.FC<{ children: React.ReactNode; text: string }> = ({
           <RadixTooltip.Content
             className={clsx(
               "absolute bottom-full p-2 rounded font-sans left-[-8rem] right-[-8rem]",
-              "text-sm bg-slate-100 dark:bg-slate-700 shadow pointer-none will-change-[opacity]",
+              "text-sm bg-background shadow pointer-none will-change-[opacity]",
               "transition-opacity duration-150 starting:opacity-0 opacity-100",
             )}
             sideOffset={5}

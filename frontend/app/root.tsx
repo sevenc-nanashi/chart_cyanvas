@@ -10,13 +10,14 @@ import {
   useNavigation,
   useRouteLoaderData,
 } from "@remix-run/react";
-import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
-import { useTranslation } from "react-i18next";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import favicon from "~/assets/favicon.svg?url";
 import DisablePortal from "~/components/DisablePortal";
 import Footer from "~/components/Footer.tsx";
 import Header from "~/components/Header.tsx";
+import ModalPortal from "~/components/ModalPortal";
 import { discordEnabled, host } from "~/lib/config.server.ts";
 import {
   IsSubmittingContext,
@@ -68,7 +69,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     () => isSubmitting || navigation.state !== "idle",
     [isSubmitting, navigation],
   );
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation("root");
   if (i18n.language !== loaderData.locale) {
     i18n.changeLanguage(loaderData.locale);
   }
@@ -118,6 +119,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <IsSubmittingContext.Provider value={isSubmitting}>
                   <SetIsSubmittingContext.Provider value={setIsSubmitting}>
                     <DisablePortal isShown={isSubmittingOrTransitioning} />
+                    <ModalPortal isOpen={!!serverError}>
+                      <h1 className="text-xl font-bold mb-2">
+                        {t("serverError")}
+                      </h1>
+                      <p className="text-sm text-gray-500">
+                        <Trans
+                          components={[
+                            <a href="https://discord.gg/2NP3U3r8Rz" key="0" />,
+                          ]}
+                          i18nKey="serverErrorNote"
+                        />
+                      </p>
+
+                      <textarea
+                        readOnly
+                        className="card font-monospace overflow-scroll block w-[80vw] md:w-[480px] h-48 whitespace-pre"
+                        value={`${serverError?.message}\n${serverError?.stack}`}
+                      />
+                      <div className="flex justify-end mt-4">
+                        <button
+                          className="px-4 py-2 button-primary"
+                          onClick={() => setServerError(undefined)}
+                        >
+                          {t("close")}
+                        </button>
+                      </div>
+                    </ModalPortal>
                     <Header />
                     <main
                       className={clsx(

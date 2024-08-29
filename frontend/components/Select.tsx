@@ -64,6 +64,7 @@ const Select: React.FC<{
   onChange: (value: string) => void;
   disabled?: boolean;
   children?: React.ReactNode;
+  className?: string;
 }> = (props) => (
   <RadixSelect.Root
     defaultValue={props.defaultValue}
@@ -74,6 +75,7 @@ const Select: React.FC<{
       className={clsx(
         "text-input relative cursor-pointer",
         props.disabled && "disabled",
+        props.className,
       )}
     >
       <RadixSelect.Value>{props.children}</RadixSelect.Value>
@@ -83,7 +85,10 @@ const Select: React.FC<{
     </RadixSelect.Trigger>
 
     <RadixSelect.Portal>
-      <RadixSelect.Content className="p-2 flex flex-row bg-input drop-shadow-lg rounded">
+      <RadixSelect.Content
+        className="p-2 flex flex-row bg-input drop-shadow-lg rounded"
+        position="popper"
+      >
         <RadixSelect.ScrollUpButton>
           <ChevronUpRegular />
         </RadixSelect.ScrollUpButton>
