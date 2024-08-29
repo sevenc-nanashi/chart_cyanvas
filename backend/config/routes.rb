@@ -63,10 +63,9 @@ Rails.application.routes.draw do
           redirect("/rails/active_storage/%{path}")
   end
   scope "/sonolus" do
-    get "/levels/chcy-sys-like-on-:name", to: "sonolus/like#to_on"
-    get "/levels/chcy-sys-like-off-:name", to: "sonolus/like#to_off"
     get "/levels/chcy-:name", to: "sonolus/levels#show"
     post "/levels/chcy-:name/submit", to: "sonolus/levels#submit"
+    get "/sonolus/level/result/info", to: "sonolus/levels#result_info"
     post "/authenticate", to: "sonolus#authenticate"
 
     scope "/assets" do
