@@ -55,6 +55,9 @@ chart:
   delete: "Delete"
   createVariant: "Create variant"
   download: "Download chart"
+  noLevelData: |
+    No level data found.
+    The chart may not have been played since the engine was updated, or the conversion of the chart may have failed.
 
   deletionModal:
     title: "Delete this chart?"

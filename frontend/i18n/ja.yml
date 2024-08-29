@@ -53,6 +53,9 @@ chart:
   delete: "削除"
   createVariant: "派生を作成"
   download: "譜面をDL"
+  noLevelData: |
+    レベルデータがありません。
+    エンジンの更新から譜面が遊ばれていない、または譜面の変換に失敗した可能性があります。
 
   deletionModal:
     title: "譜面を削除しますか？"

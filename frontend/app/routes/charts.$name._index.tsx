@@ -12,6 +12,7 @@ import {
   NumberSymbolFilled,
   OpenRegular,
   TagRegular,
+  WarningRegular,
 } from "@fluentui/react-icons";
 import {
   type LoaderFunctionArgs,
@@ -21,7 +22,13 @@ import {
 import { Link, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
-import { Fragment, createElement, useCallback, useState } from "react";
+import {
+  Fragment,
+  createElement,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
 import Checkbox from "~/components/Checkbox";
@@ -29,6 +36,7 @@ import InputTitle from "~/components/InputTitle";
 import ModalPortal from "~/components/ModalPortal";
 import OptionalImage from "~/components/OptionalImage";
 import TextInput from "~/components/TextInput";
+import Tooltip from "~/components/Tooltip";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import { useServerSettings, useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
@@ -151,6 +159,20 @@ const ChartPage = () => {
 
   const [showDeletionModal, setShowDeletionModal] = useState(false);
 
+  const [publishedAt, setPublishedAt] = useState("-");
+
+  useEffect(() => {
+    if (chartData.publishedAt) {
+      const date = new Date(chartData.publishedAt);
+      setPublishedAt(
+        new Intl.DateTimeFormat([], {
+          dateStyle: "medium",
+          timeStyle: "short",
+        }).format(date),
+      );
+    }
+  }, [chartData.publishedAt]);
+
   const [warnAuthor, setWarnAuthor] = useState(false);
 
   const sendDeleteRequest = useCallback(async () => {
@@ -271,21 +293,23 @@ const ChartPage = () => {
               )}
               {!!chartData.data || (
                 <span className="ml-2 text-yellow-700">
-                  <ClockRegular />
+                  <Tooltip text={t("noLevelData")}>
+                    <WarningRegular />
+                  </Tooltip>
                 </span>
               )}
             </h1>
 
-            <p className="text-lg mt-4">
+            <p className="mt-4">
               <MusicNote2Regular className="mr-1 h-6 w-6" />
               {chartData.composer}
             </p>
-            <p className="text-lg">
+            <p>
               <MicRegular className="mr-1 h-6 w-6" />
               {chartData.artist || "-"}
             </p>
 
-            <p className="text-lg">
+            <p>
               {chartData.tags.length > 0 ? (
                 <>
                   <TagRegular className="mr-1 w-6 h-6" />
@@ -298,7 +322,7 @@ const ChartPage = () => {
                 </>
               )}
             </p>
-            <p className="text-lg">
+            <p>
               <Link to={`/users/${chartData.author.handle}`}>
                 <EditRegular className="mr-1 h-6 w-6" />
                 {chartData.authorName || chartData.author.name}
@@ -306,9 +330,14 @@ const ChartPage = () => {
               </Link>
             </p>
 
-            <p className="text-lg text-red-400">
+            <p className="text-red-400">
               <HeartRegular className="mr-1 h-6 w-6" />
               {chartData.likes}
+            </p>
+
+            <p>
+              <ClockRegular className="mr-1 h-6 w-6" />
+              {publishedAt}
             </p>
 
             <p className="text-gray-500 font-monospace text-sm">
