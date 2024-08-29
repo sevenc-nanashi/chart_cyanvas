@@ -59,9 +59,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9.2.0
+        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v3
         with:
