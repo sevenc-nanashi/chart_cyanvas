@@ -8,11 +8,11 @@
     "check": "biome check app components lib styles",
     "format": "biome check --write app components lib styles",
     "typecheck": "tsc --noEmit",
-    "build": "remix vite:build"
+    "build": "remix vite:build",
+    "start": "cross-env PORT=3100 NODE_ENV=production remix-serve build/server/index.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "dependencies": {
     "@acab/reset.css": "^0.10.0",
     "@fluentui/react-icons": "2.0.253",
