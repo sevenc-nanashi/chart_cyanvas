@@ -337,7 +337,11 @@ const ChartPage = () => {
 
             <p>
               <ClockRegular className="mr-1 h-6 w-6" />
-              {publishedAt}
+              {publishedAt === "-" ? (
+                "-"
+              ) : (
+                <time dateTime={chartData.publishedAt}>{publishedAt}</time>
+              )}
             </p>
 
             <p className="text-gray-500 font-monospace text-sm">
@@ -396,7 +400,7 @@ const ChartPage = () => {
                 ],
                 chartData.chart && [
                   {
-                    href: `/api/charts/${chartName}/download_chart`,
+                    href: `${serverSettings.host}/api/charts/${chartName}/download_chart`,
                     icon: ArrowDownloadRegular,
                     className: "button-tertiary",
                     text: t("download"),
