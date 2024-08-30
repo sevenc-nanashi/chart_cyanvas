@@ -84,7 +84,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
         onClick={close}
       >
         <div
-          className="absolute right-2 top-2 min-w-64 h-[calc(100svh_-_16px)] bg-white dark:bg-slate-900 shadow-lg rounded-lg p-4 flex flex-col"
+          className="absolute right-2 top-2 min-w-64 h-[calc(100svh_-_16px)] bg-white dark:bg-slate-900 shadow-lg rounded-lg p-4 flex flex-col overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {session?.loggedIn ? (
