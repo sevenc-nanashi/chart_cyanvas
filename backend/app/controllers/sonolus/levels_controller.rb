@@ -104,12 +104,13 @@ module Sonolus
           requireConfirmation: false,
           options: self.class.search_options
         },
-        current_user && {
-          type: "liked",
-          title: I18n.t("sonolus.targets.liked"),
-          requireConfirmation: false,
-          options: []
-        }
+        current_user &&
+          {
+            type: "liked",
+            title: I18n.t("sonolus.targets.liked"),
+            requireConfirmation: false,
+            options: []
+          }
       ].compact
     end
 
@@ -315,22 +316,9 @@ module Sonolus
           end
         if authors.any?(nil)
           render json: {
-                   items: [
-                     dummy_level(
-                       "search.unknown-user",
-                       "no-results",
-                       cover: "error"
-                     )
-                   ],
-                   searches: [
-                     {
-                       type: "advanced",
-                       title: "#ADVANCED",
-                       options: self.class.search_options
-                     }
-                   ],
-                   pageCount: 1
-                 }
+                   message: I18n.t("sonolus.search.unknown_author")
+                 },
+                 status: :bad_request
           return
         end
         charts = charts.where(author_id: authors)
@@ -473,11 +461,11 @@ module Sonolus
       when "like"
         like = Like.find_by(user_id: current_user.id, chart_id: chart.id)
         Like.create(user_id: current_user.id, chart_id: chart.id) unless like
-        render json: { shouldUpdate: true, key: "", hashes: [] }
+        render json: { shouldUpdateItem: true, key: "", hashes: [] }
       when "unlike"
         like = Like.find_by(user_id: current_user.id, chart_id: chart.id)
         like&.destroy
-        render json: { shouldUpdate: true, key: "", hashes: [] }
+        render json: { shouldUpdateItem: true, key: "", hashes: [] }
       else
         render json: {
                  code: "bad_request",
@@ -534,6 +522,10 @@ module Sonolus
                  }
                ]
              }
+    end
+
+    def result_info
+      render json: { submits: [] }
     end
   end
 end
