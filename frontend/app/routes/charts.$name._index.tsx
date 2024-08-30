@@ -315,7 +315,7 @@ const ChartPage = () => {
                   <TagRegular className="mr-1 w-6 h-6" />
                   {chartData.tags.map((tag, i) => (
                     <Fragment key={i}>
-                      <Link to={pathcat("/charts", { tags: tag })}>{tag}</Link>
+                      <Link className="gray-link" to={pathcat("/charts", { tags: tag })}>{tag}</Link>
                       {i < chartData.tags.length - 1 && rootT("separator")}
                     </Fragment>
                   ))}

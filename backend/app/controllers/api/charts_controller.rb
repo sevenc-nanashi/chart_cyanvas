@@ -85,7 +85,7 @@ class UploadValidator
     @composer = params[:composer]
     @artist = params[:artist]
     @rating = params[:rating]
-    @tags = params[:tags]
+    @tags = params[:tags].split(",").map(&:strip).filter(&:present?)
     @author_handle = params[:authorHandle]
     @author_name = params[:authorName]
     @is_chart_public = params[:isChartPublic]
