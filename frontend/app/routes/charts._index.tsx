@@ -2,6 +2,7 @@ import { ChevronDownFilled, ChevronUpFilled } from "@fluentui/react-icons";
 import * as RadixCollapsible from "@radix-ui/react-collapsible";
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { type MetaFunction, useSearchParams } from "@remix-run/react";
+import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -54,6 +55,7 @@ const Search = () => {
     artist: string;
     authorName: string;
     authorHandles: string[];
+    tags: string[];
     ratingMin: number;
     ratingMax: number;
     sort: Sort;
@@ -64,6 +66,7 @@ const Search = () => {
       artist: params.get("artist") || "",
       authorName: params.get("authorName") || "",
       authorHandles: params.get("authorHandles")?.split(",") || [],
+      tags: params.get("tags")?.split(",") || [],
       ratingMin: Number.parseInt(params.get("ratingMin") || "1"),
       ratingMax: Number.parseInt(params.get("ratingMax") || "99"),
       sort: sorts.includes(params.get("sort") as Sort)
@@ -106,6 +109,7 @@ const Search = () => {
               artist: form.watch("artist"),
               authorName: form.watch("authorName"),
               authorHandles: form.watch("authorHandles").join(","),
+              tags: form.watch("tags").join(","),
               ratingMin: form.watch("ratingMin"),
               ratingMax: form.watch("ratingMax"),
               sort: form.watch("sort"),
@@ -142,6 +146,9 @@ const Search = () => {
       mappedParams[t("param.authorHandles")] = params.authorHandles.join(
         rootT("separator"),
       );
+    }
+    if (params.tags.length > 0) {
+      mappedParams[t("param.tags")] = params.tags.join(rootT("separator"));
     }
     if (params.ratingMin !== 1 || params.ratingMax !== 99) {
       mappedParams[t("param.rating")] =
@@ -239,6 +246,40 @@ const Search = () => {
                 </div>
 
                 <div className="flex flex-col xl:flex-grow gap-2">
+                  <InputTitle text={t("param.tags")}>
+                    <div
+                      className={clsx(
+                        "flex flex-col gap-2 tag-input",
+                        form.watch("tags").length >= 5 && "[&_.ReactTags__tagInput]_hidden",
+                      )}
+                    >
+                      <ReactTags
+                        tags={form.watch("tags").map((handle) => ({
+                          className: "",
+                          text: handle,
+                          id: handle,
+                        }))}
+                        allowDragDrop={false}
+                        placeholder=""
+                        separators={[" ", ",", "\n"]}
+                        handleDelete={(i) => {
+                          form.setValue(
+                            "tags",
+                            form.getValues("tags").filter((_, j) => i !== j),
+                          );
+                        }}
+                        handleAddition={(tag) => {
+                          if (form.getValues("tags").length >= 5) {
+                            return;
+                          }
+                          form.setValue("tags", [
+                            ...form.getValues("tags"),
+                            tag.text,
+                          ]);
+                        }}
+                      />
+                    </div>
+                  </InputTitle>
                   <InputTitle text={t("param.authorName")}>
                     <TextInput
                       name="authorName"
@@ -260,18 +301,18 @@ const Search = () => {
                         }))}
                         allowDragDrop={false}
                         placeholder=""
-                        separators={[" ", ","]}
+                        separators={[" ", ",", "\n"]}
                         handleDelete={(i) => {
                           form.setValue(
                             "authorHandles",
                             form
-                              .watch("authorHandles")
+                              .getValues("authorHandles")
                               .filter((_, j) => i !== j),
                           );
                         }}
                         handleAddition={(tag) => {
                           form.setValue("authorHandles", [
-                            ...form.watch("authorHandles"),
+                            ...form.getValues("authorHandles"),
                             tag.text,
                           ]);
                         }}

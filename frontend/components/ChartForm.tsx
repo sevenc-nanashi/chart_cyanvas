@@ -779,8 +779,10 @@ const ChartForm: React.FC<
               error={errors.tags}
             >
               <div
-                className="flex flex-col gap-2 tag-input"
-                data-reached-max={tags.length >= 5}
+                className={clsx(
+                  "flex flex-col gap-2 tag-input",
+                  tags.length >= 5 && "[&_.ReactTags__tagInput]_hidden",
+                )}
               >
                 <ReactTags
                   tags={tags.map((tag) => ({

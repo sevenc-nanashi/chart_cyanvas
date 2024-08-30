@@ -149,12 +149,6 @@ textarea {
   }
 }
 
-[data-reached-max="true"] {
-  .ReactTags__tagInput {
-    @apply hidden;
-  }
-}
-
 .button {
   @apply transition-[opacity,_background] duration-200 box-border rounded text-center;
 

@@ -30,6 +30,9 @@ Style/GlobalVars:
 Style/GuardClause:
   Enabled: false
 
+Style/BlockDelimiters:
+  Enabled: false
+
 Lint/AssignmentInCondition:
   Enabled: false
 

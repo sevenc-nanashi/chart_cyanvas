@@ -85,6 +85,7 @@ searchCharts:
     artist: "Vocal"
     authorName: "Charter name"
     authorHandles: "Charter handle"
+    tags: "Tags"
     rating: "Difficulty"
     sort: "Sort by"
   description:

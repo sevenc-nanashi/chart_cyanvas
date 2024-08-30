@@ -36,6 +36,16 @@ module Sonolus
           shortcuts: []
         },
         {
+          query: :q_tags,
+          name: I18n.t("sonolus.search.tags"),
+          type: "text",
+          placeholder: I18n.t("sonolus.search.tags_placeholder"),
+          required: false,
+          limit: 0,
+          def: "",
+          shortcuts: %w[Append Master Expert].map { |tag| " #{tag}" }
+        },
+        {
           query: :q_author,
           name: I18n.t("sonolus.search.author"),
           type: "text",
@@ -275,34 +285,54 @@ module Sonolus
       when 2
         charts = charts.order(likes_count: :desc)
       end
+      if params[:type] == "quick" && params[:keywords].present?
+        charts =
+          charts.where(
+            "LOWER(charts.title) LIKE ? OR LOWER(charts.composer) LIKE ? OR LOWER(charts.artist) LIKE ?",
+            "%#{Chart.sanitize_sql_like(params[:keywords].downcase)}%",
+            "%#{Chart.sanitize_sql_like(params[:keywords].downcase)}%",
+            "%#{Chart.sanitize_sql_like(params[:keywords].downcase)}%"
+          )
+      end
       if params[:q_title].present?
         charts =
           charts.where(
             "LOWER(charts.title) LIKE ?",
-            "%#{params[:q_title].downcase}%"
-          )
-      end
-      if params[:type] == "quick" && params[:keywords].present?
-        charts =
-          charts.where(
-            "LOWER(charts.title) LIKE ?",
-            "%#{params[:keywords].downcase}%"
+            "%#{Chart.sanitize_sql_like(params[:q_title].downcase)}%"
           )
       end
       if params[:q_composer].present?
         charts =
           charts.where(
             "LOWER(charts.composer) LIKE ?",
-            "%#{params[:q_composer].downcase}%"
+            "%#{Chart.sanitize_sql_like(params[:q_composer].downcase)}%"
           )
       end
       if params[:q_artist].present?
         charts =
           charts.where(
             "LOWER(charts.artist) LIKE ?",
-            "%#{params[:q_artist].downcase}%"
+            "%#{Chart.sanitize_sql_like(params[:q_artist].downcase)}%"
           )
       end
+      if params[:q_tags].present?
+        tags = params[:q_tags].split.map(&:strip).filter(&:present?).uniq
+
+        tags.each_with_index do |tag, index|
+          charts =
+            charts.joins(
+              Chart.sanitize_sql_array(
+                [
+                  "INNER JOIN tags ct#{index} ON ct#{index}.chart_id = charts.id AND LOWER(ct#{index}.name) = ?",
+                  tag.downcase
+                ]
+              )
+            )
+        end
+
+        charts = charts.distinct
+      end
+
       if params[:q_author].present?
         authors =
           params[:q_author].split.map do |author|

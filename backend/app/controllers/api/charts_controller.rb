@@ -109,6 +109,7 @@ class SearchValidator
               :rating_max,
               :author_name,
               :author_handles,
+              :tags,
               :sort,
               :include_non_public
 
@@ -141,6 +142,13 @@ class SearchValidator
             },
             allow_blank: true
 
+  validates :tags,
+            allow_blank: true,
+            length: {
+              maximum: 5,
+              message: "tooManyTags"
+            }
+
   validates :sort,
             inclusion: {
               in: %w[publishedAt updatedAt likes],
@@ -165,6 +173,7 @@ class SearchValidator
     @sort = params[:sort]
     @author_name = params[:authorName]
     @author_handles = params[:authorHandles]
+    @tags = params[:tags]
     @rating_max = params[:ratingMax]
     @rating_min = params[:ratingMin]
     @artist = params[:artist]
@@ -189,8 +198,10 @@ module Api
         :ratingMax,
         :authorName,
         :authorHandles,
+        :tags,
         :sort,
-        :includeNonPublic
+        :includeNonPublic,
+        :liked
       )
       validator = SearchValidator.new(params)
       unless validator.valid?
@@ -222,7 +233,7 @@ module Api
         charts =
           charts.where(
             "LOWER(charts.title) LIKE ?",
-            "%#{params[:title].downcase}%"
+            "%#{Chart.sanitize_sql_like(params[:title].downcase)}%"
           )
       end
 
@@ -230,7 +241,7 @@ module Api
         charts =
           charts.where(
             "LOWER(charts.composer) LIKE ?",
-            "%#{params[:composer].downcase}%"
+            "%#{Chart.sanitize_sql_like(params[:composer].downcase)}%"
           )
       end
 
@@ -238,7 +249,7 @@ module Api
         charts =
           charts.where(
             "LOWER(charts.artist) LIKE ?",
-            "%#{params[:artist].downcase}%"
+            "%#{Chart.sanitize_sql_like(params[:artist].downcase)}%"
           )
       end
 
@@ -248,6 +259,23 @@ module Api
 
       if params[:ratingMax]
         charts = charts.where(charts: { rating: ..params[:ratingMax].to_i })
+      end
+
+      if params[:tags].present?
+        tags = params[:tags].split(",").map(&:strip).filter(&:present?).uniq
+        tags.each_with_index do |tag, i|
+          charts =
+            charts.joins(
+              Chart.sanitize_sql_array(
+                [
+                  "INNER JOIN tags ct#{i} ON ct#{i}.chart_id = charts.id AND LOWER(ct#{i}.name) = ?",
+                  tag.downcase
+                ]
+              )
+            )
+        end
+
+        charts = charts.distinct
       end
 
       if params[:authorHandles].present?
@@ -298,14 +326,15 @@ module Api
         charts = charts.where(variant_id: nil, visibility: :public)
       end
 
-      charts = case params[:sort]
-      when "updatedAt"
-        charts.order(updated_at: :desc)
-      when "likes"
-        charts.order(likes_count: :desc)
-      else
-        charts.order(published_at: :desc)
-               end
+      charts =
+        case params[:sort]
+        when "updatedAt"
+          charts.order(updated_at: :desc)
+        when "likes"
+          charts.order(likes_count: :desc)
+        else
+          charts.order(published_at: :desc)
+        end
 
       num_charts = charts.count
       charts = charts.limit(length).offset(params[:offset].to_i || 0)
@@ -465,9 +494,9 @@ module Api
       require_login!
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
-           %i[chart cover bgm].all? do |k|
+           %i[chart cover bgm].all? { |k|
              hash[k].nil? || hash[k].is_a?(ActionDispatch::Http::UploadedFile)
-           end
+           }
         render json: {
                  code: "invalid_request",
                  error: "Invalid request"

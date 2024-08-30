@@ -57,6 +57,8 @@ ja:
       author_name_placeholder: "作者の名義を入力して下さい..."
       id: "ID"
       id_placeholder: "#の後のIDを入力して下さい..."
+      tags: "タグ"
+      tags_placeholder: "タグをスペース区切りで入力して下さい（最大5個まで）..."
       sort: "並び替え"
       sorts:
         - "投稿順"
