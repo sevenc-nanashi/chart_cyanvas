@@ -313,7 +313,12 @@ const ChartPage = () => {
               {chartData.tags.length > 0 ? (
                 <>
                   <TagRegular className="mr-1 w-6 h-6" />
-                  {chartData.tags.join("、")}
+                  {chartData.tags.map((tag, i) => (
+                    <Fragment key={i}>
+                      <Link to={pathcat("/charts", { tags: tag })}>{tag}</Link>
+                      {i < chartData.tags.length - 1 && rootT("separator")}
+                    </Fragment>
+                  ))}
                 </>
               ) : (
                 <>
