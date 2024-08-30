@@ -250,7 +250,8 @@ const Search = () => {
                     <div
                       className={clsx(
                         "flex flex-col gap-2 tag-input",
-                        form.watch("tags").length >= 5 && "[&_.ReactTags__tagInput]_hidden",
+                        form.watch("tags").length >= 5 &&
+                          "[&_.ReactTags__tagInput]_hidden",
                       )}
                     >
                       <ReactTags
