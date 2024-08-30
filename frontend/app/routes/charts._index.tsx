@@ -150,7 +150,7 @@ const Search = () => {
       } else {
         setErrors(mapErrors(data.errors));
 
-        return;
+        return { charts: [], totalPages: 0 };
       }
     },
     [myFetch, form, mapErrors],
