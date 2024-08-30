@@ -46,8 +46,20 @@ const Search = () => {
   const [params, setParams] = useSearchParams();
   const { t: rootT } = useTranslation("root");
   const { t } = useTranslation("searchCharts");
+  const { t: errorT } = useTranslation("errors");
+
   const [searchCount, setSearchCount] = useState(0);
   const [open, setOpen] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const mapErrors = useCallback(
+    (e: Record<string, string>): Record<string, string> => {
+      return Object.fromEntries(
+        Object.entries(e).map(([k, v]) => [k, errorT(v)]),
+      );
+    },
+    [errorT],
+  );
+
   const myFetch = useMyFetch();
   const form = useForm<{
     title: string;
@@ -76,13 +88,27 @@ const Search = () => {
   });
 
   const search = useCallback(() => {
-    const { title, composer, artist, ratingMin, ratingMax } = form.getValues();
+    const {
+      title,
+      composer,
+      artist,
+      ratingMin,
+      ratingMax,
+      authorName,
+      authorHandles,
+      tags,
+      sort,
+    } = form.getValues();
     const newParams = {
       title: title || undefined,
       composer: composer || undefined,
       artist: artist || undefined,
       ratingMin: ratingMin === 1 ? undefined : ratingMin.toString(),
       ratingMax: ratingMax === 99 ? undefined : ratingMax.toString(),
+      authorName: authorName || undefined,
+      authorHandles: authorHandles.join(",") || undefined,
+      tags: tags.join(",") || undefined,
+      sort: sort || undefined,
     };
 
     setCurrentQuery(buildCurrentQuery());
@@ -92,6 +118,7 @@ const Search = () => {
         string,
       ][],
     );
+    setErrors({});
     setSearchCount((c) => c + 1);
   }, [form, setParams]);
 
@@ -120,10 +147,13 @@ const Search = () => {
       const data = await res.json();
       if (data.code === "ok") {
         return { charts: data.charts, totalPages: Math.ceil(data.total / 20) };
+      } else {
+        setErrors(mapErrors(data.errors));
+
+        return;
       }
-      throw new Error("/api/charts");
     },
-    [myFetch, form],
+    [myFetch, form, mapErrors],
   );
 
   const buildCurrentQuery = useCallback(() => {
@@ -179,7 +209,7 @@ const Search = () => {
               <div className="mt-2 border-t-2 border-slate-300 dark:border-slate-700" />
               <div className="flex flex-col xl:grid xl:grid-cols-2 xl:gap-4 gap-2">
                 <div className="flex flex-col xl:flex-grow gap-2">
-                  <InputTitle text={t("param.title")}>
+                  <InputTitle text={t("param.title")} error={errors.title}>
                     <TextInput
                       name="title"
                       className="w-full"
@@ -187,7 +217,10 @@ const Search = () => {
                       onChange={(v) => form.setValue("title", v)}
                     />
                   </InputTitle>
-                  <InputTitle text={t("param.composer")}>
+                  <InputTitle
+                    text={t("param.composer")}
+                    error={errors.composer}
+                  >
                     <TextInput
                       name="composer"
                       className="w-full"
@@ -195,7 +228,7 @@ const Search = () => {
                       onChange={(v) => form.setValue("composer", v)}
                     />
                   </InputTitle>
-                  <InputTitle text={t("param.artist")}>
+                  <InputTitle text={t("param.artist")} error={errors.artist}>
                     <TextInput
                       name="artist"
                       className="w-full"
@@ -206,6 +239,7 @@ const Search = () => {
                   <InputTitle
                     text={t("param.rating")}
                     tooltip={t("description.rating")}
+                    error={errors.rating}
                     className="flex gap-4 items-center"
                   >
                     <NumberInput
@@ -246,7 +280,7 @@ const Search = () => {
                 </div>
 
                 <div className="flex flex-col xl:flex-grow gap-2">
-                  <InputTitle text={t("param.tags")}>
+                  <InputTitle text={t("param.tags")} error={errors.tags}>
                     <div
                       className={clsx(
                         "flex flex-col gap-2 tag-input",
@@ -281,7 +315,10 @@ const Search = () => {
                       />
                     </div>
                   </InputTitle>
-                  <InputTitle text={t("param.authorName")}>
+                  <InputTitle
+                    text={t("param.authorName")}
+                    error={errors.authorName}
+                  >
                     <TextInput
                       name="authorName"
                       className="w-full"
@@ -292,6 +329,7 @@ const Search = () => {
                   <InputTitle
                     text={t("param.authorHandles")}
                     tooltip={t("description.authorHandles")}
+                    error={errors.authorHandles}
                   >
                     <div className="flex flex-col gap-2 tag-input">
                       <ReactTags
@@ -320,7 +358,7 @@ const Search = () => {
                       />
                     </div>
                   </InputTitle>
-                  <InputTitle text={t("param.sort")}>
+                  <InputTitle text={t("param.sort")} error={errors.sort}>
                     <Select
                       className="w-full"
                       value={form.watch("sort")}

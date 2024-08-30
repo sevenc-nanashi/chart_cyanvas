@@ -85,7 +85,7 @@ class UploadValidator
     @composer = params[:composer]
     @artist = params[:artist]
     @rating = params[:rating]
-    @tags = params[:tags].split(",").map(&:strip).filter(&:present?)
+    @tags = params[:tags]
     @author_handle = params[:authorHandle]
     @author_name = params[:authorName]
     @is_chart_public = params[:isChartPublic]
@@ -134,12 +134,6 @@ class SearchValidator
               minimum: 4,
               message: "invalid"
             },
-            if: -> {
-              author_handles.nil? || author_handles.blank? ||
-                author_handles
-                  .split(",")
-                  .all? { |h| h.length >= 4 && h.match?(/\Ax?[0-9]+\z/) }
-            },
             allow_blank: true
 
   validates :tags,
@@ -173,7 +167,7 @@ class SearchValidator
     @sort = params[:sort]
     @author_name = params[:authorName]
     @author_handles = params[:authorHandles]
-    @tags = params[:tags]
+    @tags = params[:tags]&.split(",")&.map(&:strip)&.filter(&:present?)
     @rating_max = params[:ratingMax]
     @rating_min = params[:ratingMin]
     @artist = params[:artist]

@@ -209,6 +209,7 @@ errors:
   cannotBeEmpty: "この項目は空にできません。"
   tooLong: "項目が長すぎます。"
   variantNotFound: "派生元譜面が見付かりませんでした。"
+  tooManyTags: "タグが多すぎます。"
 
 admin:
   title: "管理者ページ"
