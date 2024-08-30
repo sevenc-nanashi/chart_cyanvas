@@ -207,6 +207,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
                         <ScrollRestoration />
                         <Scripts />
+
+                        {import.meta.env.PROD && (
+                          <script
+                            defer
+                            src="https://static.cloudflareinsights.com/beacon.min.js"
+                            data-cf-beacon='{"token": "5d4e8a97143447a293a04ba13358db27"}'
+                          />
+                        )}
                       </ThemeContext.Provider>
                     </SetThemeContext.Provider>
                   </SetIsSubmittingContext.Provider>
