@@ -785,6 +785,7 @@ const ChartForm: React.FC<
                 )}
                 onKeyDown={(e) => {
                   e.stopPropagation();
+                  e.key === "Enter" && e.preventDefault();
                 }}
               >
                 <ReactTags

@@ -207,179 +207,200 @@ const Search = () => {
             </RadixCollapsible.Trigger>
             <RadixCollapsible.Content className="flex flex-col gap-2">
               <div className="mt-2 border-t-2 border-slate-300 dark:border-slate-700" />
-              <div className="flex flex-col xl:grid xl:grid-cols-2 xl:gap-4 gap-2">
-                <div className="flex flex-col xl:flex-grow gap-2">
-                  <InputTitle text={t("param.title")} error={errors.title}>
-                    <TextInput
-                      name="title"
-                      className="w-full"
-                      value={form.watch("title")}
-                      onChange={(v) => form.setValue("title", v)}
-                    />
-                  </InputTitle>
-                  <InputTitle
-                    text={t("param.composer")}
-                    error={errors.composer}
-                  >
-                    <TextInput
-                      name="composer"
-                      className="w-full"
-                      value={form.watch("composer")}
-                      onChange={(v) => form.setValue("composer", v)}
-                    />
-                  </InputTitle>
-                  <InputTitle text={t("param.artist")} error={errors.artist}>
-                    <TextInput
-                      name="artist"
-                      className="w-full"
-                      value={form.watch("artist")}
-                      onChange={(v) => form.setValue("artist", v)}
-                    />
-                  </InputTitle>
-                  <InputTitle
-                    text={t("param.rating")}
-                    tooltip={t("description.rating")}
-                    error={errors.rating}
-                    className="flex gap-4 items-center"
-                  >
-                    <NumberInput
-                      className="w-16"
-                      name="rating"
-                      min={1}
-                      max={99}
-                      value={form.watch("ratingMin")}
-                      onChange={(value) => form.setValue("ratingMin", value)}
-                    />
-
-                    <div className="flex-grow">
-                      <RangeInput
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  search();
+                }}
+              >
+                <div className="flex flex-col xl:grid xl:grid-cols-2 xl:gap-4 gap-2">
+                  <div className="flex flex-col xl:flex-grow gap-2">
+                    <InputTitle text={t("param.title")} error={errors.title}>
+                      <TextInput
+                        name="title"
+                        className="w-full"
+                        value={form.watch("title")}
+                        onChange={(v) => form.setValue("title", v)}
+                      />
+                    </InputTitle>
+                    <InputTitle
+                      text={t("param.composer")}
+                      error={errors.composer}
+                    >
+                      <TextInput
+                        name="composer"
+                        className="w-full"
+                        value={form.watch("composer")}
+                        onChange={(v) => form.setValue("composer", v)}
+                      />
+                    </InputTitle>
+                    <InputTitle text={t("param.artist")} error={errors.artist}>
+                      <TextInput
+                        name="artist"
+                        className="w-full"
+                        value={form.watch("artist")}
+                        onChange={(v) => form.setValue("artist", v)}
+                      />
+                    </InputTitle>
+                    <InputTitle
+                      text={t("param.rating")}
+                      tooltip={t("description.rating")}
+                      error={errors.rating}
+                      className="flex gap-4 items-center"
+                    >
+                      <NumberInput
+                        className="w-16"
                         name="rating"
-                        dual
                         min={1}
-                        max={40}
-                        step={1}
-                        value={[
-                          form.watch("ratingMin"),
-                          form.watch("ratingMax"),
-                        ]}
-                        onChange={(values) => {
-                          form.setValue("ratingMin", values[0]);
-                          form.setValue("ratingMax", values[1]);
-                        }}
+                        max={99}
+                        value={form.watch("ratingMin")}
+                        onChange={(value) => form.setValue("ratingMin", value)}
                       />
-                    </div>
-                    <NumberInput
-                      name="rating"
-                      className="w-16"
-                      min={1}
-                      max={99}
-                      value={form.watch("ratingMax")}
-                      onChange={(value) => form.setValue("ratingMax", value)}
-                    />
-                  </InputTitle>
-                </div>
 
-                <div className="flex flex-col xl:flex-grow gap-2">
-                  <InputTitle text={t("param.tags")} error={errors.tags}>
-                    <div
-                      className={clsx(
-                        "flex flex-col gap-2 tag-input",
-                        form.watch("tags").length >= 5 &&
-                          "[&_.ReactTags__tagInput]_hidden",
-                      )}
-                    >
-                      <ReactTags
-                        tags={form.watch("tags").map((handle) => ({
-                          className: "",
-                          text: handle,
-                          id: handle,
-                        }))}
-                        allowDragDrop={false}
-                        placeholder=""
-                        separators={[" ", ",", "\n"]}
-                        handleDelete={(i) => {
-                          form.setValue(
-                            "tags",
-                            form.getValues("tags").filter((_, j) => i !== j),
-                          );
-                        }}
-                        handleAddition={(tag) => {
-                          if (form.getValues("tags").length >= 5) {
-                            return;
+                      <div className="flex-grow">
+                        <RangeInput
+                          name="rating"
+                          dual
+                          min={1}
+                          max={40}
+                          step={1}
+                          value={[
+                            form.watch("ratingMin"),
+                            form.watch("ratingMax"),
+                          ]}
+                          onChange={(values) => {
+                            form.setValue("ratingMin", values[0]);
+                            form.setValue("ratingMax", values[1]);
+                          }}
+                        />
+                      </div>
+                      <NumberInput
+                        name="rating"
+                        className="w-16"
+                        min={1}
+                        max={99}
+                        value={form.watch("ratingMax")}
+                        onChange={(value) => form.setValue("ratingMax", value)}
+                      />
+                    </InputTitle>
+                  </div>
+
+                  <div className="flex flex-col xl:flex-grow gap-2">
+                    <InputTitle text={t("param.tags")} error={errors.tags}>
+                      <div
+                        className={clsx(
+                          "flex flex-col gap-2 tag-input",
+                          form.watch("tags").length >= 5 &&
+                            "[&_.ReactTags__tagInput]_hidden",
+                        )}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
                           }
-                          form.setValue("tags", [
-                            ...form.getValues("tags"),
-                            tag.text,
-                          ]);
                         }}
-                      />
-                    </div>
-                  </InputTitle>
-                  <InputTitle
-                    text={t("param.authorName")}
-                    error={errors.authorName}
-                  >
-                    <TextInput
-                      name="authorName"
-                      className="w-full"
-                      value={form.watch("authorName")}
-                      onChange={(v) => form.setValue("authorName", v)}
-                    />
-                  </InputTitle>
-                  <InputTitle
-                    text={t("param.authorHandles")}
-                    tooltip={t("description.authorHandles")}
-                    error={errors.authorHandles}
-                  >
-                    <div className="flex flex-col gap-2 tag-input">
-                      <ReactTags
-                        tags={form.watch("authorHandles").map((handle) => ({
-                          className: "",
-                          text: handle,
-                          id: handle,
-                        }))}
-                        allowDragDrop={false}
-                        placeholder=""
-                        separators={[" ", ",", "\n"]}
-                        handleDelete={(i) => {
-                          form.setValue(
-                            "authorHandles",
-                            form
-                              .getValues("authorHandles")
-                              .filter((_, j) => i !== j),
-                          );
-                        }}
-                        handleAddition={(tag) => {
-                          form.setValue("authorHandles", [
-                            ...form.getValues("authorHandles"),
-                            tag.text,
-                          ]);
-                        }}
-                      />
-                    </div>
-                  </InputTitle>
-                  <InputTitle text={t("param.sort")} error={errors.sort}>
-                    <Select
-                      className="w-full"
-                      value={form.watch("sort")}
-                      onChange={(value) => form.setValue("sort", value as Sort)}
-                      items={sorts.map((sort) => ({
-                        type: "item" as const,
-                        value: sort,
-                        label: t(`sort.${sort}`),
-                      }))}
+                      >
+                        <ReactTags
+                          tags={form.watch("tags").map((handle) => ({
+                            className: "",
+                            text: handle,
+                            id: handle,
+                          }))}
+                          allowDragDrop={false}
+                          placeholder=""
+                          separators={[" ", ",", "\n"]}
+                          handleDelete={(i) => {
+                            form.setValue(
+                              "tags",
+                              form.getValues("tags").filter((_, j) => i !== j),
+                            );
+                          }}
+                          handleAddition={(tag) => {
+                            if (form.getValues("tags").length >= 5) {
+                              return;
+                            }
+                            form.setValue("tags", [
+                              ...form.getValues("tags"),
+                              tag.text,
+                            ]);
+                          }}
+                        />
+                      </div>
+                    </InputTitle>
+                    <InputTitle
+                      text={t("param.authorName")}
+                      error={errors.authorName}
                     >
-                      {t(`sort.${form.watch("sort")}`)}
-                    </Select>
-                  </InputTitle>
+                      <TextInput
+                        name="authorName"
+                        className="w-full"
+                        value={form.watch("authorName")}
+                        onChange={(v) => form.setValue("authorName", v)}
+                      />
+                    </InputTitle>
+                    <InputTitle
+                      text={t("param.authorHandles")}
+                      tooltip={t("description.authorHandles")}
+                      error={errors.authorHandles}
+                    >
+                      <div
+                        className="flex flex-col gap-2 tag-input"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        <ReactTags
+                          tags={form.watch("authorHandles").map((handle) => ({
+                            className: "",
+                            text: handle,
+                            id: handle,
+                          }))}
+                          allowDragDrop={false}
+                          placeholder=""
+                          separators={[" ", ",", "\n"]}
+                          handleDelete={(i) => {
+                            form.setValue(
+                              "authorHandles",
+                              form
+                                .getValues("authorHandles")
+                                .filter((_, j) => i !== j),
+                            );
+                          }}
+                          handleAddition={(tag) => {
+                            form.setValue("authorHandles", [
+                              ...form.getValues("authorHandles"),
+                              tag.text,
+                            ]);
+                          }}
+                        />
+                      </div>
+                    </InputTitle>
+                    <InputTitle text={t("param.sort")} error={errors.sort}>
+                      <Select
+                        className="w-full"
+                        value={form.watch("sort")}
+                        onChange={(value) =>
+                          form.setValue("sort", value as Sort)
+                        }
+                        items={sorts.map((sort) => ({
+                          type: "item" as const,
+                          value: sort,
+                          label: t(`sort.${sort}`),
+                        }))}
+                      >
+                        {t(`sort.${form.watch("sort")}`)}
+                      </Select>
+                    </InputTitle>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-4 border-t-2 border-slate-300 dark:border-slate-700" />
-              <div className="mt-4">
-                <div className="p-2 w-full button-primary" onClick={search}>
-                  {t("search")}
+                <div className="mt-4 border-t-2 border-slate-300 dark:border-slate-700" />
+                <div className="mt-4">
+                  <button type="submit" className="p-2 w-full button-primary">
+                    {t("search")}
+                  </button>
                 </div>
-              </div>
+              </form>
             </RadixCollapsible.Content>
           </RadixCollapsible.Root>
         </div>
