@@ -18,7 +18,6 @@ import { backendUrl, host } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart, DiscordInfo, User } from "~/lib/types.ts";
-import { useRandomValue } from "~/lib/useRandomValue";
 import { isAdmin } from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -138,9 +137,7 @@ const UserPage = () => {
               <p className="text-md mt-4 card">
                 <Trans t={t} i18nKey="secretUserInfo">
                   {secretUserInfo.owner ? (
-                    <Link
-                      to={`/users/${secretUserInfo.owner.handle}`}
-                    />
+                    <Link to={`/users/${secretUserInfo.owner.handle}`} />
                   ) : (
                     <span />
                   )}

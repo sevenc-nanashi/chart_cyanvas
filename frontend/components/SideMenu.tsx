@@ -97,9 +97,12 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                     backgroundColor: session.user.bgColor,
                   }}
                 >
-                  <PersonFilled className="w-3/4 h-3/4" style={{
-                    color: session.user.fgColor,
-                  }} />
+                  <PersonFilled
+                    className="w-3/4 h-3/4"
+                    style={{
+                      color: session.user.fgColor,
+                    }}
+                  />
                 </div>
                 <div className="font-bold text-2xl text-normal">
                   {session.user.name}
