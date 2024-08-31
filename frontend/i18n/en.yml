@@ -76,7 +76,7 @@ chart:
 
 searchCharts:
   title: "Search charts"
-  queries: "Search queries"
+  queries: "Filters"
   search: "Search"
   empty: "No charts found."
   param:

@@ -76,7 +76,7 @@ chart:
 
 searchCharts:
   title: "譜面検索"
-  queries: "検索クエリ"
+  queries: "絞り込み"
   search: "検索"
   empty: "検索結果がありません。"
   param:
