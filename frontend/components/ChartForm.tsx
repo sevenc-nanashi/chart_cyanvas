@@ -783,6 +783,9 @@ const ChartForm: React.FC<
                   "flex flex-col gap-2 tag-input",
                   tags.length >= 5 && "[&_.ReactTags__tagInput]_hidden",
                 )}
+                onKeyDown={(e) => {
+                  e.stopPropagation();
+                }}
               >
                 <ReactTags
                   tags={tags.map((tag) => ({
@@ -792,7 +795,7 @@ const ChartForm: React.FC<
                   }))}
                   allowDragDrop={false}
                   placeholder=""
-                  separators={[" ", ","]}
+                  separators={[" ", ",", "\n"]}
                   handleDelete={(i) => {
                     setTags(tags.filter((_, index) => index !== i));
                   }}

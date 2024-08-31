@@ -28,7 +28,7 @@ const TextInput = forwardRef<
         props.monospace && "font-monospace",
       )}
     >
-      <div className="border-r-2 bg-slate-100 dark:bg-gray-900 border-slate-300 dark:border-slate-700 p-2 dark:text-slate-200">
+      <div className="border-r-1 bg-slate-100 dark:bg-gray-900 border-slate-300 dark:border-slate-700 p-2 dark:text-slate-200">
         {props.prefix}
       </div>
       <input

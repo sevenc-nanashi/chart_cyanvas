@@ -364,7 +364,7 @@ const ChartPage = () => {
               <OptionalImage
                 src={chartData?.cover}
                 alt={chartData?.title}
-                className="md:h-40 md:w-40 h-32 w-32 rounded-xl"
+                className="md:h-40 md:w-40 h-32 w-32 rounded-xl shadow-lg"
                 width={160}
                 height={160}
               />

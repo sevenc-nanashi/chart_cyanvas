@@ -44,7 +44,7 @@ li a,
 }
 
 .gray-link {
-  @apply text-slate-500 dark:text-gray-400 border-b-[1px] border-slate-500 dark:border-gray-400;
+  @apply text-slate-500 dark:text-gray-400 border-b-1 border-slate-500 dark:border-gray-400;
 
   &:hover:not(.disabled) {
     @apply text-slate-700 dark:text-gray-300 border-slate-700 dark:border-gray-300;
@@ -57,7 +57,7 @@ li a,
 }
 
 .theme-link {
-  @apply text-themeText border-b-[1px] border-themeText;
+  @apply text-themeText border-b-1 border-themeText;
 
   &:hover:not(.disabled) {
     @apply text-themeDark border-themeDark;
@@ -101,13 +101,14 @@ textarea {
 }
 
 .input-border {
-  @apply border-2 border-inputBorder focus-within:border-theme focus-within:outline-none rounded;
+  @apply border-1 border-inputBorder focus-within:border-theme focus-within:outline-none rounded;
 }
 
 .text-input {
   @extend .bg-input;
   @extend .input-border;
   @apply text-slate-900 dark:text-white p-2 transition-colors duration-200;
+  @apply shadow-inner shadow-slate-200 dark:shadow-slate-700;
 
   &:disabled,
   &.disabled {
@@ -150,7 +151,7 @@ textarea {
 }
 
 .button {
-  @apply duration-200 box-border rounded text-center;
+  @apply duration-200 box-border rounded text-center shadow-md shadow-slate-200 dark:shadow-slate-700;
   transition-property: background opacity;
 
   &:disabled,
@@ -165,7 +166,7 @@ textarea {
 
 .button-danger {
   @extend .button;
-  @apply bg-red-500 text-white bg-opacity-100;
+  @apply bg-red-500 text-white bg-opacity-100 outline-red-800;
 
   &:not(:disabled) {
     @apply hover:bg-opacity-80 focus:bg-opacity-80;
@@ -183,7 +184,7 @@ textarea {
 
 .button-secondary {
   @extend .button;
-  @apply text-themeText outline -outline-offset-1 outline-2 outline-themeText bg-theme bg-opacity-0;
+  @apply text-themeText outline -outline-offset-1 outline-1 outline-themeText bg-theme bg-opacity-0;
 
   &:not(:disabled):not(.disabled) {
     @apply hover:bg-opacity-10 focus:bg-opacity-10;
@@ -193,7 +194,7 @@ textarea {
 .button-tertiary,
 .button-cancel {
   @extend .button;
-  @apply outline -outline-offset-1 outline-2 outline-slate-500 dark:outline-white bg-slate-500 dark:bg-slate-800 bg-opacity-0;
+  @apply outline -outline-offset-1 outline-1 outline-slate-500 dark:outline-white bg-slate-500 dark:bg-slate-800 bg-opacity-0;
 
   &:not(:disabled):not(.disabled) {
     @apply hover:bg-opacity-10 focus:bg-opacity-10;

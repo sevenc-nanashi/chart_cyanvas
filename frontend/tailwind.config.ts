@@ -22,6 +22,12 @@ const config: Config = {
       extrabold: "700",
     },
     extend: {
+      borderWidth: {
+        1: "1px",
+      },
+      outlineWidth: {
+        1: "1px",
+      },
       colors: {
         theme: "#83ccd2",
         themeText: "var(--global-theme-text)",
