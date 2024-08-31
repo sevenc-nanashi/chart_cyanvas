@@ -99,7 +99,7 @@ searchCharts:
 user:
   totalCharts: "Total charts: {{count}}"
   totalLikes: "Total likes: {{count}}"
-  secretUserInfo: "Discord: {{discord}}, Warnings: {{warn}}"
+  secretUserInfo: "Discord: {{discord}}, Warnings: {{warn}}, Owner: <0></0>"
   userCharts: "Charts by this user"
 
 chartSection:

@@ -81,7 +81,15 @@ const MyAlts = () => {
       return;
     }
     newNameInput.current.value = "";
-  }, [isSubmitting, myFetch, setIsSubmitting]);
+    setSession((before: Session | undefined) => {
+      if (!before?.loggedIn) return before;
+      return {
+        ...before,
+
+        altUsers: [...before.altUsers, resultData.data],
+      };
+    });
+  }, [isSubmitting, myFetch, setIsSubmitting, setSession]);
 
   const editNameInput = useRef<HTMLInputElement>(null);
   const [editingUsersHandle, setEditingUsersHandle] = useState<

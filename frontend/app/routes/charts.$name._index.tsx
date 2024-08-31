@@ -22,13 +22,7 @@ import {
 import { Link, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
-import {
-  Fragment,
-  createElement,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
 import Checkbox from "~/components/Checkbox";

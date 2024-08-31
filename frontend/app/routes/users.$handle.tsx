@@ -10,10 +10,9 @@ import {
   defer,
 } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import clsx from "clsx";
 import { pathcat } from "pathcat";
-import { createElement, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts.ts";
@@ -93,13 +92,12 @@ const UserPage = () => {
   const { t } = useTranslation("user");
   const { userData, userCharts } = useLoaderData<typeof loader>();
 
-  const random = useRandomValue();
-
   const session = useSession();
 
   const [secretUserInfo, setSecretUserInfo] = useState<{
     discord: DiscordInfo;
     warnCount: number;
+    owner: User | null;
   } | null>(null);
 
   useEffect(() => {
@@ -138,10 +136,22 @@ const UserPage = () => {
 
             {secretUserInfo && (
               <p className="text-md mt-4 card">
-                {t("secretUserInfo", {
-                  discord: secretUserInfo.discord.username,
-                  warn: secretUserInfo.warnCount,
-                })}
+                <Trans t={t} i18nKey="secretUserInfo">
+                  {secretUserInfo.owner ? (
+                    <Link
+                      to={`/users/${secretUserInfo.owner.handle}`}
+                    />
+                  ) : (
+                    <span />
+                  )}
+                  {{
+                    discord: secretUserInfo.discord.username,
+                    warn: secretUserInfo.warnCount,
+                    owner: secretUserInfo.owner
+                      ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
+                      : "-",
+                  }}
+                </Trans>
               </p>
             )}
             <p className="flex-grow mt-4 mr-4 whitespace-pre-wrap break-words w-full">
@@ -155,9 +165,15 @@ const UserPage = () => {
               style={{ backgroundColor: userData.bgColor }}
             >
               {userData.handle.startsWith("x") ? (
-                <PersonRegular className="w-4/5 h-4/5" style={{ color: userData.fgColor }} />
+                <PersonRegular
+                  className="w-4/5 h-4/5"
+                  style={{ color: userData.fgColor }}
+                />
               ) : (
-                <PersonFilled className="w-4/5 h-4/5" style={{ color: userData.fgColor }} />
+                <PersonFilled
+                  className="w-4/5 h-4/5"
+                  style={{ color: userData.fgColor }}
+                />
               )}
             </div>
             <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">

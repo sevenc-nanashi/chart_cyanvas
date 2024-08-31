@@ -99,7 +99,7 @@ searchCharts:
 user:
   totalCharts: "総譜面数：{{count}}"
   totalLikes: "総高評価数：{{count}}"
-  secretUserInfo: "Discord：{{discord}}、警告数：{{warn}}"
+  secretUserInfo: "Discord：{{discord}}、警告数：{{warn}}、本名義：<0>{{owner}}</0>"
   userCharts: "この作者の譜面"
 
 chartSection:

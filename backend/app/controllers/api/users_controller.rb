@@ -3,7 +3,7 @@ module Api
   class UsersController < FrontendController
     def show
       params.require(:handle)
-      @user =
+      user =
         if params[:handle].start_with?("x")
           User
             .where(handle: params[:handle].delete_prefix("x"))
@@ -12,8 +12,8 @@ module Api
         else
           User.find_by(handle: params[:handle])
         end
-      if @user
-        render json: { code: "ok", user: @user.to_frontend }
+      if user
+        render json: { code: "ok", user: user.to_frontend }
       else
         render json: { code: "not_found" }, status: :not_found
       end

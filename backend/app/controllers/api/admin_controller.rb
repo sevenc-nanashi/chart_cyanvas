@@ -35,7 +35,7 @@ module Api
 
     def show_user
       params.require(:handle)
-      @user =
+      user =
         if params[:handle].start_with?("x")
           User
             .where(handle: params[:handle].delete_prefix("x"))
@@ -45,17 +45,20 @@ module Api
         else
           User.find_by(handle: params[:handle])
         end
-      if @user
-        user_data = @user.to_frontend
-        user_data[:altUsers] = @user.alt_users.map(&:to_frontend)
-        user_data[:discord] = {
-          displayName: @user.discord_display_name,
-          username: @user.discord_username,
-          avatar: @user.discord_avatar
-        }
-        user_data[:warnCount] = @user.warn_count
-
-        render json: { code: "ok", user: user_data }
+      if user
+        render json: {
+                 code: "ok",
+                 user: {
+                   altUsers: user.alt_users.map(&:to_frontend),
+                   discord: {
+                     displayName: user.discord_display_name,
+                     username: user.discord_username,
+                     avatar: user.discord_avatar
+                   },
+                   warnCount: user.warn_count,
+                   owner: (user.to_frontend if params[:handle].start_with?("x"))
+                 }
+               }
       else
         render json: { code: "not_found" }, status: :not_found
       end
