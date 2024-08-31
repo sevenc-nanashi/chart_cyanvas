@@ -5,6 +5,7 @@ import {
   DocumentTextRegular,
   HeartRegular,
   PersonArrowRightFilled,
+  PersonFilled,
   SearchRegular,
   SettingsRegular,
   SignOutRegular,
@@ -91,11 +92,15 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
             <Link to={`/users/${session.user.handle}`} onClick={close}>
               <div className="flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer">
                 <div
-                  className="rounded-full w-10 h-10 mr-2"
+                  className="rounded-full w-10 h-10 mr-2 grid place-items-center shadow-md"
                   style={{
                     backgroundColor: session.user.bgColor,
                   }}
-                />
+                >
+                  <PersonFilled className="w-3/4 h-3/4" style={{
+                    color: session.user.fgColor,
+                  }} />
+                </div>
                 <div className="font-bold text-2xl text-normal">
                   {session.user.name}
                   <span className="text-sm">#{session.user.handle}</span>

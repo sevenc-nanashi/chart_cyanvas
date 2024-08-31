@@ -150,7 +150,8 @@ textarea {
 }
 
 .button {
-  @apply transition-[opacity,_background] duration-200 box-border rounded text-center;
+  @apply duration-200 box-border rounded text-center;
+  transition-property: background opacity;
 
   &:disabled,
   &.disabled {
@@ -199,6 +200,15 @@ textarea {
   }
 }
 
+.button-sonolus {
+  @extend .button;
+  @apply bg-black text-white bg-opacity-100;
+
+  &:not(:disabled):not(.disabled) {
+    @apply hover:bg-opacity-80 focus:bg-opacity-80;
+  }
+}
+
 .card {
   @apply p-2 bg-slate-100 dark:bg-slate-900 shadow-slate-200/25 dark:shadow-slate-700/25 shadow-sm rounded-xl;
 }
@@ -209,4 +219,8 @@ textarea {
 
 .card-clickable {
   @apply transition-shadow duration-200 hover:shadow-theme/50 cursor-pointer;
+}
+
+.small-button-icon {
+  @apply h-5 w-5 mr-1;
 }

@@ -1,4 +1,4 @@
-import { NavigationFilled } from "@fluentui/react-icons";
+import { NavigationFilled, PersonFilled } from "@fluentui/react-icons";
 import { Link } from "@remix-run/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -34,16 +34,23 @@ const Header = () => {
         <div className="flex-grow" />
 
         {session?.loggedIn ? (
-          <div
+          <button
             className="flex items-end text-white bg-white p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer"
             onClick={() => setShowMenu(true)}
           >
-            <button
-              className="block rounded-full w-8 h-8 md:mr-2"
+            <div
+              className="rounded-full w-8 h-8 md:mr-2 grid place-items-center shadow-md"
               style={{
                 backgroundColor: session.user.bgColor,
               }}
-            />
+            >
+              <PersonFilled
+                className="w-3/4 h-3/4"
+                style={{
+                  color: session.user.fgColor,
+                }}
+              />
+            </div>
             <div className="font-bold text-xl text-white md:block hidden">
               {session.user.name}
               <span className="text-sm">
@@ -51,7 +58,7 @@ const Header = () => {
                 {session.user.userType === "admin" && rootT("adminDecorate")}
               </span>
             </div>
-          </div>
+          </button>
         ) : (
           <div
             className="flex items-end text-white bg-white p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer"

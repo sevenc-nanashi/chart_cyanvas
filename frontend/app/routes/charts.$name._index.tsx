@@ -378,87 +378,53 @@ const ChartPage = () => {
             </div>
 
             <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">
-              {[
-                doesUserOwn && [
-                  {
-                    href: `/charts/${chartName}/edit`,
-                    icon: EditRegular,
-                    className: "button-primary",
-                    text: t("edit") + adminDecoration,
-                  },
-                  {
-                    text: t("delete") + adminDecoration,
-                    icon: DeleteRegular,
-                    className: "button-danger",
-                    onClick: () => {
+              {doesUserOwn && (
+                <>
+                  <Link
+                    to={pathcat("/charts/:name/edit", { name: chartName })}
+                    className="button button-primary text-center p-1"
+                  >
+                    <EditRegular className="small-button-icon" />
+                    {t("edit") + adminDecoration}
+                  </Link>
+                  <button
+                    className="button button-danger text-center p-1"
+                    onClick={() => {
                       setShowDeletionModal(true);
-                    },
-                  },
-                  {
-                    text: t("createVariant"),
-                    icon: ArrowTurnDownRightFilled,
-                    className: "button-secondary",
-                    href: pathcat("/charts/upload", {
-                      variantOf: chartName,
-                    }),
-                  },
-                ],
-                chartData.chart && [
-                  {
-                    href: `${serverSettings.host}/api/charts/${chartName}/download_chart`,
-                    icon: ArrowDownloadRegular,
-                    className: "button-tertiary",
-                    text: t("download"),
-                  },
-                ],
-                {
-                  text: rootT("openInSonolus"),
-                  icon: OpenRegular,
-                  className: "bg-black text-white",
-                  href: sonolusUrl(serverSettings, `/levels/chcy-${chartName}`),
-                },
-              ]
-                .flat()
-                .flatMap((x) => (x ? [x] : []))
-                .map((item, i) => {
-                  const inner = (
-                    <Fragment key={i}>
-                      {createElement(item.icon, {
-                        className: "h-5 w-5 mr-1",
-                      })}
+                    }}
+                  >
+                    <DeleteRegular className="h-5 w-5 mr-1" />
+                    {t("delete") + adminDecoration}
+                  </button>
+                  <Link
+                    to={pathcat("/charts/upload", { variantOf: chartName })}
+                    className="button button-secondary text-center p-1"
+                  >
+                    <ArrowTurnDownRightFilled className="small-button-icon" />
+                    {t("createVariant")}
+                  </Link>
+                </>
+              )}
+              {chartData.chart && (
+                <Link
+                  to={pathcat("/charts/:name/download_chart", {
+                    name: chartName,
+                  })}
+                  className="button-tertiary text-center p-1"
+                >
+                  <ArrowDownloadRegular className="small-button-icon" />
+                  {t("download")}
+                </Link>
+              )}
 
-                      {item.text}
-                    </Fragment>
-                  );
-
-                  return item.href ? (
-                    <Link
-                      to={item.href}
-                      target={
-                        item.href.startsWith("http") ? "_blank" : undefined
-                      }
-                      key={i}
-                      className={clsx(
-                        "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200",
-                        item.className,
-                      )}
-                      onClick={"onClick" in item ? item.onClick : undefined}
-                    >
-                      {inner}
-                    </Link>
-                  ) : (
-                    <div
-                      key={i}
-                      className={clsx(
-                        "text-center p-1 rounded focus:bg-opacity-75 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer",
-                        item.className,
-                      )}
-                      onClick={"onClick" in item ? item.onClick : undefined}
-                    >
-                      {inner}
-                    </div>
-                  );
-                })}
+              <a
+                href={sonolusUrl(serverSettings, `/levels/chcy-${chartName}`)}
+                target="_blank"
+                className="button button-sonolus text-center p-1"
+              >
+                <OpenRegular className="small-button-icon" />
+                {rootT("openInSonolus")}
+              </a>
             </div>
           </div>
         </div>
