@@ -400,15 +400,16 @@ const ChartPage = () => {
                 </>
               )}
               {chartData.chart && (
-                <Link
-                  to={pathcat("/charts/:name/download_chart", {
+                <a
+                  href={pathcat("/api/charts/:name/download_chart", {
                     name: chartName,
                   })}
+                  target="_blank"
                   className="button-tertiary text-center p-1"
                 >
                   <ArrowDownloadRegular className="small-button-icon" />
                   {t("download")}
-                </Link>
+                </a>
               )}
 
               <a
