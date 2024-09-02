@@ -10,7 +10,7 @@ Chart Cyanvas is a sekai custom charts platform.
 
 ![Architecture](./architecture.svg)
 
-- `frontend/` - Frontend. Built with Next.js and Tailwind CSS.
+- `frontend/` - Frontend. Built with Remix and Tailwind CSS.
 - `backend/` - Backend. Built with Rails.
 - `sub-audio/` - Audio processing. Built with Python, FastAPI and ffmpeg.
 - `sub-image/` - Image processing. Built with Rust, axum and [pjsekai-background-gen-rust](https://github.com/sevenc-nanashi/pjsekai-background-gen-rust).
@@ -29,7 +29,7 @@ Remember to run `rake configure` after changing the configuration.
 ### Requirements
 
 - `make`
-- [Ruby 3.2](https://ruby-lang.org)
+- [Ruby 3.3](https://ruby-lang.org)
   - [Bundler](https://bundler.io)
 - [Python 3.9](https://python.org)
   - [Poetry](https://python-poetry.org/)
