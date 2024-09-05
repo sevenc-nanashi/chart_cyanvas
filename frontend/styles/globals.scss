@@ -108,7 +108,7 @@ textarea {
   @extend .bg-input;
   @extend .input-border;
   @apply text-slate-900 dark:text-white p-2 transition-colors duration-200;
-  @apply shadow-inner shadow-slate-200 dark:shadow-slate-700;
+  @apply shadow-inner shadow-slate-200 dark:shadow-gray-950;
 
   &:disabled,
   &.disabled {
