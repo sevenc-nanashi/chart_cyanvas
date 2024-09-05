@@ -149,3 +149,8 @@ properties:
           traces_sample_rate:
             type: "number"
             description: "Sentry traces sample rate."
+  openai_key:
+    description: "OpenAI key, null to disable AI-powered checks."
+    oneOf:
+      - type: "null"
+      - type: "string"
