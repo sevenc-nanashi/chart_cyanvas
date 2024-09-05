@@ -1,4 +1,6 @@
 import {
+  EyeRegular,
+  EyeOffRegular,
   MusicNote2Regular,
   OpenRegular,
   PersonFilled,
@@ -98,6 +100,7 @@ const UserPage = () => {
     warnCount: number;
     owner: User | null;
   } | null>(null);
+  const [showSecretUserInfo, setShowSecretUserInfo] = useState(false);
 
   useEffect(() => {
     if (!isAdmin(session)) {
@@ -134,22 +137,34 @@ const UserPage = () => {
             </p>
 
             {secretUserInfo && (
-              <p className="text-md mt-4 card">
-                <Trans t={t} i18nKey="secretUserInfo">
-                  {secretUserInfo.owner ? (
-                    <Link to={`/users/${secretUserInfo.owner.handle}`} />
+              <div className="text-md mt-4 card flex flex-col">
+                <button onClick={() => setShowSecretUserInfo(!showSecretUserInfo)} className="font-bold text-left">
+                  {showSecretUserInfo ? (
+                    <EyeOffRegular className="mr-1 w-6 h-6" />
                   ) : (
-                    <span />
+                    <EyeRegular className="mr-1 w-6 h-6" />
                   )}
-                  {{
-                    discord: secretUserInfo.discord.username,
-                    warn: secretUserInfo.warnCount,
-                    owner: secretUserInfo.owner
-                      ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
-                      : "-",
-                  }}
-                </Trans>
-              </p>
+                  {t("showSecret")}
+                </button>
+                {showSecretUserInfo && (
+                  <p>
+                    <Trans t={t} i18nKey="secretUserInfo">
+                      {secretUserInfo.owner ? (
+                        <Link to={`/users/${secretUserInfo.owner.handle}`} />
+                      ) : (
+                        <span />
+                      )}
+                      {{
+                        discord: secretUserInfo.discord.username,
+                        warn: secretUserInfo.warnCount,
+                        owner: secretUserInfo.owner
+                          ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
+                          : "-",
+                      }}
+                    </Trans>
+                  </p>
+                )}
+              </div>
             )}
             <p className="flex-grow mt-4 mr-4 whitespace-pre-wrap break-words w-full">
               {userData.aboutMe}
