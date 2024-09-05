@@ -85,7 +85,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
         onClick={close}
       >
         <div
-          className="absolute right-2 top-2 min-w-64 h-[calc(100svh_-_16px)] bg-white dark:bg-slate-900 shadow-lg rounded-lg p-4 flex flex-col overflow-y-auto"
+          className="absolute right-2 top-2 min-w-64 h-[calc(100svh_-_16px)] bg-background shadow-lg rounded-lg p-4 flex flex-col overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {session?.loggedIn ? (
@@ -119,7 +119,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
               <div className="text-2xl">{t("login.button")}</div>
             </div>
           )}
-          <div className="w-full h-[1px] my-2 bg-slate-200 dark:bg-slate-700" />
+          <div className="w-full h-[1px] my-2 bg-slate-200 dark:bg-slate-500" />
           <div className="flex flex-col flex-grow">
             {[
               {
@@ -234,7 +234,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                   case "line":
                     return (
                       <div
-                        className="w-full h-[1px] my-2 bg-slate-100 dark:bg-slate-800"
+                        className="w-full h-[1px] my-2 bg-slate-100 dark:bg-slate-700"
                         key={i}
                       />
                     );

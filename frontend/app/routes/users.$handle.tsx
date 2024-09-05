@@ -1,6 +1,6 @@
 import {
-  EyeRegular,
   EyeOffRegular,
+  EyeRegular,
   MusicNote2Regular,
   OpenRegular,
   PersonFilled,
@@ -138,7 +138,10 @@ const UserPage = () => {
 
             {secretUserInfo && (
               <div className="text-md mt-4 card flex flex-col">
-                <button onClick={() => setShowSecretUserInfo(!showSecretUserInfo)} className="font-bold text-left">
+                <button
+                  onClick={() => setShowSecretUserInfo(!showSecretUserInfo)}
+                  className="font-bold text-left"
+                >
                   {showSecretUserInfo ? (
                     <EyeOffRegular className="mr-1 w-6 h-6" />
                   ) : (
