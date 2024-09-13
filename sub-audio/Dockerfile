@@ -1,16 +1,18 @@
-FROM python:3.9-slim-buster
+FROM python:slim
 
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
     ffmpeg curl
 
+RUN pip install uv
+
 COPY sub-audio/pyproject.toml sub-audio/poetry.lock ./
 
-RUN pip install poetry && poetry config virtualenvs.create false && poetry install --only main --no-root
+RUN uv pip install --no-cache --system -r requirements.lock
 
 COPY sub-audio/* .
 
 EXPOSE 3203
 
-CMD [ "poetry", "run", "poe", "start" ]
+CMD python main.py

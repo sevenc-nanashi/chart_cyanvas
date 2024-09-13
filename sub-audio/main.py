@@ -89,7 +89,9 @@ async def convert(param: ConvertParam):
     )
     while bgm_process.poll() is None or preview_process.poll() is None:
         await asyncio.sleep(0.1)
-    logger.info(f"convert: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}")
+    logger.info(
+        f"convert: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}"
+    )
     if bgm_process.returncode != 0 or preview_process.returncode != 0:
         raise Exception(
             f"ffmpeg failed: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}"

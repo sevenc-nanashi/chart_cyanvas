@@ -1,43 +1,37 @@
-[tool.poetry]
-name = "sub-image"
+[project]
+name = "sub-audio"
 version = "0.1.0"
 description = ""
-authors = ["sevenc-nanashi <sevenc7c@sevenc7c.com>"]
-package-mode = false
-
-[tool.poetry.dependencies]
-python = "^3.9"
-fastapi = "^0.88.0"
-uvicorn = "^0.20.0"
-gunicorn = "^20.1.0"
-python-dotenv = "^0.21.0"
-poethepoet = "^0.17.1"
-redis = "^4.4.2"
-sentry-sdk = "^1.29.2"
-
-[tool.poetry.group.dev.dependencies]
-black = "^22.12.0"
-isort = "^5.12.0"
-
-[tool.poetry.group.test.dependencies]
-pytest = "^7.2.1"
-httpx = "^0.23.3"
+authors = [{ name = "sevenc-nanashi", email = "sevenc7c@sevenc7c.com" }]
+dependencies = [
+    "fastapi>=0.114.1",
+    "uvicorn>=0.30.6",
+    "gunicorn>=23.0.0",
+    "python-dotenv>=1.0.1",
+    "redis>=5.0.8",
+    "sentry-sdk>=2.14.0",
+]
+requires-python = ">= 3.12"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.black]
-target-version = ['py39']
-line-length = 120
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pytest>=8.3.3",
+    "httpx>=0.27.2",
+    "ruff>=0.6.4",
+]
 
-[tool.poe.tasks]
-start = "gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3202 main:app"
-dev = "uvicorn main:app --reload --port 3202"
-lint-black = "black . --check"
-lint-isort = "isort . --check-only"
-lint = ["lint-black", "lint-isort"]
-format-black = "black ."
-format-isort = "isort ."
-format = ["format-black", "format-isort"]
+[tool.rye.scripts]
 test = "pytest"
+lint = "ruff lint"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sub_audio"]
+

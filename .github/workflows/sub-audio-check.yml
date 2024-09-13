@@ -36,35 +36,31 @@ jobs:
         with:
           python-version-file: sub-audio/.python-version
 
-      - name: Install poetry
-        uses: Gr1N/setup-poetry@v9
-        with:
-          poetry-version: 1.8.2
-
-      - name: Config poetry
-        run: poetry config virtualenvs.create false
+      - name: Install rye
+        run: |
+          pip install rye
 
       - name: Cache packages
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-poetry-${{ hashFiles('./sub-audio/poetry.lock') }}
+          key: ${{ runner.os }}-rye-${{ hashFiles('./sub-audio/*.lock') }}
           restore-keys: |
-            ${{ runner.os }}-poetry-
+            ${{ runner.os }}-rye-
 
       - name: Install dependencies
         working-directory: ./sub-audio
-        run: poetry install --with dev,test
+        run: rye sync
 
       - name: Run sub-audio lint
         working-directory: ./sub-audio
         run: |
-          poetry run poe lint
+          rye run lint
 
       - name: Run sub-audio test
         working-directory: ./sub-audio
         run: |
-          poetry run poe test
+          rye run test
 
       - name: Build image
         uses: ./.github/actions/build
