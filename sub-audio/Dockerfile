@@ -5,11 +5,11 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     ffmpeg curl
 
-RUN pip install uv
+RUN curl -sSf https://rye.astral.sh/get | bash
 
-COPY sub-audio/pyproject.toml sub-audio/poetry.lock ./
+COPY sub-audio/pyproject.toml sub-audio/requirements.lock
 
-RUN uv pip install --no-cache --system -r requirements.lock
+RUN rye sync --no-dev
 
 COPY sub-audio/* .
 
