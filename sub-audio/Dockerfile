@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     ffmpeg curl
 
-RUN curl -sSf https://rye.astral.sh/get | bash
+RUN curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
 
 COPY sub-audio/pyproject.toml sub-audio/requirements.lock
 

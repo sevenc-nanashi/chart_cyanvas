@@ -38,7 +38,7 @@ jobs:
 
       - name: Install rye
         run: |
-          curl -sSf https://rye.astral.sh/get | bash
+          curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
 
       - name: Cache packages
         uses: actions/cache@v3
