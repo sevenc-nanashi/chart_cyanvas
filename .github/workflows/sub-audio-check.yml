@@ -37,8 +37,7 @@ jobs:
           python-version-file: sub-audio/.python-version
 
       - name: Install rye
-        run: |
-          curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
+        uses: eifinger/setup-rye@v4
 
       - name: Cache packages
         uses: actions/cache@v3
