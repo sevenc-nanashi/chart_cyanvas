@@ -27,7 +27,7 @@ dev-dependencies = [
 
 [tool.rye.scripts]
 test = "pytest"
-lint = "ruff lint"
+lint = "ruff check ."
 
 [tool.hatch.metadata]
 allow-direct-references = true
