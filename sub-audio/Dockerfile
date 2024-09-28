@@ -17,4 +17,4 @@ COPY sub-audio/* .
 
 EXPOSE 3203
 
-CMD python main.py
+CMD rye run start

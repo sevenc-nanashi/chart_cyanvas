@@ -13,9 +13,16 @@ ja:
   sonolus:
     title: "Chart Cyanvas"
 
+    configuration:
+      background:
+        title: "背景"
+        options:
+          - "v1"
+          - "v3"
+
     auth:
       external_done: "ログインに成功しました！Webページに戻って下さい。"
-      info:
+    info:
       description: "Chart Cyanvas は Sonolus 用の某セカイ創作譜面プラットフォームです。"
       logged_in: "%{name}#%{handle} としてログインしています。"
     backgrounds:

@@ -16,6 +16,12 @@ en:
   sonolus:
     title: "Chart Cyanvas"
 
+    configuration:
+      background:
+        title: "Background"
+        options:
+          - "v1"
+          - "v3"
     auth:
       external_done: "Successfully signed in! Now please go back to the website."
     info:

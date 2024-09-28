@@ -28,6 +28,8 @@ dev-dependencies = [
 [tool.rye.scripts]
 test = "pytest"
 lint = "ruff check ."
+start = "gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3202 main:app"
+dev = "uvicorn main:app --reload --port 3202"
 
 [tool.hatch.metadata]
 allow-direct-references = true

@@ -24,6 +24,16 @@ class SonolusController < ApplicationController
     end
   end
 
+  before_action do
+    params.permit(:c_background)
+    background_version = params[:c_background]
+    if background_version
+      self.background_version = [1, 3][background_version.to_i]
+    else
+      self.background_version = 3
+    end
+  end
+
   around_action do |_, action|
     unless request.headers["Sonolus-Session"]
       action.call
@@ -66,6 +76,15 @@ class SonolusController < ApplicationController
 
   def current_user=(value)
     RequestLocals.store[:sonolus_auth_user] = value
+  end
+
+  def background_version
+    warn RequestLocals.store.inspect
+    RequestLocals.store[:sonolus_background_version]
+  end
+
+  def background_version=(value)
+    RequestLocals.store[:sonolus_background_version] = value
   end
 
   def dummy_level(key, name, cover: nil, **)

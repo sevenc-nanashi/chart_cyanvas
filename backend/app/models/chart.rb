@@ -95,7 +95,7 @@ class Chart < ApplicationRecord
     }
   end
 
-  def to_sonolus
+  def to_sonolus(background_version: 3)
     resources = self.resources
     {
       name: "chcy-#{name}",
@@ -136,7 +136,7 @@ class Chart < ApplicationRecord
       },
       useBackground: {
         useDefault: false,
-        item: to_sonolus_background(resources)
+        item: to_sonolus_background(resources, version: background_version)
       },
       useEffect: {
         useDefault: true

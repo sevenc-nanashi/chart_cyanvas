@@ -29,7 +29,16 @@ module Sonolus
                  { type: "configuration" }
                ],
                configuration: {
-                 options: []
+                 options: [
+                   {
+                     query: :c_background,
+                     name: I18n.t("sonolus.configuration.background.title"),
+                     type: "select",
+                     required: false,
+                     def: 1,
+                     values: I18n.t("sonolus.configuration.background.options")
+                   }
+                 ]
                },
                description:
              }

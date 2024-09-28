@@ -148,14 +148,14 @@ module Sonolus
                   author_id: [current_user.id] + alt_users.map(&:id)
                 )
                 .sonolus_listed
-                .map(&:to_sonolus)
+                .map { _1.to_sonolus(background_version:) }
           }
         end
 
       popular_section = {
         title: "#POPULAR",
         itemType: "level",
-        items: self.popular_charts.map(&:to_sonolus)
+        items: self.popular_charts.map { _1.to_sonolus(background_version:) }
       }
 
       newest_section = {
@@ -170,7 +170,7 @@ module Sonolus
             .eager_load(:tags, file_resources: { file_attachment: :blob })
             .where(visibility: :public)
             .sonolus_listed
-            .map(&:to_sonolus)
+            .map { _1.to_sonolus(background_version:) }
       }
       random_section = {
         title: "#RANDOM",
@@ -183,7 +183,7 @@ module Sonolus
             .eager_load(:tags, file_resources: { file_attachment: :blob })
             .where(visibility: :public)
             .sonolus_listed
-            .map(&:to_sonolus)
+            .map { _1.to_sonolus(background_version:) }
       }
       render json: {
                searches:,
@@ -394,7 +394,7 @@ module Sonolus
       charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
       render json: {
-               items: charts.map(&:to_sonolus),
+               items: charts.map { _1.to_sonolus(background_version:) },
                searches:,
                pageCount: page_count
              }
@@ -412,7 +412,7 @@ module Sonolus
             Like.find_by(user_id: current_user.id, chart_id: chart.id)
 
         render json: {
-                 item: chart.to_sonolus,
+                 item: chart.to_sonolus(background_version: ),
                  hasCommunity: false,
                  actions: [
                    (
@@ -441,12 +441,17 @@ module Sonolus
                      {
                        title: I18n.t("sonolus.levels.sections.variant_of"),
                        itemType: "level",
-                       items: [chart.variant_of&.to_sonolus]
+                       items: [
+                         chart.variant_of&.to_sonolus(background_version:)
+                       ].compact
                      },
                      {
                        title: I18n.t("sonolus.levels.sections.variants"),
                        itemType: "level",
-                       items: chart.variants.map(&:to_sonolus)
+                       items:
+                         chart.variants.map {
+                           _1.to_sonolus(background_version:)
+                         }
                      },
                      {
                        title: I18n.t("sonolus.levels.sections.backgrounds"),
