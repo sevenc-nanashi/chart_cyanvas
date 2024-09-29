@@ -27,11 +27,8 @@ class SonolusController < ApplicationController
   before_action do
     params.permit(:c_background)
     background_version = params[:c_background]
-    if background_version
-      self.background_version = [1, 3][background_version.to_i]
-    else
-      self.background_version = 3
-    end
+    self.background_version =
+      (background_version ? [1, 3][background_version.to_i] : 3)
   end
 
   around_action do |_, action|

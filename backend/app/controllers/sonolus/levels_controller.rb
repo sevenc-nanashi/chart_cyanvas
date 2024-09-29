@@ -412,7 +412,7 @@ module Sonolus
             Like.find_by(user_id: current_user.id, chart_id: chart.id)
 
         render json: {
-                 item: chart.to_sonolus(background_version: ),
+                 item: chart.to_sonolus(background_version:),
                  hasCommunity: false,
                  actions: [
                    (
@@ -449,9 +449,9 @@ module Sonolus
                        title: I18n.t("sonolus.levels.sections.variants"),
                        itemType: "level",
                        items:
-                         chart.variants.map {
-                           _1.to_sonolus(background_version:)
-                         }
+                         chart.variants.map do |level|
+                           level.to_sonolus(background_version:)
+                         end
                      },
                      {
                        title: I18n.t("sonolus.levels.sections.backgrounds"),
