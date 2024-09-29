@@ -139,4 +139,4 @@ async def exception_handler(request, exc):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", port=3202, reload=True)
+    uvicorn.run("main:app", port=3202, reload=True)

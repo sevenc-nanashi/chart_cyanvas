@@ -54,12 +54,12 @@ jobs:
       - name: Run sub-audio lint
         working-directory: ./sub-audio
         run: |
-          rye run lint
+          rye lint
 
       - name: Run sub-audio test
         working-directory: ./sub-audio
         run: |
-          rye run test
+          rye test
 
       - name: Build image
         uses: ./.github/actions/build

@@ -18,7 +18,10 @@ def test_read_main():
 
 @pytest.mark.skip("SEGV on GitHub Actions")
 def test_process_bgm(simple_server):
-    response = client.post("/convert", json={"url": f"http://localhost:{simple_server.server_port}/bgm.mp3"})
+    response = client.post(
+        "/convert",
+        json={"url": f"http://localhost:{simple_server.server_port}/bgm.mp3"},
+    )
     assert response.status_code == 200
     assert response.json()["code"] == "ok"
 
@@ -27,7 +30,9 @@ class TestServer(http.server.SimpleHTTPRequestHandler):
     __test__ = False
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=os.path.dirname(__file__) + "/test_server", **kwargs)
+        super().__init__(
+            *args, directory=os.path.dirname(__file__) + "/test_server", **kwargs
+        )
 
 
 @pytest.fixture()
