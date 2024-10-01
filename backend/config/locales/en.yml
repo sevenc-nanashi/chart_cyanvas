@@ -22,6 +22,10 @@ en:
         options:
           - "v1"
           - "v3"
+
+    popular_maintenance:
+      title: "Popular levels section is under maintenance!"
+
     auth:
       external_done: "Successfully signed in! Now please go back to the website."
     info:

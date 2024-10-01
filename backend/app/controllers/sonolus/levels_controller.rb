@@ -154,8 +154,16 @@ module Sonolus
 
       popular_section = {
         title: "#POPULAR",
-        itemType: "level",
-        items: self.popular_charts.map { _1.to_sonolus(background_version:) }
+        itemType: "post",
+        items: [
+          {
+            name: "chcy-post-popular-is-maintenanced",
+            title: I18n.t("sonolus.popular_maintenance.title"),
+            thumbnail: {
+              url: "/assets/warning.png"
+            }
+          }
+        ]
       }
 
       newest_section = {
@@ -189,9 +197,9 @@ module Sonolus
                searches:,
                sections: [
                  private_section,
-                 popular_section,
                  newest_section,
-                 random_section
+                 random_section,
+                 popular_section
                ].compact
              }
     end

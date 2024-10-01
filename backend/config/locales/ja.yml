@@ -20,6 +20,9 @@ ja:
           - "v1"
           - "v3"
 
+    popular_maintenance:
+      title: "人気譜面欄はメンテナンス中です！"
+
     auth:
       external_done: "ログインに成功しました！Webページに戻って下さい。"
     info:
