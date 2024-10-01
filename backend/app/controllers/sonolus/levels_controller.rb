@@ -159,6 +159,10 @@ module Sonolus
           {
             name: "chcy-post-popular-is-maintenanced",
             title: I18n.t("sonolus.popular_maintenance.title"),
+            tags: [],
+            version: 1,
+            time: 1727787903000,
+            author: "",
             thumbnail: {
               url: "/assets/warning.png"
             }
