@@ -71,3 +71,6 @@ Style/StringConcatenation:
 
 Rails/SkipsModelValidations:
   Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
