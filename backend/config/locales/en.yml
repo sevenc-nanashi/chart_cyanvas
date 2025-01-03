@@ -20,8 +20,8 @@ en:
       background:
         title: "Background"
         options:
-          - "v1"
-          - "v3"
+          v1: "v1"
+          v3: "v3"
 
     popular_maintenance:
       title: "Popular levels section is under maintenance!"
@@ -77,9 +77,9 @@ en:
       tags_placeholder: "Please enter the tags, separated by space..."
       sort: "Sort"
       sorts:
-        - "Last published"
-        - "Last updated"
-        - "Most liked"
+        published_at: "Last published"
+        updated_at: "Last updated"
+        likes_count: "Most liked"
       rating_max: "Difficulty (Max)"
       rating_min: "Difficulty (Min)"
       unknown_author: "Failed to find charters. Make sure you have the correct handles."

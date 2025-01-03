@@ -28,7 +28,7 @@ class SonolusController < ApplicationController
     params.permit(:c_background)
     background_version = params[:c_background]
     self.background_version =
-      (background_version ? [1, 3][background_version.to_i] : 3)
+      (background_version ? background_version.to_s.delete_prefix("v").to_i : 3)
   end
 
   around_action do |_, action|

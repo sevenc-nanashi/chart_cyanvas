@@ -3,6 +3,8 @@ require "uri"
 
 module Sonolus
   class LevelsController < SonolusController
+    SORTS = %i[published_at updated_at likes_count].freeze
+
     def self.search_options
       [
         {
@@ -99,8 +101,11 @@ module Sonolus
           query: :q_sort,
           name: I18n.t("sonolus.search.sort"),
           type: "select",
-          def: 0,
-          values: I18n.t("sonolus.search.sorts"),
+          def: :published_at,
+          values:
+            SORTS.map do |sort|
+              { name: sort, title: I18n.t("sonolus.search.sort.#{sort}") }
+            end,
           required: false
         }
       ]
@@ -289,12 +294,12 @@ module Sonolus
         charts.where(charts: { rating: ..(params[:q_rating_max]) }) if params[
         :q_rating_max
       ].present?
-      case params[:q_sort].to_i
-      when 0
+      case params[:q_sort].to_sym
+      when :published_at
         charts = charts.order(published_at: :desc)
-      when 1
+      when :updated_at
         charts = charts.order(updated_at: :desc)
-      when 2
+      when :likes_count
         charts = charts.order(likes_count: :desc)
       end
       if params[:type] == "quick" && params[:keywords].present?

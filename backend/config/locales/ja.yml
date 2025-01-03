@@ -17,8 +17,8 @@ ja:
       background:
         title: "背景"
         options:
-          - "v1"
-          - "v3"
+          v1: "v1"
+          v3: "v3"
 
     popular_maintenance:
       title: "人気譜面欄はメンテナンス中です！"
@@ -71,9 +71,9 @@ ja:
       tags_placeholder: "タグをスペース区切りで入力して下さい（最大5個まで）..."
       sort: "並び替え"
       sorts:
-        - "投稿順"
-        - "更新順"
-        - "高評価順"
+        published_at: "投稿順"
+        updated_at: "更新順"
+        likes_count: "高評価順"
       rating_max: "難易度（最高）"
       rating_min: "難易度（最低）"
       unknown_author: "作者が見付かりません。作者のハンドルが合っているか確認して下さい。"

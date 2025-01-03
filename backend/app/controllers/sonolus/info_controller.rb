@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module Sonolus
   class InfoController < SonolusController
+    BACKGROUNDS = %i[v1 v3].freeze
     def info
       title = I18n.t("sonolus.title")
       title += " (dev)" if ENV["RAILS_ENV"] != "production"
@@ -35,8 +36,17 @@ module Sonolus
                      name: I18n.t("sonolus.configuration.background.title"),
                      type: "select",
                      required: false,
-                     def: 1,
-                     values: I18n.t("sonolus.configuration.background.options")
+                     def: :v3,
+                     values:
+                       BACKGROUNDS.map { |background|
+                         {
+                           name: background,
+                           title:
+                             I18n.t(
+                               "sonolus.configuration.background.options.#{background}"
+                             )
+                         }
+                       }
                    }
                  ]
                },
