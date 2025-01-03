@@ -295,12 +295,12 @@ module Sonolus
         :q_rating_max
       ].present?
       case params[:q_sort]&.to_sym
-      when :published_at
-        charts = charts.order(published_at: :desc)
       when :updated_at
         charts = charts.order(updated_at: :desc)
       when :likes_count
         charts = charts.order(likes_count: :desc)
+      else
+        charts = charts.order(published_at: :desc)
       end
       if params[:type] == "quick" && params[:keywords].present?
         charts =
