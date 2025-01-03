@@ -104,7 +104,7 @@ module Sonolus
           def: :published_at,
           values:
             SORTS.map do |sort|
-              { name: sort, title: I18n.t("sonolus.search.sort.#{sort}") }
+              { name: sort, title: I18n.t("sonolus.search.sorts.#{sort}") }
             end,
           required: false
         }
