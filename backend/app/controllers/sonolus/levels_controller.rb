@@ -294,7 +294,7 @@ module Sonolus
         charts.where(charts: { rating: ..(params[:q_rating_max]) }) if params[
         :q_rating_max
       ].present?
-      case params[:q_sort].to_sym
+      case params[:q_sort]&.to_sym
       when :published_at
         charts = charts.order(published_at: :desc)
       when :updated_at
