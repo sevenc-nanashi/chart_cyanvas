@@ -166,7 +166,7 @@ module Sonolus
             title: I18n.t("sonolus.popular_maintenance.title"),
             tags: [],
             version: 1,
-            time: 1727787903000,
+            time: 1_727_787_903_000,
             author: "",
             thumbnail: {
               url: "/assets/warning.png"
