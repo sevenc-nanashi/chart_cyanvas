@@ -1,0 +1,7 @@
+packages:
+  - frontend
+  - sub-chart
+  - tasks
+
+catalog:
+  "@biomejs/biome": "^1.9.4"

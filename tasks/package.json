@@ -3,21 +3,20 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "sendWarningChannelInfo": "ts-node ./src/sendWarningChannelInfo.ts",
+    "sendWarningChannelInfo": "tsx ./src/sendWarningChannelInfo.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@tsconfig/node16": "16.1.0",
-    "discord-api-types": "0.37.48",
-    "ts-node": "10.9.1",
-    "typescript": "5.1.6"
+    "discord-api-types": "0.37.115",
+    "tsx": "^4.19.2",
+    "typescript": "5.7.2"
   },
   "dependencies": {
-    "@discordjs/rest": "1.7.1",
-    "axios": "1.4.0",
-    "dotenv": "16.3.1"
+    "@discordjs/rest": "2.4.2",
+    "axios": "1.7.9",
+    "dotenv": "16.4.7"
   }
 }

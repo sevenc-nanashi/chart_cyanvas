@@ -1,14 +1,18 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "organizeImports": {
     "enabled": true
   },
   "files": {
     "ignore": [
+      "./node_modules",
       "./frontend/build",
       "./frontend/node_modules",
       "./sub-chart/node_modules",
-      "./sub-chart/dist"
+      "./sub-chart/dist",
+      "./data",
+      "./target",
+      "*/.venv"
     ]
   },
   "formatter": {
@@ -19,11 +23,11 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "nursery": {
-        "useImportExtensions": "error"
-      },
       "a11y": {
         "all": false
+      },
+      "correctness": {
+        "useImportExtensions": "error"
       },
       "suspicious": {
         "noArrayIndexKey": "off"

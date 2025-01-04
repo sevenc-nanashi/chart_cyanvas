@@ -51,7 +51,7 @@
     "sha.js": "2.4.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
+    "@biomejs/biome": "catalog:",
     "@modyfi/vite-plugin-yaml": "^1.1.0",
     "@remix-run/dev": "^2.11.2",
     "@types/cookie": "^0.6.0",
@@ -70,11 +70,5 @@
     "vite": "^5.4.2",
     "vite-plugin-cjs-interop": "^2.1.2",
     "vite-plugin-svgr": "^4.2.0"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "@fluentui/react-icons@2.0.253": "patches/@fluentui__react-icons@2.0.253.patch",
-      "@griffel/core@1.18.0": "patches/@griffel__core@1.18.0.patch"
-    }
   }
 }

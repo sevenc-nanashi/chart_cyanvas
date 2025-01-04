@@ -1,0 +1,21 @@
+{
+  "name": "chart_cyanvas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@fluentui/react-icons": "patches/@fluentui__react-icons@2.0.253.patch",
+      "@griffel/core": "patches/@griffel__core@1.18.0.patch"
+    }
+  }
+}

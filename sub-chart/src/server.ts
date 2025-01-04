@@ -11,7 +11,7 @@ import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { stream } from "hono/streaming";
 import { uscToLevelData } from "sonolus-pjsekai-engine-extended/dist/convert.cjs";
-import { write as temporaryWrite } from "tempy";
+import { temporaryWrite } from "tempy";
 import urlJoin from "url-join";
 import { anyToUSC } from "usctool";
 import * as z from "zod";

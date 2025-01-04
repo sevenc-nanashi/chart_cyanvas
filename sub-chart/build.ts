@@ -1,26 +1,13 @@
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-import nodeResolve from "@rollup/plugin-node-resolve";
-import terser from "@rollup/plugin-terser";
-import { rollup } from "rollup";
-import esbuild from "rollup-plugin-esbuild";
+import * as rolldown from "rolldown";
 
-const bundle = await rollup({
+await rolldown.build({
   input: `${import.meta.dirname}/src/index.ts`,
-  plugins: [
-    esbuild(),
-    nodeResolve({
-      preferBuiltins: true,
-    }),
-    commonjs(),
-    json(),
-    terser(),
-  ],
-});
-
-await bundle.write({
-  file: `${import.meta.dirname}/dist/index.js`,
-  format: "es",
+  platform: "node",
+  treeshake: true,
+  output: {
+    minify: true,
+    dir: `${import.meta.dirname}/dist`,
+  },
 });
 
 console.log("Build complete");
