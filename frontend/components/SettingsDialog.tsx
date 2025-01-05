@@ -1,4 +1,4 @@
-import cookies from "cookie";
+import * as cookies from "cookie";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSetTheme, useTheme } from "~/lib/contexts.ts";
