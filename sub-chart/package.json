@@ -19,7 +19,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@9.9.0",
   "dependencies": {
     "@hono/node-server": "^1.13.7",
     "@hono/sentry": "^1.2.0",
