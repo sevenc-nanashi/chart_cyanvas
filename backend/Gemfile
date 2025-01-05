@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.4.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1"
+gem "rails", "~> 8.0"
 
 # Use sqlite3 as the database for Active Record
 # gem "sqlite3", "~> 1.4"
@@ -14,7 +14,7 @@ gem "rails", "~> 7.1"
 # gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
-gem "redis", "~> 4.0"
+gem "redis", "~> 5.3"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -38,59 +38,59 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
 
-  gem "parallel_tests", "~> 4.2"
-  gem "rspec", "~> 3.12"
-  gem "rspec-rails", "~> 6.0"
+  gem "parallel_tests", "~> 4.8"
+  gem "rspec", "~> 3.13"
+  gem "rspec-rails", "~> 7.1"
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  gem "rubocop", "~> 1.42", require: false
-  gem "rubocop-rails", "~> 2.17", require: false
+  gem "rubocop", "~> 1.69", require: false
+  gem "rubocop-rails", "~> 2.28", require: false
   gem "spring"
 
-  gem "syntax_tree", "~> 5.1", require: false
+  gem "syntax_tree", "~> 6.2", require: false
 end
 
 gem "shortuuid", "~> 0.6.0"
 
-gem "dotenv-rails", "~> 2.8"
+gem "dotenv-rails", "~> 3.1"
 
 gem "openssl-oaep", "~> 0.1.0"
 
-gem "connection_pool", "~> 2.3"
+gem "connection_pool", "~> 2.4"
 
 gem "request_store_rails", "~> 2.0"
 
-gem "aws-sdk-s3", "~> 1.117"
+gem "aws-sdk-s3", "~> 1.177"
 
 gem "bullet", group: "development"
 
-gem "http", "~> 5.1"
+gem "http", "~> 5.2"
 
-gem "pg", "~> 1.4"
+gem "pg", "~> 1.5"
 
-gem "nokogiri", "~> 1.14.0.rc1"
+gem "nokogiri", "~> 1.18"
 
 gem "color-generator", "~> 0.0.4"
 
-gem "counter_culture", "~> 3.2"
+gem "counter_culture", "~> 3.8"
 
-gem "sidekiq", "~> 7.0"
+gem "sidekiq", "~> 7.3"
 
-gem "console", "~> 1.17"
+gem "console", "~> 1.29"
 
-gem "sentry-ruby", "~> 5.10"
+gem "sentry-ruby", "~> 5.22"
 
-gem "sentry-rails", "~> 5.10"
+gem "sentry-rails", "~> 5.22"
 
-gem "sentry-sidekiq", "~> 5.10"
+gem "sentry-sidekiq", "~> 5.22"
 
-gem "jwt", "~> 2.8"
+gem "jwt", "~> 2.10"
 gem "rbnacl", "~> 7.1"
 
-gem "console-adapter-rails", "~> 0.1.4"
+gem "console-adapter-rails", "~> 0.4"
 
-gem "rails-i18n", "~> 7.0"
+gem "rails-i18n", "~> 8.0"
 
-gem "falcon", "~> 0.47.7"
+gem "falcon", "~> 0.48"

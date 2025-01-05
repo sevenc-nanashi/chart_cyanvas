@@ -4,6 +4,6 @@ require_relative "application"
 
 require "console/adapter/rails"
 
-Console::Adapter::Rails.apply!
+Console::Adapter::Rails::ActiveRecord.apply!
 # Initialize the Rails application.
 Rails.application.initialize!
