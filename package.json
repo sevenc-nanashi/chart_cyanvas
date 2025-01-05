@@ -14,8 +14,8 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@fluentui/react-icons": "patches/@fluentui__react-icons@2.0.253.patch",
-      "@griffel/core": "patches/@griffel__core@1.18.0.patch"
+      "@griffel/core": "patches/@griffel__core@1.18.0.patch",
+      "@fluentui/react-icons": "patches/@fluentui__react-icons.patch"
     }
   }
 }

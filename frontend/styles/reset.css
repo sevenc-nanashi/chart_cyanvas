@@ -137,7 +137,17 @@ a:not([class]) {
 }
 
 /* Make it clear that interactive elements are interactive */
-:where(a[href], area, button, input, label[for], select, summary, textarea, [tabindex]:not([tabindex*="-"])) {
+:where(
+    a[href],
+    area,
+    button,
+    input,
+    label[for],
+    select,
+    summary,
+    textarea,
+    [tabindex]:not([tabindex*="-"])
+  ) {
   /* cursor: pointer; */
   touch-action: manipulation;
 }
@@ -167,7 +177,13 @@ a:not([class]) {
 }
 
 /* Make sure users can't select button text */
-:where(button, button[type], input[type="button"], input[type="submit"], input[type="reset"]),
+:where(
+    button,
+    button[type],
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"]
+  ),
 :where(input[type="file"])::-webkit-file-upload-button,
 :where(input[type="file"])::file-selector-button {
   -webkit-tap-highlight-color: transparent;
@@ -177,6 +193,12 @@ a:not([class]) {
 }
 
 /* Disabled cursor for disabled buttons */
-:where(button, button[type], input[type="button"], input[type="submit"], input[type="reset"])[disabled] {
+:where(
+    button,
+    button[type],
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"]
+  )[disabled] {
   cursor: not-allowed;
 }

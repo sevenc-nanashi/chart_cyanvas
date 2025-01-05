@@ -27,7 +27,7 @@ const RangeInput = (
 ) => {
   const [internalValues, setValues] = useState(
     props.dual
-      ? props.defaultValue ?? [props.min, props.max]
+      ? (props.defaultValue ?? [props.min, props.max])
       : [props.defaultValue ?? props.min],
   );
 

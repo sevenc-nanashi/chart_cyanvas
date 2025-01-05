@@ -1,0 +1,1117 @@
+diff --git a/lib/contexts/index.js b/lib/contexts/index.js
+index f38d48d29927a79edb39efa4893bee4b0dcd10ab..231609a33503cd795fd93612b79be0deabc07c73 100644
+--- a/lib/contexts/index.js
++++ b/lib/contexts/index.js
+@@ -1 +1 @@
+-export * from './IconDirectionContext';
+\ No newline at end of file
++export * from './IconDirectionContext.js';
+\ No newline at end of file
+diff --git a/lib/fonts/icons/chunk-0.js b/lib/fonts/icons/chunk-0.js
+index 3b97189ed2216b9a5d46d4c2c78810c984c13bed..91662a3c4f426937b8235657dc4ef3e48523864d 100644
+--- a/lib/fonts/icons/chunk-0.js
++++ b/lib/fonts/icons/chunk-0.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const AccessTimeFilled = /*#__PURE__*/createFluentFontIcon("AccessTimeFilled", "", 2, undefined);
+ export const AccessTimeRegular = /*#__PURE__*/createFluentFontIcon("AccessTimeRegular", "", 2, undefined);
+ export const AccessibilityFilled = /*#__PURE__*/createFluentFontIcon("AccessibilityFilled", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-1.js b/lib/fonts/icons/chunk-1.js
+index 29061c276e47a84566dcf04a4e4ba04a8734523a..4e962a3c0fd1134735e0efe5be679f39bd42a5dc 100644
+--- a/lib/fonts/icons/chunk-1.js
++++ b/lib/fonts/icons/chunk-1.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const BluetoothFilled = /*#__PURE__*/createFluentFontIcon("BluetoothFilled", "", 2, undefined);
+ export const BluetoothRegular = /*#__PURE__*/createFluentFontIcon("BluetoothRegular", "", 2, undefined);
+ export const BluetoothConnectedFilled = /*#__PURE__*/createFluentFontIcon("BluetoothConnectedFilled", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-10.js b/lib/fonts/icons/chunk-10.js
+index 0f0d87551ab2d9660b4bbeca64c50443c24876c7..e14d8f1c8061eba2795a4aa26271745aa40badeb 100644
+--- a/lib/fonts/icons/chunk-10.js
++++ b/lib/fonts/icons/chunk-10.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const WarningLockOpenFilled = /*#__PURE__*/createFluentFontIcon("WarningLockOpenFilled", "", 2, undefined);
+ export const WarningLockOpenRegular = /*#__PURE__*/createFluentFontIcon("WarningLockOpenRegular", "", 2, undefined);
+ export const WarningShieldFilled = /*#__PURE__*/createFluentFontIcon("WarningShieldFilled", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-2.js b/lib/fonts/icons/chunk-2.js
+index 17af5c8bdb7541e300f34429453325e03a802b59..884264eeccbe0e005d5646edc617a4f3ca9c7053 100644
+--- a/lib/fonts/icons/chunk-2.js
++++ b/lib/fonts/icons/chunk-2.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ChatOffRegular = /*#__PURE__*/createFluentFontIcon("ChatOffRegular", "", 2, undefined);
+ export const ChatSettingsFilled = /*#__PURE__*/createFluentFontIcon("ChatSettingsFilled", "", 2, undefined);
+ export const ChatSettingsRegular = /*#__PURE__*/createFluentFontIcon("ChatSettingsRegular", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-3.js b/lib/fonts/icons/chunk-3.js
+index a510ad6b719fb0457e62d40d60bde8fdd61e5039..d96177fe14d2f2df8d2a16d22231758e99f646ae 100644
+--- a/lib/fonts/icons/chunk-3.js
++++ b/lib/fonts/icons/chunk-3.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const DatabaseLinkFilled = /*#__PURE__*/createFluentFontIcon("DatabaseLinkFilled", "", 2, undefined);
+ export const DatabaseLinkRegular = /*#__PURE__*/createFluentFontIcon("DatabaseLinkRegular", "", 2, undefined);
+ export const DatabaseMultipleFilled = /*#__PURE__*/createFluentFontIcon("DatabaseMultipleFilled", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-4.js b/lib/fonts/icons/chunk-4.js
+index d35c72e74411b4e4f719dc903a206831c016c66d..576500b74c9ce968f5dddd15342be025b7044db7 100644
+--- a/lib/fonts/icons/chunk-4.js
++++ b/lib/fonts/icons/chunk-4.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const EraserSegmentFilled = /*#__PURE__*/createFluentFontIcon("EraserSegmentFilled", "", 2, undefined);
+ export const EraserSegmentRegular = /*#__PURE__*/createFluentFontIcon("EraserSegmentRegular", "", 2, undefined);
+ export const EraserSmallFilled = /*#__PURE__*/createFluentFontIcon("EraserSmallFilled", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-5.js b/lib/fonts/icons/chunk-5.js
+index e541d14657d180a506983c493f6fde54374279fa..100464cdafc26bada57aa29c110eb69be6509e72 100644
+--- a/lib/fonts/icons/chunk-5.js
++++ b/lib/fonts/icons/chunk-5.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const JavascriptFilled = /*#__PURE__*/createFluentFontIcon("JavascriptFilled", "", 2, undefined);
+ export const JavascriptRegular = /*#__PURE__*/createFluentFontIcon("JavascriptRegular", "", 2, undefined);
+ export const JoystickFilled = /*#__PURE__*/createFluentFontIcon("JoystickFilled", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-6.js b/lib/fonts/icons/chunk-6.js
+index d544b4a61232982ce75f4fa887b4079cc231ec48..ab845e4b029407119e314ecb6146f3443c5551fb 100644
+--- a/lib/fonts/icons/chunk-6.js
++++ b/lib/fonts/icons/chunk-6.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const NotebookQuestionMarkRegular = /*#__PURE__*/createFluentFontIcon("NotebookQuestionMarkRegular", "", 2, undefined);
+ export const NotebookSectionFilled = /*#__PURE__*/createFluentFontIcon("NotebookSectionFilled", "", 2, undefined);
+ export const NotebookSectionRegular = /*#__PURE__*/createFluentFontIcon("NotebookSectionRegular", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-7.js b/lib/fonts/icons/chunk-7.js
+index 3fad07c13b9a11b3057a8c66be25be626b80982b..0f642a223ce35ac28159dd35026327491dee8eea 100644
+--- a/lib/fonts/icons/chunk-7.js
++++ b/lib/fonts/icons/chunk-7.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const PresenterOffFilled = /*#__PURE__*/createFluentFontIcon("PresenterOffFilled", "", 2, undefined);
+ export const PresenterOffRegular = /*#__PURE__*/createFluentFontIcon("PresenterOffRegular", "", 2, undefined);
+ export const PreviewLinkFilled = /*#__PURE__*/createFluentFontIcon("PreviewLinkFilled", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-8.js b/lib/fonts/icons/chunk-8.js
+index 1b44ca75fa1f602907c548b71cd81e94f31242c2..fa981f14ddd7ffd6615dd555626930c0c52b3b72 100644
+--- a/lib/fonts/icons/chunk-8.js
++++ b/lib/fonts/icons/chunk-8.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const Speaker2Filled = /*#__PURE__*/createFluentFontIcon("Speaker2Filled", "", 2, undefined);
+ export const Speaker2Regular = /*#__PURE__*/createFluentFontIcon("Speaker2Regular", "", 2, undefined);
+ export const SpeakerBluetoothFilled = /*#__PURE__*/createFluentFontIcon("SpeakerBluetoothFilled", "", 2, undefined);
+diff --git a/lib/fonts/icons/chunk-9.js b/lib/fonts/icons/chunk-9.js
+index d4091bb46f80e803a1a6099f9407bcb90561ead1..f696bfa3d166320306a832a5ed2ffc63bc600d78 100644
+--- a/lib/fonts/icons/chunk-9.js
++++ b/lib/fonts/icons/chunk-9.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const TextChangeCaseRegular = /*#__PURE__*/createFluentFontIcon("TextChangeCaseRegular", "", 2, undefined);
+ export const TextClearFormattingFilled = /*#__PURE__*/createFluentFontIcon("TextClearFormattingFilled", "", 2, undefined);
+ export const TextClearFormattingRegular = /*#__PURE__*/createFluentFontIcon("TextClearFormattingRegular", "", 2, undefined);
+diff --git a/lib/fonts/index.js b/lib/fonts/index.js
+index de28891c3d00aaabc9fd7f0cc7f0a0588b971e33..21ac39cf68b126fdc2adacc7a9a94b4baf3d2dec 100644
+--- a/lib/fonts/index.js
++++ b/lib/fonts/index.js
+@@ -1,53 +1,53 @@
+-export * from './icons/chunk-0';
+-export * from './icons/chunk-1';
+-export * from './icons/chunk-2';
+-export * from './icons/chunk-3';
+-export * from './icons/chunk-4';
+-export * from './icons/chunk-5';
+-export * from './icons/chunk-6';
+-export * from './icons/chunk-7';
+-export * from './icons/chunk-8';
+-export * from './icons/chunk-9';
+-export * from './icons/chunk-10';
+-export * from './sizedIcons/chunk-0';
+-export * from './sizedIcons/chunk-1';
+-export * from './sizedIcons/chunk-2';
+-export * from './sizedIcons/chunk-3';
+-export * from './sizedIcons/chunk-4';
+-export * from './sizedIcons/chunk-5';
+-export * from './sizedIcons/chunk-6';
+-export * from './sizedIcons/chunk-7';
+-export * from './sizedIcons/chunk-8';
+-export * from './sizedIcons/chunk-9';
+-export * from './sizedIcons/chunk-10';
+-export * from './sizedIcons/chunk-11';
+-export * from './sizedIcons/chunk-12';
+-export * from './sizedIcons/chunk-13';
+-export * from './sizedIcons/chunk-14';
+-export * from './sizedIcons/chunk-15';
+-export * from './sizedIcons/chunk-16';
+-export * from './sizedIcons/chunk-17';
+-export * from './sizedIcons/chunk-18';
+-export * from './sizedIcons/chunk-19';
+-export * from './sizedIcons/chunk-20';
+-export * from './sizedIcons/chunk-21';
+-export * from './sizedIcons/chunk-22';
+-export * from './sizedIcons/chunk-23';
+-export * from './sizedIcons/chunk-24';
+-export * from './sizedIcons/chunk-25';
+-export * from './sizedIcons/chunk-26';
+-export * from './sizedIcons/chunk-27';
+-export * from './sizedIcons/chunk-28';
+-export * from './sizedIcons/chunk-29';
+-export * from './sizedIcons/chunk-30';
+-export * from './sizedIcons/chunk-31';
+-export * from './sizedIcons/chunk-32';
+-export * from './sizedIcons/chunk-33';
+-export * from './sizedIcons/chunk-34';
+-export { default as wrapIcon } from '../utils/wrapIcon';
+-export { default as bundleIcon } from '../utils/bundleIcon';
+-export { createFluentIcon } from '../utils/createFluentIcon';
+-export { createFluentFontIcon } from '../utils/fonts/createFluentFontIcon';
+-export * from '../utils/useIconState';
+-export * from '../utils/constants';
+-export { IconDirectionContextProvider, useIconContext } from '../contexts/index';
+\ No newline at end of file
++export * from './icons/chunk-0.js';
++export * from './icons/chunk-1.js';
++export * from './icons/chunk-2.js';
++export * from './icons/chunk-3.js';
++export * from './icons/chunk-4.js';
++export * from './icons/chunk-5.js';
++export * from './icons/chunk-6.js';
++export * from './icons/chunk-7.js';
++export * from './icons/chunk-8.js';
++export * from './icons/chunk-9.js';
++export * from './icons/chunk-10.js';
++export * from './sizedIcons/chunk-0.js';
++export * from './sizedIcons/chunk-1.js';
++export * from './sizedIcons/chunk-2.js';
++export * from './sizedIcons/chunk-3.js';
++export * from './sizedIcons/chunk-4.js';
++export * from './sizedIcons/chunk-5.js';
++export * from './sizedIcons/chunk-6.js';
++export * from './sizedIcons/chunk-7.js';
++export * from './sizedIcons/chunk-8.js';
++export * from './sizedIcons/chunk-9.js';
++export * from './sizedIcons/chunk-10.js';
++export * from './sizedIcons/chunk-11.js';
++export * from './sizedIcons/chunk-12.js';
++export * from './sizedIcons/chunk-13.js';
++export * from './sizedIcons/chunk-14.js';
++export * from './sizedIcons/chunk-15.js';
++export * from './sizedIcons/chunk-16.js';
++export * from './sizedIcons/chunk-17.js';
++export * from './sizedIcons/chunk-18.js';
++export * from './sizedIcons/chunk-19.js';
++export * from './sizedIcons/chunk-20.js';
++export * from './sizedIcons/chunk-21.js';
++export * from './sizedIcons/chunk-22.js';
++export * from './sizedIcons/chunk-23.js';
++export * from './sizedIcons/chunk-24.js';
++export * from './sizedIcons/chunk-25.js';
++export * from './sizedIcons/chunk-26.js';
++export * from './sizedIcons/chunk-27.js';
++export * from './sizedIcons/chunk-28.js';
++export * from './sizedIcons/chunk-29.js';
++export * from './sizedIcons/chunk-30.js';
++export * from './sizedIcons/chunk-31.js';
++export * from './sizedIcons/chunk-32.js';
++export * from './sizedIcons/chunk-33.js';
++export * from './sizedIcons/chunk-34.js';
++export { default as wrapIcon } from '../utils/wrapIcon.js';
++export { default as bundleIcon } from '../utils/bundleIcon.js';
++export { createFluentIcon } from '../utils/createFluentIcon.js';
++export { createFluentFontIcon } from '../utils/fonts/createFluentFontIcon.js';
++export * from '../utils/useIconState.js';
++export * from '../utils/constants.js';
++export { IconDirectionContextProvider, useIconContext } from '../contexts/index.js';
+diff --git a/lib/fonts/sizedIcons/chunk-0.js b/lib/fonts/sizedIcons/chunk-0.js
+index e74ede54ba14900498a2f369c6e5ee70d9547630..bf97e08068806919af1545213a32e0ea27128e2c 100644
+--- a/lib/fonts/sizedIcons/chunk-0.js
++++ b/lib/fonts/sizedIcons/chunk-0.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const AccessibilityCheckmark32Light = /*#__PURE__*/createFluentFontIcon("AccessibilityCheckmark32Light", "", 3, 32);
+ export const Add32Light = /*#__PURE__*/createFluentFontIcon("Add32Light", "", 3, 32);
+ export const Alert32Light = /*#__PURE__*/createFluentFontIcon("Alert32Light", "", 3, 32);
+diff --git a/lib/fonts/sizedIcons/chunk-1.js b/lib/fonts/sizedIcons/chunk-1.js
+index 2277c3828a60eabfb5d3c1884e3573341b5fdc94..6e7af707287530fe6ff3f0ee65d8c5c26e744f4b 100644
+--- a/lib/fonts/sizedIcons/chunk-1.js
++++ b/lib/fonts/sizedIcons/chunk-1.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ChatHelp24Filled = /*#__PURE__*/createFluentFontIcon("ChatHelp24Filled", "", 0, 24);
+ export const ChatOff24Filled = /*#__PURE__*/createFluentFontIcon("ChatOff24Filled", "", 0, 24);
+ export const ChatWarning24Filled = /*#__PURE__*/createFluentFontIcon("ChatWarning24Filled", "", 0, 24);
+diff --git a/lib/fonts/sizedIcons/chunk-10.js b/lib/fonts/sizedIcons/chunk-10.js
+index 6222fd474ecd06eed345180da800f9a9cc7ed028..ef1a1ccb3e45ae9602d5f8f058b2147ff4c41d07 100644
+--- a/lib/fonts/sizedIcons/chunk-10.js
++++ b/lib/fonts/sizedIcons/chunk-10.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const DataFunnel20Filled = /*#__PURE__*/createFluentFontIcon("DataFunnel20Filled", "", 0, 20);
+ export const DataHistogram20Filled = /*#__PURE__*/createFluentFontIcon("DataHistogram20Filled", "", 0, 20);
+ export const DataScatter20Filled = /*#__PURE__*/createFluentFontIcon("DataScatter20Filled", "", 0, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-11.js b/lib/fonts/sizedIcons/chunk-11.js
+index ea8b2da6579e6cdcbada056ee46585091b16d663..f0b90addb9a74dcf3884a93fc6ba6695ab5d3662 100644
+--- a/lib/fonts/sizedIcons/chunk-11.js
++++ b/lib/fonts/sizedIcons/chunk-11.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const PenProhibited24Filled = /*#__PURE__*/createFluentFontIcon("PenProhibited24Filled", "", 0, 24);
+ export const PenProhibited28Filled = /*#__PURE__*/createFluentFontIcon("PenProhibited28Filled", "", 0, 28);
+ export const PenProhibited32Filled = /*#__PURE__*/createFluentFontIcon("PenProhibited32Filled", "", 0, 32);
+diff --git a/lib/fonts/sizedIcons/chunk-12.js b/lib/fonts/sizedIcons/chunk-12.js
+index fcc1598669900f7317855bf270cafe63bc1c4fa7..6b91eb2478a7d05a2155774be7583f58188d6d61 100644
+--- a/lib/fonts/sizedIcons/chunk-12.js
++++ b/lib/fonts/sizedIcons/chunk-12.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const FoodChickenLeg16Filled = /*#__PURE__*/createFluentFontIcon("FoodChickenLeg16Filled", "", 0, 16);
+ export const FoodChickenLeg20Filled = /*#__PURE__*/createFluentFontIcon("FoodChickenLeg20Filled", "", 0, 20);
+ export const FoodChickenLeg24Filled = /*#__PURE__*/createFluentFontIcon("FoodChickenLeg24Filled", "", 0, 24);
+diff --git a/lib/fonts/sizedIcons/chunk-13.js b/lib/fonts/sizedIcons/chunk-13.js
+index 5b5d368689e9ae4fcb1cb585b39c221fb745d5d7..45d6cd01335c46e7cb3089230c78e01f1d8cc592 100644
+--- a/lib/fonts/sizedIcons/chunk-13.js
++++ b/lib/fonts/sizedIcons/chunk-13.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const NotebookSectionArrowRight20Filled = /*#__PURE__*/createFluentFontIcon("NotebookSectionArrowRight20Filled", "", 0, 20);
+ export const PersonSearch20Filled = /*#__PURE__*/createFluentFontIcon("PersonSearch20Filled", "", 0, 20);
+ export const PersonSearch24Filled = /*#__PURE__*/createFluentFontIcon("PersonSearch24Filled", "", 0, 24);
+diff --git a/lib/fonts/sizedIcons/chunk-14.js b/lib/fonts/sizedIcons/chunk-14.js
+index 5a501cab4ea82a5c5fb0cf9a228b27c051784387..4638a3732bde243f1a280bdad77d1fd5b8b6a579 100644
+--- a/lib/fonts/sizedIcons/chunk-14.js
++++ b/lib/fonts/sizedIcons/chunk-14.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const PanelLeftTextDismiss28Filled = /*#__PURE__*/createFluentFontIcon("PanelLeftTextDismiss28Filled", "󰆨", 0, 28, {
+   flipInRtl: true
+ });
+diff --git a/lib/fonts/sizedIcons/chunk-15.js b/lib/fonts/sizedIcons/chunk-15.js
+index 028494b00b112c8ede46d32c63abd4ae75981eff..2fe118da8d4eeada79c522fda3d5c119ef64c319 100644
+--- a/lib/fonts/sizedIcons/chunk-15.js
++++ b/lib/fonts/sizedIcons/chunk-15.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ArrowUpRightDashes16Filled = /*#__PURE__*/createFluentFontIcon("ArrowUpRightDashes16Filled", "󰎘", 0, 16);
+ export const Battery1016Filled = /*#__PURE__*/createFluentFontIcon("Battery1016Filled", "󰎙", 0, 16);
+ export const BeakerEmpty16Filled = /*#__PURE__*/createFluentFontIcon("BeakerEmpty16Filled", "󰎚", 0, 16);
+diff --git a/lib/fonts/sizedIcons/chunk-16.js b/lib/fonts/sizedIcons/chunk-16.js
+index 0e6b7118aa5cf87827e682fa513cea54eedd493f..4e25928ed997e0676bad64be1e9efad7839114b9 100644
+--- a/lib/fonts/sizedIcons/chunk-16.js
++++ b/lib/fonts/sizedIcons/chunk-16.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const LaptopBriefcase32Filled = /*#__PURE__*/createFluentFontIcon("LaptopBriefcase32Filled", "󰖌", 0, 32);
+ export const LayerDiagonalSparkle16Filled = /*#__PURE__*/createFluentFontIcon("LayerDiagonalSparkle16Filled", "󰖍", 0, 16);
+ export const LayerDiagonalSparkle20Filled = /*#__PURE__*/createFluentFontIcon("LayerDiagonalSparkle20Filled", "󰖎", 0, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-17.js b/lib/fonts/sizedIcons/chunk-17.js
+index 1a5bb6a01c7cb897a93bdd36e35a326c2a48223b..c4614a9be24e92483370b3602a347ee6afbd2d1a 100644
+--- a/lib/fonts/sizedIcons/chunk-17.js
++++ b/lib/fonts/sizedIcons/chunk-17.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const PenSync20Filled = /*#__PURE__*/createFluentFontIcon("PenSync20Filled", "󰞀", 0, 20);
+ export const PenSync24Filled = /*#__PURE__*/createFluentFontIcon("PenSync24Filled", "󰞁", 0, 24);
+ export const PenSync28Filled = /*#__PURE__*/createFluentFontIcon("PenSync28Filled", "󰞂", 0, 28);
+diff --git a/lib/fonts/sizedIcons/chunk-18.js b/lib/fonts/sizedIcons/chunk-18.js
+index 8e1bd67375a254912e182491207fb7e333bc7f64..ed1cbc3c9646da106092c8c5f078ede869111a40 100644
+--- a/lib/fonts/sizedIcons/chunk-18.js
++++ b/lib/fonts/sizedIcons/chunk-18.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const CallEnd28Regular = /*#__PURE__*/createFluentFontIcon("CallEnd28Regular", "", 1, 28);
+ export const CallForward24Regular = /*#__PURE__*/createFluentFontIcon("CallForward24Regular", "", 1, 24);
+ export const CallInbound16Regular = /*#__PURE__*/createFluentFontIcon("CallInbound16Regular", "", 1, 16);
+diff --git a/lib/fonts/sizedIcons/chunk-19.js b/lib/fonts/sizedIcons/chunk-19.js
+index 908912c5ac063d00ec19406a49edffa2beec3e64..d42f52fda64566f6381250d2a30cd59240f0dbf1 100644
+--- a/lib/fonts/sizedIcons/chunk-19.js
++++ b/lib/fonts/sizedIcons/chunk-19.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const Important12Regular = /*#__PURE__*/createFluentFontIcon("Important12Regular", "", 1, 12);
+ export const Important16Regular = /*#__PURE__*/createFluentFontIcon("Important16Regular", "", 1, 16);
+ export const Important20Regular = /*#__PURE__*/createFluentFontIcon("Important20Regular", "", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-2.js b/lib/fonts/sizedIcons/chunk-2.js
+index f013d927cde3b7a0e184b2da741515a4e6677cad..95473aa498b409ba05b17b28a925ab1cf36b07ac 100644
+--- a/lib/fonts/sizedIcons/chunk-2.js
++++ b/lib/fonts/sizedIcons/chunk-2.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const Library28Filled = /*#__PURE__*/createFluentFontIcon("Library28Filled", "", 0, 28);
+ export const Lightbulb16Filled = /*#__PURE__*/createFluentFontIcon("Lightbulb16Filled", "", 0, 16);
+ export const Lightbulb20Filled = /*#__PURE__*/createFluentFontIcon("Lightbulb20Filled", "", 0, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-20.js b/lib/fonts/sizedIcons/chunk-20.js
+index 4832e00aafe13836dedee81048bfcf1fed5bbfe0..ca5f96480bd264afc4740c8661bbe64de445c8e9 100644
+--- a/lib/fonts/sizedIcons/chunk-20.js
++++ b/lib/fonts/sizedIcons/chunk-20.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const SpinnerIos20Regular = /*#__PURE__*/createFluentFontIcon("SpinnerIos20Regular", "", 1, 20);
+ export const Star12Regular = /*#__PURE__*/createFluentFontIcon("Star12Regular", "", 1, 12);
+ export const Star16Regular = /*#__PURE__*/createFluentFontIcon("Star16Regular", "", 1, 16);
+diff --git a/lib/fonts/sizedIcons/chunk-21.js b/lib/fonts/sizedIcons/chunk-21.js
+index 9ee76f3c40a506705997059d0c96710ff9d8f0fd..38bdffe2e73d91dd3061c3991096a4916279b287 100644
+--- a/lib/fonts/sizedIcons/chunk-21.js
++++ b/lib/fonts/sizedIcons/chunk-21.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ChannelArrowLeft24Regular = /*#__PURE__*/createFluentFontIcon("ChannelArrowLeft24Regular", "", 1, 24);
+ export const ChannelArrowLeft28Regular = /*#__PURE__*/createFluentFontIcon("ChannelArrowLeft28Regular", "", 1, 28);
+ export const ChannelArrowLeft48Regular = /*#__PURE__*/createFluentFontIcon("ChannelArrowLeft48Regular", "", 1, 48);
+diff --git a/lib/fonts/sizedIcons/chunk-22.js b/lib/fonts/sizedIcons/chunk-22.js
+index 7537376cf3af6d112ca13a7ea92b3a121fdeacb9..0e313f8d889d4398382fdcd31d197a42ad42ac43 100644
+--- a/lib/fonts/sizedIcons/chunk-22.js
++++ b/lib/fonts/sizedIcons/chunk-22.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const HomePerson20Regular = /*#__PURE__*/createFluentFontIcon("HomePerson20Regular", "", 1, 20);
+ export const ImageOff20Regular = /*#__PURE__*/createFluentFontIcon("ImageOff20Regular", "", 1, 20);
+ export const Lasso20Regular = /*#__PURE__*/createFluentFontIcon("Lasso20Regular", "", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-23.js b/lib/fonts/sizedIcons/chunk-23.js
+index b09cca140cffb91df045ce94a5bb20854ca3480a..794012dba3f56e2932eecd08e3fac38b015d294a 100644
+--- a/lib/fonts/sizedIcons/chunk-23.js
++++ b/lib/fonts/sizedIcons/chunk-23.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const CalendarLtr16Regular = /*#__PURE__*/createFluentFontIcon("CalendarLtr16Regular", "", 1, 16);
+ export const CalendarLtr32Regular = /*#__PURE__*/createFluentFontIcon("CalendarLtr32Regular", "", 1, 32);
+ export const CalendarRtl32Regular = /*#__PURE__*/createFluentFontIcon("CalendarRtl32Regular", "", 1, 32);
+diff --git a/lib/fonts/sizedIcons/chunk-24.js b/lib/fonts/sizedIcons/chunk-24.js
+index d8bb7a50d91f100ca84589a64d52ce8f585d7bdd..3d7e03a5347a3aae1105aba630f138f1b6504596 100644
+--- a/lib/fonts/sizedIcons/chunk-24.js
++++ b/lib/fonts/sizedIcons/chunk-24.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const PaddingLeft24Regular = /*#__PURE__*/createFluentFontIcon("PaddingLeft24Regular", "", 1, 24);
+ export const PaddingRight20Regular = /*#__PURE__*/createFluentFontIcon("PaddingRight20Regular", "", 1, 20);
+ export const PaddingRight24Regular = /*#__PURE__*/createFluentFontIcon("PaddingRight24Regular", "", 1, 24);
+diff --git a/lib/fonts/sizedIcons/chunk-25.js b/lib/fonts/sizedIcons/chunk-25.js
+index 4825df4dc5f1a370a7591705b26a1ec299d71be9..5893546b3dcfae824a699bb0c539694502073a15 100644
+--- a/lib/fonts/sizedIcons/chunk-25.js
++++ b/lib/fonts/sizedIcons/chunk-25.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const PanelLeft20Regular = /*#__PURE__*/createFluentFontIcon("PanelLeft20Regular", "", 1, 20);
+ export const PanelLeft24Regular = /*#__PURE__*/createFluentFontIcon("PanelLeft24Regular", "", 1, 24);
+ export const PanelLeft28Regular = /*#__PURE__*/createFluentFontIcon("PanelLeft28Regular", "", 1, 28);
+diff --git a/lib/fonts/sizedIcons/chunk-26.js b/lib/fonts/sizedIcons/chunk-26.js
+index c6545567478081af4f4f371b4089b498ee3d034c..e6091821a99d1cdf6574506e406e45c070def0fd 100644
+--- a/lib/fonts/sizedIcons/chunk-26.js
++++ b/lib/fonts/sizedIcons/chunk-26.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const DocumentFlowchart20Regular = /*#__PURE__*/createFluentFontIcon("DocumentFlowchart20Regular", "", 1, 20);
+ export const DocumentFlowchart24Regular = /*#__PURE__*/createFluentFontIcon("DocumentFlowchart24Regular", "", 1, 24);
+ export const DocumentTableSearch20Regular = /*#__PURE__*/createFluentFontIcon("DocumentTableSearch20Regular", "", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-27.js b/lib/fonts/sizedIcons/chunk-27.js
+index a7011c597f0c4bc24a306f46540703d4be448e95..966c8a2ed80d399e027ee043404c416627c08332 100644
+--- a/lib/fonts/sizedIcons/chunk-27.js
++++ b/lib/fonts/sizedIcons/chunk-27.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ChevronCircleLeft12Regular = /*#__PURE__*/createFluentFontIcon("ChevronCircleLeft12Regular", "", 1, 12);
+ export const ChevronCircleLeft16Regular = /*#__PURE__*/createFluentFontIcon("ChevronCircleLeft16Regular", "", 1, 16);
+ export const ChevronCircleLeft20Regular = /*#__PURE__*/createFluentFontIcon("ChevronCircleLeft20Regular", "", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-28.js b/lib/fonts/sizedIcons/chunk-28.js
+index df3dc81662c0ee3a3010648789818bb88c43aab9..cef64c9f99e1e9a4c5635a04ba45e3c54060fc36 100644
+--- a/lib/fonts/sizedIcons/chunk-28.js
++++ b/lib/fonts/sizedIcons/chunk-28.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const LauncherSettings20Regular = /*#__PURE__*/createFluentFontIcon("LauncherSettings20Regular", "", 1, 20);
+ export const LightbulbCircle20Regular = /*#__PURE__*/createFluentFontIcon("LightbulbCircle20Regular", "", 1, 20);
+ export const LineStyle20Regular = /*#__PURE__*/createFluentFontIcon("LineStyle20Regular", "", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-29.js b/lib/fonts/sizedIcons/chunk-29.js
+index 2ae887a2b1aeaaaf1ead9402e88c18276b98173e..84f47f09ce0424af835c71f68d450dfed6b4d7b1 100644
+--- a/lib/fonts/sizedIcons/chunk-29.js
++++ b/lib/fonts/sizedIcons/chunk-29.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const AnimalRabbit32Regular = /*#__PURE__*/createFluentFontIcon("AnimalRabbit32Regular", "", 1, 32);
+ export const AnimalRabbitOff20Regular = /*#__PURE__*/createFluentFontIcon("AnimalRabbitOff20Regular", "", 1, 20);
+ export const AnimalRabbitOff32Regular = /*#__PURE__*/createFluentFontIcon("AnimalRabbitOff32Regular", "", 1, 32);
+diff --git a/lib/fonts/sizedIcons/chunk-3.js b/lib/fonts/sizedIcons/chunk-3.js
+index 8f252d06e1e703dcd670e9046faf9a694c73b13d..4fb4455966b2a94f0fa7bd3e79fb2403fe5f0882 100644
+--- a/lib/fonts/sizedIcons/chunk-3.js
++++ b/lib/fonts/sizedIcons/chunk-3.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const Storage24Filled = /*#__PURE__*/createFluentFontIcon("Storage24Filled", "", 0, 24);
+ export const StoreMicrosoft16Filled = /*#__PURE__*/createFluentFontIcon("StoreMicrosoft16Filled", "", 0, 16);
+ export const StoreMicrosoft20Filled = /*#__PURE__*/createFluentFontIcon("StoreMicrosoft20Filled", "", 0, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-30.js b/lib/fonts/sizedIcons/chunk-30.js
+index 6bc9c813927bab48eca439884c5685062371ddb4..60f9a628f312d92002cd564f0b7cfddc7358682d 100644
+--- a/lib/fonts/sizedIcons/chunk-30.js
++++ b/lib/fonts/sizedIcons/chunk-30.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const PeopleStar20Regular = /*#__PURE__*/createFluentFontIcon("PeopleStar20Regular", "", 1, 20);
+ export const PeopleStar24Regular = /*#__PURE__*/createFluentFontIcon("PeopleStar24Regular", "", 1, 24);
+ export const PeopleStar28Regular = /*#__PURE__*/createFluentFontIcon("PeopleStar28Regular", "", 1, 28);
+diff --git a/lib/fonts/sizedIcons/chunk-31.js b/lib/fonts/sizedIcons/chunk-31.js
+index e204ff917643020aec52f1aa90d5db17db8b4d0d..e6c735e6a605e28268e8adba7fab11b587c8d2b0 100644
+--- a/lib/fonts/sizedIcons/chunk-31.js
++++ b/lib/fonts/sizedIcons/chunk-31.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const Cursor16Regular = /*#__PURE__*/createFluentFontIcon("Cursor16Regular", "󰅱", 1, 16);
+ export const CursorProhibited16Regular = /*#__PURE__*/createFluentFontIcon("CursorProhibited16Regular", "󰅲", 1, 16);
+ export const CursorProhibited20Regular = /*#__PURE__*/createFluentFontIcon("CursorProhibited20Regular", "󰅳", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-32.js b/lib/fonts/sizedIcons/chunk-32.js
+index abaddcab919710b3865c795722d1a60048184bef..4375f7c279fff65774cfd1e9a8e231e25fc234f7 100644
+--- a/lib/fonts/sizedIcons/chunk-32.js
++++ b/lib/fonts/sizedIcons/chunk-32.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const SquareHintHexagon12Regular = /*#__PURE__*/createFluentFontIcon("SquareHintHexagon12Regular", "󰍡", 1, 12);
+ export const SquareHintHexagon16Regular = /*#__PURE__*/createFluentFontIcon("SquareHintHexagon16Regular", "󰍢", 1, 16);
+ export const SquareHintHexagon20Regular = /*#__PURE__*/createFluentFontIcon("SquareHintHexagon20Regular", "󰍣", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-33.js b/lib/fonts/sizedIcons/chunk-33.js
+index 6e390feb8aee3e9e43a45d8fb0768006c326702f..203c422ec30996da380afd140e322ecc5a687b95 100644
+--- a/lib/fonts/sizedIcons/chunk-33.js
++++ b/lib/fonts/sizedIcons/chunk-33.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ArrowDownExclamation24Regular = /*#__PURE__*/createFluentFontIcon("ArrowDownExclamation24Regular", "󰕕", 1, 24);
+ export const ArrowSortUpLines16Regular = /*#__PURE__*/createFluentFontIcon("ArrowSortUpLines16Regular", "󰕖", 1, 16);
+ export const ArrowSortUpLines20Regular = /*#__PURE__*/createFluentFontIcon("ArrowSortUpLines20Regular", "󰕗", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-34.js b/lib/fonts/sizedIcons/chunk-34.js
+index f94e2ae03ef1d98b8128eef717ea4ff69bd323d0..a4c01c0ede3612fc43e1741f2c73870a13d41a87 100644
+--- a/lib/fonts/sizedIcons/chunk-34.js
++++ b/lib/fonts/sizedIcons/chunk-34.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ArrowUpRight28Regular = /*#__PURE__*/createFluentFontIcon("ArrowUpRight28Regular", "󰝉", 1, 28);
+ export const ArrowUpRightDashes12Regular = /*#__PURE__*/createFluentFontIcon("ArrowUpRightDashes12Regular", "󰝊", 1, 12);
+ export const ArrowUpRightDashes20Regular = /*#__PURE__*/createFluentFontIcon("ArrowUpRightDashes20Regular", "󰝋", 1, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-4.js b/lib/fonts/sizedIcons/chunk-4.js
+index 570c2a50350e8b924bb577b8f875b17e9f87e0d0..d59e550246b83cda9378506338271c813c4a6793 100644
+--- a/lib/fonts/sizedIcons/chunk-4.js
++++ b/lib/fonts/sizedIcons/chunk-4.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const CommentArrowRight16Filled = /*#__PURE__*/createFluentFontIcon("CommentArrowRight16Filled", "", 0, 16, {
+   flipInRtl: true
+ });
+diff --git a/lib/fonts/sizedIcons/chunk-5.js b/lib/fonts/sizedIcons/chunk-5.js
+index 85495947973e268b95efec2c15cfdd46ce7f39b9..b68b166d91c033081dbfbd935fb9fd31d208beca 100644
+--- a/lib/fonts/sizedIcons/chunk-5.js
++++ b/lib/fonts/sizedIcons/chunk-5.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ArrowCircleUp16Filled = /*#__PURE__*/createFluentFontIcon("ArrowCircleUp16Filled", "", 0, 16);
+ export const ArrowCircleUp20Filled = /*#__PURE__*/createFluentFontIcon("ArrowCircleUp20Filled", "", 0, 20);
+ export const ArrowCircleUp24Filled = /*#__PURE__*/createFluentFontIcon("ArrowCircleUp24Filled", "", 0, 24);
+diff --git a/lib/fonts/sizedIcons/chunk-6.js b/lib/fonts/sizedIcons/chunk-6.js
+index d589aab58ab5dad02d64b9676de8e6abdffaa123..89b8a83df6d8728d6fcd139f014ca36963ef8a7c 100644
+--- a/lib/fonts/sizedIcons/chunk-6.js
++++ b/lib/fonts/sizedIcons/chunk-6.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const MyLocation16Filled = /*#__PURE__*/createFluentFontIcon("MyLocation16Filled", "", 0, 16);
+ export const MyLocation20Filled = /*#__PURE__*/createFluentFontIcon("MyLocation20Filled", "", 0, 20);
+ export const Notepad32Filled = /*#__PURE__*/createFluentFontIcon("Notepad32Filled", "", 0, 32);
+diff --git a/lib/fonts/sizedIcons/chunk-7.js b/lib/fonts/sizedIcons/chunk-7.js
+index 764bfb8ccf2a1b4799cdd1acf16fef79e94e87f0..2e48dd7cf3db8bd5604226b87565408c377ad26c 100644
+--- a/lib/fonts/sizedIcons/chunk-7.js
++++ b/lib/fonts/sizedIcons/chunk-7.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const RibbonAdd24Filled = /*#__PURE__*/createFluentFontIcon("RibbonAdd24Filled", "", 0, 24);
+ export const Server20Filled = /*#__PURE__*/createFluentFontIcon("Server20Filled", "", 0, 20);
+ export const Server24Filled = /*#__PURE__*/createFluentFontIcon("Server24Filled", "", 0, 24);
+diff --git a/lib/fonts/sizedIcons/chunk-8.js b/lib/fonts/sizedIcons/chunk-8.js
+index 4d608d96ac9a305939807efdafc198583c512eeb..1aec331035405bbb59dd672655237864d8a4d9f8 100644
+--- a/lib/fonts/sizedIcons/chunk-8.js
++++ b/lib/fonts/sizedIcons/chunk-8.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const ArrowCircleRight12Filled = /*#__PURE__*/createFluentFontIcon("ArrowCircleRight12Filled", "", 0, 12);
+ export const ArrowCircleRight16Filled = /*#__PURE__*/createFluentFontIcon("ArrowCircleRight16Filled", "", 0, 16);
+ export const ArrowEject20Filled = /*#__PURE__*/createFluentFontIcon("ArrowEject20Filled", "", 0, 20);
+diff --git a/lib/fonts/sizedIcons/chunk-9.js b/lib/fonts/sizedIcons/chunk-9.js
+index 1325bda4f50bf93bdd694582c73bffe8fb006d50..9980d90ab6b2f401d20508e42b14748f8659a6ec 100644
+--- a/lib/fonts/sizedIcons/chunk-9.js
++++ b/lib/fonts/sizedIcons/chunk-9.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentFontIcon } from "../../utils/fonts/createFluentFontIcon";
++import { createFluentFontIcon } from '../../utils/fonts/createFluentFontIcon.js';
+ export const TagError20Filled = /*#__PURE__*/createFluentFontIcon("TagError20Filled", "", 0, 20);
+ export const TagError24Filled = /*#__PURE__*/createFluentFontIcon("TagError24Filled", "", 0, 24);
+ export const TagMultiple24Filled = /*#__PURE__*/createFluentFontIcon("TagMultiple24Filled", "", 0, 24);
+diff --git a/lib/icons/chunk-0.js b/lib/icons/chunk-0.js
+index a65635d1d3d4d0d0e0a97e1d23ea4c628b1d0e8a..fe03c248a9d154d52e0f2e89d4ecf4e862886c5f 100644
+--- a/lib/icons/chunk-0.js
++++ b/lib/icons/chunk-0.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const AccessTimeFilled = /*#__PURE__*/createFluentIcon('AccessTimeFilled', "1em", ["M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM6.99 8.6A.5.5 0 0 1 6 8.4c.02-.07.03-.14.07-.24a2 2 0 0 1 .25-.46c.26-.35.71-.7 1.42-.7A1.7 1.7 0 0 1 9.5 8.75c0 .35-.07.65-.2.9a1.8 1.8 0 0 1-.51.6c-.16.11-.33.22-.48.3l-.06.04c-.17.1-.3.19-.42.29-.4.34-.66.7-.77 1.12H9a.5.5 0 0 1 0 1H6.5a.5.5 0 0 1-.5-.5c0-1.01.47-1.77 1.17-2.38.2-.16.4-.29.57-.4l.06-.03.38-.24a.8.8 0 0 0 .23-.26c.05-.1.09-.23.09-.44a.8.8 0 0 0-.19-.53.7.7 0 0 0-.56-.22.7.7 0 0 0-.61.3 1 1 0 0 0-.15.3ZM11 7c.28 0 .5.22.5.5V10H13V7.5a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0V11h-2a.5.5 0 0 1-.5-.5v-3c0-.28.22-.5.5-.5Z"]);
+ export const AccessTimeRegular = /*#__PURE__*/createFluentIcon('AccessTimeRegular', "1em", ["M6.99 8.6A.5.5 0 0 1 6 8.4a1.29 1.29 0 0 1 .07-.24 2 2 0 0 1 .25-.46c.26-.35.71-.7 1.42-.7A1.7 1.7 0 0 1 9.5 8.75c0 .35-.07.65-.2.9a1.8 1.8 0 0 1-.51.6c-.16.11-.33.22-.48.3l-.06.04c-.17.1-.3.19-.42.29-.4.34-.66.7-.77 1.12H9a.5.5 0 0 1 0 1H6.5a.5.5 0 0 1-.5-.5c0-1.01.47-1.77 1.17-2.38.2-.16.4-.29.57-.4l.06-.03.38-.24a.8.8 0 0 0 .23-.26c.05-.1.09-.23.09-.44a.8.8 0 0 0-.19-.53.7.7 0 0 0-.56-.22.7.7 0 0 0-.61.3 1 1 0 0 0-.15.3ZM11 7c.28 0 .5.22.5.5V10H13V7.5a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0V11h-2a.5.5 0 0 1-.5-.5v-3c0-.28.22-.5.5-.5Zm-1-5a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm-7 8a7 7 0 1 1 14 0 7 7 0 0 1-14 0Z"]);
+ export const AccessibilityFilled = /*#__PURE__*/createFluentIcon('AccessibilityFilled', "1em", ["M10 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM5.47 4.15c-.88-.4-1.92 0-2.32.88-.4.88 0 1.92.88 2.31L6.7 8.53c.18.08.3.26.3.46v1.86a.5.5 0 0 1-.04.19l-1.84 4.55a1.75 1.75 0 0 0 3.25 1.32l1.4-3.46c.08-.21.38-.21.46 0l1.4 3.46a1.75 1.75 0 0 0 3.24-1.32l-1.83-4.54a.5.5 0 0 1-.04-.19V9c0-.2.12-.38.3-.46l2.67-1.19c.88-.4 1.28-1.43.88-2.31a1.76 1.76 0 0 0-2.32-.88l-1.28.57c-.24.1-.42.3-.52.52a3 3 0 0 1-5.46 0c-.1-.21-.28-.41-.52-.52l-1.28-.57Z"]);
+diff --git a/lib/icons/chunk-1.js b/lib/icons/chunk-1.js
+index 71020ac2b96e1b63e81487d40ac9a5fae142c295..fe787638efdafe9ea21a40098ba28fd82372b54d 100644
+--- a/lib/icons/chunk-1.js
++++ b/lib/icons/chunk-1.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const ChatDismissFilled = /*#__PURE__*/createFluentIcon('ChatDismissFilled', "1em", ["M18 10a8 8 0 1 0-16 0v.35l.03.38c.1 1.01.38 1.99.83 2.89l.06.12-.9 3.64-.02.08v.08c.03.3.31.52.62.45l3.65-.91.12.06A8 8 0 0 0 18 10ZM7.85 7.15 10 9.29l2.15-2.14a.5.5 0 0 1 .7.7L10.71 10l2.14 2.15a.5.5 0 0 1-.7.7L10 10.71l-2.15 2.14a.5.5 0 0 1-.7-.7L9.29 10 7.15 7.85a.5.5 0 1 1 .7-.7Z"]);
+ export const ChatDismissRegular = /*#__PURE__*/createFluentIcon('ChatDismissRegular', "1em", ["M7.85 7.15a.5.5 0 1 0-.7.7L9.29 10l-2.14 2.15a.5.5 0 0 0 .7.7L10 10.71l2.15 2.14a.5.5 0 0 0 .7-.7L10.71 10l2.14-2.15a.5.5 0 0 0-.7-.7L10 9.29 7.85 7.15ZM18 10a8 8 0 1 0-16 0v.35l.03.38c.1 1.01.38 1.99.83 2.89l.06.12-.9 3.64-.02.08v.08c.03.3.31.52.62.45l3.65-.91.12.06A8 8 0 0 0 18 10ZM3 10a7 7 0 1 1 3.58 6.1l-.09-.03-.1-.02a.5.5 0 0 0-.18 0l-3.02.76.75-3.02.02-.1a.5.5 0 0 0-.07-.27A6.97 6.97 0 0 1 3 10Z"]);
+ export const ChatEmptyFilled = /*#__PURE__*/createFluentIcon('ChatEmptyFilled', "1em", ["M18 10a8 8 0 1 0-16 0v.35l.03.38c.1 1.01.38 1.99.83 2.89l.06.12-.9 3.64-.02.08v.08c.03.3.31.52.62.45l3.65-.91.12.06A8 8 0 0 0 18 10Z"]);
+diff --git a/lib/icons/chunk-2.js b/lib/icons/chunk-2.js
+index ffe7a1c7a8bfc1512aabfc5f95dd33af92bb9576..1c891aa36f4693f5db10f624b66034da9f5268c2 100644
+--- a/lib/icons/chunk-2.js
++++ b/lib/icons/chunk-2.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const EmojiAngryFilled = /*#__PURE__*/createFluentIcon('EmojiAngryFilled', "1em", ["M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm6.5-1.5a.5.5 0 0 0 .26-.93l-2.5-1.5a.5.5 0 0 0-.52.86l1.22.73a1 1 0 1 0 1.54.84Zm5 0a1 1 0 0 0-.46-.84l1.22-.73a.5.5 0 0 0-.52-.86l-2.5 1.5a.5.5 0 0 0 .26.93 1 1 0 1 0 2 0Zm.06 4.89c.34-.3.07-.72.06-.73a2.05 2.05 0 0 0-.23-.23 4.06 4.06 0 0 0-.67-.49 5.3 5.3 0 0 0-2.72-.69 5.3 5.3 0 0 0-2.72.7 4.08 4.08 0 0 0-.9.7c-.18.23-.17.55.06.74a.5.5 0 0 0 .7-.07l.02-.03c.03-.03.06-.07.12-.11.1-.1.27-.24.5-.37a4.31 4.31 0 0 1 2.22-.56 4.3 4.3 0 0 1 2.22.56 3.07 3.07 0 0 1 .64.5c.18.22.5.27.7.08Z"]);
+ export const EmojiAngryRegular = /*#__PURE__*/createFluentIcon('EmojiAngryRegular', "1em", ["M8.5 8.5a1 1 0 1 1-1.54-.84l-1.22-.73a.5.5 0 0 1 .52-.86l2.5 1.5a.5.5 0 0 1-.26.93Zm5 0a1 1 0 1 1-2 0 .5.5 0 0 1-.26-.93l2.5-1.5a.5.5 0 0 1 .52.86l-1.22.73a1 1 0 0 1 .46.84Zm.06 4.89a.5.5 0 0 1-.7-.07A4.3 4.3 0 0 0 10 12.25c-1.02-.01-1.75.27-2.21.55a3.09 3.09 0 0 0-.65.5.5.5 0 0 1-.78-.62l.39.31-.39-.31v-.01l.02-.02a1.78 1.78 0 0 1 .23-.23c.15-.13.37-.31.67-.49.6-.35 1.5-.69 2.72-.69a5.3 5.3 0 0 1 2.72.7 4.06 4.06 0 0 1 .9.71l.01.02h.01l-.39.32.39-.31a.5.5 0 0 1-.08.7ZM10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm-7 8a7 7 0 1 1 14 0 7 7 0 0 1-14 0Z"]);
+ export const EmojiEditFilled = /*#__PURE__*/createFluentIcon('EmojiEditFilled', "1em", ["M2 10a8 8 0 0 0 7 7.94c.02-.1.03-.2.06-.29l.37-1.5c.1-.41.3-.8.56-1.15a5 5 0 0 1-3.88-1.86.5.5 0 1 1 .78-.63 4 4 0 0 0 4.2 1.34l4.01-4a2.87 2.87 0 0 1 2.85-.73A8 8 0 0 0 2 10Zm9.5-1.5a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm-5 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm4.48 6.88 4.83-4.83a1.87 1.87 0 1 1 2.64 2.64l-4.83 4.83a2.2 2.2 0 0 1-1.02.58l-1.5.37a.89.89 0 0 1-1.07-1.07l.37-1.5c.1-.39.3-.74.58-1.02Z"]);
+diff --git a/lib/icons/chunk-3.js b/lib/icons/chunk-3.js
+index a3bac72a75a7e1522836e5e1caaec1d335be80fc..80f3afa82c433d90c7b411899b7fa314d09dfeb8 100644
+--- a/lib/icons/chunk-3.js
++++ b/lib/icons/chunk-3.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const MultiselectLtrRegular = /*#__PURE__*/createFluentIcon('MultiselectLtrRegular', "1em", ["M5.85 4.35a.5.5 0 1 0-.7-.7L3.5 5.29l-.65-.64a.5.5 0 1 0-.7.7l1 1c.2.2.5.2.7 0l2-2ZM8 5.5c0-.28.22-.5.5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm0 5c0-.28.22-.5.5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm.5 4.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9Zm-2.65-.85c.2.2.2.5 0 .7l-2 2a.5.5 0 0 1-.7 0l-1-1a.5.5 0 0 1 .7-.7l.65.64 1.65-1.64c.2-.2.5-.2.7 0Z"]);
+ export const MultiselectRtlFilled = /*#__PURE__*/createFluentIcon('MultiselectRtlFilled', "1em", ["M2 5.25c0-.41.34-.75.75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5A.75.75 0 0 1 2 5.25Zm0 5c0-.41.34-.75.75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1-.75-.75Zm.75 4.25a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5ZM18.31 4.25a.75.75 0 1 0-1.12-1l-1.72 1.91-.69-.69a.75.75 0 1 0-1.06 1.06l1.25 1.25a.75.75 0 0 0 1.09-.03l2.25-2.5Zm-.06 8.94c.31.28.33.75.06 1.06l-2.25 2.5a.75.75 0 0 1-1.09.03l-1.25-1.25a.75.75 0 1 1 1.06-1.06l.7.7 1.71-1.92a.75.75 0 0 1 1.06-.06Z"]);
+ export const MultiselectRtlRegular = /*#__PURE__*/createFluentIcon('MultiselectRtlRegular', "1em", ["M17.85 4.35a.5.5 0 0 0-.7-.7L15.5 5.29l-.65-.64a.5.5 0 0 0-.7.7l1 1c.2.2.5.2.7 0l2-2Zm0 9.8c.2.2.2.5 0 .7l-2 2a.5.5 0 0 1-.7 0l-1-1a.5.5 0 0 1 .7-.7l.65.64 1.65-1.64c.2-.2.5-.2.7 0ZM2.5 5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9Zm0 5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9ZM2 15.5c0-.28.22-.5.5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Z"]);
+diff --git a/lib/icons/chunk-4.js b/lib/icons/chunk-4.js
+index 86748fcab04f0419eec5660f861e6c3126a42f91..1e8b7c1e613b615f6eba5ab5d37d7b0bf7d3e488 100644
+--- a/lib/icons/chunk-4.js
++++ b/lib/icons/chunk-4.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const SleepFilled = /*#__PURE__*/createFluentIcon('SleepFilled', "1em", ["M11.16 2.74a.5.5 0 0 1 .43-.13c3.5.6 6.4 3.67 6.4 7.4a7.5 7.5 0 0 1-7.5 7.5 7.96 7.96 0 0 1-6.4-3.22.5.5 0 0 1 .37-.79 6.94 6.94 0 0 0 4.69-2.59c1.34-1.65 2.24-4.17 1.85-7.75a.5.5 0 0 1 .16-.42ZM3.5 10C4.33 10 5 9.33 5 8.5V4.9l3-.76V6.1A1.5 1.5 0 1 0 9 7.5v-4a.5.5 0 0 0-.62-.48l-4 1A.5.5 0 0 0 4 4.5v2.59A1.5 1.5 0 1 0 3.5 10Z"]);
+ export const SleepRegular = /*#__PURE__*/createFluentIcon('SleepRegular', "1em", ["M11.59 2.61a.5.5 0 0 0-.59.55c.4 3.58-.5 6.1-1.85 7.75a6.94 6.94 0 0 1-4.69 2.6.5.5 0 0 0-.37.78 7.96 7.96 0 0 0 6.4 3.21A7.5 7.5 0 0 0 18 10c0-3.72-2.9-6.78-6.4-7.39Zm-1.66 8.93c1.43-1.77 2.36-4.34 2.13-7.8A6.65 6.65 0 0 1 17 10a6.5 6.5 0 0 1-6.5 6.5 7.1 7.1 0 0 1-5.06-2.14 8.1 8.1 0 0 0 4.49-2.82ZM3.5 10C4.33 10 5 9.33 5 8.5V4.89l3-.75v1.94A1.5 1.5 0 1 0 9 7.5v-4a.5.5 0 0 0-.62-.49l-4 1A.5.5 0 0 0 4 4.5v2.58A1.5 1.5 0 1 0 3.5 10Z"]);
+ export const SlideAddFilled = /*#__PURE__*/createFluentIcon('SlideAddFilled', "1em", ["M2 6.75A2.75 2.75 0 0 1 4.75 4h10.5A2.75 2.75 0 0 1 18 6.75v3.5A5.5 5.5 0 0 0 9.2 16H4.76A2.75 2.75 0 0 1 2 13.26v-6.5Zm17 7.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm-4-2a.5.5 0 0 0-1 0V14h-1.5a.5.5 0 0 0 0 1H14v1.5a.5.5 0 0 0 1 0V15h1.5a.5.5 0 0 0 0-1H15v-1.5Z"]);
+diff --git a/lib/icons/chunk-5.js b/lib/icons/chunk-5.js
+index 6e97ef8585b7ea74bd665f0d42ec3acc7d44c65b..873d6b558c3ca97f7e22ef0c20b7d19787070296 100644
+--- a/lib/icons/chunk-5.js
++++ b/lib/icons/chunk-5.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const VideoBluetoothFilled = /*#__PURE__*/createFluentIcon('VideoBluetoothFilled', "1em", ["M2 6a3 3 0 0 1 3-3h5a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H6.12a1.5 1.5 0 0 0-.18-2.17L4.9 12l1.04-.83a1.5 1.5 0 0 0 .12-2.23l-2.5-2.5A1.5 1.5 0 0 0 2 6.09V6Zm3.35 8.35a.5.5 0 0 0-.04-.74L3.3 12l2.01-1.61a.5.5 0 0 0 .04-.74l-2.5-2.5A.5.5 0 0 0 2 7.5v3.46l-1.19-.95a.5.5 0 1 0-.62.78L1.7 12 .19 13.21a.5.5 0 0 0 .62.78L2 13.04v3.46a.5.5 0 0 0 .85.35l2.5-2.5Zm-1.1-.3L3 15.28v-2.25l1.25 1Zm11.79-.27L14 12.37V5.63l2.04-1.4c.83-.58 1.96.01 1.96 1.02v7.5c0 1-1.13 1.6-1.96 1.03ZM3 10.96V8.71l1.25 1.25-1.25 1Z"]);
+ export const VideoBluetoothRegular = /*#__PURE__*/createFluentIcon('VideoBluetoothRegular', "1em", ["M5 3a3 3 0 0 0-3 3v.09a1.5 1.5 0 0 1 1 0V6c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6.5c0 .37-.14.73-.38 1H10a3 3 0 0 0 3-3v-.32l3.04 2.1c.83.57 1.96-.03 1.96-1.03v-7.5c0-1-1.13-1.6-1.96-1.03L13 6.32V6a3 3 0 0 0-3-3H5Zm-3 7.96-1.19-.95a.5.5 0 1 0-.62.78L1.7 12 .19 13.21a.5.5 0 0 0 .62.78L2 13.04v3.46a.5.5 0 0 0 .85.35l2.5-2.5a.5.5 0 0 0-.04-.74L3.3 12l2.01-1.61a.5.5 0 0 0 .04-.74l-2.5-2.5A.5.5 0 0 0 2 7.5v3.46Zm2.25 3.08L3 15.3v-2.25l1.25 1ZM13 7.54l3.6-2.5c.17-.1.4.01.4.21v7.5c0 .2-.23.32-.4.2L13 10.46V7.54ZM4.25 9.96l-1.25 1V8.71l1.25 1.25Z"]);
+ export const VideoChatFilled = /*#__PURE__*/createFluentIcon('VideoChatFilled', "1em", ["M2 7a3 3 0 0 1 3-3h5a3 3 0 0 1 3 3v6a3 3 0 0 1-2.58 2.97A5.5 5.5 0 0 0 2 9.26V7Zm14.04 7.78L14 13.37V6.63l2.04-1.4c.83-.58 1.96.01 1.96 1.02v7.5c0 1-1.13 1.6-1.96 1.03ZM5.5 18a4.5 4.5 0 1 0-3.94-2.32l-.54 1.8c-.1.3.2.6.5.5l1.8-.54c.64.36 1.39.56 2.18.56ZM3 12.5c0-.28.22-.5.5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm.5 2.5a.5.5 0 0 1 0-1h2a.5.5 0 0 1 0 1h-2Z"]);
+diff --git a/lib/index.js b/lib/index.js
+index e941e8555c000ab6951be87457142b1ba63346e0..688f9018d8bcd49d2a9e4264ec18c6fe93933bb9 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -1,30 +1,30 @@
+-export * from './icons/chunk-0';
+-export * from './icons/chunk-1';
+-export * from './icons/chunk-2';
+-export * from './icons/chunk-3';
+-export * from './icons/chunk-4';
+-export * from './icons/chunk-5';
+-export * from './sizedIcons/chunk-0';
+-export * from './sizedIcons/chunk-1';
+-export * from './sizedIcons/chunk-2';
+-export * from './sizedIcons/chunk-3';
+-export * from './sizedIcons/chunk-4';
+-export * from './sizedIcons/chunk-5';
+-export * from './sizedIcons/chunk-6';
+-export * from './sizedIcons/chunk-7';
+-export * from './sizedIcons/chunk-8';
+-export * from './sizedIcons/chunk-9';
+-export * from './sizedIcons/chunk-10';
+-export * from './sizedIcons/chunk-11';
+-export * from './sizedIcons/chunk-12';
+-export * from './sizedIcons/chunk-13';
+-export * from './sizedIcons/chunk-14';
+-export * from './sizedIcons/chunk-15';
+-export * from './sizedIcons/chunk-16';
+-export * from './sizedIcons/chunk-17';
+-export { default as wrapIcon } from './utils/wrapIcon';
+-export { default as bundleIcon } from './utils/bundleIcon';
+-export { createFluentIcon } from './utils/createFluentIcon';
+-export * from './utils/useIconState';
+-export * from './utils/constants';
+-export { IconDirectionContextProvider, useIconContext } from './contexts/index';
+\ No newline at end of file
++export * from './icons/chunk-0.js';
++export * from './icons/chunk-1.js';
++export * from './icons/chunk-2.js';
++export * from './icons/chunk-3.js';
++export * from './icons/chunk-4.js';
++export * from './icons/chunk-5.js';
++export * from './sizedIcons/chunk-0.js';
++export * from './sizedIcons/chunk-1.js';
++export * from './sizedIcons/chunk-2.js';
++export * from './sizedIcons/chunk-3.js';
++export * from './sizedIcons/chunk-4.js';
++export * from './sizedIcons/chunk-5.js';
++export * from './sizedIcons/chunk-6.js';
++export * from './sizedIcons/chunk-7.js';
++export * from './sizedIcons/chunk-8.js';
++export * from './sizedIcons/chunk-9.js';
++export * from './sizedIcons/chunk-10.js';
++export * from './sizedIcons/chunk-11.js';
++export * from './sizedIcons/chunk-12.js';
++export * from './sizedIcons/chunk-13.js';
++export * from './sizedIcons/chunk-14.js';
++export * from './sizedIcons/chunk-15.js';
++export * from './sizedIcons/chunk-16.js';
++export * from './sizedIcons/chunk-17.js';
++export { default as wrapIcon } from './utils/wrapIcon.js';
++export { default as bundleIcon } from './utils/bundleIcon.js';
++export { createFluentIcon } from './utils/createFluentIcon.js';
++export * from './utils/useIconState.js';
++export * from './utils/constants.js';
++export { IconDirectionContextProvider, useIconContext } from './contexts/index.js';
+diff --git a/lib/providers.js b/lib/providers.js
+index 0b6e79bb82b3909b47cf796b77072ec264f42640..8f923a886e283598649263bb43ad1d32ef37c3c7 100644
+--- a/lib/providers.js
++++ b/lib/providers.js
+@@ -1 +1 @@
+-export { IconDirectionContextProvider, useIconContext } from './contexts/index';
+\ No newline at end of file
++export { IconDirectionContextProvider, useIconContext } from './contexts/index.js';
+\ No newline at end of file
+diff --git a/lib/sizedIcons/chunk-0.js b/lib/sizedIcons/chunk-0.js
+index a8db589d0a44aeac28a9fa0a6ab6718b5b30266f..fc155f522f9147f97614b8f75c1f082e6766a836 100644
+--- a/lib/sizedIcons/chunk-0.js
++++ b/lib/sizedIcons/chunk-0.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const AccessTime20Filled = /*#__PURE__*/createFluentIcon('AccessTime20Filled', "20", ["M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM6.99 8.6A.5.5 0 0 1 6 8.4c.02-.07.03-.14.07-.24a2 2 0 0 1 .25-.46c.26-.35.71-.7 1.42-.7A1.7 1.7 0 0 1 9.5 8.75c0 .35-.07.65-.2.9a1.8 1.8 0 0 1-.51.6c-.16.11-.33.22-.48.3l-.06.04c-.17.1-.3.19-.42.29-.4.34-.66.7-.77 1.12H9a.5.5 0 0 1 0 1H6.5a.5.5 0 0 1-.5-.5c0-1.01.47-1.77 1.17-2.38.2-.16.4-.29.57-.4l.06-.03.38-.24a.8.8 0 0 0 .23-.26c.05-.1.09-.23.09-.44a.8.8 0 0 0-.19-.53.7.7 0 0 0-.56-.22.7.7 0 0 0-.61.3 1 1 0 0 0-.15.3ZM11 7c.28 0 .5.22.5.5V10H13V7.5a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0V11h-2a.5.5 0 0 1-.5-.5v-3c0-.28.22-.5.5-.5Z"]);
+ export const AccessTime20Regular = /*#__PURE__*/createFluentIcon('AccessTime20Regular', "20", ["M6.99 8.6A.5.5 0 0 1 6 8.4a1.29 1.29 0 0 1 .07-.24 2 2 0 0 1 .25-.46c.26-.35.71-.7 1.42-.7A1.7 1.7 0 0 1 9.5 8.75c0 .35-.07.65-.2.9a1.8 1.8 0 0 1-.51.6c-.16.11-.33.22-.48.3l-.06.04c-.17.1-.3.19-.42.29-.4.34-.66.7-.77 1.12H9a.5.5 0 0 1 0 1H6.5a.5.5 0 0 1-.5-.5c0-1.01.47-1.77 1.17-2.38.2-.16.4-.29.57-.4l.06-.03.38-.24a.8.8 0 0 0 .23-.26c.05-.1.09-.23.09-.44a.8.8 0 0 0-.19-.53.7.7 0 0 0-.56-.22.7.7 0 0 0-.61.3 1 1 0 0 0-.15.3ZM11 7c.28 0 .5.22.5.5V10H13V7.5a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0V11h-2a.5.5 0 0 1-.5-.5v-3c0-.28.22-.5.5-.5Zm-1-5a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm-7 8a7 7 0 1 1 14 0 7 7 0 0 1-14 0Z"]);
+ export const AccessTime24Filled = /*#__PURE__*/createFluentIcon('AccessTime24Filled', "24", ["M22 12a10 10 0 1 0-20 0 10 10 0 0 0 20 0ZM7.5 8.74A2.3 2.3 0 0 1 9.25 8c1.15 0 1.9.8 2.15 1.66.26.85.1 1.9-.62 2.62a8.1 8.1 0 0 1-.79.67l-.04.03c-.28.22-.53.41-.75.63a2.3 2.3 0 0 0-.58.89h2.13a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75c0-1.25.52-2.08 1.14-2.7.3-.3.62-.55.9-.76.28-.22.5-.4.68-.57.27-.27.37-.72.25-1.13-.12-.38-.37-.59-.72-.59s-.53.14-.64.25a.84.84 0 0 0-.15.23.75.75 0 0 1-1.43-.46l.04-.1.08-.17c.07-.14.18-.32.35-.5ZM13.25 8c.41 0 .75.34.75.75v2.75h1.5V8.75a.75.75 0 0 1 1.5 0v6.47a.75.75 0 0 1-1.5 0V13h-2.25a.75.75 0 0 1-.75-.75v-3.5c0-.41.34-.75.75-.75Z"]);
+diff --git a/lib/sizedIcons/chunk-1.js b/lib/sizedIcons/chunk-1.js
+index 60afda1010b850f6fd364d7606ddcc98fac035f0..5ba8114e379ef9c3fe889a98ea173c9c0f4a03e1 100644
+--- a/lib/sizedIcons/chunk-1.js
++++ b/lib/sizedIcons/chunk-1.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const ArrowOutlineDownLeft24Filled = /*#__PURE__*/createFluentIcon('ArrowOutlineDownLeft24Filled', "24", ["M4.17 21.99A1.95 1.95 0 0 1 2 19.83L3.35 7.77a1.95 1.95 0 0 1 3.32-1.16l1.27 1.26 5.3-5.3c.76-.76 2-.76 2.76 0L21.43 8c.76.76.76 2 0 2.76l-5.3 5.3 1.26 1.27a1.95 1.95 0 0 1-1.16 3.32L4.17 21.99Z"]);
+ export const ArrowOutlineDownLeft24Regular = /*#__PURE__*/createFluentIcon('ArrowOutlineDownLeft24Regular', "24", ["M3.5 20c-.03.29.21.53.5.5l12.06-1.34c.38-.05.54-.5.27-.77l-1.8-1.8a.75.75 0 0 1 0-1.06l5.84-5.83a.45.45 0 0 0 0-.64l-5.43-5.43a.45.45 0 0 0-.64 0L8.47 9.47c-.3.29-.77.29-1.06 0l-1.8-1.8a.45.45 0 0 0-.77.27L3.5 20Zm.67 1.99A1.95 1.95 0 0 1 2 19.83L3.35 7.77a1.95 1.95 0 0 1 3.32-1.16l1.27 1.26 5.3-5.3c.76-.76 2-.76 2.76 0L21.43 8c.76.76.76 2 0 2.76l-5.3 5.3 1.26 1.27a1.95 1.95 0 0 1-1.16 3.32L4.17 21.99Z"]);
+ export const ArrowOutlineDownLeft28Filled = /*#__PURE__*/createFluentIcon('ArrowOutlineDownLeft28Filled', "28", ["M18.54 2.66a2.25 2.25 0 0 0-3.18 0l-6.6 6.6-1.6-1.6a2.25 2.25 0 0 0-3.83 1.39L2 23.55a2.25 2.25 0 0 0 2.44 2.44l14.5-1.32a2.25 2.25 0 0 0 1.4-3.83l-1.61-1.6 6.6-6.6c.88-.88.88-2.3 0-3.18l-6.8-6.8Z"]);
+diff --git a/lib/sizedIcons/chunk-10.js b/lib/sizedIcons/chunk-10.js
+index 90be0bf686fcb130d9500962b90e3c8b60886149..7298463986ecdc2549226d732a251644429492ca 100644
+--- a/lib/sizedIcons/chunk-10.js
++++ b/lib/sizedIcons/chunk-10.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const MicPulse32Filled = /*#__PURE__*/createFluentIcon('MicPulse32Filled', "32", ["M15 2a6 6 0 0 0-6 6v8a6 6 0 0 0 5.06 5.93 9 9 0 0 1 6.94-7.7V8a6 6 0 0 0-6-6ZM7 16a8 8 0 0 0 7.05 7.94c.18 1.78.89 3.4 1.95 4.72V29a1 1 0 1 1-2 0v-3.05A10 10 0 0 1 5 16a1 1 0 1 1 2 0Zm16 14.5a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15Zm-1.59-11.25c.32 0 .6.2.7.5l1.39 3.98 1.04-2.98a.75.75 0 0 1 1.41-.01l.57 1.53h.73a.75.75 0 0 1 0 1.5H26c-.31 0-.6-.2-.7-.49l-.03-.07-1.06 3.04a.75.75 0 0 1-1.42 0l-1.43-4.08-.43 1.12a.75.75 0 0 1-.7.48h-1.48a.75.75 0 0 1 0-1.5h.96l1-2.54c.1-.3.39-.49.7-.48Z"]);
+ export const MicPulse32Regular = /*#__PURE__*/createFluentIcon('MicPulse32Regular', "32", ["M15 2a6 6 0 0 0-6 6v8a6 6 0 0 0 5.06 5.93c.08-.68.24-1.34.46-1.96A4 4 0 0 1 11 16V8a4 4 0 0 1 8 0v6.94c.63-.32 1.3-.56 2-.72V8a6 6 0 0 0-6-6ZM7 16a8 8 0 0 0 7.05 7.94c.18 1.78.89 3.4 1.95 4.72V29a1 1 0 1 1-2 0v-3.05A10 10 0 0 1 5 16a1 1 0 1 1 2 0Zm16 14.5a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15Zm-1.59-11.25c.32 0 .6.2.7.5l1.39 3.98 1.04-2.98a.75.75 0 0 1 1.41-.01l.57 1.53h.73a.75.75 0 0 1 0 1.5H26c-.31 0-.6-.2-.7-.49l-.03-.07-1.06 3.04a.75.75 0 0 1-1.42 0l-1.43-4.08-.43 1.12a.75.75 0 0 1-.7.48h-1.48a.75.75 0 0 1 0-1.5h.96l1-2.54c.1-.3.39-.49.7-.48Z"]);
+ export const MicPulse48Filled = /*#__PURE__*/createFluentIcon('MicPulse48Filled', "48", ["M22 4a8 8 0 0 0-8 8v12a8 8 0 0 0 8.35 8A13.03 13.03 0 0 1 30 23V12a8 8 0 0 0-8-8Zm0 31.25c.03 1.68.39 3.29 1 4.76v2.74a1.25 1.25 0 1 1-2.5 0v-5.08A14 14 0 0 1 8 23.75a1.25 1.25 0 1 1 2.5 0A11.5 11.5 0 0 0 22 35.25ZM46 35a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-13.98-6a1 1 0 0 0-.95.64l-1.7 4.4H28a1 1 0 1 0 0 2h2.04a1 1 0 0 0 .94-.64l.97-2.51 2.6 7.44a1 1 0 0 0 1.89.02l2.2-5.85.47.95a1 1 0 0 0 .87.55l2 .03a1 1 0 1 0 .04-2l-1.4-.02-1.23-2.46a1 1 0 0 0-1.83.1l-2.03 5.42-2.59-7.4a1 1 0 0 0-.92-.67Z"]);
+diff --git a/lib/sizedIcons/chunk-11.js b/lib/sizedIcons/chunk-11.js
+index 7548274feadd77e213df4bcf97436c3212673bb1..2e4b820957d66d7cc2c0bd87aaa0f51b34f8f7c1 100644
+--- a/lib/sizedIcons/chunk-11.js
++++ b/lib/sizedIcons/chunk-11.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const PaymentWireless24Filled = /*#__PURE__*/createFluentIcon('PaymentWireless24Filled', "24", ["M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Zm-7.66-5.8a.85.85 0 0 0-1.11 0c-.3.29-.3.74 0 1.01a6.32 6.32 0 0 1 0 9.58c-.3.27-.3.72 0 1s.8.28 1.11 0a7.65 7.65 0 0 0 0-11.58Zm-4.12 1.52a.77.77 0 0 0 0 1.07 4.6 4.6 0 0 1 0 6.42.77.77 0 0 0 0 1.07c.29.3.76.3 1.05 0a6.14 6.14 0 0 0 0-8.56.73.73 0 0 0-1.05 0ZM8.3 9.22a.78.78 0 0 0-1.08 0c-.3.28-.3.75 0 1.04 1 .96 1 2.52 0 3.48-.3.29-.3.76 0 1.04.3.3.78.3 1.08 0a3.84 3.84 0 0 0 0-5.56Z"]);
+ export const PaymentWireless24Regular = /*#__PURE__*/createFluentIcon('PaymentWireless24Regular', "24", ["M3.5 12a8.5 8.5 0 1 1 17 0 8.5 8.5 0 0 1-17 0ZM12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm2.34 4.2a.85.85 0 0 0-1.11 0c-.3.29-.3.74 0 1.01a6.32 6.32 0 0 1 0 9.58c-.3.27-.3.72 0 1s.8.28 1.11 0a7.65 7.65 0 0 0 0-11.58Zm-4.12 1.52c.29-.3.76-.3 1.05 0a6.14 6.14 0 0 1 0 8.56c-.3.3-.76.3-1.05 0a.77.77 0 0 1 0-1.07 4.6 4.6 0 0 0 0-6.42.77.77 0 0 1 0-1.07ZM8.3 9.22a.78.78 0 0 0-1.08 0c-.3.28-.3.75 0 1.04 1 .96 1 2.52 0 3.48-.3.29-.3.76 0 1.04.3.3.78.3 1.08 0a3.84 3.84 0 0 0 0-5.56Z"]);
+ export const PaymentWireless28Filled = /*#__PURE__*/createFluentIcon('PaymentWireless28Filled', "28", ["M2 14a12 12 0 1 1 24 0 12 12 0 0 1-24 0Zm15.26-6.78a.73.73 0 0 0-1.04 0 .77.77 0 0 0 0 1.08 8.21 8.21 0 0 1 0 11.4.77.77 0 0 0 0 1.08c.29.3.76.3 1.04 0a9.76 9.76 0 0 0 0-13.56Zm-4.8 2c-.28.3-.28.77 0 1.06a5.27 5.27 0 0 1 0 7.44c-.28.29-.28.77 0 1.06.3.3.78.3 1.07 0a6.77 6.77 0 0 0 0-9.56.75.75 0 0 0-1.06 0Zm-2.66 2a.78.78 0 0 0-1.08 0c-.3.28-.3.75 0 1.04 1 .96 1 2.52 0 3.48-.3.29-.3.76 0 1.04.3.3.79.3 1.08 0a3.84 3.84 0 0 0 0-5.56Z"]);
+diff --git a/lib/sizedIcons/chunk-12.js b/lib/sizedIcons/chunk-12.js
+index 839357cf1007af4c46646850ede4292934db315f..8961b788bce551888f700cce06c615b85941b6b6 100644
+--- a/lib/sizedIcons/chunk-12.js
++++ b/lib/sizedIcons/chunk-12.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const Pivot20Filled = /*#__PURE__*/createFluentIcon('Pivot20Filled', "20", ["M3 5.5v9A2.5 2.5 0 0 0 5.5 17h4.59a1.5 1.5 0 0 1 .35-1.56l1-1a1.5 1.5 0 0 1 2.47.56h.59a.5.5 0 0 0 .5-.5v-.59a1.5 1.5 0 0 1-.56-2.47l1-1a1.5 1.5 0 0 1 1.56-.35V5.5A2.5 2.5 0 0 0 14.5 3h-9A2.5 2.5 0 0 0 3 5.5ZM6 5h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm3 1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V6ZM7 9a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h1Zm9.85 2.15a.5.5 0 0 0-.7 0l-1 1a.5.5 0 0 0 .7.7l.15-.14v1.79c0 .83-.67 1.5-1.5 1.5h-1.8l.15-.15a.5.5 0 0 0-.7-.7l-1 1a.5.5 0 0 0 0 .7l1 1a.5.5 0 0 0 .7-.7l-.14-.15h1.79a2.5 2.5 0 0 0 2.5-2.5v-1.8l.15.15a.5.5 0 0 0 .7-.7l-1-1Z"]);
+ export const Pivot20Regular = /*#__PURE__*/createFluentIcon('Pivot20Regular', "20", ["M5.5 4C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h4.59a1.5 1.5 0 0 0 0 1H5.5A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9A2.5 2.5 0 0 1 17 5.5v4.59a1.5 1.5 0 0 0-1 0V5.5c0-.83-.67-1.5-1.5-1.5h-9ZM6 5a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H6Zm4 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-4ZM6 9a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H6Zm10.85 2.15a.5.5 0 0 0-.7 0l-1 1a.5.5 0 0 0 .7.7l.15-.14v1.79c0 .83-.67 1.5-1.5 1.5h-1.8l.15-.15a.5.5 0 0 0-.7-.7l-1 1a.5.5 0 0 0 0 .7l1 1a.5.5 0 0 0 .7-.7l-.14-.15h1.79a2.5 2.5 0 0 0 2.5-2.5v-1.8l.15.15a.5.5 0 0 0 .7-.7l-1-1Z"]);
+ export const Pivot24Filled = /*#__PURE__*/createFluentIcon('Pivot24Filled', "24", ["M3 6.5V17a3.5 3.5 0 0 0 3.5 3.5h4.38a2.25 2.25 0 0 1 .53-2.34l1.5-1.5a2.25 2.25 0 0 1 3.71.84h.88v-.88a2.25 2.25 0 0 1-.84-3.71l1.5-1.5a2.25 2.25 0 0 1 2.34-.53V6.5A3.5 3.5 0 0 0 17 3H6.5A3.5 3.5 0 0 0 3 6.5ZM6.5 5h1C8.33 5 9 5.67 9 6.5v1C9 8.33 8.33 9 7.5 9h-1A1.5 1.5 0 0 1 5 7.5v-1C5 5.67 5.67 5 6.5 5ZM11 6.5c0-.83.67-1.5 1.5-1.5H17c.83 0 1.5.67 1.5 1.5v1c0 .83-.67 1.5-1.5 1.5h-4.5A1.5 1.5 0 0 1 11 7.5v-1ZM7.5 11c.83 0 1.5.67 1.5 1.5V17c0 .83-.67 1.5-1.5 1.5h-1A1.5 1.5 0 0 1 5 17v-4.5c0-.83.67-1.5 1.5-1.5h1Zm12.78 1.47a.75.75 0 0 0-1.06 0l-1.5 1.5a.75.75 0 1 0 1.06 1.06l.22-.22v2.44c0 .97-.78 1.75-1.75 1.75h-2.44l.22-.22a.75.75 0 1 0-1.06-1.06l-1.5 1.5a.75.75 0 0 0 0 1.06l1.5 1.5a.75.75 0 1 0 1.06-1.06l-.22-.22h2.44c1.8 0 3.25-1.46 3.25-3.25v-2.44l.22.22a.75.75 0 1 0 1.06-1.06l-1.5-1.5Z"]);
+diff --git a/lib/sizedIcons/chunk-13.js b/lib/sizedIcons/chunk-13.js
+index 89b2c5b930b7382f447db63818df5bc70fd8dcfa..13a9349a3dd09a5e79934ff4b9ea8bba51ac19cb 100644
+--- a/lib/sizedIcons/chunk-13.js
++++ b/lib/sizedIcons/chunk-13.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const ScanTable20Regular = /*#__PURE__*/createFluentIcon('ScanTable20Regular', "20", ["M4.5 3C3.67 3 3 3.67 3 4.5v2a.5.5 0 0 1-1 0v-2A2.5 2.5 0 0 1 4.5 2h2a.5.5 0 0 1 0 1h-2Zm0 14A1.5 1.5 0 0 1 3 15.5v-2a.5.5 0 0 0-1 0v2A2.5 2.5 0 0 0 4.5 18h2a.5.5 0 0 0 0-1h-2ZM17 4.5c0-.83-.67-1.5-1.5-1.5h-2a.5.5 0 0 1 0-1h2A2.5 2.5 0 0 1 18 4.5v2a.5.5 0 0 1-1 0v-2ZM15.5 17c.83 0 1.5-.67 1.5-1.5v-2a.5.5 0 0 1 1 0v2a2.5 2.5 0 0 1-2.5 2.5h-2a.5.5 0 0 1 0-1h2ZM5 7c0-1.1.9-2 2-2h6a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7Zm2-1a1 1 0 0 0-1 1v1h8V7a1 1 0 0 0-1-1H7Zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9H6v4Z"]);
+ export const ScanTable24Filled = /*#__PURE__*/createFluentIcon('ScanTable24Filled', "24", ["M3.5 5.25c0-.97.78-1.75 1.75-1.75h3a.75.75 0 0 0 0-1.5h-3A3.25 3.25 0 0 0 2 5.25v3a.75.75 0 0 0 1.5 0v-3Zm0 13.5c0 .97.78 1.75 1.75 1.75h3a.75.75 0 0 1 0 1.5h-3A3.25 3.25 0 0 1 2 18.75v-3a.75.75 0 0 1 1.5 0v3ZM18.75 3.5c.97 0 1.75.78 1.75 1.75v3a.75.75 0 0 0 1.5 0v-3C22 3.45 20.54 2 18.75 2h-3a.75.75 0 0 0 0 1.5h3Zm1.75 15.25c0 .97-.78 1.75-1.75 1.75h-3a.75.75 0 0 0 0 1.5h3c1.8 0 3.25-1.46 3.25-3.25v-3a.75.75 0 0 0-1.5 0v3ZM18 11v4a3 3 0 0 1-2.82 3H9a3 3 0 0 1-3-2.82V11h12Zm-3-5a3 3 0 0 1 3 2.82V9.5H6V9a3 3 0 0 1 2.82-3H15Z"]);
+ export const ScanTable24Regular = /*#__PURE__*/createFluentIcon('ScanTable24Regular', "24", ["M5.25 3.5c-.97 0-1.75.78-1.75 1.75v3a.75.75 0 0 1-1.5 0v-3C2 3.45 3.46 2 5.25 2h3a.75.75 0 0 1 0 1.5h-3Zm0 17c-.97 0-1.75-.78-1.75-1.75v-3a.75.75 0 0 0-1.5 0v3C2 20.55 3.46 22 5.25 22h3a.75.75 0 0 0 0-1.5h-3ZM20.5 5.25c0-.97-.78-1.75-1.75-1.75h-3a.75.75 0 0 1 0-1.5h3C20.55 2 22 3.46 22 5.25v3a.75.75 0 0 1-1.5 0v-3ZM18.75 20.5c.97 0 1.75-.78 1.75-1.75v-3a.75.75 0 0 1 1.5 0v3c0 1.8-1.46 3.25-3.25 3.25h-3a.75.75 0 0 1 0-1.5h3Zm-.76-11.92A2.75 2.75 0 0 0 15.25 6H8.58A2.75 2.75 0 0 0 6 8.76v6.67A2.75 2.75 0 0 0 8.75 18h6.67A2.75 2.75 0 0 0 18 15.25V8.58ZM7.5 11h9v4.39c-.06.63-.6 1.12-1.24 1.12H8.62a1.25 1.25 0 0 1-1.12-1.25v-4.26ZM8.76 7.5h6.63c.63.07 1.12.6 1.12 1.25v.74h-9v-.87C7.58 8 8.1 7.5 8.76 7.5Z"]);
+diff --git a/lib/sizedIcons/chunk-14.js b/lib/sizedIcons/chunk-14.js
+index d68bab3a3d272e209b7c6523487d6e2074c7f61e..0309f201af57693ea465b7dbe05e4b156ff85fb2 100644
+--- a/lib/sizedIcons/chunk-14.js
++++ b/lib/sizedIcons/chunk-14.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const SpeakerBluetooth20Regular = /*#__PURE__*/createFluentIcon('SpeakerBluetooth20Regular', "20", ["M10.32 2.27a1 1 0 0 1 1.68.74v13.98a1 1 0 0 1-1.68.74l-3.88-3.6A.5.5 0 0 0 6.1 14H3.5A1.5 1.5 0 0 1 2 12.5v-5C2 6.67 2.67 6 3.5 6h2.6a.5.5 0 0 0 .34-.13l3.88-3.6Zm.68.74L7.12 6.6c-.27.26-.64.4-1.02.4H3.5a.5.5 0 0 0-.5.5v5c0 .28.22.5.5.5h2.6c.38 0 .75.14 1.02.4L11 17V3Zm4.85 2.14a.5.5 0 0 0-.85.35v3.46l-1.19-.95a.5.5 0 1 0-.62.78L14.7 10l-1.51 1.21a.5.5 0 1 0 .62.78l1.19-.95v3.46a.5.5 0 0 0 .85.35l2.5-2.5a.5.5 0 0 0-.04-.74L16.3 10l2.01-1.61a.5.5 0 0 0 .04-.74l-2.5-2.5Zm1.4 6.9L16 13.28v-2.25l1.25 1ZM16 6.7l1.25 1.25-1.25 1V6.71Z"]);
+ export const SpeakerBluetooth24Filled = /*#__PURE__*/createFluentIcon('SpeakerBluetooth24Filled', "24", ["M14.7 3.44c.2.23.3.51.3.81v15.5a1.25 1.25 0 0 1-2.06.96L7.98 16.5H4.25c-1.24 0-2.25-1-2.25-2.25v-4.5C2 8.51 3 7.5 4.25 7.5h3.73l4.96-4.2a1.25 1.25 0 0 1 1.76.14Zm2.8 6.46V6.75c0-.65.75-.98 1.23-.58l.07.07 3 3.25c.27.29.26.73 0 1.01l-.07.08-1.7 1.42 1.7 1.42c.3.26.35.7.14 1l-.07.09-3 3.25a.75.75 0 0 1-1.3-.4V14.1l-.27.22a.75.75 0 0 1-1.04-1.07l.08-.08 1.23-1.02v-.3l-1.23-1.02a.75.75 0 0 1 .87-1.22l.1.06.26.23V6.75 9.9Zm1.5 3.2v2.23l1.16-1.26L19 13.1Zm0-4.43v2.23l1.16-.97L19 8.67Z"]);
+ export const SpeakerBluetooth24Regular = /*#__PURE__*/createFluentIcon('SpeakerBluetooth24Regular', "24", ["M14.7 3.44c.2.23.3.51.3.81v15.5a1.25 1.25 0 0 1-2.06.96L7.98 16.5H4.25c-1.24 0-2.25-1-2.25-2.25v-4.5C2 8.51 3 7.5 4.25 7.5h3.73l4.96-4.2a1.25 1.25 0 0 1 1.76.14ZM13.5 4.8 8.52 9H4.25a.75.75 0 0 0-.75.75v4.5c0 .41.34.75.75.75h4.27l4.98 4.21V4.8Zm4 5.1V6.76c0-.65.75-.98 1.23-.58l.07.07 3 3.25c.27.29.26.73 0 1.01l-.07.08-1.7 1.42 1.7 1.42c.3.26.35.7.14 1l-.07.09-3 3.25a.75.75 0 0 1-1.3-.4V14.1l-.27.22a.75.75 0 0 1-1.04-1.07l.08-.08 1.23-1.02v-.3l-1.23-1.02a.75.75 0 0 1 .87-1.22l.1.06.26.23V6.75 9.9ZM19 13.1v2.23l1.16-1.26L19 13.1Zm0-4.43v2.23l1.16-.97L19 8.67Z"]);
+diff --git a/lib/sizedIcons/chunk-15.js b/lib/sizedIcons/chunk-15.js
+index 354e46fac57d795c2f42960a4901e4b8848a7ecb..54d27924cae6ae894c122c4208816330886c6901 100644
+--- a/lib/sizedIcons/chunk-15.js
++++ b/lib/sizedIcons/chunk-15.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const TableSimpleCheckmark16Regular = /*#__PURE__*/createFluentIcon('TableSimpleCheckmark16Regular', "16", ["M4.5 2A2.5 2.5 0 0 0 2 4.5v7A2.5 2.5 0 0 0 4.5 14h7a2.5 2.5 0 0 0 2.5-2.5v-7A2.5 2.5 0 0 0 11.5 2h-7ZM3 4.5C3 3.67 3.67 3 4.5 3h3v4.5H3v-3Zm0 4h4.5V13h-3A1.5 1.5 0 0 1 3 11.5v-3Zm5.5-1V3h3c.83 0 1.5.67 1.5 1.5v3H8.5Zm3.6 2.15c.2.2.2.5 0 .7l-1.5 1.5a.5.5 0 0 1-.7 0l-.75-.75a.5.5 0 0 1 .7-.7l.4.4 1.15-1.15c.2-.2.5-.2.7 0Z"]);
+ export const TableSimpleCheckmark20Filled = /*#__PURE__*/createFluentIcon('TableSimpleCheckmark20Filled', "20", ["M14 17h-3.5v-6.5H17V14a3 3 0 0 1-3 3Zm3-7.5h-6.5V3H14a3 3 0 0 1 3 3v3.5Zm-7.5 0V3H6a3 3 0 0 0-3 3v3.5h6.5Zm0 7.5v-6.5H3V14a3 3 0 0 0 3 3h3.5Zm5.85-3.9a.5.5 0 0 0-.7-.7l-1.4 1.4-.4-.4a.5.5 0 0 0-.7.7l.75.75c.2.2.5.2.7 0l1.75-1.75Z"]);
+ export const TableSimpleCheckmark20Regular = /*#__PURE__*/createFluentIcon('TableSimpleCheckmark20Regular', "20", ["M6 3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6ZM4 6c0-1.1.9-2 2-2h3.5v5.5H4V6Zm6.5 3.5V4H14a2 2 0 0 1 2 2v3.5h-5.5Zm-6.5 1h5.5V16H6a2 2 0 0 1-2-2v-3.5Zm10.86 1.4c.2.2.2.5 0 .7l-1.75 1.75a.5.5 0 0 1-.71 0l-.75-.75a.5.5 0 0 1 .7-.7l.4.4 1.4-1.4c.2-.2.51-.2.7 0Z"]);
+diff --git a/lib/sizedIcons/chunk-16.js b/lib/sizedIcons/chunk-16.js
+index 5319fd913fda07496a30c4e9179e63ed3376a855..3f86335c4bb15227994fdf0d86533bbdb3c5f1dc 100644
+--- a/lib/sizedIcons/chunk-16.js
++++ b/lib/sizedIcons/chunk-16.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const TextNumberListRtl16Filled = /*#__PURE__*/createFluentIcon('TextNumberListRtl16Filled', "16", ["M12.68 1.01c.2.04.33.21.33.4v3.3c0 .22-.19.4-.42.4a.42.42 0 0 1-.43-.4V2.58c-.19.16-.4.31-.67.44a.44.44 0 0 1-.57-.19.4.4 0 0 1 .2-.55 2.5 2.5 0 0 0 1.08-1.05c.1-.17.29-.26.48-.22Zm-1.53 6.05a.4.4 0 0 1 0-.59h.01a.95.95 0 0 1 .11-.1l.28-.17c.24-.13.6-.26 1.03-.26h.01c.32 0 .67.09.95.29.3.2.48.53.48.95 0 .45-.2.76-.48.99-.22.17-.5.3-.72.4l-.1.06c-.27.12-.47.24-.61.39a.76.76 0 0 0-.15.22h1.64c.23 0 .42.18.42.4 0 .23-.19.42-.42.42h-2.14a.42.42 0 0 1-.43-.41c0-.51.17-.9.44-1.19.26-.27.6-.44.87-.57l.12-.06c.23-.11.4-.19.53-.3.12-.1.18-.19.18-.35 0-.15-.06-.23-.14-.3a.82.82 0 0 0-.45-.12 1.32 1.32 0 0 0-.82.3.44.44 0 0 1-.6 0Zm.94 5.88c0-.23.2-.41.43-.41.3 0 .46-.08.54-.15a.3.3 0 0 0 .1-.25c0-.16-.15-.42-.64-.42-.35 0-.53.08-.62.13a.35.35 0 0 0-.07.07v-.02.02a.44.44 0 0 1-.57.16.4.4 0 0 1-.2-.55h.01l.01-.02.02-.03a1.19 1.19 0 0 1 .33-.3c.24-.17.59-.29 1.1-.29.87 0 1.47.56 1.5 1.22 0 .3-.1.6-.35.84.24.23.36.54.34.84-.02.66-.62 1.22-1.5 1.22-.5 0-.85-.12-1.1-.28a1.19 1.19 0 0 1-.34-.34v-.01h-.01a.4.4 0 0 1 .2-.56c.2-.1.44-.03.55.16l.08.07c.09.05.27.14.62.14.49 0 .64-.27.65-.43a.3.3 0 0 0-.11-.25c-.08-.07-.25-.15-.54-.15a.42.42 0 0 1-.43-.4ZM2.75 3a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm0 4a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm0 4a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Z"]);
+ export const TextNumberListRtl16Regular = /*#__PURE__*/createFluentIcon('TextNumberListRtl16Regular', "16", ["M12.68 1.01c.2.04.33.21.33.4v3.3c0 .22-.19.4-.42.4a.42.42 0 0 1-.43-.4V2.58c-.19.16-.4.31-.67.44a.44.44 0 0 1-.57-.19.4.4 0 0 1 .2-.55 2.5 2.5 0 0 0 1.08-1.05c.1-.17.29-.26.48-.22Zm-1.53 6.05a.4.4 0 0 1 0-.59h.01a.95.95 0 0 1 .11-.1l.28-.17c.24-.13.6-.26 1.03-.26h.01c.32 0 .67.09.95.29.3.2.48.53.48.95 0 .45-.2.76-.48.99-.22.17-.5.3-.72.4l-.1.06c-.27.12-.47.24-.61.39a.76.76 0 0 0-.15.22h1.64c.23 0 .42.18.42.4 0 .23-.19.42-.42.42h-2.14a.42.42 0 0 1-.43-.41c0-.51.17-.9.44-1.19.26-.27.6-.44.87-.57l.12-.06c.23-.11.4-.19.53-.3.12-.1.18-.19.18-.35 0-.15-.06-.23-.14-.3a.82.82 0 0 0-.45-.12 1.32 1.32 0 0 0-.82.3.44.44 0 0 1-.6 0Zm.94 5.88c0-.23.2-.41.43-.41.3 0 .46-.08.54-.15a.3.3 0 0 0 .1-.25c0-.16-.15-.42-.64-.42-.35 0-.53.08-.62.13a.35.35 0 0 0-.07.07v-.02.02a.44.44 0 0 1-.57.16.4.4 0 0 1-.2-.55h.01l.01-.02.02-.03a1.19 1.19 0 0 1 .33-.3c.24-.17.59-.29 1.1-.29.87 0 1.47.56 1.5 1.22 0 .3-.1.6-.35.84.24.23.36.54.34.84-.02.66-.62 1.22-1.5 1.22-.5 0-.85-.12-1.1-.28a1.19 1.19 0 0 1-.34-.34v-.01h-.01a.4.4 0 0 1 .2-.56c.2-.1.44-.03.55.16l.08.07c.09.05.27.14.62.14.49 0 .64-.27.65-.43a.3.3 0 0 0-.11-.25c-.08-.07-.25-.15-.54-.15a.42.42 0 0 1-.43-.4ZM2.5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6Zm0 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6Zm0 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6Z"]);
+ export const TextNumberListRtl20Filled = /*#__PURE__*/createFluentIcon('TextNumberListRtl20Filled', "20", ["M17 1.5a.5.5 0 0 0-.39-.49.5.5 0 0 0-.56.27l-.07.12a2.96 2.96 0 0 1-1.2 1.15.5.5 0 1 0 .44.9c.3-.15.56-.34.78-.53V5.5a.5.5 0 0 0 1 0v-4Zm-2.35 6.15a.5.5 0 0 0 .7.7l.05-.04.2-.12c.17-.1.41-.19.71-.19.23 0 .41.06.53.15.1.07.16.17.16.35a.5.5 0 0 1-.21.44 3.18 3.18 0 0 1-.76.43c-.32.15-.7.36-1 .7-.33.35-.53.81-.53 1.43 0 .28.22.5.5.5h2.5a.5.5 0 0 0 0-1h-1.91c.04-.1.1-.2.17-.27a2.38 2.38 0 0 1 .83-.53c.27-.13.59-.29.84-.5.33-.27.57-.65.57-1.2 0-.5-.22-.9-.57-1.15a1.92 1.92 0 0 0-1.1-.35h-.01a2.5 2.5 0 0 0-1.66.63v.01h-.01Zm1.1 7.85c0-.28.22-.5.5-.5.34 0 .53-.1.63-.18.1-.09.13-.2.13-.3-.01-.2-.19-.52-.76-.52-.41 0-.63.1-.72.17a.42.42 0 0 0-.1.07l.02-.02v.01l-.01.01v.01a.5.5 0 0 1-.89-.47v-.01l.02-.02.02-.04.08-.1c.07-.09.17-.18.3-.28.28-.18.7-.33 1.28-.33 1.03 0 1.73.67 1.76 1.48.01.37-.12.74-.4 1.02.28.28.41.65.4 1.02-.03.8-.73 1.48-1.76 1.48-.59 0-1-.15-1.28-.33a1.4 1.4 0 0 1-.4-.42l-.01-.01v-.01a.5.5 0 0 1 .87-.48l.1.08c.1.07.3.17.72.17.57 0 .75-.33.76-.52 0-.1-.04-.21-.13-.3-.1-.08-.29-.18-.63-.18a.5.5 0 0 1-.5-.5ZM3.75 4a.75.75 0 1 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Zm0 5a.75.75 0 1 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Zm0 5a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Z"]);
+diff --git a/lib/sizedIcons/chunk-17.js b/lib/sizedIcons/chunk-17.js
+index e4ab7a57b8b091ac5dfd192da4e078cfeea46ef4..7f0923deaf12b5c6b00e861de77d5cbac786f76c 100644
+--- a/lib/sizedIcons/chunk-17.js
++++ b/lib/sizedIcons/chunk-17.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const VoicemailArrowSubtract20Filled = /*#__PURE__*/createFluentIcon('VoicemailArrowSubtract20Filled', "20", ["M13 8a2 2 0 0 1 1.74 1c1.23.06 2.37.52 3.26 1.26V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8c0 1.1.9 2 2 2h5.2a5.5 5.5 0 0 1 1.81-5.76A2.02 2.02 0 0 1 11.27 9H8.73A2 2 0 1 1 7 8h6Zm-7 2a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm13 4.5a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm-7 0c0 .28.22.5.5.5h4a.5.5 0 0 0 0-1h-4a.5.5 0 0 0-.5.5Z"]);
+ export const VoicemailArrowSubtract20Regular = /*#__PURE__*/createFluentIcon('VoicemailArrowSubtract20Regular', "20", ["M17 9.6V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h5.02c.03.34.1.68.19 1H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v4.26a5.5 5.5 0 0 0-1-.66ZM9 10a2 2 0 0 0-.27-1h2.54a2 2 0 0 0-.26 1.24c.34-.27.7-.5 1.1-.7a1 1 0 0 1 1.33-.44 5.53 5.53 0 0 1 1.3-.1A2 2 0 0 0 13 8H7a2 2 0 1 0 2 2Zm-2 1a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm12 3.5a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm-7 0c0 .28.22.5.5.5h4a.5.5 0 0 0 0-1h-4a.5.5 0 0 0-.5.5Z"]);
+ export const VoicemailShield16Filled = /*#__PURE__*/createFluentIcon('VoicemailShield16Filled', "16", ["M4 5.75a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Zm4.5 0a.75.75 0 1 1 1.48.17c-.35.27-.7.43-1.04.51a.75.75 0 0 1-.44-.68ZM9.25 4c.75 0 1.4.48 1.64 1.15.19-.1.4-.15.6-.15h.01c.37 0 .72.15.98.43.17.18.35.34.52.48V2.5c0-.83-.67-1.5-1.5-1.5h-9C1.67 1 1 1.67 1 2.5V9c0 .83.67 1.5 1.5 1.5H7V7.87c0-.5.28-1 .74-1.23A1.74 1.74 0 0 1 7.67 5H6.33a1.75 1.75 0 1 1-1.58-1h4.5Zm2.25 11c-.04 0-.08 0-.11-.02A5.67 5.67 0 0 1 9.63 14c-.35-.3-.64-.63-.88-1A5.15 5.15 0 0 1 8 10.36V7.87c0-.2.16-.37.35-.37 1.07 0 2.03-.46 2.9-1.39.07-.07.16-.11.25-.11s.18.04.24.11a3.89 3.89 0 0 0 2.9 1.39c.2 0 .36.17.36.38v2.48a5.15 5.15 0 0 1-.75 2.64c-.24.37-.53.7-.88 1a5.67 5.67 0 0 1-1.87 1Z"]);
+diff --git a/lib/sizedIcons/chunk-2.js b/lib/sizedIcons/chunk-2.js
+index 544bd17334078c08fcb4a270135fecc84e9a2f3b..aca3ee198a522cfce49554976baec5e764e626f9 100644
+--- a/lib/sizedIcons/chunk-2.js
++++ b/lib/sizedIcons/chunk-2.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const BookmarkMultiple48Filled = /*#__PURE__*/createFluentIcon('BookmarkMultiple48Filled', "48", ["M14.67 6.5h14.08a7.75 7.75 0 0 1 7.75 7.75v24.08A5 5 0 0 0 39 34V14.25C39 8.59 34.4 4 28.75 4H19a5 5 0 0 0-4.33 2.5ZM14 9a5 5 0 0 0-5 5v28.75a1.25 1.25 0 0 0 1.94 1.04l10.56-7.04 10.56 7.04A1.25 1.25 0 0 0 34 42.75V14a5 5 0 0 0-5-5H14Z"]);
+ export const BookmarkMultiple48Regular = /*#__PURE__*/createFluentIcon('BookmarkMultiple48Regular', "48", ["M14.67 6.5A5 5 0 0 1 19 4h9.75C34.4 4 39 8.59 39 14.25V34a5 5 0 0 1-2.5 4.33V14.25a7.75 7.75 0 0 0-7.75-7.75H14.67ZM14 9a5 5 0 0 0-5 5v28.75a1.25 1.25 0 0 0 1.94 1.04l10.56-7.04 10.56 7.04A1.25 1.25 0 0 0 34 42.75V14a5 5 0 0 0-5-5H14Zm-2.5 5a2.5 2.5 0 0 1 2.5-2.5h15a2.5 2.5 0 0 1 2.5 2.5v26.41l-9.3-6.2a1.25 1.25 0 0 0-1.4 0l-9.3 6.2V14Z"]);
+ export const BookmarkOff20Filled = /*#__PURE__*/createFluentIcon('BookmarkOff20Filled', "20", ["m16 16.7 1.15 1.15a.5.5 0 0 0 .7-.7l-15-15a.5.5 0 1 0-.7.7L4 4.71V17.5a.5.5 0 0 0 .8.4l5.2-3.78 5.2 3.78a.5.5 0 0 0 .8-.4v-.8Zm0-12.2v9.38L4.8 2.68A2.5 2.5 0 0 1 6.5 2h7A2.5 2.5 0 0 1 16 4.5Z"]);
+diff --git a/lib/sizedIcons/chunk-3.js b/lib/sizedIcons/chunk-3.js
+index 7b9a6f38b69896be8038bf6d00e28ff07e1d1507..e68c4a03526b0c812472c2294b930332eb80c4ef 100644
+--- a/lib/sizedIcons/chunk-3.js
++++ b/lib/sizedIcons/chunk-3.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const CallEnd32Regular = /*#__PURE__*/createFluentIcon('CallEnd32Regular', "32", ["M7.37 12.55c-2.25 1-3.29 2.23-3.37 3.37l.02.2.5 2.65a1.5 1.5 0 0 0 1.74 1.2l3.23-.58a1 1 0 0 0 .8-.78l.62-3a1.9 1.9 0 0 1 1.23-1.42 12.06 12.06 0 0 1 7.71 0c.67.23 1.1.8 1.23 1.42l.62 3c.08.4.4.7.8.78l3.23.58a1.5 1.5 0 0 0 1.74-1.2l.5-2.67.03-.18c-.06-1.13-1.08-2.36-3.34-3.36A22.15 22.15 0 0 0 16 11c-3.41 0-6.45.59-8.63 1.55Zm-.81-1.83C9.06 9.62 12.38 9 16 9c3.61 0 6.96.62 9.47 1.73 2.44 1.08 4.4 2.78 4.52 5.08.02.26-.01.48-.05.66l-.5 2.67a3.5 3.5 0 0 1-4.06 2.8l-3.23-.58a3 3 0 0 1-2.4-2.34l-.62-2.96a10.1 10.1 0 0 0-6.27 0l-.61 2.96a3 3 0 0 1-2.4 2.34l-3.23.58a3.5 3.5 0 0 1-4.07-2.8l-.5-2.65a2.8 2.8 0 0 1-.04-.72c.16-2.28 2.11-3.97 4.55-5.05Zm6.31 5.3Z"]);
+ export const CallEnd48Filled = /*#__PURE__*/createFluentIcon('CallEnd48Filled', "48", ["M24 14c-5.3 0-10.24.96-13.87 2.62-3.52 1.61-6.29 4.14-6.12 7.47v.08l.56 4.65a4.75 4.75 0 0 0 5.48 4.12l5.12-.83a4.25 4.25 0 0 0 3.47-3.34l.94-4.53.02-.06a13.7 13.7 0 0 1 4.4-.66c2.13 0 3.65.4 4.4.66l.02.06.94 4.53a4.25 4.25 0 0 0 3.47 3.34l5.12.83a4.75 4.75 0 0 0 5.48-4.12l.56-4.65v-.08c.17-3.33-2.6-5.86-6.12-7.47C34.24 14.96 29.3 14 24 14Z"]);
+ export const CallEnd48Regular = /*#__PURE__*/createFluentIcon('CallEnd48Regular', "48", ["M10.13 16.62C13.76 14.96 18.7 14 24 14c5.3 0 10.24.96 13.87 2.62 3.52 1.61 6.29 4.14 6.12 7.47v.08l-.56 4.65a4.75 4.75 0 0 1-5.48 4.12l-5.12-.83a4.25 4.25 0 0 1-3.47-3.34l-.94-4.53a.17.17 0 0 0-.02-.06 13.7 13.7 0 0 0-4.4-.66c-2.13 0-3.65.4-4.4.66l-.02.06-.94 4.53a4.25 4.25 0 0 1-3.47 3.34l-5.12.83a4.75 4.75 0 0 1-5.48-4.12l-.56-4.65v-.08c-.17-3.33 2.6-5.86 6.12-7.47Zm-3.63 7.3.56 4.6a2.25 2.25 0 0 0 2.6 1.95l5.1-.83a1.75 1.75 0 0 0 1.44-1.38l.93-4.53c.17-.81.73-1.6 1.64-1.9.97-.34 2.76-.81 5.23-.81 2.47 0 4.26.47 5.23.8.91.32 1.47 1.1 1.64 1.91l.94 4.53c.14.72.71 1.26 1.43 1.38l5.1.83c1.27.2 2.45-.68 2.6-1.95l.56-4.6c.06-1.67-1.37-3.51-4.67-5.02-3.22-1.48-7.79-2.4-12.83-2.4s-9.6.92-12.83 2.4c-3.3 1.5-4.73 3.35-4.67 5.02Z"]);
+diff --git a/lib/sizedIcons/chunk-4.js b/lib/sizedIcons/chunk-4.js
+index bda117406acf75832953d3b08b2efeee68d60d26..17b088bd98cc4c2cc68ef6f500ebb68757b5169f 100644
+--- a/lib/sizedIcons/chunk-4.js
++++ b/lib/sizedIcons/chunk-4.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const ClipboardClock20Filled = /*#__PURE__*/createFluentIcon('ClipboardClock20Filled', "20", ["M10.5 9.5a.5.5 0 0 0-1 0V11c0 .28.22.5.5.5h1.5a.5.5 0 0 0 0-1h-1v-1ZM7.09 3c.2-.58.76-1 1.41-1h3c.65 0 1.2.42 1.41 1h1.59c.83 0 1.5.67 1.5 1.5v12c0 .83-.67 1.5-1.5 1.5h-9A1.5 1.5 0 0 1 4 16.5v-12C4 3.67 4.67 3 5.5 3h1.59ZM8.5 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3Zm5.5 8a4 4 0 1 0-8 0 4 4 0 0 0 8 0Z"]);
+ export const ClipboardClock20Regular = /*#__PURE__*/createFluentIcon('ClipboardClock20Regular', "20", ["M10.5 9.5a.5.5 0 0 0-1 0V11c0 .28.22.5.5.5h1.5a.5.5 0 0 0 0-1h-1v-1ZM10 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0-1a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM7.09 3c.2-.58.76-1 1.41-1h3c.65 0 1.2.42 1.41 1h1.59c.83 0 1.5.67 1.5 1.5v12c0 .83-.67 1.5-1.5 1.5h-9A1.5 1.5 0 0 1 4 16.5v-12C4 3.67 4.67 3 5.5 3h1.59ZM8.5 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3ZM7.09 4H5.5a.5.5 0 0 0-.5.5v12c0 .28.22.5.5.5h9a.5.5 0 0 0 .5-.5v-12a.5.5 0 0 0-.5-.5h-1.59c-.2.58-.76 1-1.41 1h-3a1.5 1.5 0 0 1-1.41-1Z"]);
+ export const ClipboardClock24Filled = /*#__PURE__*/createFluentIcon('ClipboardClock24Filled', "24", ["M11.38 13.62c0 .34.27.63.62.63h1.38a.63.63 0 0 0 0-1.25h-.76v-1.63a.63.63 0 0 0-1.24 0v2.25ZM13.75 2h-3.5c-1.16 0-2.11.87-2.24 2H6.25C5.01 4 4 5 4 6.25v13.5C4 20.99 5 22 6.25 22h11.5c1.24 0 2.25-1 2.25-2.25V6.25C20 5.01 19 4 17.75 4h-1.76a2.25 2.25 0 0 0-2.24-2Zm-3.5 1.5h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1 0-1.5ZM12 8.25a4.75 4.75 0 1 1 0 9.5 4.75 4.75 0 0 1 0-9.5Z"]);
+diff --git a/lib/sizedIcons/chunk-5.js b/lib/sizedIcons/chunk-5.js
+index 7c29099bcab7cc98f4847f5501d47818203af352..94792b8600355b138620a25f23a93c3ad6059116 100644
+--- a/lib/sizedIcons/chunk-5.js
++++ b/lib/sizedIcons/chunk-5.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const CopySelect24Regular = /*#__PURE__*/createFluentIcon('CopySelect24Regular', "24", ["M9.25 3.5c-.97 0-1.75.78-1.75 1.75v1a.75.75 0 0 1-1.5 0v-1C6 3.45 7.46 2 9.25 2h1a.75.75 0 0 1 0 1.5h-1ZM12 2.75c0-.41.34-.75.75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm.75 13.75a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5h-2.5Zm-6-8.5c.41 0 .75.34.75.75v2.5a.75.75 0 0 1-1.5 0v-2.5c0-.41.34-.75.75-.75ZM22 8.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0v-2.5Zm-3.25 7.75c.97 0 1.75-.78 1.75-1.75v-1a.75.75 0 0 1 1.5 0v1c0 1.8-1.46 3.25-3.25 3.25h-1a.75.75 0 0 1 0-1.5h1ZM20.5 5.25c0-.97-.78-1.75-1.75-1.75h-1a.75.75 0 0 1 0-1.5h1C20.55 2 22 3.46 22 5.25v1a.75.75 0 0 1-1.5 0v-1ZM9.25 16.5c-.97 0-1.75-.78-1.75-1.75v-1a.75.75 0 0 0-1.5 0v1C6 16.55 7.46 18 9.25 18h1a.75.75 0 0 0 0-1.5h-1ZM2 9.25a3.25 3.25 0 0 1 3-3.24v1.5c-.85.13-1.5.86-1.5 1.74v7c0 2.35 1.9 4.25 4.25 4.25h7c.88 0 1.61-.65 1.73-1.5H18a3.25 3.25 0 0 1-3.24 3h-7A5.75 5.75 0 0 1 2 16.25v-7Z"]);
+ export const Couch12Filled = /*#__PURE__*/createFluentIcon('Couch12Filled', "12", ["M8.5 2h-5C2.67 2 2 2.67 2 3.5v.51L2.25 4c1.16 0 2.11.88 2.24 2H7.5A2.25 2.25 0 0 1 10 4.01V3.5C10 2.67 9.33 2 8.5 2Zm1.25 3c.09 0 .17 0 .25.03.57.11 1 .62 1 1.22V8.5c0 .65-.42 1.2-1 1.41v.59a.5.5 0 0 1-1 0V10H3v.5a.5.5 0 0 1-1 0v-.59c-.58-.2-1-.76-1-1.41V6.25a1.25 1.25 0 0 1 2.5 0c0 .41.34.75.75.75h3.5c.41 0 .75-.34.75-.75C8.5 5.56 9.06 5 9.75 5Z"]);
+ export const Couch12Regular = /*#__PURE__*/createFluentIcon('Couch12Regular', "12", ["M3.5 2C2.67 2 2 2.67 2 3.5v1.17c-.6.28-1 .88-1 1.58V8.5c0 .65.42 1.2 1 1.41v.59a.5.5 0 0 0 1 0V10h6v.5a.5.5 0 0 0 1 0v-.59c.58-.2 1-.76 1-1.41V6.25c0-.7-.4-1.3-1-1.58V3.5C10 2.67 9.33 2 8.5 2h-5Zm6 7h-7a.5.5 0 0 1-.5-.5V6.25a.75.75 0 0 1 1.5 0v.25c0 .28.22.5.5.5h4a.5.5 0 0 0 .5-.5v-.25a.75.75 0 0 1 1.5 0V8.5a.5.5 0 0 1-.5.5ZM9 4.52c-.77.1-1.37.71-1.48 1.48H4.48A1.75 1.75 0 0 0 3 4.52V3.5c0-.28.22-.5.5-.5h5c.28 0 .5.22.5.5v1.02Z"]);
+diff --git a/lib/sizedIcons/chunk-6.js b/lib/sizedIcons/chunk-6.js
+index 56b562080b4b66b88b0737acf69fc76f55cfd630..5b75712a37dbcc82a3e8cd4ded20e8b6edea62f2 100644
+--- a/lib/sizedIcons/chunk-6.js
++++ b/lib/sizedIcons/chunk-6.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const DocumentHeartPulse24Regular = /*#__PURE__*/createFluentIcon('DocumentHeartPulse24Regular', "24", ["M5.5 4.25c0-.41.34-.75.75-.75H12V8c0 1.1.9 2 2 2h4.5v9.75c0 .41-.34.75-.75.75h-6.52L9.73 22h8.02c1.24 0 2.25-1 2.25-2.25V9.66c0-.46-.18-.9-.51-1.23L13.57 2.5A1.75 1.75 0 0 0 12.34 2H6.25C5.01 2 4 3 4 4.25v6.95c.5-.07 1-.05 1.5.05v-7ZM17.44 8.5H14a.5.5 0 0 1-.5-.5V4.56l3.94 3.94ZM3.12 14.28a2.1 2.1 0 0 1 2.98 0l.4.4c.3.3.77.3 1.06 0l.37-.37A2.1 2.1 0 0 1 11.5 16h1.5a3.6 3.6 0 0 0-5.98-2.9A3.6 3.6 0 0 0 1.01 16h1.5a2.1 2.1 0 0 1 .61-1.72Zm2.25 5.22H3.25l3.25 3.25a.75.75 0 0 0 1.06 0l3.26-3.25H8.69l-1.66 1.66-1.66-1.66Zm.25-4.17a.75.75 0 0 0-1.3.08L3.55 17H1.75a.75.75 0 0 0 0 1.5H4c.28 0 .54-.16.67-.41l.42-.85 1.29 1.93a.75.75 0 0 0 1.18.08l1.46-1.65.69.72c.15.15.35.23.56.23l2-.05a.75.75 0 0 0-.04-1.5l-1.67.04-1.02-1.06a.75.75 0 0 0-1.1.02l-1.35 1.53-1.47-2.2Z"]);
+ export const DocumentImage16Filled = /*#__PURE__*/createFluentIcon('DocumentImage16Filled', "16", ["M9 1v3.5c0 .83.67 1.5 1.5 1.5H14v7.5c0 .83-.67 1.5-1.5 1.5h-1.84c.22-.45.34-.96.34-1.5v-4A3.5 3.5 0 0 0 7.5 6H4V2.5C4 1.67 4.67 1 5.5 1H9Zm1 .25V4.5c0 .28.22.5.5.5h3.25L10 1.25ZM1 9.5A2.5 2.5 0 0 1 3.5 7h4A2.5 2.5 0 0 1 10 9.5v4c0 .5-.15.98-.41 1.38l-3.03-3.03a1.5 1.5 0 0 0-2.12 0L1.4 14.88C1.15 14.48 1 14 1 13.5v-4Zm7 .25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm-5.88 5.84c.4.26.87.41 1.38.41h4c.51 0 .98-.15 1.38-.41l-3.03-3.03a.5.5 0 0 0-.7 0L2.12 15.6Z"]);
+ export const DocumentImage16Regular = /*#__PURE__*/createFluentIcon('DocumentImage16Regular', "16", ["M6 1a2 2 0 0 0-2 2v3h1V3a1 1 0 0 1 1-1h3v2.5c0 .83.67 1.5 1.5 1.5H13v7a1 1 0 0 1-1 1h-1.04c-.05.35-.15.69-.3 1H12a2 2 0 0 0 2-2V5.41c0-.4-.16-.78-.44-1.06l-2.91-2.91A1.5 1.5 0 0 0 9.59 1H6Zm6.8 4h-2.3a.5.5 0 0 1-.5-.5V2.2L12.8 5ZM1 9.5A2.5 2.5 0 0 1 3.5 7h4A2.5 2.5 0 0 1 10 9.5v4c0 .5-.15.98-.41 1.38l-3.03-3.03a1.5 1.5 0 0 0-2.12 0L1.4 14.88C1.15 14.48 1 14 1 13.5v-4Zm7 .25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm-5.88 5.84c.4.26.87.41 1.38.41h4c.51 0 .98-.15 1.38-.41l-3.03-3.03a.5.5 0 0 0-.7 0L2.12 15.6Z"]);
+diff --git a/lib/sizedIcons/chunk-7.js b/lib/sizedIcons/chunk-7.js
+index 03adac3d189561dcd602bd38eb2c43599aeed06a..0c36cda4fe04abdd3e58201f4884d816575b4ba7 100644
+--- a/lib/sizedIcons/chunk-7.js
++++ b/lib/sizedIcons/chunk-7.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const Feed16Regular = /*#__PURE__*/createFluentIcon('Feed16Regular', "16", ["M4.5 7.49a.5.5 0 0 0 0 1h1.98a.5.5 0 0 0 .5-.5.5.5 0 0 0-.5-.5H4.5Zm0 2.51a.5.5 0 0 0 0 1h1.98a.5.5 0 0 0 0-1H4.5Zm.48-4.51a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM3.5 3C2.67 3 2 3.67 2 4.5v7c0 .83.67 1.5 1.5 1.5h6c.65 0 1.3-.39 1.47-1.21l.14-.75h1.39c.83 0 1.5-.67 1.5-1.5V6.51c0-.96-.72-1.48-1.45-1.51H8.99v-.5C9 3.67 8.32 3 7.5 3H3.5ZM9 6h2.09a1.57 1.57 0 0 0-.06.23l-.15.78-.9 4.58c-.11.6-.99.51-.99-.1V6Zm-1 5.5c0 .18.02.35.07.5H3.5a.5.5 0 0 1-.5-.5v-7c0-.28.22-.5.5-.5h4c.27 0 .5.22.5.5v7Zm4.5-1.46h-1.2l.56-2.84.15-.78c.11-.6.99-.52.99.09v3.03a.5.5 0 0 1-.5.5Z"]);
+ export const Feed20Filled = /*#__PURE__*/createFluentIcon('Feed20Filled', "20", ["M12.47 17H4a2 2 0 0 1-2-2V4.5C2 3.67 2.67 3 3.5 3h7c.83 0 1.5.67 1.5 1.5V6h4.48c.77.02 1.52.6 1.52 1.58v4.92c0 .83-.67 1.5-1.5 1.5h-2.1l-.43 1.82c-.19.82-.85 1.2-1.5 1.18ZM15 7H12v8.48c0 .6.86.7 1 .12l1.94-8.37.07-.23ZM5.5 7a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1ZM5 10c0 .28.22.5.5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5Zm0 3.5c0 .28.22.5.5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5Z"]);
+ export const Feed20Regular = /*#__PURE__*/createFluentIcon('Feed20Regular', "20", ["M5.5 7a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1ZM5 10c0-.28.22-.5.5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 5 10Zm.5 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3ZM4 17h8.47c.65.02 1.31-.36 1.5-1.18L14.4 14h2.11c.83 0 1.5-.67 1.5-1.5V7.58c0-.98-.75-1.56-1.52-1.58H12V4.5c0-.83-.67-1.5-1.5-1.5h-7C2.67 3 2 3.67 2 4.5V15c0 1.1.9 2 2 2ZM3 4.5c0-.28.22-.5.5-.5h7c.28 0 .5.22.5.5v10.98c0 .2.03.36.08.52H4a1 1 0 0 1-1-1V4.5ZM16.5 13h-1.87l1.28-5.54c.15-.64 1.09-.53 1.09.12v4.92a.5.5 0 0 1-.5.5ZM12 7h3.01a1.8 1.8 0 0 0-.07.23L13 15.6c-.14.58-1 .48-1-.12V7Z"]);
+diff --git a/lib/sizedIcons/chunk-8.js b/lib/sizedIcons/chunk-8.js
+index 103a15e28c8f9111250b8f99b876631dabdbd740..d7d598780d8036b5027582fc30c7f1023f559ca3 100644
+--- a/lib/sizedIcons/chunk-8.js
++++ b/lib/sizedIcons/chunk-8.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const HandLeft20Filled = /*#__PURE__*/createFluentIcon('HandLeft20Filled', "20", ["M11 8.5V2.75a.75.75 0 0 0-1.5 0V8.5a.5.5 0 0 1-1 0V3.75a.75.75 0 0 0-1.5 0v6.5a4.06 4.06 0 0 0-2-.75c-.97 0-1.79.32-1.98 1.12a.6.6 0 0 0-.02.14c0 .15.07.3.2.38l1.3.99c1.07.8 2.07 1.86 2.76 2.99.38.6.72 1.23 1.06 1.86.36.68.59 1.02 1.68 1.02h3.05c.95 0 1.31-.53 1.95-2 .64-1.47 1-2.94 1-3.5V5.25a.75.75 0 0 0-1.5 0V9a.5.5 0 0 1-1 0V3.75a.75.75 0 0 0-1.5 0V8.5a.5.5 0 0 1-1 0Z"]);
+ export const HandLeft20Regular = /*#__PURE__*/createFluentIcon('HandLeft20Regular', "20", ["M16 12.02c0 1.06-.2 2.1-.6 3.08l-.6 1.42a2.55 2.55 0 0 1-1.17 1.29c-.27.14-.56.21-.86.21h-2.55c-.77 0-1.49-.41-1.87-1.08-.5-.87-1.02-1.7-1.72-2.43l-1.32-1.39c-.44-.46-.97-.84-1.49-1.23l-.59-.45a.6.6 0 0 1-.23-.47c0-.75.54-1.57 1.22-1.79A3.34 3.34 0 0 1 7 9.47V4.5a1.5 1.5 0 0 1 2.05-1.4 1.5 1.5 0 0 1 2.9 0A1.5 1.5 0 0 1 14 4.5v.09A1.5 1.5 0 0 1 16 6v6.02ZM12 4.5v4a.5.5 0 0 1-1 0v-5a.5.5 0 0 0-1 0v5a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.85.37h-.01c-.22-.22-.44-.44-.72-.58-.7-.35-2.22-.57-2.4.5l.53.4c.52.4 1.04.78 1.48 1.24l1.33 1.38c.75.79 1.31 1.7 1.85 2.63.21.36.6.58 1.01.58h2.55c.13 0 .27-.03.4-.1.32-.17.57-.44.71-.78l.59-1.42c.35-.86.53-1.78.53-2.7V6a.5.5 0 0 0-1 0v3.5a.5.5 0 0 1-1 0v-5a.5.5 0 0 0-1 0Z"]);
+ export const HandLeft24Filled = /*#__PURE__*/createFluentIcon('HandLeft24Filled', "24", ["M14 4.25a1 1 0 0 1 2 0V11a.5.5 0 0 0 1 0V6a1 1 0 0 1 2 0v8.75c0 2.18-1.17 4.51-1.91 5.8A3 3 0 0 1 14.46 22H12.3c-1.24 0-2.36-.7-2.91-1.8l-.14-.26c-.42-.85-.94-1.63-1.56-2.34l-2.2-2.55-2.2-1.7a.75.75 0 0 1-.29-.6c0-.48.26-.84.6-1.06.29-.19.64-.27.95-.3a7.2 7.2 0 0 1 2.1.12c.5.1.97.3 1.35.5V4.26a1 1 0 0 1 2 0v6.25a.5.5 0 0 0 1 0V3a1 1 0 0 1 2 0v7.5a.5.5 0 0 0 1 0V4.25Z"]);
+diff --git a/lib/sizedIcons/chunk-9.js b/lib/sizedIcons/chunk-9.js
+index 5e499ce8bb4c79b265cd8298dc61ded47dd30445..2f4dc9e7ebb89f9a93088e48c26115a6fb2829a4 100644
+--- a/lib/sizedIcons/chunk-9.js
++++ b/lib/sizedIcons/chunk-9.js
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { createFluentIcon } from "../utils/createFluentIcon";
++import { createFluentIcon } from '../utils/createFluentIcon.js';
+ export const LayoutRowTwoSettings32Filled = /*#__PURE__*/createFluentIcon('LayoutRowTwoSettings32Filled', "32", ["M7.5 3A4.5 4.5 0 0 0 3 7.5V15h17.53a8.99 8.99 0 0 1 5.94 0H29V7.5A4.5 4.5 0 0 0 24.5 3h-17ZM3 17h14.27a8.97 8.97 0 0 0-.9 12H7.5A4.5 4.5 0 0 1 3 24.5V17Zm15.84 2.54c.26.84-.25 1.73-1.11 1.92l-1.54.35a7.52 7.52 0 0 0-.04 3.2l1.7.42c.83.2 1.33 1.06 1.1 1.89l-.5 1.72a7.5 7.5 0 0 0 2.75 1.6l1.26-1.3c.6-.62 1.6-.62 2.2 0l1.23 1.27a7.5 7.5 0 0 0 2.73-1.63l-.46-1.52a1.52 1.52 0 0 1 1.11-1.92l1.54-.36a7.52 7.52 0 0 0 .04-3.18l-1.7-.43a1.52 1.52 0 0 1-1.1-1.89l.5-1.72a7.5 7.5 0 0 0-2.75-1.6l-1.26 1.3c-.6.62-1.6.62-2.2 0l-1.23-1.27a7.5 7.5 0 0 0-2.73 1.63l.46 1.52Zm6.66 3.96a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"]);
+ export const LayoutRowTwoSettings32Light = /*#__PURE__*/createFluentIcon('LayoutRowTwoSettings32Light', "32", ["M7.5 3A4.5 4.5 0 0 0 3 7.5v17A4.5 4.5 0 0 0 7.5 29h8.88a9.03 9.03 0 0 1-.68-1H7.5A3.5 3.5 0 0 1 4 24.5v-8h13.84c.48-.38.99-.72 1.53-1H4v-8A3.5 3.5 0 0 1 7.5 4h17A3.5 3.5 0 0 1 28 7.5v8.2c.35.2.68.43 1 .68V7.5A4.5 4.5 0 0 0 24.5 3h-17Zm11.34 16.54c.26.84-.25 1.73-1.11 1.92l-1.54.35a7.52 7.52 0 0 0-.04 3.2l1.7.42c.83.2 1.33 1.06 1.1 1.89l-.5 1.72a7.5 7.5 0 0 0 2.75 1.6l1.26-1.3c.6-.62 1.6-.62 2.2 0l1.23 1.27a7.5 7.5 0 0 0 2.73-1.63l-.46-1.52a1.52 1.52 0 0 1 1.11-1.92l1.54-.36a7.52 7.52 0 0 0 .04-3.18l-1.7-.43a1.52 1.52 0 0 1-1.1-1.89l.5-1.72a7.5 7.5 0 0 0-2.75-1.6l-1.26 1.3c-.6.62-1.6.62-2.2 0l-1.23-1.27a7.5 7.5 0 0 0-2.73 1.63l.46 1.52Zm6.66 3.96a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"]);
+ export const LayoutRowTwoSettings32Regular = /*#__PURE__*/createFluentIcon('LayoutRowTwoSettings32Regular', "32", ["M7.5 3A4.5 4.5 0 0 0 3 7.5v17A4.5 4.5 0 0 0 7.5 29h8.88a9 9 0 0 1-1.17-2H7.5A2.5 2.5 0 0 1 5 24.5V17h12.27a9 9 0 0 1 3.26-2H5V7.5A2.5 2.5 0 0 1 7.5 5h17A2.5 2.5 0 0 1 27 7.5v7.7a9 9 0 0 1 2 1.18V7.5A4.5 4.5 0 0 0 24.5 3h-17Zm11.34 16.54c.26.84-.25 1.73-1.11 1.92l-1.54.35a7.52 7.52 0 0 0-.04 3.2l1.7.42c.83.2 1.33 1.06 1.1 1.89l-.5 1.72a7.5 7.5 0 0 0 2.75 1.6l1.26-1.3c.6-.62 1.6-.62 2.2 0l1.23 1.27a7.5 7.5 0 0 0 2.73-1.63l-.46-1.52a1.52 1.52 0 0 1 1.11-1.92l1.54-.36a7.52 7.52 0 0 0 .04-3.18l-1.7-.43a1.52 1.52 0 0 1-1.1-1.89l.5-1.72a7.5 7.5 0 0 0-2.75-1.6l-1.26 1.3c-.6.62-1.6.62-2.2 0l-1.23-1.27a7.5 7.5 0 0 0-2.73 1.63l.46 1.52Zm6.66 3.96a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"]);
+diff --git a/lib/utils/bundleIcon.js b/lib/utils/bundleIcon.js
+index 29164af9bd998c52a6a549e5b8b90a2cc54653e3..15ebb4558c5bdb86a0c238866202b0614750f306 100644
+--- a/lib/utils/bundleIcon.js
++++ b/lib/utils/bundleIcon.js
+@@ -1,5 +1,5 @@
+ import * as React from "react";
+-import { iconFilledClassName, iconRegularClassName } from "./constants";
++import { iconFilledClassName, iconRegularClassName } from './constants.js';
+ import { __styles, mergeClasses } from "@griffel/react";
+ const useBundledIconStyles = __styles({
+   "root": {
+diff --git a/lib/utils/createFluentIcon.js b/lib/utils/createFluentIcon.js
+index d8e990afc63c69c2475113f8617cfad7d4909c2b..eaf37d5934a0a5886faf78c37ed5385e771becba 100644
+--- a/lib/utils/createFluentIcon.js
++++ b/lib/utils/createFluentIcon.js
+@@ -1,5 +1,5 @@
+ import * as React from "react";
+-import { useIconState } from "./useIconState";
++import { useIconState } from './useIconState.js';
+ export const createFluentIcon = (displayName, width, paths, options) => {
+   const viewBoxWidth = width === "1em" ? "20" : width;
+   const Icon = React.forwardRef((props, ref) => {
+diff --git a/lib/utils/fonts/createFluentFontIcon.js b/lib/utils/fonts/createFluentFontIcon.js
+index cf746149278fe0b0f9bbf4457abdb3b75c83d043..28ae365590a1b567f62a264108e1cd9c6b75d146 100644
+--- a/lib/utils/fonts/createFluentFontIcon.js
++++ b/lib/utils/fonts/createFluentFontIcon.js
+@@ -1,19 +1,19 @@
+ import * as React from 'react';
+ import { __styles, makeStaticStyles, mergeClasses } from "@griffel/react";
+-import { useIconState } from '../useIconState';
+-import { fontIconClassName } from '../constants';
+-import fontFilledTtf from './FluentSystemIcons-Filled.ttf';
+-import fontFilledWoff from './FluentSystemIcons-Filled.woff';
+-import fontFilledWoff2 from './FluentSystemIcons-Filled.woff2';
+-import fontRegularTtf from './FluentSystemIcons-Regular.ttf';
+-import fontRegularWoff from './FluentSystemIcons-Regular.woff';
+-import fontRegularWoff2 from './FluentSystemIcons-Regular.woff2';
+-import fontLightTtf from './FluentSystemIcons-Light.ttf';
+-import fontLightWoff from './FluentSystemIcons-Light.woff';
+-import fontLightWoff2 from './FluentSystemIcons-Light.woff2';
+-import fontOneSizeTtf from './FluentSystemIcons-Resizable.ttf';
+-import fontOneSizeWoff from './FluentSystemIcons-Resizable.woff';
+-import fontOneSizeWoff2 from './FluentSystemIcons-Resizable.woff2';
++import { useIconState } from '../useIconState.js';
++import { fontIconClassName } from '../constants.js';
++import fontFilledTtf from './FluentSystemIcons-Filled.ttf.js';
++import fontFilledWoff from './FluentSystemIcons-Filled.woff.js';
++import fontFilledWoff2 from './FluentSystemIcons-Filled.woff2.js';
++import fontRegularTtf from './FluentSystemIcons-Regular.ttf.js';
++import fontRegularWoff from './FluentSystemIcons-Regular.woff.js';
++import fontRegularWoff2 from './FluentSystemIcons-Regular.woff2.js';
++import fontLightTtf from './FluentSystemIcons-Light.ttf.js';
++import fontLightWoff from './FluentSystemIcons-Light.woff.js';
++import fontLightWoff2 from './FluentSystemIcons-Light.woff2.js';
++import fontOneSizeTtf from './FluentSystemIcons-Resizable.ttf.js';
++import fontOneSizeWoff from './FluentSystemIcons-Resizable.woff.js';
++import fontOneSizeWoff2 from './FluentSystemIcons-Resizable.woff2.js';
+ const FONT_FAMILY_MAP = {
+   [0 /* Filled */]: 'FluentSystemIconsFilled',
+   [1 /* Regular */]: 'FluentSystemIconsRegular',
+diff --git a/lib/utils/useIconState.js b/lib/utils/useIconState.js
+index 038f325b4548392305cd64d6d25f14033d9f23cb..a3c4f614838bd0bd77357eb6fc1b14b54d8a7d4d 100644
+--- a/lib/utils/useIconState.js
++++ b/lib/utils/useIconState.js
+@@ -1,4 +1,4 @@
+-import { useIconContext } from "../contexts";
++import { useIconContext } from '../contexts/index.js';
+ import { __styles, mergeClasses } from "@griffel/react";
+ const useRootStyles = __styles({
+   "root": {
+diff --git a/lib/utils/wrapIcon.js b/lib/utils/wrapIcon.js
+index da6281fe249c06ea375ad632c4959a03c38bccb0..aae85593070baf946fba5ebba21f6026508355b2 100644
+--- a/lib/utils/wrapIcon.js
++++ b/lib/utils/wrapIcon.js
+@@ -1,5 +1,5 @@
+ import * as React from "react";
+-import { useIconState } from "./useIconState";
++import { useIconState } from './useIconState.js';
+ const wrapIcon = (Icon, displayName, options) => {
+   const WrappedIcon = React.forwardRef((props, ref) => {
+     const state = {

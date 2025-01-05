@@ -167,7 +167,7 @@ class SearchValidator
     @sort = params[:sort]
     @author_name = params[:authorName]
     @author_handles = params[:authorHandles]
-    @tags = params[:tags]&.split(",")&.map(&:strip)&.filter(&:present?)
+    @tags = params[:tags]&.then{_1.split(",").map(&:strip).filter(&:present?)}
     @rating_max = params[:ratingMax]
     @rating_min = params[:ratingMin]
     @artist = params[:artist]
@@ -256,7 +256,7 @@ module Api
       end
 
       if params[:tags].present?
-        tags = params[:tags].split(",").map(&:strip).filter(&:present?).uniq
+        tags = params[:tags].split(",").map(&:strip).compact_blank.uniq
         tags.each_with_index do |tag, i|
           charts =
             charts.joins(

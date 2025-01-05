@@ -82,7 +82,6 @@ class SonolusController < ApplicationController
   end
 
   def background_version
-    warn RequestLocals.store.inspect
     RequestLocals.store[:sonolus_background_version]
   end
 

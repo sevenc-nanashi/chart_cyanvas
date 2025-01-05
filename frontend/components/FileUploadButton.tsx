@@ -45,12 +45,10 @@ const FileUploadButton = (props: {
           </span>
         )}
         {props.error && (
-          <>
-            <span className="text-sm text-red-500 xl:absolute xl:left-0 xl:right-0 xl:text-center xl:-bottom-6">
-              <br />
-              {props.error}
-            </span>
-          </>
+          <span className="text-sm text-red-500 xl:absolute xl:left-0 xl:right-0 xl:text-center xl:-bottom-6">
+            <br />
+            {props.error}
+          </span>
         )}
       </span>
       <input

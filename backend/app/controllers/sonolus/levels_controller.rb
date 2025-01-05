@@ -334,7 +334,7 @@ module Sonolus
           )
       end
       if params[:q_tags].present?
-        tags = params[:q_tags].split.map(&:strip).filter(&:present?).uniq
+        tags = params[:q_tags].split.map(&:strip).compact_blank.uniq
 
         tags.each_with_index do |tag, index|
           charts =
