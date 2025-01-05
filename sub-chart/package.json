@@ -11,8 +11,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsx ./build.ts",
     "start": "node ./dist/index.js",
-    "check": "biome check src *.ts",
-    "format": "biome check --write src *.ts",
+    "lint": "biome check src *.ts",
+    "lint:fix": "biome check --write src *.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest"
   },
