@@ -58,7 +58,7 @@ jobs:
           pwd
           cp ../docker-compose.dev.yml ../docker-compose.yml
           docker compose --env-file ../.env --profile test up -d
-          export CONSOLE_OUTPUT=xterm
+          export CONSOLE_OUTPUT=XTerm
           bundle exec rake parallel:setup
           bundle exec rake parallel:spec
   build:
