@@ -18,6 +18,7 @@ import {
 } from "~/lib/contexts";
 import type { AdminOnlyUserData, Chart } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
+import Budoux from "./Budoux.tsx";
 import Checkbox from "./Checkbox.tsx";
 import FileUploadButton from "./FileUploadButton.tsx";
 import InputTitle from "./InputTitle.tsx";
@@ -28,7 +29,6 @@ import RangeInput from "./RangeInput.tsx";
 import ScheduleInput from "./ScheduleInput.tsx";
 import Select from "./Select.tsx";
 import TextInput from "./TextInput.tsx";
-import Budoux from "./Budoux.tsx";
 
 type Tag = { id: string; text: string };
 type ChartFormData = {
