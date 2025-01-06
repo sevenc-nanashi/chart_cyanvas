@@ -28,7 +28,7 @@ class SonolusController < ApplicationController
   before_action do
     params.permit(:c_background)
     background_version =
-      params[:c_background].then { it.delete_prefix("v").to_i }
+      params[:c_background]&.then { it.delete_prefix("v").to_i }
     background_version = 3 unless VALID_BACKGROUND_VERSIONS.include?(
       background_version
     )
