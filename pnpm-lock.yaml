@@ -83,8 +83,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       i18next:
-        specifier: ^23.16.8
-        version: 23.16.8
+        specifier: ^24.2.0
+        version: 24.2.0(typescript@5.7.2)
       i18next-browser-languagedetector:
         specifier: ^8.0.2
         version: 8.0.2
@@ -117,7 +117,7 @@ importers:
         version: 7.54.2(react@19.0.0)
       react-i18next:
         specifier: ^15.4.0
-        version: 15.4.0(i18next@23.16.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 15.4.0(i18next@24.2.0(typescript@5.7.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-range:
         specifier: ^1.10.0
         version: 1.10.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -126,7 +126,7 @@ importers:
         version: 6.10.3(react-dnd-html5-backend@16.0.1)(react-dnd@16.0.1(@types/node@22.10.5)(@types/react@19.0.2)(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       remix-i18next:
         specifier: ^6.4.1
-        version: 6.4.1(@remix-run/node@2.15.2(typescript@5.7.2))(@remix-run/react@2.15.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2))(i18next@23.16.8)(react-i18next@15.4.0(i18next@23.16.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
+        version: 6.4.1(@remix-run/node@2.15.2(typescript@5.7.2))(@remix-run/react@2.15.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2))(i18next@24.2.0(typescript@5.7.2))(react-i18next@15.4.0(i18next@24.2.0(typescript@5.7.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       sha.js:
         specifier: 2.4.11
         version: 2.4.11
@@ -2862,8 +2862,13 @@ packages:
   i18next-resources-to-backend@1.2.1:
     resolution: {integrity: sha512-okHbVA+HZ7n1/76MsfhPqDou0fptl2dAlhRDu2ideXloRRduzHsqDOznJBef+R3DFZnbvWoBW+KxJ7fnFjd6Yw==}
 
-  i18next@23.16.8:
-    resolution: {integrity: sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==}
+  i18next@24.2.0:
+    resolution: {integrity: sha512-ArJJTS1lV6lgKH7yEf4EpgNZ7+THl7bsGxxougPYiXRTJ/Fe1j08/TBpV9QsXCIYVfdE/HWG/xLezJ5DOlfBOA==}
+    peerDependencies:
+      typescript: ^5
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -7435,9 +7440,11 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.26.0
 
-  i18next@23.16.8:
+  i18next@24.2.0(typescript@5.7.2):
     dependencies:
       '@babel/runtime': 7.26.0
+    optionalDependencies:
+      typescript: 5.7.2
 
   iconv-lite@0.4.24:
     dependencies:
@@ -8476,11 +8483,11 @@ snapshots:
     dependencies:
       react: 19.0.0
 
-  react-i18next@15.4.0(i18next@23.16.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  react-i18next@15.4.0(i18next@24.2.0(typescript@5.7.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.0
       html-parse-stringify: 3.0.1
-      i18next: 23.16.8
+      i18next: 24.2.0(typescript@5.7.2)
       react: 19.0.0
     optionalDependencies:
       react-dom: 19.0.0(react@19.0.0)
@@ -8611,12 +8618,12 @@ snapshots:
       mdast-util-to-hast: 12.3.0
       unified: 10.1.2
 
-  remix-i18next@6.4.1(@remix-run/node@2.15.2(typescript@5.7.2))(@remix-run/react@2.15.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2))(i18next@23.16.8)(react-i18next@15.4.0(i18next@23.16.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
+  remix-i18next@6.4.1(@remix-run/node@2.15.2(typescript@5.7.2))(@remix-run/react@2.15.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2))(i18next@24.2.0(typescript@5.7.2))(react-i18next@15.4.0(i18next@24.2.0(typescript@5.7.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
     dependencies:
       '@remix-run/react': 2.15.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2)
-      i18next: 23.16.8
+      i18next: 24.2.0(typescript@5.7.2)
       react: 19.0.0
-      react-i18next: 15.4.0(i18next@23.16.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react-i18next: 15.4.0(i18next@24.2.0(typescript@5.7.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
     optionalDependencies:
       '@remix-run/node': 2.15.2(typescript@5.7.2)
 

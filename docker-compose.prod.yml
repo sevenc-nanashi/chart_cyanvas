@@ -5,7 +5,7 @@ services:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/frontend:latest"
     pull_policy: always
     volumes:
-      - ./.env:/app/.env
+      - ./.env:/app/frontend/.env
     depends_on:
       - backend
     healthcheck:
