@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y curl
 
 COPY frontend/package.json frontend/pnpm-lock.yaml ./frontend/
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml patches ./
 
 ENV NODE_ENV=production
 ENV CI=true
