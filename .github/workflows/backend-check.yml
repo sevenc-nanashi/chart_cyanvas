@@ -59,8 +59,9 @@ jobs:
           cp ../docker-compose.dev.yml ../docker-compose.yml
           docker compose --env-file ../.env --profile test up -d
           export CONSOLE_OUTPUT=XTerm
-          bundle exec rake parallel:setup
-          bundle exec rake parallel:spec
+          bundle exec rake db:setup
+          bundle exec rake db:migrate
+          bundle exec rake spec
   build:
     runs-on: ubuntu-latest
     needs:
