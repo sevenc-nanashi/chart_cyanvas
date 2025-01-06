@@ -6,13 +6,13 @@ export const useLogin = ({
   onLoginSuccess,
 }: { onLoginSuccess?: () => void } = {}) => {
   const [loginState, setLoginState] = useState<LoginState | undefined>();
-  const loginUuid = useRef<string | undefined>();
+  const loginUuid = useRef<string | undefined>(undefined);
   useEffect(() => {
     if (loginState) {
       loginUuid.current = loginState.uuid;
     }
   }, [loginState]);
-  const loginInterval = useRef<number | undefined>();
+  const loginInterval = useRef<number | undefined>(undefined);
   const checkLogin = useCallback(() => {
     fetch(pathcat("/api/login/status", { uuid: loginUuid.current }), {
       method: "GET",

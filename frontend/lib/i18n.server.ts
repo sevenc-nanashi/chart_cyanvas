@@ -17,7 +17,7 @@ export const i18n = new RemixI18Next({
 export const detectLocale = async (request: Request) => {
   const cookieHeader = request.headers.get("Cookie");
   const cookies = cookie.parse(cookieHeader || "");
-  if (languages.supportedLanguages.includes(cookies.locale)) {
+  if (cookies.locale && languages.supportedLanguages.includes(cookies.locale)) {
     return cookies.locale;
   }
   const locale = await i18n.getLocale(request);

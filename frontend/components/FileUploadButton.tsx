@@ -6,7 +6,7 @@ const FileUploadButton = (props: {
   accept: string;
   name: string;
   text: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   extensions?: string[];
   error?: string;
 }) => {

@@ -28,6 +28,7 @@ import RangeInput from "./RangeInput.tsx";
 import ScheduleInput from "./ScheduleInput.tsx";
 import Select from "./Select.tsx";
 import TextInput from "./TextInput.tsx";
+import Budoux from "./Budoux.tsx";
 
 type Tag = { id: string; text: string };
 type ChartFormData = {
@@ -601,7 +602,7 @@ const ChartForm: React.FC<
       </ModalPortal>
 
       <p className="mb-4">
-        <budoux-ja>
+        <Budoux>
           <Trans
             i18nKey="upload:description"
             components={[
@@ -639,7 +640,7 @@ const ChartForm: React.FC<
               </Link>
             </>
           )}
-        </budoux-ja>
+        </Budoux>
       </p>
 
       <div className="relative">
