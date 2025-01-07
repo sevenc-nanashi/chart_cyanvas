@@ -29,10 +29,10 @@ Remember to run `rake configure` after changing the configuration.
 ### Requirements
 
 - `make`
-- [Ruby 3.3](https://ruby-lang.org)
+- [Ruby 3.4](https://ruby-lang.org)
   - [Bundler](https://bundler.io)
 - [Python 3.12](https://python.org)
-  - [Rye](https://rye.astral.sh)
+  - [uv](http://uv.astral.sh/)
 - [Node.js 22](https://nodejs.org)
   - [pnpm](https://pnpm.io)
 - [Rust 1.71](https://www.rust-lang.org/)
