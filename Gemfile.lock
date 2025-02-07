@@ -414,6 +414,7 @@ DEPENDENCIES
   falcon (~> 0.48)
   http (~> 5.2)
   jwt (~> 2.10)
+  net-smtp (= 0.5.0)
   nokogiri (~> 1.18)
   openssl-oaep (~> 0.1.0)
   pg (~> 1.5)
