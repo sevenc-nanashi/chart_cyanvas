@@ -225,6 +225,8 @@ GEM
       timeout
     net-smtp (0.5.0)
     nio4r (2.7.4)
+    nokogiri (1.18.1-aarch64-linux-gnu)
+      racc (~> 1.4)
     nokogiri (1.18.1-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.18.1-x86_64-linux-gnu)
@@ -232,8 +234,6 @@ GEM
     openssl (3.3.0)
     openssl-oaep (0.1.0)
     parallel (1.26.3)
-    parallel_tests (4.8.0)
-      parallel
     parser (3.3.6.0)
       ast (~> 2.4.1)
       racc
@@ -396,6 +396,7 @@ GEM
     zeitwerk (2.7.1)
 
 PLATFORMS
+  aarch64-linux
   x64-mingw-ucrt
   x86_64-linux
 
@@ -415,7 +416,6 @@ DEPENDENCIES
   jwt (~> 2.10)
   nokogiri (~> 1.18)
   openssl-oaep (~> 0.1.0)
-  parallel_tests (~> 4.8)
   pg (~> 1.5)
   rails (~> 8.0)
   rails-i18n (~> 8.0)
