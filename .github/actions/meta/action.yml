@@ -37,6 +37,8 @@ runs:
       run: |
         echo -n "date=" >> $GITHUB_OUTPUT
         gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }} | jq ".created_at" -r | date +'%Y%m%d%H%M%S' -f - >> $GITHUB_OUTPUT
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: "Get platform"
       shell: bash
       id: "platform"
