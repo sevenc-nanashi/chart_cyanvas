@@ -30,7 +30,7 @@ jobs:
           cp ./config.test.yml ./config.yml
           rake configure
       - name: Setup pnpm
-        run: corepack enable
+        uses: pnpm/action-setup@v2
       - name: Setup node
         uses: actions/setup-node@v3
         with:

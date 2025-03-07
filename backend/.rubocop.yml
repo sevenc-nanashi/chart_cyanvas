@@ -6,7 +6,7 @@ AllCops:
     - db/schema.rb
     - vendor/**/*
 
-require:
+plugins:
   - rubocop-rails
 
 inherit_gem:

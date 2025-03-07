@@ -62,8 +62,8 @@ gem "connection_pool", "~> 2.4"
 gem "request_store_rails", "~> 2.0"
 
 # https://github.com/rails/rails/issues/54374#issuecomment-2617377315
-gem "aws-sdk-s3", "1.170", require: false
 gem "aws-sdk-core", "3.211"
+gem "aws-sdk-s3", "1.170", require: false
 
 gem "bullet", group: "development"
 
