@@ -1,0 +1,2 @@
+class UserWarning < ApplicationRecord
+end

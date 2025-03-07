@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_22_113859) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_05_102441) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -21,9 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_113859) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index %w[record_type record_id name blob_id],
-            name: "index_active_storage_attachments_uniqueness",
-            unique: true
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -41,9 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_113859) do
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
-    t.index %w[blob_id variation_digest],
-            name: "index_active_storage_variant_records_uniqueness",
-            unique: true
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "charts", force: :cascade do |t|
@@ -109,6 +105,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_113859) do
     t.index ["name"], name: "index_tags_on_name"
   end
 
+  create_table "user_warnings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "moderator_id"
+    t.text "reason"
+    t.integer "level", null: false
+    t.boolean "seen", default: false, null: false
+    t.index ["moderator_id"], name: "index_user_warnings_on_moderator_id"
+    t.index ["user_id"], name: "index_user_warnings_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "handle", null: false
     t.string "name", null: false
@@ -128,18 +136,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_113859) do
     t.string "discord_avatar"
     t.integer "discord_status"
     t.string "discord_thread_id"
-    t.integer "warn_count", default: 0
     t.index ["handle"], name: "index_users_on_handle"
     t.index ["name"], name: "index_users_on_name"
     t.index ["owner_id"], name: "index_users_on_owner_id"
   end
 
-  add_foreign_key "active_storage_attachments",
-                  "active_storage_blobs",
-                  column: "blob_id"
-  add_foreign_key "active_storage_variant_records",
-                  "active_storage_blobs",
-                  column: "blob_id"
+  create_table "warns", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "created_by_id", null: false
+    t.integer "reason"
+    t.string "message"
+    t.datetime "checked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_warns_on_created_by_id"
+    t.index ["user_id"], name: "index_warns_on_user_id"
+  end
+
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "charts", "charts", column: "variant_id"
   add_foreign_key "charts", "users", column: "author_id"
   add_foreign_key "co_authors", "users"
@@ -147,5 +162,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_113859) do
   add_foreign_key "likes", "charts"
   add_foreign_key "likes", "users"
   add_foreign_key "tags", "charts"
+  add_foreign_key "user_warnings", "users"
+  add_foreign_key "user_warnings", "users", column: "moderator_id"
   add_foreign_key "users", "users", column: "owner_id"
 end
