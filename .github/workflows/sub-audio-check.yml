@@ -5,6 +5,7 @@ on:
     paths:
       - "sub-audio/**"
       - ".github/workflows/sub-audio-*.yml"
+      - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
     branches:
@@ -13,6 +14,7 @@ on:
     paths:
       - "sub-audio/**"
       - ".github/workflows/sub-audio-*.yml"
+      - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
   workflow_dispatch:
