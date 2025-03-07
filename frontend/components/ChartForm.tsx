@@ -391,7 +391,7 @@ const ChartForm: React.FC<
     const unUploaded: File[] = [];
     for (const file of Array.from(files)) {
       let field: string;
-      if (["usc"].includes(file.name.split(".").pop()!)) {
+      if (["usc", "sus"].includes(file.name.split(".").pop()!)) {
         field = "chart";
       } else if (["mp3", "wav", "ogg"].includes(file.name.split(".").pop()!)) {
         field = "bgm";
