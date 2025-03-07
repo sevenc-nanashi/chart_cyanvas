@@ -1,0 +1,57 @@
+name: "Get metadata of docker image"
+
+inputs:
+  directory-name:
+    description: "Name of the directory"
+    type: string
+    required: true
+outputs:
+  image:
+    description: "The image name"
+    value: ${{ steps.image.outputs.name }}
+  cache:
+    description: "The cache key"
+    value: ${{ steps.cache.outputs.cache }}
+  date:
+    description: "The date when the job ran"
+    value: ${{ steps.date.outputs.date }}
+runs:
+  using: "composite"
+  steps:
+    - name: "Get image name"
+      shell: bash
+      id: "image"
+      run: |
+        echo -n "image=" >> $GITHUB_OUTPUT
+        # ghcr.io/${{ github.repository }}/${{ inputs.directory-name }}:latest
+        echo ghcr.io/${{ github.repository }}/${{ inputs.directory-name }} | tr '[:upper:]' '[:lower:]' >> $GITHUB_OUTPUT
+    - name: "Get Cache key"
+      shell: bash
+      id: "cache"
+      run: |
+        echo -n "cache=" >> $GITHUB_OUTPUT
+        echo ${{ inputs.directory-name }}-${{ runner.os }}-${{ runner.arch }} >> $GITHUB_OUTPUT
+    - name: "Get date"
+      shell: bash
+      id: "date"
+      run: |
+        echo -n "date=" >> $GITHUB_OUTPUT
+        gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }} | jq ".created_at" -r | date +'%Y%m%d%H%M%S' -f - >> $GITHUB_OUTPUT
+    - name: "Get platform"
+      shell: bash
+      id: "platform"
+      run: |
+        echo -n "platform=" >> $GITHUB_OUTPUT
+        if [ "${{ runner.os }}" = "Linux" ]; then
+          echo -n linux >> $GITHUB_OUTPUT
+        elif [ "${{ runner.os }}" = "Windows" ]; then
+          echo -n windows >> $GITHUB_OUTPUT
+        elif [ "${{ runner.os }}" = "macOS" ]; then
+          echo -n darwin >> $GITHUB_OUTPUT
+        fi
+        echo -n / >> $GITHUB_OUTPUT
+        if [ "${{ runner.arch }}" = "x64" ]; then
+          echo -n amd64 >> $GITHUB_OUTPUT
+        elif [ "${{ runner.arch }}" = "arm64" ]; then
+          echo -n arm64 >> $GITHUB_OUTPUT
+        fi

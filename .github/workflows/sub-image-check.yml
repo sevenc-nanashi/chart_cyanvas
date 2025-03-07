@@ -42,7 +42,26 @@ jobs:
           cargo clippy
           cargo fmt -- --check
           cargo test
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
+    needs:
+      - check
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Setup rust
+        run: |
+          rustup component add clippy
+          rustup target add x86_64-unknown-linux-gnu
+          rustup target add aarch64-unknown-linux-gnu
       - name: Build binary
         run: |
           sudo apt-get update
@@ -54,8 +73,19 @@ jobs:
 
           cp target/x86_64-unknown-linux-gnu/release/sub-image ./tmp/amd64
           cp target/aarch64-unknown-linux-gnu/release/sub-image ./tmp/arm64
+
       - name: Build image
-        if: github.ref_name == 'main'
         uses: ./.github/actions/build
+        with:
+          directory-name: sub-image
+  merge:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Merge image
+        uses: ./.github/actions/merge
         with:
           directory-name: sub-image

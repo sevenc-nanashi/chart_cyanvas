@@ -13,56 +13,41 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-      with:
-        buildkitd-flags: --debug
-        driver-opts: image=moby/buildkit:v0.9.1
+      uses: docker/setup-buildx-action@v3
 
-    - name: Cache Docker layers
-      uses: actions/cache@v3
-      with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ inputs.directory-name }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-${{ inputs.directory-name }}-
-    - name: Prepare Current Date Arg
-      shell: bash
-      env:
-        TZ: "Asia/Tokyo"
-      run: echo "CURRENT_DATETIME=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+    - name: Prepare meta
+      id: meta
+      uses: ./.github/actions/meta
 
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
-    - name: Prepare cache
-      shell: bash
-      run: mkdir -p /tmp/.buildx-cache || true
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v3
+    - name: Build and push by digest
+      uses: docker/build-push-action@v6
+      id: build
       with:
-        context: .
-        file: ./${{ inputs.directory-name }}/Dockerfile
-        build-args: |
-          ENV_FILE=.env.build
-          ${{ inputs.build-args }}
-        platforms: linux/amd64,linux/arm64
-        push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        tags: |
-          ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ inputs.directory-name }}:${{ env.CURRENT_DATETIME }}
-          ghcr.io/${{ github.repository_owner }}/chart_cyanvas/${{ inputs.directory-name }}:latest
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache-new
-        ulimit: nofile=1024000:1024000
+        platform: ${{ steps.meta.outputs.platform }}
+        labels: ${{ steps.meta.outputs.labels }}
+        outputs: type=image,name=${{ steps.meta.outputs.image }},push-by-digest=true,name-canonical=true,push=true
+        cache-from: type=gha,scope=${{ steps.meta.outputs.cache }}
+        cache-to: type=gha,mode=max,scope=${{ steps.meta.outputs.cache }}
 
-    - name: Move cache
+    - name: Export digest
       shell: bash
       run: |
-        rm -rf /tmp/.buildx-cache
-        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+        mkdir -p /tmp/digests
+        digest="${{ steps.build.outputs.digest }}"
+        touch "/tmp/digests/${digest#sha256:}"
+
+    - name: Upload digest
+      uses: actions/upload-artifact@v4
+      with:
+        name: digests-${{ steps.meta.outputs.cache }}
+        path: /tmp/digests/*
+        if-no-files-found: error
+        retention-days: 1

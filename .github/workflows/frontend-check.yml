@@ -50,7 +50,12 @@ jobs:
           pnpm typecheck
 
   build:
-    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
     needs:
       - check
     permissions:
@@ -67,17 +72,18 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: frontend/pnpm-lock.yaml
 
-      - name: Build production
-        working-directory: ./frontend
-        run: |
-          pnpm i
-          pnpm build
-        env:
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT_FRONTEND: ${{ secrets.SENTRY_PROJECT_FRONTEND }}
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Build image
-        if: github.ref_name == 'main'
         uses: ./.github/actions/build
+        with:
+          directory-name: frontend
+  merge:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Merge image
+        uses: ./.github/actions/merge
         with:
           directory-name: frontend
