@@ -8,7 +8,7 @@ inputs:
 outputs:
   image:
     description: "The image name"
-    value: ${{ steps.image.outputs.name }}
+    value: ${{ steps.image.outputs.image }}
   cache:
     description: "The cache key"
     value: ${{ steps.cache.outputs.cache }}

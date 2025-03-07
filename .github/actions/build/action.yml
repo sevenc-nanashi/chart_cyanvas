@@ -39,7 +39,6 @@ runs:
       with:
         platforms: ${{ steps.meta.outputs.platform }}
         labels: ${{ steps.docker-meta.outputs.labels }}
-        tags: ${{ steps.meta.outputs.image }}
         outputs: type=image,name=${{ steps.meta.outputs.image }},push-by-digest=true,name-canonical=true,push=true
         cache-from: type=gha,scope=${{ steps.meta.outputs.cache }}
         cache-to: type=gha,mode=max,scope=${{ steps.meta.outputs.cache }}
