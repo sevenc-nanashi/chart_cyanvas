@@ -78,6 +78,7 @@ jobs:
       - name: Build production
         working-directory: ./sub-chart
         run: |
+          pnpm i
           pnpm build
 
       - name: Build image
