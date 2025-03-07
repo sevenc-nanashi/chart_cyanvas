@@ -22,6 +22,7 @@ runs:
 
     - name: Docker meta
       uses: docker/metadata-action@v5
+      id: docker-meta
       with:
         images: ${{ steps.meta.outputs.image }}
 
@@ -36,8 +37,8 @@ runs:
       uses: docker/build-push-action@v6
       id: build
       with:
-        platform: ${{ steps.meta.outputs.platform }}
-        labels: ${{ steps.meta.outputs.labels }}
+        platforms: ${{ steps.meta.outputs.platform }}
+        labels: ${{ steps.docker-meta.outputs.labels }}
         outputs: type=image,name=${{ steps.meta.outputs.image }},push-by-digest=true,name-canonical=true,push=true
         cache-from: type=gha,scope=${{ steps.meta.outputs.cache }}
         cache-to: type=gha,mode=max,scope=${{ steps.meta.outputs.cache }}
