@@ -44,4 +44,4 @@ runs:
     - name: Inspect image
       shell: bash
       run: |
-        docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.date }}
+        docker buildx imagetools inspect ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.date }}
