@@ -37,6 +37,8 @@ runs:
       uses: docker/build-push-action@v6
       id: build
       with:
+        context: .
+        file: ./${{ inputs.directory-name }}/Dockerfile
         platforms: ${{ steps.meta.outputs.platform }}
         labels: ${{ steps.docker-meta.outputs.labels }}
         outputs: type=image,name=${{ steps.meta.outputs.image }},push-by-digest=true,name-canonical=true,push=true
