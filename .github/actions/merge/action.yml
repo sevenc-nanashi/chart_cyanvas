@@ -32,6 +32,9 @@ runs:
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
+    - name: Docker metadata
+      uses: docker/metadata-action@v3
+
     - name: Create manifest list and push
       shell: bash
       working-directory: /tmp/digests
@@ -39,7 +42,8 @@ runs:
         docker buildx imagetools create \
         ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.date }} \
         ${{ steps.meta.outputs.image }}:latest \
-        $(printf "${{ steps.meta.outputs.image }}@sha256:%s " *)
+        $(printf "${{ steps.meta.outputs.image }}@sha256:%s " *) \
+        $(printf -- "-t %s " $(jq -r '.[]' <<< '${{ toJson(steps.meta.outputs.tags) }}'))
 
     - name: Inspect image
       shell: bash
