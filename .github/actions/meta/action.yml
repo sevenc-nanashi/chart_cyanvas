@@ -55,8 +55,8 @@ runs:
           echo -n darwin >> $GITHUB_OUTPUT
         fi
         echo -n / >> $GITHUB_OUTPUT
-        if [ "${{ runner.arch }}" = "x64" ]; then
+        if [ "${{ runner.arch }}" = "X64" ]; then
           echo amd64 >> $GITHUB_OUTPUT
-        elif [ "${{ runner.arch }}" = "arm64" ]; then
+        elif [ "${{ runner.arch }}" = "ARM64" ]; then
           echo arm64 >> $GITHUB_OUTPUT
         fi
