@@ -59,22 +59,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache target
+        uses: Swatinem/rust-cache@v2
+
       - name: Setup rust
         run: |
           rustup component add clippy
           rustup target add x86_64-unknown-linux-gnu
           rustup target add aarch64-unknown-linux-gnu
+
       - name: Build binary
         run: |
-          sudo apt-get update
-          sudo apt-get install -y g++-aarch64-linux-gnu
-          cargo build --release --target aarch64-unknown-linux-gnu
-          cargo build --release --target x86_64-unknown-linux-gnu
-
+          cargo build --release
           mkdir ./tmp
-
-          cp target/x86_64-unknown-linux-gnu/release/sub-image ./tmp/amd64
-          cp target/aarch64-unknown-linux-gnu/release/sub-image ./tmp/arm64
+          cp target/release/sub-image ./tmp/sub-image
 
       - name: Build image
         uses: ./.github/actions/build
