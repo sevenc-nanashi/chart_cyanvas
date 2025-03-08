@@ -15,6 +15,9 @@ outputs:
   date:
     description: "The date when the job ran"
     value: ${{ steps.date.outputs.date }}
+  platform:
+    description: "The platform to build for"
+    value: ${{ steps.platform.outputs.platform }}
 runs:
   using: "composite"
   steps:
@@ -53,7 +56,7 @@ runs:
         fi
         echo -n / >> $GITHUB_OUTPUT
         if [ "${{ runner.arch }}" = "x64" ]; then
-          echo -n amd64 >> $GITHUB_OUTPUT
+          echo amd64 >> $GITHUB_OUTPUT
         elif [ "${{ runner.arch }}" = "arm64" ]; then
-          echo -n arm64 >> $GITHUB_OUTPUT
+          echo arm64 >> $GITHUB_OUTPUT
         fi
