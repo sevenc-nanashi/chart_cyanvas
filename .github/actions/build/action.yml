@@ -19,6 +19,8 @@ runs:
     - name: Prepare meta
       id: meta
       uses: ./.github/actions/meta
+      with:
+        directory-name: ${{ inputs.directory-name }}
 
     - name: Docker meta
       uses: docker/metadata-action@v5
