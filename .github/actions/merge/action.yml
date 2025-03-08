@@ -33,7 +33,8 @@ runs:
         password: ${{ github.token }}
 
     - name: Docker metadata
-      uses: docker/metadata-action@v3
+      id: docker-metadata
+      uses: docker/metadata-action@v5
       with:
         images: ${{ steps.meta.outputs.image }}
 
@@ -42,7 +43,7 @@ runs:
       working-directory: /tmp/digests
       run: |
         docker buildx imagetools create \
-        $(printf -- "-t %s " $(jq -r '.[]' <<< '${{ toJson(steps.meta.outputs.tags) }}'))
+        $(printf -- "-t %s " $(jq -r '.[]' <<< '${{ toJson(steps.docker-metadeta.outputs.tags) }}'))
         $(printf "${{ steps.meta.outputs.image }}@sha256:%s " *) \
 
     - name: Inspect image
