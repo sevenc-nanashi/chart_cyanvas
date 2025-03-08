@@ -40,10 +40,8 @@ runs:
       working-directory: /tmp/digests
       run: |
         docker buildx imagetools create \
-        ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.date }} \
-        ${{ steps.meta.outputs.image }}:latest \
-        $(printf "${{ steps.meta.outputs.image }}@sha256:%s " *) \
         $(printf -- "-t %s " $(jq -r '.[]' <<< '${{ toJson(steps.meta.outputs.tags) }}'))
+        $(printf "${{ steps.meta.outputs.image }}@sha256:%s " *) \
 
     - name: Inspect image
       shell: bash
