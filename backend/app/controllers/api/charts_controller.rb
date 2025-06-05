@@ -331,7 +331,9 @@ module Api
         end
 
       num_charts = charts.count
+      # rubocop:disable Lint/RedundantSafeNavigation
       charts = charts.limit(length).offset(params[:offset]&.to_i || 0)
+      # rubocop:enable Lint/RedundantSafeNavigation
       chart_ids = charts.map(&:id)
       file_resources =
         FileResource
