@@ -26,7 +26,7 @@ class ImageConvertJob < ApplicationJob
             type:
           }
         )
-        .then { JSON.parse(_1.body.to_s, symbolize_names: true) }
+        .then { JSON.parse(it.body.to_s, symbolize_names: true) }
     raise "Failed to convert image file!" if response[:code] != "ok"
     logger.info "ImageConvertJob: #{image_file.id}: downloading image: #{response[:id]}"
     image_data =

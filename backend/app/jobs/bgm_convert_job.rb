@@ -17,7 +17,7 @@ class BgmConvertJob < ApplicationJob
             url: bgm_file.url
           }
         )
-        .then { JSON.parse(_1.body.to_s, symbolize_names: true) }
+        .then { JSON.parse(it.body.to_s, symbolize_names: true) }
     raise "Failed to convert bgm file!" if response[:code] != "ok"
     logger.info "BgmConvertJob: #{bgm_file.id}: downloading: #{response[:id]}"
     bgm_data =

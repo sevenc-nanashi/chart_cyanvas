@@ -24,11 +24,11 @@ RSpec.describe "Sonolus", type: :request do
       post authenticate_path
       expect(response).to have_http_status(:ok)
       match_schema =
-        (
+        
           JSON.parse(response.body, symbolize_names: true) in {
             address: String, session: String, expiration: Integer
           }
-        )
+        
       expect(match_schema).to be true
     end
 
@@ -42,11 +42,11 @@ RSpec.describe "Sonolus", type: :request do
         decrypted_session = secret_key.private_decrypt_oaep(session_bytes)
       end.not_to raise_error
       match_schema =
-        (
+        
           JSON.parse(decrypted_session, symbolize_names: true) in {
             id: String, key: String, iv: String
           }
-        )
+        
       expect(match_schema).to be true
     end
   end

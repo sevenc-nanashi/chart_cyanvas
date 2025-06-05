@@ -167,7 +167,7 @@ class SearchValidator
     @sort = params[:sort]
     @author_name = params[:authorName]
     @author_handles = params[:authorHandles]
-    @tags = params[:tags]&.then{_1.split(",").map(&:strip).compact_blank}
+    @tags = params[:tags]&.then{it.split(",").map(&:strip).compact_blank}
     @rating_max = params[:ratingMax]
     @rating_min = params[:ratingMin]
     @artist = params[:artist]
@@ -331,7 +331,7 @@ module Api
         end
 
       num_charts = charts.count
-      charts = charts.limit(length).offset(params[:offset].to_i || 0)
+      charts = charts.limit(length).offset(params[:offset]&.to_i || 0)
       chart_ids = charts.map(&:id)
       file_resources =
         FileResource

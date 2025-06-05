@@ -16,7 +16,7 @@ class ChartConvertJob < ApplicationJob
             url: chart_resource.to_frontend
           }
         )
-        .then { JSON.parse(_1.body.to_s, symbolize_names: true) }
+        .then { JSON.parse(it.body.to_s, symbolize_names: true) }
     logger.info "ChartConvertJob: #{chart_resource.id} done"
     raise "Failed to convert level data!" if response[:code] != "ok"
     chart_data =
