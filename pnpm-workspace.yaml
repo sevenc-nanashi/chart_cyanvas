@@ -2,6 +2,7 @@ packages:
   - frontend
   - sub-chart
   - tasks
+  - wiki
 
 catalog:
   "@biomejs/biome": "^1.9.4"
