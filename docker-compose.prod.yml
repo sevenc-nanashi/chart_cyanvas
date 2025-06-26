@@ -109,6 +109,13 @@ services:
   nginx:
     image: "nginx:1.23.3-alpine"
     restart: always
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+      wiki:
+        condition: service_healthy
     ports:
       - "$FINAL_PORT:80"
     volumes:
