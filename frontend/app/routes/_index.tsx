@@ -60,7 +60,7 @@ export const Home = () => {
           i18nKey="home:welcome"
           components={[
             <Link
-              to={`https://cc.sevenc7c.com/wiki`}
+              to={"https://cc.sevenc7c.com/wiki"}
               key="1"
               target="_blank"
             />,
