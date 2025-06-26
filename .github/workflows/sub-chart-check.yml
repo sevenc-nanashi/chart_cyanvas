@@ -38,7 +38,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "pnpm"
-          cache-dependency-path: sub-chart/pnpm-lock.yaml
 
       - name: Run sub-chart check
         working-directory: ./sub-chart
@@ -74,7 +73,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "pnpm"
-          cache-dependency-path: sub-chart/pnpm-lock.yaml
       - name: Build production
         working-directory: ./sub-chart
         run: |

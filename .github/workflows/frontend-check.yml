@@ -38,7 +38,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "pnpm"
-          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Run frontend lint
         working-directory: ./frontend
@@ -72,7 +71,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "pnpm"
-          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Build frontend
         working-directory: ./frontend

@@ -32,7 +32,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "pnpm"
-          cache-dependency-path: wiki/pnpm-lock.yaml
 
       - name: Run wiki lint
         working-directory: ./wiki
@@ -66,7 +65,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "pnpm"
-          cache-dependency-path: wiki/pnpm-lock.yaml
 
       - name: Build wiki
         working-directory: ./wiki
