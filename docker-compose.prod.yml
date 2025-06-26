@@ -11,7 +11,7 @@ services:
       - wiki
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3100/"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 3
 
@@ -28,7 +28,7 @@ services:
       - sub-image
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 3
 
@@ -38,7 +38,7 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3101/wiki/logo.svg"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 5
 
@@ -52,7 +52,7 @@ services:
       - redis
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3202/"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 3
 
@@ -64,7 +64,7 @@ services:
       - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3203/"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 3
 
@@ -76,7 +76,7 @@ services:
       - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3201/"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 3
 
@@ -87,7 +87,7 @@ services:
       - ./data/redis:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 3
 
@@ -98,7 +98,7 @@ services:
       - ./data/postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 3
     environment:
