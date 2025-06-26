@@ -14,5 +14,5 @@ export const loader: LoaderFunction = async ({ request }) => {
   } else {
     willRecirectTo = `/wiki/${locale}${afterWiki}`;
   }
-  return redirectDocument(`${url.protocol}//${host}${willRecirectTo}`, 301);
+  return redirectDocument(`${host}${willRecirectTo}`);
 };
