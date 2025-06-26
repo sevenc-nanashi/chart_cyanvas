@@ -1,22 +1,20 @@
-name: "[frontend] Lint, Typecheck"
+name: "[wiki] Lint, Link check"
 
 on:
   push:
     paths:
-      - "frontend/**"
-      - ".github/workflows/frontend-*.yml"
+      - "wiki/**"
+      - ".github/workflows/wiki-*.yml"
       - ".github/actions/**"
       - "Rakefile"
-      - "config.test.yml"
     branches:
       - main
   pull_request:
     paths:
-      - "frontend/**"
-      - ".github/workflows/frontend-*.yml"
+      - "wiki/**"
+      - ".github/workflows/wiki-*.yml"
       - ".github/actions/**"
       - "Rakefile"
-      - "config.test.yml"
   workflow_dispatch:
 
 jobs:
@@ -27,10 +25,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
-      - name: Setup .env
-        run: |
-          cp ./config.test.yml ./config.yml
-          rake configure
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
       - name: Setup node
@@ -39,16 +33,16 @@ jobs:
           node-version-file: .node-version
           cache: "pnpm"
 
-      - name: Run frontend lint
-        working-directory: ./frontend
+      - name: Run wiki lint
+        working-directory: ./wiki
         run: |
           pnpm i
           pnpm lint
 
-      - name: Run frontend typecheck
-        working-directory: ./frontend
+      - name: Run wiki build
+        working-directory: ./wiki
         run: |
-          pnpm typecheck
+          pnpm build
 
   build:
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
@@ -72,15 +66,15 @@ jobs:
           node-version-file: .node-version
           cache: "pnpm"
 
-      - name: Build frontend
-        working-directory: ./frontend
+      - name: Build wiki
+        working-directory: ./wiki
         run: |
           pnpm i
           pnpm build
       - name: Build image
         uses: ./.github/actions/build
         with:
-          directory-name: frontend
+          directory-name: wiki
   merge:
     runs-on: ubuntu-latest
     needs:
@@ -91,4 +85,4 @@ jobs:
       - name: Merge image
         uses: ./.github/actions/merge
         with:
-          directory-name: frontend
+          directory-name: wiki

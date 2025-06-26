@@ -8,6 +8,7 @@ import svgr from "vite-plugin-svgr";
 config({ path: "../.env" });
 
 const backendUrl = process.env.HOSTS_BACKEND;
+const wikiUrl = process.env.HOSTS_WIKI;
 
 export default defineConfig({
   plugins: [
@@ -28,6 +29,9 @@ export default defineConfig({
       },
       "/rails": {
         target: backendUrl,
+      },
+      "^/wiki/.+": {
+        target: wikiUrl,
       },
     },
   },

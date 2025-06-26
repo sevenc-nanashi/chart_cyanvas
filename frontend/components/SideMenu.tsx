@@ -201,7 +201,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                 text: t("guideline"),
                 icon: DocumentTextRegular,
 
-                href: `https://cc-wiki.sevenc7c.com/${
+                href: `https://cc.sevenc7c.com/wiki/${
                   i18next.language
                 }/guideline`,
               },

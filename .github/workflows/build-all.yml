@@ -10,7 +10,7 @@ jobs:
       - name: Dispatch build.yml for all services
         shell: bash
         run: |
-          for service in backend frontend sub-image sub-chart sub-audio; do
+          for service in backend frontend wiki sub-image sub-chart sub-audio; do
             echo "Dispatching build.yml for $service"
             curl -X POST -H "Accept: application/vnd.github.everest-preview+json" \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
