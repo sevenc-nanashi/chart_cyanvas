@@ -1,4 +1,4 @@
-import { redirectDocument, type LoaderFunction } from "@remix-run/node";
+import { type LoaderFunction, redirectDocument } from "@remix-run/node";
 import { host } from "~/lib/config.server";
 import { detectLocale } from "~/lib/i18n.server.ts";
 
