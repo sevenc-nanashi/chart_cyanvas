@@ -35,6 +35,7 @@ type MenuItem =
       href?: string;
       onClick?: () => void;
       className?: string;
+      external?: boolean;
     };
 
 const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
@@ -204,6 +205,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                 href: `https://cc.sevenc7c.com/wiki/${
                   i18next.language
                 }/guideline`,
+                external: true,
               },
 
               session?.loggedIn && [
@@ -262,11 +264,25 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                     );
 
                     if ("href" in item && item.href) {
-                      return (
-                        <Link to={item.href} key={i} onClick={close}>
-                          {inner}
-                        </Link>
-                      );
+                      if (item.external) {
+                        return (
+                          <a
+                            href={item.href}
+                            key={i}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={close}
+                          >
+                            {inner}
+                          </a>
+                        );
+                      } else {
+                        return (
+                          <Link to={item.href} key={i} onClick={close}>
+                            {inner}
+                          </Link>
+                        );
+                      }
                     } else if ("onClick" in item) {
                       return (
                         <div key={i} onClick={item.onClick}>
