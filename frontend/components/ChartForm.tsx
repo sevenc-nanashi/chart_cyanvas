@@ -4,7 +4,7 @@ import {
   InfoRegular,
   MusicNote2Regular,
 } from "@fluentui/react-icons";
-import { Link, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
