@@ -5,6 +5,7 @@ on:
     paths:
       - "sub-chart/**"
       - ".github/workflows/sub-chart-*.yml"
+      - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
     branches:
@@ -13,12 +14,13 @@ on:
     paths:
       - "sub-chart/**"
       - ".github/workflows/sub-chart-*.yml"
+      - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
   workflow_dispatch:
 
 jobs:
-  lint:
+  check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -30,13 +32,12 @@ jobs:
           cp ./config.test.yml ./config.yml
           rake configure
       - name: Setup pnpm
-        run: corepack enable
+        uses: pnpm/action-setup@v2
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version-file: .node-version
           cache: "pnpm"
-          cache-dependency-path: sub-chart/pnpm-lock.yaml
 
       - name: Run sub-chart check
         working-directory: ./sub-chart
@@ -51,14 +52,45 @@ jobs:
         working-directory: ./sub-chart
         run: |
           pnpm typecheck
-
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
+    needs:
+      - check
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: "pnpm"
       - name: Build production
         working-directory: ./sub-chart
         run: |
+          pnpm i
           pnpm build
 
       - name: Build image
-        if: github.ref_name == 'main'
         uses: ./.github/actions/build
+        with:
+          directory-name: sub-chart
+  merge:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Merge image
+        uses: ./.github/actions/merge
         with:
           directory-name: sub-chart

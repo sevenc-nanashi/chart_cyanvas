@@ -391,7 +391,7 @@ const ChartForm: React.FC<
     const unUploaded: File[] = [];
     for (const file of Array.from(files)) {
       let field: string;
-      if (["usc"].includes(file.name.split(".").pop()!)) {
+      if (["usc", "sus"].includes(file.name.split(".").pop()!)) {
         field = "chart";
       } else if (["mp3", "wav", "ogg"].includes(file.name.split(".").pop()!)) {
         field = "bgm";
@@ -573,7 +573,7 @@ const ChartForm: React.FC<
             i18nKey="upload:publishModal.description2"
             components={[
               <Link
-                to={`https://cc-wiki.sevenc7c.com/${i18n.language}/guideline`}
+                to={`https://cc.sevenc7c.com/wiki/${i18n.language}/guideline`}
                 key="0"
                 target="_blank"
               />,
@@ -607,7 +607,7 @@ const ChartForm: React.FC<
             i18nKey="upload:description"
             components={[
               <Link
-                to={`https://cc-wiki.sevenc7c.com/${i18n.language}/guideline`}
+                to={`https://cc.sevenc7c.com/wiki/${i18n.language}/guideline`}
                 target="_blank"
                 key="0"
               />,
@@ -630,9 +630,7 @@ const ChartForm: React.FC<
                 <>{t("discordInfo.status.notConnected")}</>
               )}
               <Link
-                to={`https://cc-wiki.sevenc7c.com/${
-                  i18n.language
-                }/publishing-chart`}
+                to={`https://cc.sevenc7c.com/wiki/${i18n.language}/publishing`}
                 target="_blank"
                 className="ml-2"
               >

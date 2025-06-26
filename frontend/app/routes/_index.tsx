@@ -33,7 +33,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const Home = () => {
   const serverSettings = useServerSettings();
 
-  const { t, i18n } = useTranslation("home");
+  const { t } = useTranslation("home");
   const myFetch = useMyFetch();
 
   const fetchNewCharts = useCallback(
@@ -60,7 +60,7 @@ export const Home = () => {
           i18nKey="home:welcome"
           components={[
             <Link
-              to={`https://cc-wiki.sevenc7c.com/${i18n.language}/welcome`}
+              to={"https://cc.sevenc7c.com/wiki"}
               key="1"
               target="_blank"
             />,

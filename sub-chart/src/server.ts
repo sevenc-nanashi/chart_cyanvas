@@ -10,7 +10,7 @@ import dotenv from "dotenv";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { stream } from "hono/streaming";
-import { uscToLevelData } from "sonolus-pjsekai-engine-extended/dist/convert.cjs";
+import { uscToLevelData } from "sonolus-pjsekai-engine-extended/dist/convert.js";
 import { temporaryWrite } from "tempy";
 import urlJoin from "url-join";
 import { anyToUSC } from "usctool";

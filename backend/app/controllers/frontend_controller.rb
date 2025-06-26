@@ -38,7 +38,7 @@ class FrontendController < ApplicationController
     end
   end
   def require_discord!
-    unless $discord.enabled? && current_user.check_discord
+    if $discord.enabled? && !current_user.check_discord
       render json: {
                code: "no_discord",
                error: "Failed to verify discord link"

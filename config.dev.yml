@@ -8,6 +8,7 @@ secret_key_base: ""
 hosts:
   backend: "http://localhost:3000"
   frontend: "http://localhost:3100"
+  wiki: "http://localhost:3101"
   sub_chart: "http://localhost:3201"
   sub_audio: "http://localhost:3202"
   sub_image: "http://localhost:3203"

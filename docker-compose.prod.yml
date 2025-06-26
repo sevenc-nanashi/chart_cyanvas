@@ -8,6 +8,7 @@ services:
       - ./.env:/app/frontend/.env
     depends_on:
       - backend
+      - wiki
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3100/"]
       interval: 30s
@@ -30,6 +31,16 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  wiki:
+    image: "ghcr.io/sevenc-nanashi/chart_cyanvas/wiki:latest"
+    pull_policy: always
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3101/wiki/logo.svg"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   sub-audio:
     image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-audio:latest"
@@ -98,6 +109,13 @@ services:
   nginx:
     image: "nginx:1.23.3-alpine"
     restart: always
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+      wiki:
+        condition: service_healthy
     ports:
       - "$FINAL_PORT:80"
     volumes:

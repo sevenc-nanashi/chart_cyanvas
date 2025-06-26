@@ -32,6 +32,9 @@ properties:
       backend:
         type: "string"
         description: "backend host."
+      wiki:
+        type: "string"
+        description: "wiki host."
       sub_audio:
         type: "string"
         description: "sub-audio host."

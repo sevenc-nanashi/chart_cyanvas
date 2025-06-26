@@ -34,6 +34,18 @@ services:
       timeout: 10s
       retries: 5
 
+  wiki:
+    build:
+      context: .
+      dockerfile: ./wiki/Dockerfile
+    profiles:
+      - prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3101"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   sub-chart:
     build:
       context: .

@@ -153,7 +153,7 @@ module Sonolus
                   author_id: [current_user.id] + alt_users.map(&:id)
                 )
                 .sonolus_listed
-                .map { _1.to_sonolus(background_version:) }
+                .map { it.to_sonolus(background_version:) }
           }
         end
 
@@ -187,7 +187,7 @@ module Sonolus
             .eager_load(:tags, file_resources: { file_attachment: :blob })
             .where(visibility: :public)
             .sonolus_listed
-            .map { _1.to_sonolus(background_version:) }
+            .map { it.to_sonolus(background_version:) }
       }
       random_section = {
         title: "#RANDOM",
@@ -200,7 +200,7 @@ module Sonolus
             .eager_load(:tags, file_resources: { file_attachment: :blob })
             .where(visibility: :public)
             .sonolus_listed
-            .map { _1.to_sonolus(background_version:) }
+            .map { it.to_sonolus(background_version:) }
       }
       render json: {
                searches:,
@@ -412,7 +412,7 @@ module Sonolus
       charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
       render json: {
-               items: charts.map { _1.to_sonolus(background_version:) },
+               items: charts.map { it.to_sonolus(background_version:) },
                searches:,
                pageCount: page_count
              }

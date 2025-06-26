@@ -4,4 +4,5 @@ backend-sidekiq: cd backend && CONSOLE_OUTPUT=XTerm bundle exec sidekiq
 sub-audio: cd sub-audio && uv run task dev
 sub-image: cd sub-image && cargo run
 sub-chart: cd sub-chart && pnpm dev
+wiki: cd wiki && pnpm dev
 

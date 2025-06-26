@@ -3,17 +3,10 @@
   "organizeImports": {
     "enabled": true
   },
-  "files": {
-    "ignore": [
-      "./node_modules",
-      "./frontend/build",
-      "./frontend/node_modules",
-      "./sub-chart/node_modules",
-      "./sub-chart/dist",
-      "./data",
-      "./target",
-      "*/.venv"
-    ]
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
   },
   "formatter": {
     "indentStyle": "space",
