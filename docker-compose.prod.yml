@@ -37,7 +37,7 @@ services:
     pull_policy: always
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3101"]
+      test: ["CMD", "curl", "-f", "http://localhost:3101/wiki/logo.svg"]
       interval: 30s
       timeout: 10s
       retries: 5
