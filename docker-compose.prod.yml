@@ -33,9 +33,7 @@ services:
       retries: 3
 
   wiki:
-    build:
-      context: .
-      dockerfile: ./wiki/Dockerfile
+    image: "ghcr.io/sevenc-nanashi/chart_cyanvas/wiki:latest"
     pull_policy: always
     restart: always
     healthcheck:
