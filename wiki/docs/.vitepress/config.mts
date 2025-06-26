@@ -21,7 +21,9 @@ export default defineConfig({
       lang: "ja",
       link: "/ja/",
       themeConfig: {
-        outlineTitle: "このページについて",
+        outline: {
+          label: "目次",
+        },
         darkModeSwitchLabel: "テーマ",
         darkModeSwitchTitle: "ダークモード",
         lightModeSwitchTitle: "ライトモード",
