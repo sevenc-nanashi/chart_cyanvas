@@ -1,7 +1,7 @@
 # Guideline
 
 :::info
-If content of this guideline does not match [Japanese guideline](../guideline.md), Japanese guideline will be applied.
+If content of this guideline does not match [Japanese guideline](../ja/guideline.md), Japanese guideline will be applied.
 :::
 
 ## Rules
@@ -54,4 +54,4 @@ Multiple or severe violations may result in deletion of your account and all cha
 
 ## Having any complaints?
 
-Chart Cyanvas is open source ([sevenc-nanashi/chart\_cyanvas](https://github.com/sevenc-nanashi/chart_cyanvas)), You can host your own Chart Cyanvas instance with your own rules. If you have any complaints, please host your own instance.
+Chart Cyanvas is open source ([sevenc-nanashi/chart_cyanvas](https://github.com/sevenc-nanashi/chart_cyanvas)), You can host your own Chart Cyanvas instance with your own rules. If you have any complaints, please host your own instance.

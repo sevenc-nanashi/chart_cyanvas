@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:gap-2 items-center">
           <div>Chart Cyanvas - A sekai custom chart platform.</div>
           <div>
-            &copy; 2022-2024,{" "}
+            &copy; 2022-2025,{" "}
             <a
               target="_blank"
               rel="noreferrer"

@@ -5,7 +5,7 @@ We currently recommend using USC.
 These specifications are kept for compatibility.
 :::
 
-## #REQUEST "side\_lane true"
+## #REQUEST "side_lane true"
 
 For compatibility, lanes `0`\~`1`, `e`\~`f` (and greater) are ignored by default.
 
@@ -15,7 +15,7 @@ For compatibility, lanes `0`\~`1`, `e`\~`f` (and greater) are ignored by default
 
 You can add this line to your SUS file to enable these lanes.
 
-## #REQUEST "lane\_offset \<number>"
+## #REQUEST "lane_offset \<number>"
 
 Shift lanes to the right by `<number>`.
 

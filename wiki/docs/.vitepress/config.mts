@@ -10,27 +10,48 @@ export default defineConfig({
       port: 3101,
     },
   },
+  cleanUrls: true,
+  markdown: {
+    breaks: true,
+  },
 
   locales: {
-    root: {
+    ja: {
       label: "日本語",
       lang: "ja",
-      link: "/",
+      link: "/ja/",
       themeConfig: {
-        // 日本語版のUI翻訳
         outlineTitle: "このページについて",
-        darkModeSwitchLabel: "ダークモード",
+        darkModeSwitchLabel: "テーマ",
+        darkModeSwitchTitle: "ダークモード",
+        lightModeSwitchTitle: "ライトモード",
+        docFooter: {
+          next: "次のページ",
+          prev: "前のページ",
+        },
         sidebarMenuLabel: "メニュー",
         returnToTopLabel: "トップへ戻る",
         langMenuLabel: "言語を変更",
+        notFound: {
+          linkText: "トップページへ戻る",
+          title: "ページが見つかりません",
+          quote: "お探しのページは存在しないか、削除された可能性があります。",
+        },
+        footer: {
+          copyright: "© 2022-2025, Nanashi. <https://sevenc7c.com>",
+          message: "Chart Cyanvas - A sekai custom chart platform.",
+        },
+        lastUpdated: {
+          text: "最終更新日",
+        },
 
-        nav: [{ text: "トップ", link: "/" }],
+        nav: [{ text: "トップ", link: "/ja/" }],
 
         sidebar: [
-          { text: "ガイドライン", link: "/guideline" },
-          { text: "譜面の公開", link: "/publishing" },
-          { text: "SUS拡張仕様", link: "/sus-extended-features" },
-          { text: "寄付", link: "/donation" },
+          { text: "譜面の公開", link: "/ja/publishing" },
+          { text: "ガイドライン", link: "/ja/guideline" },
+          { text: "寄付", link: "/ja/donation" },
+          { text: "SUS拡張仕様", link: "/ja/sus-extended-features" },
         ],
       },
     },
@@ -41,17 +62,16 @@ export default defineConfig({
       themeConfig: {
         nav: [{ text: "Home", link: "/en/" }],
         sidebar: [
-          { text: "Guideline", link: "/en/guideline" },
           { text: "Publishing a chart", link: "/en/publishing" },
-          { text: "Extended SUS features", link: "/en/sus-extended-features" },
+          { text: "Guideline", link: "/en/guideline" },
           { text: "Donation", link: "/en/donation" },
+          { text: "Extended SUS features", link: "/en/sus-extended-features" },
         ],
       },
     },
   },
 
   themeConfig: {
-    // 共通設定
     socialLinks: [
       {
         icon: "github",
@@ -68,5 +88,7 @@ export default defineConfig({
     ],
 
     externalLinkIcon: true,
+
+    logo: "/logo.svg",
   },
 });
