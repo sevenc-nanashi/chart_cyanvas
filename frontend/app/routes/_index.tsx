@@ -33,7 +33,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const Home = () => {
   const serverSettings = useServerSettings();
 
-  const { t, i18n } = useTranslation("home");
+  const { t } = useTranslation("home");
   const myFetch = useMyFetch();
 
   const fetchNewCharts = useCallback(
