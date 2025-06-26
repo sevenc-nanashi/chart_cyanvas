@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2023_08_22_113859) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_05_102441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -105,6 +105,18 @@ ActiveRecord::Schema[8.0].define(version: 2023_08_22_113859) do
     t.index ["name"], name: "index_tags_on_name"
   end
 
+  create_table "user_warnings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "moderator_id"
+    t.text "reason"
+    t.integer "level", null: false
+    t.boolean "seen", default: false, null: false
+    t.index ["moderator_id"], name: "index_user_warnings_on_moderator_id"
+    t.index ["user_id"], name: "index_user_warnings_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "handle", null: false
     t.string "name", null: false
@@ -124,10 +136,21 @@ ActiveRecord::Schema[8.0].define(version: 2023_08_22_113859) do
     t.string "discord_avatar"
     t.integer "discord_status"
     t.string "discord_thread_id"
-    t.integer "warn_count", default: 0
     t.index ["handle"], name: "index_users_on_handle"
     t.index ["name"], name: "index_users_on_name"
     t.index ["owner_id"], name: "index_users_on_owner_id"
+  end
+
+  create_table "warns", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "created_by_id", null: false
+    t.integer "reason"
+    t.string "message"
+    t.datetime "checked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_warns_on_created_by_id"
+    t.index ["user_id"], name: "index_warns_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -139,5 +162,7 @@ ActiveRecord::Schema[8.0].define(version: 2023_08_22_113859) do
   add_foreign_key "likes", "charts"
   add_foreign_key "likes", "users"
   add_foreign_key "tags", "charts"
+  add_foreign_key "user_warnings", "users"
+  add_foreign_key "user_warnings", "users", column: "moderator_id"
   add_foreign_key "users", "users", column: "owner_id"
 end
