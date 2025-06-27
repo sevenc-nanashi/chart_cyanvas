@@ -22,12 +22,12 @@ You can upload an unfinished chart for testing, but that chart must be made priv
 
 ### Allowed use of music
 
-Some games does not allow fanmade: Such as a certain new-dimension rhythm game, a certain drumming game, etc.\
-Some composers does not allow fanmade neither.\
-The charts using disallowed music will be deleted.
+Some games do not allow making fanmade charts using their song: Such as a certain new-dimension rhythm game, a certain drumming game, etc.\
+Some composers do not allow fanmade neither.\
+Charts using disallowed music will be deleted.
 
 :::info
-**For copyright owners who wants to request deletion:**
+**For copyright owners who want to request deletion:**
 
 You can request deletion from #copyright-contacts channel in Chart Cyanvas Discord server. Please join from the sidebar.
 :::
