@@ -11,13 +11,19 @@ user =
     handle: "1073",
     name: "Nanashi.",
     about_me: "I'm admin.",
-    fg_color: "#fff",
-    bg_color: "#48b0d5"
+    avatar_type: "default",
+    avatar_fg_type: "player",
+    avatar_fg_color: "#fff",
+    avatar_bg_type: "default",
+    avatar_bg_color: "#48b0d5"
   )
 user.alt_users.create!(
   handle: "x740",
   name: "Nanatsuki Kuten",
   about_me: "Alt account of Nanashi.",
-  fg_color: "#48b0d5",
-  bg_color: "#fff"
+  avatar_type: "default",
+  avatar_fg_type: "player",
+  avatar_fg_color: "#48b0d5",
+  avatar_bg_type: "default",
+  avatar_bg_color: "#fff"
 )

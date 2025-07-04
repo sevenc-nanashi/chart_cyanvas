@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2023_08_22_113859) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_04_124906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -111,8 +111,8 @@ ActiveRecord::Schema[8.0].define(version: 2023_08_22_113859) do
     t.text "about_me", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "fg_color"
-    t.string "bg_color"
+    t.string "avatar_fg_color"
+    t.string "avatar_bg_color"
     t.bigint "owner_id"
     t.integer "charts_count", default: 0, null: false
     t.string "discord_id"
@@ -125,6 +125,9 @@ ActiveRecord::Schema[8.0].define(version: 2023_08_22_113859) do
     t.integer "discord_status"
     t.string "discord_thread_id"
     t.integer "warn_count", default: 0
+    t.string "avatar_type", default: "default", null: false
+    t.string "avatar_fg_type", default: "player", null: false
+    t.string "avatar_bg_type", default: "default", null: false
     t.index ["handle"], name: "index_users_on_handle"
     t.index ["name"], name: "index_users_on_name"
     t.index ["owner_id"], name: "index_users_on_owner_id"

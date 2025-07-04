@@ -6,6 +6,7 @@ import { pathcat } from "pathcat";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ModalPortal from "~/components/ModalPortal.tsx";
+import SonolusAvatar from "~/components/SonolusAvatar";
 import {
   useIsSubmitting,
   useMyFetch,
@@ -225,11 +226,10 @@ const MyAlts = () => {
                 className="flex flex-col xl:flex-row gap-2 items-center px-4 card"
               >
                 <div className="flex flex-row gap-2 items-center w-full">
-                  <div
-                    className="w-8 h-8 rounded"
-                    style={{
-                      backgroundColor: altUser.bgColor,
-                    }}
+                  <SonolusAvatar
+                    avatar={altUser.avatar}
+                    containerClassName="w-8 h-8 rounded"
+                    innerClassName="w-1/2 h-1/2"
                   />
                   <input
                     type="text"
@@ -276,11 +276,10 @@ const MyAlts = () => {
                 key={altUser.handle}
                 className="flex flex-row gap-2 items-center px-4 card"
               >
-                <div
-                  className="w-8 h-8 rounded"
-                  style={{
-                    backgroundColor: altUser.bgColor,
-                  }}
+                <SonolusAvatar
+                  avatar={altUser.avatar}
+                  containerClassName="w-8 h-8 rounded"
+                  innerClassName="w-1/2 h-1/2"
                 />
                 <div className="gap-2 text-xl text-normal gray-link">
                   <Link to={`/users/${altUser.handle}`}>
