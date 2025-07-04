@@ -3,8 +3,6 @@ import {
   EyeRegular,
   MusicNote2Regular,
   OpenRegular,
-  PersonFilled,
-  PersonRegular,
 } from "@fluentui/react-icons";
 import {
   type LoaderFunctionArgs,
