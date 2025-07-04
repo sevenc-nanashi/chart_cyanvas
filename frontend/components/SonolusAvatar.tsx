@@ -18,7 +18,7 @@ export default function SonolusAvatar(props: {
       <div
         className={props.containerClassName ?? "w-8 h-8"}
         style={{
-          backgroundImage: `url(https://content.sonolus.com/avatar/background/${bgType})`,
+          backgroundImage: `url(https://content.sonolus.com/avatar/${type})`,
           backgroundSize: "100% 100%",
         }}
       />

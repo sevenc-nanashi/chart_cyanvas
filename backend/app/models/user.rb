@@ -94,6 +94,7 @@ class User < ApplicationRecord
   end
 
   def self.sync_profile(user_profile)
+    warn user_profile.inspect
     table_contents = {
       handle: user_profile[:handle],
       name: user_profile[:name],
