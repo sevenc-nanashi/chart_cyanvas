@@ -38,6 +38,18 @@ module Sonolus
           shortcuts: []
         },
         {
+          query: :q_genres,
+          name: I18n.t("sonolus.search.genres"),
+          description: I18n.t("sonolus.search.genres_description"),
+          type: "multi",
+          required: false,
+          def: Chart::GENRES.map { false },
+          values:
+            Chart::GENRES.keys.map do |genre|
+              { name: genre, title: I18n.t("sonolus.levels.genres.#{genre}") }
+            end
+        },
+        {
           query: :q_tags,
           name: I18n.t("sonolus.search.tags"),
           type: "text",
@@ -185,7 +197,7 @@ module Sonolus
             .limit(5)
             .includes(:author)
             .eager_load(:tags, file_resources: { file_attachment: :blob })
-            .where(visibility: :public)
+            .where(visibility: :public, genre: user_genres)
             .sonolus_listed
             .map { it.to_sonolus(background_version:) }
       }
@@ -198,7 +210,7 @@ module Sonolus
             .limit(5)
             .includes(:author)
             .eager_load(:tags, file_resources: { file_attachment: :blob })
-            .where(visibility: :public)
+            .where(visibility: :public, genre: user_genres)
             .sonolus_listed
             .map { it.to_sonolus(background_version:) }
       }
@@ -406,6 +418,25 @@ module Sonolus
             "%#{params[:q_id].downcase}%"
           )
       end
+      genres =
+        (params[:q_genres] || "")
+          .split(",")
+          .map do |genre|
+            genre = genre.strip.downcase.to_sym
+            if Chart::GENRES.key?(genre)
+              genre
+            else
+              logger.warn "Invalid genre: #{genre}"
+              nil
+            end
+          end
+          .compact
+      charts =
+        if genres.empty?
+          charts.where(genre: user_genres)
+        else
+          charts.where(genre: genres)
+        end
 
       page_count = (charts.count / 20.0).ceil
 

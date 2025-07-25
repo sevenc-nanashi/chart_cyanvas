@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { Chart, ServerSettings, Session } from "./types.ts";
 
 export const getRatingColor = (difficulty: number) => {
@@ -43,4 +44,13 @@ export const sonolusUrl = (serverSettings: ServerSettings, path: string) => {
   ret.pathname = `${host.host}${host.pathname}${path}`.replace(/\/+/g, "/");
 
   return ret.toString();
+};
+
+export const useMergeChartTags = () => {
+  const { t: rootT } = useTranslation();
+  return (data: Chart) =>
+    [
+      (data.genre !== "others" && rootT(`genre.${data.genre}`)) || "",
+      ...data.tags,
+    ].filter((v) => v !== "");
 };

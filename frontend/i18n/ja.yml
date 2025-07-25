@@ -15,6 +15,15 @@ openInSonolus: "Sonolus"
 
 adminDecorate: "（管理者）"
 
+genre:
+  others: "その他"
+  vocal_synth: "ボカロ（広義）"
+  music_game: "音楽ゲーム"
+  game: "ゲーム"
+  meme: "音MAD・ミーム"
+  pops: "ポップス"
+  instrumental: "Inst."
+
 notFound:
   title: "Not Found"
   heading: "404 Not Found"
@@ -85,6 +94,7 @@ searchCharts:
     artist: "ボーカル"
     authorName: "作者名義"
     authorHandles: "譜面作者"
+    genres: "ジャンル"
     tags: "タグ"
     rating: "難易度"
     sort: "並び替え"
@@ -144,6 +154,8 @@ upload:
     tags: "タグ"
 
     author: "譜面作者"
+
+    genre: "ジャンル"
 
   tooltip:
     rating: "1から99までを指定できます。40より大きい譜面を指定する場合は、右の入力欄から直接入力してください。"

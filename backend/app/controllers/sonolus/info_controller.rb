@@ -47,6 +47,22 @@ module Sonolus
                              )
                          }
                        }
+                   },
+                   {
+                     query: :c_genres,
+                     name: I18n.t("sonolus.configuration.genres.title"),
+                     description:
+                       I18n.t("sonolus.configuration.genres.description"),
+                     type: "multi",
+                     required: false,
+                     def: Chart::GENRES.map { true },
+                     values:
+                       Chart::GENRES.keys.map { |genre|
+                         {
+                           name: genre,
+                           title: I18n.t("sonolus.levels.genres.#{genre}")
+                         }
+                       }
                    }
                  ]
                },

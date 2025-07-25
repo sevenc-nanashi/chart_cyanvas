@@ -33,6 +33,17 @@ class Chart < ApplicationRecord
   VISIBILITY = { private: 0, public: 1, scheduled: 2 }.freeze
   enum :visibility, VISIBILITY, prefix: "visibility"
 
+  GENRES = {
+    vocal_synth: 1,
+    music_game: 2,
+    game: 3,
+    meme: 4,
+    pops: 5,
+    instrumental: 6,
+    others: 0
+  }.freeze
+  enum :genre, GENRES, prefix: true
+
   def self.include_all
     preload(%i[author co_authors _variants tags file_resources]).merge(
       FileResource.with_attached_file
@@ -81,6 +92,7 @@ class Chart < ApplicationRecord
           end
         ),
       tags: tags.map(&:name),
+      genre:,
       publishedAt: published_at&.iso8601,
       updatedAt: updated_at.iso8601,
       rating:,
@@ -121,6 +133,8 @@ class Chart < ApplicationRecord
             { title: I18n.t("sonolus.levels.visibility.scheduled") }
           end
         ),
+        genre != "others" &&
+          { title: I18n.t("sonolus.levels.genres.#{genre}") },
         *tags.map { |tag| { title: tag.name } }
       ].filter(&:itself),
       cover: resources[:cover]&.to_srl || { hash: "", url: "" },

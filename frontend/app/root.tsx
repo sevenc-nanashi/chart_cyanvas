@@ -11,6 +11,7 @@ import {
   useRouteLoaderData,
 } from "@remix-run/react";
 import clsx from "clsx";
+import { pathcat } from "pathcat";
 import { useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import favicon from "~/assets/favicon.svg?url";
@@ -18,7 +19,7 @@ import DisablePortal from "~/components/DisablePortal";
 import Footer from "~/components/Footer.tsx";
 import Header from "~/components/Header.tsx";
 import ModalPortal from "~/components/ModalPortal";
-import { discordEnabled, host } from "~/lib/config.server.ts";
+import { backendUrl, host } from "~/lib/config.server.ts";
 import {
   IsSubmittingContext,
   ServerErrorContext,
@@ -35,10 +36,15 @@ import styles from "~/styles/globals.scss?url";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
+  const meta: {
+    discordEnabled: boolean;
+    genres: string[];
+  } = await fetch(pathcat(backendUrl, "/meta")).then((res) => res.json());
   return json({
     locale,
     serverSettings: {
-      discordEnabled,
+      discordEnabled: meta.discordEnabled,
+      genres: meta.genres,
       host,
     } satisfies ServerSettings,
   });

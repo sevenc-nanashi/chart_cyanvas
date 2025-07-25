@@ -110,6 +110,7 @@ function EditChart() {
           description: chartData.description,
           composer: chartData.composer,
           artist: chartData.artist || "",
+          genre: chartData.genre || "others",
           tags: chartData.tags.map((tag) => ({ id: tag, text: tag })),
           rating: chartData.rating,
           authorHandle: chartData.author.handle,
