@@ -1,6 +1,6 @@
 # Welcome!
 
-Welcome to Chart Cyanvas, a sekai fanmade charts platform!
+Welcome to Chart Cyanvas, a Sekai fan-made charts platform!
 
 You need [Sonolus](https://sonolus.com/) to play and/or publish charts.
 

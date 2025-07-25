@@ -4,7 +4,7 @@ import {
   InfoRegular,
   MusicNote2Regular,
 } from "@fluentui/react-icons";
-import { Link, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -572,8 +572,8 @@ const ChartForm: React.FC<
           <Trans
             i18nKey="upload:publishModal.description2"
             components={[
-              <Link
-                to={`https://cc.sevenc7c.com/wiki/${i18n.language}/guideline`}
+              <a
+                href={`https://cc.sevenc7c.com/wiki/${i18n.language}/guideline`}
                 key="0"
                 target="_blank"
               />,
@@ -606,8 +606,8 @@ const ChartForm: React.FC<
           <Trans
             i18nKey="upload:description"
             components={[
-              <Link
-                to={`https://cc.sevenc7c.com/wiki/${i18n.language}/guideline`}
+              <a
+                href={`https://cc.sevenc7c.com/wiki/${i18n.language}/guideline`}
                 target="_blank"
                 key="0"
               />,
@@ -629,13 +629,13 @@ const ChartForm: React.FC<
               ) : (
                 <>{t("discordInfo.status.notConnected")}</>
               )}
-              <Link
-                to={`https://cc.sevenc7c.com/wiki/${i18n.language}/publishing`}
+              <a
+                href={`https://cc.sevenc7c.com/wiki/${i18n.language}/publishing`}
                 target="_blank"
                 className="ml-2"
               >
                 {t("discordInfo.connectGuide")}
-              </Link>
+              </a>
             </>
           )}
         </Budoux>

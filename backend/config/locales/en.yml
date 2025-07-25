@@ -7,12 +7,12 @@ en:
       engine-title: "(Message)"
       author: "System"
     dummy:
-      title: "This level cannot be played!"
-      description: "This level is not playable. This level is meant to be used as a message."
+      title: "This level is unplayable!"
+      description: "This level is unplayable and is meant to be used as a message."
     search:
       unknown-user:
         title: "Unknown author!"
-        description: "Make sure the author with the given Handle exists."
+        description: "Make sure the author with the given handle exists."
   sonolus:
     title: "Chart Cyanvas"
 
@@ -24,13 +24,13 @@ en:
           v3: "v3"
 
     popular_maintenance:
-      title: "Popular levels section is under maintenance!"
+      title: "The popular levels section is under maintenance!"
 
     auth:
-      external_done: "Successfully signed in! Now please go back to the website."
+      external_done: "Successfully signed in! You can now return to the website."
     info:
       description: "Chart Cyanvas is a sekai custom charts platform for Sonolus."
-      logged_in: "Signed in as %{name}#%{handle}."
+      logged_in: "You are signed in as %{name}#%{handle}."
     backgrounds:
       title: "%{name} (v%{version})"
       sections:
@@ -39,7 +39,7 @@ en:
       published_at: "Published: %{time} ago"
       variants:
         zero: "No variants"
-        one: "1 variant"
+        one: "Variant"
         other: "%{count} variants"
 
       visibility:
@@ -49,7 +49,7 @@ en:
 
       sections:
         actions: "Actions"
-        variant_of: "Vary from"
+        variant_of: "Parent chart"
         variants: "Variants"
         backgrounds: "Backgrounds"
 
@@ -68,18 +68,18 @@ en:
       artist: "Artist"
       artist_placeholder: "Please enter the name of the artist..."
       author: "Charter handle"
-      author_placeholder: "Please enter the handle of the charter, separated by space... (ex: 1234 x567)"
+      author_placeholder: "Enter the charter's handle (e.g., 1234 x567)."
       author_name: "Charter name"
-      author_name_placeholder: "Please enter the name of the charter..."
+      author_name_placeholder: "Enter the charter's name."
       id: "ID"
-      id_placeholder: "Please enter the ID..."
+      id_placeholder: "Enter the ID."
       tags: "Tags"
-      tags_placeholder: "Please enter the tags, separated by space..."
+      tags_placeholder: "Enter tags, separated by spaces."
       sort: "Sort"
       sorts:
-        published_at: "Last published"
-        updated_at: "Last updated"
+        published_at: "Recently published"
+        updated_at: "Recently updated"
         likes_count: "Most liked"
-      rating_max: "Difficulty (Max)"
-      rating_min: "Difficulty (Min)"
-      unknown_author: "Failed to find charters. Make sure you have the correct handles."
+      rating_max: "Maximum difficulty"
+      rating_min: "Minimum difficulty"
+      unknown_author: "Failed to find charters. Make sure you have entered the correct handles."

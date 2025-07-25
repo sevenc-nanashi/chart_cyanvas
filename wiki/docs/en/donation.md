@@ -1,6 +1,6 @@
 # Donation
 
-I'm accepting donation on Patreon or GitHub Sponsors.
+I accept donations on Patreon or GitHub Sponsors.
 
 **Patreon:** <https://www.patreon.com/sevenc_nanashi>
 **GitHub Sponsors:** <https://github.com/sponsors/sevenc-nanashi>

@@ -30,10 +30,17 @@ export type User = {
   handle: string;
   name: string;
   aboutMe: string;
-  bgColor: string;
-  fgColor: string;
+  avatar: Avatar;
   chartCount: number;
   userType: "admin" | "user";
+};
+
+export type Avatar = {
+  type: "default" | `theme-${string}`;
+  foregroundType: string;
+  foregroundColor: string;
+  backgroundType: "default" | `theme-${string}`;
+  backgroundColor: string;
 };
 
 export type AdminOnlyUserData = User & { altUsers: User[] };

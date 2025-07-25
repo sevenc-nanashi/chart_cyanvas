@@ -27,8 +27,11 @@ module Api
           name:,
           owner_id: session[:user_id],
           about_me: "",
-          fg_color: "#ffffff",
-          bg_color:
+          avatar_type: "default",
+          avatar_fg_type: "player",
+          avatar_fg_color: "#ffffff",
+          avatar_bg_type: "default",
+          avatar_bg_color:
             "##{ColorGenerator.new(saturation: 0.5, lightness: 0.5).create_hex}"
         )
       render json: { code: "ok", data: user.to_frontend }

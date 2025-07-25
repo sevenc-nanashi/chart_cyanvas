@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import { type LoaderFunction, redirectDocument } from "@remix-run/node";
 import { host } from "~/lib/config.server";
 import { detectLocale } from "~/lib/i18n.server.ts";
 
@@ -6,11 +6,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   const locale = await detectLocale(request);
 
   const url = new URL(request.url);
-  const [_beforeWiki, afterWiki] = url.pathname.split("/wiki/");
+  const [_beforeWiki, afterWiki] = url.pathname.split("/wiki");
 
+  let willRecirectTo: string;
   if (afterWiki.startsWith(`${locale}/`)) {
-    return Response.redirect(`${host}/wiki/${afterWiki}`, 308);
+    willRecirectTo = `/wiki${afterWiki}`;
   } else {
-    return Response.redirect(`${host}/wiki/${locale}/${afterWiki}`, 308);
+    willRecirectTo = `/wiki/${locale}${afterWiki}`;
   }
+  return redirectDocument(`${host}${willRecirectTo}`);
 };

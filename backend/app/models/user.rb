@@ -22,9 +22,14 @@ class User < ApplicationRecord
       handle: owner_id ? "x#{handle}" : handle,
       name:,
       aboutMe: about_me,
-      bgColor: bg_color,
-      fgColor: fg_color,
       chartCount: charts_count,
+      avatar: {
+        type: avatar_type,
+        foregroundType: avatar_fg_type,
+        foregroundColor: avatar_fg_color,
+        backgroundType: avatar_bg_type,
+        backgroundColor: avatar_bg_color
+      },
       userType: admin? ? "admin" : "user"
     }
   end
@@ -93,8 +98,11 @@ class User < ApplicationRecord
       handle: user_profile[:handle],
       name: user_profile[:name],
       about_me: user_profile[:aboutMe],
-      fg_color: user_profile[:avatarForegroundColor],
-      bg_color: user_profile[:avatarBackgroundColor]
+      avatar_type: user_profile[:avatarType],
+      avatar_fg_type: user_profile[:avatarForegroundType],
+      avatar_fg_color: user_profile[:avatarForegroundColor],
+      avatar_bg_type: user_profile[:avatarBackgroundType],
+      avatar_bg_color: user_profile[:avatarBackgroundColor]
     }
 
     if (u = User.find_by(handle: user_profile[:handle], owner_id: nil))

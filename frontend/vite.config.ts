@@ -7,6 +7,7 @@ import svgr from "vite-plugin-svgr";
 
 config({ path: "../.env" });
 
+const finalHost = process.env.FINAL_HOST && new URL(process.env.FINAL_HOST).hostname;
 const backendUrl = process.env.HOSTS_BACKEND;
 const wikiUrl = process.env.HOSTS_WIKI;
 
@@ -34,6 +35,7 @@ export default defineConfig({
         target: wikiUrl,
       },
     },
+    allowedHosts: finalHost !== undefined ? [finalHost] : undefined,
   },
   resolve: {
     alias: {

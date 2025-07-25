@@ -1,10 +1,11 @@
-import { NavigationFilled, PersonFilled } from "@fluentui/react-icons";
+import { NavigationFilled } from "@fluentui/react-icons";
 import { Link } from "@remix-run/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import LogoCF from "~/assets/logo-cf.svg?react";
 import { useSession } from "~/lib/contexts";
 import SideMenu from "./SideMenu.tsx";
+import SonolusAvatar from "./SonolusAvatar.tsx";
 
 const Header = () => {
   const session = useSession();
@@ -38,19 +39,11 @@ const Header = () => {
             className="flex items-end text-white bg-white p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer"
             onClick={() => setShowMenu(true)}
           >
-            <div
-              className="rounded-full w-8 h-8 md:mr-2 grid place-items-center shadow-md"
-              style={{
-                backgroundColor: session.user.bgColor,
-              }}
-            >
-              <PersonFilled
-                className="w-3/4 h-3/4"
-                style={{
-                  color: session.user.fgColor,
-                }}
-              />
-            </div>
+            <SonolusAvatar
+              avatar={session.user.avatar}
+              containerClassName="rounded-full w-8 h-8 md:mr-2"
+              innerClassName="w-1/2 h-1/2"
+            />
             <div className="font-bold text-xl text-white md:block hidden">
               {session.user.name}
               <span className="text-sm">

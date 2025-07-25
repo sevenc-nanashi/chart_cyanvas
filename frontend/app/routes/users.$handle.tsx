@@ -3,8 +3,6 @@ import {
   EyeRegular,
   MusicNote2Regular,
   OpenRegular,
-  PersonFilled,
-  PersonRegular,
 } from "@fluentui/react-icons";
 import {
   type LoaderFunctionArgs,
@@ -16,6 +14,7 @@ import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ChartSection from "~/components/ChartSection";
+import SonolusAvatar from "~/components/SonolusAvatar";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
@@ -175,21 +174,12 @@ const UserPage = () => {
           </div>
 
           <div className="flex flex-col ml-2">
-            <div
-              className="md:h-40 md:w-40 rounded-xl bg-gray-300 square w-32 h-32 grid place-items-center shadow-lg"
-              style={{ backgroundColor: userData.bgColor }}
-            >
-              {userData.handle.startsWith("x") ? (
-                <PersonRegular
-                  className="w-4/5 h-4/5"
-                  style={{ color: userData.fgColor }}
-                />
-              ) : (
-                <PersonFilled
-                  className="w-4/5 h-4/5"
-                  style={{ color: userData.fgColor }}
-                />
-              )}
+            <div className="md:h-40 md:w-40 square w-32 h-32 drop-shadow-lg">
+              <SonolusAvatar
+                avatar={userData.avatar}
+                containerClassName="square w-full h-full"
+                innerClassName="w-1/2 h-1/2"
+              />
             </div>
             <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">
               <a

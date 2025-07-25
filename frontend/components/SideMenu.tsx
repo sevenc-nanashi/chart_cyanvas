@@ -5,7 +5,6 @@ import {
   DocumentTextRegular,
   HeartRegular,
   PersonArrowRightFilled,
-  PersonFilled,
   SearchRegular,
   SettingsRegular,
   SignOutRegular,
@@ -20,6 +19,7 @@ import { useSession } from "~/lib/contexts.ts";
 import { useLogin } from "~/lib/useLogin.ts";
 import ModalPortal from "./ModalPortal.tsx";
 import SettingsDialog from "./SettingsDialog.tsx";
+import SonolusAvatar from "./SonolusAvatar.tsx";
 
 type MenuItem =
   | {
@@ -35,6 +35,7 @@ type MenuItem =
       href?: string;
       onClick?: () => void;
       className?: string;
+      external?: boolean;
     };
 
 const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
@@ -91,19 +92,11 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
           {session?.loggedIn ? (
             <Link to={`/users/${session.user.handle}`} onClick={close}>
               <div className="flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer">
-                <div
-                  className="rounded-full w-10 h-10 mr-2 grid place-items-center shadow-md"
-                  style={{
-                    backgroundColor: session.user.bgColor,
-                  }}
-                >
-                  <PersonFilled
-                    className="w-3/4 h-3/4"
-                    style={{
-                      color: session.user.fgColor,
-                    }}
-                  />
-                </div>
+                <SonolusAvatar
+                  avatar={session.user.avatar}
+                  containerClassName="rounded-full w-10 h-10 mr-2 grid place-items-center shadow-md"
+                  innerClassName="w-1/2 h-1/2"
+                />
                 <div className="font-bold text-2xl text-normal">
                   {session.user.name}
                   <span className="text-sm">#{session.user.handle}</span>
@@ -204,6 +197,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                 href: `https://cc.sevenc7c.com/wiki/${
                   i18next.language
                 }/guideline`,
+                external: true,
               },
 
               session?.loggedIn && [
@@ -262,11 +256,25 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
                     );
 
                     if ("href" in item && item.href) {
-                      return (
-                        <Link to={item.href} key={i} onClick={close}>
-                          {inner}
-                        </Link>
-                      );
+                      if (item.external) {
+                        return (
+                          <a
+                            href={item.href}
+                            key={i}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={close}
+                          >
+                            {inner}
+                          </a>
+                        );
+                      } else {
+                        return (
+                          <Link to={item.href} key={i} onClick={close}>
+                            {inner}
+                          </Link>
+                        );
+                      }
                     } else if ("onClick" in item) {
                       return (
                         <div key={i} onClick={item.onClick}>
