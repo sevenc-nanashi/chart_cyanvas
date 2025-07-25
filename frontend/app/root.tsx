@@ -1,4 +1,8 @@
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import clsx from "clsx";
+import { pathcat } from "pathcat";
+import { useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 import {
   Links,
   Meta,
@@ -8,11 +12,7 @@ import {
   useLocation,
   useNavigation,
   useRouteLoaderData,
-} from "@remix-run/react";
-import clsx from "clsx";
-import { pathcat } from "pathcat";
-import { useEffect, useMemo, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+} from "react-router";
 import favicon from "~/assets/favicon.svg?url";
 import DisablePortal from "~/components/DisablePortal";
 import Footer from "~/components/Footer.tsx";

@@ -1,9 +1,9 @@
 import { ArrowRightFilled, OpenRegular } from "@fluentui/react-icons";
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import type { LoaderFunction, MetaFunction } from "react-router";
+import { Link } from "react-router";
 import ChartList from "~/components/ChartList";
 import { useMyFetch, useServerSettings } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";

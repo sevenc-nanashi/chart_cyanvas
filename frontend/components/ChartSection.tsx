@@ -1,7 +1,7 @@
 import { ArrowRightFilled } from "@fluentui/react-icons";
-import { Await, Link } from "@remix-run/react";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
+import { Await, Link } from "react-router";
 import type { Chart } from "~/lib/types.ts";
 import ChartCard from "./ChartCard.tsx";
 

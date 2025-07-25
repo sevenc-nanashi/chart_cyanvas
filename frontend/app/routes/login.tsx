@@ -1,11 +1,7 @@
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  json,
-} from "@remix-run/node";
-import { useBeforeUnload } from "@remix-run/react";
 import { useCallback, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useBeforeUnload } from "react-router";
 import { detectLocale, i18n } from "~/lib/i18n.server";
 import { useLogin } from "~/lib/useLogin.ts";
 

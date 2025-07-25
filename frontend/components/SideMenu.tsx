@@ -10,11 +10,11 @@ import {
   SignOutRegular,
   TagRegular,
 } from "@fluentui/react-icons";
-import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import i18next from "i18next";
 import { createElement, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { useSession } from "~/lib/contexts.ts";
 import { useLogin } from "~/lib/useLogin.ts";
 import ModalPortal from "./ModalPortal.tsx";

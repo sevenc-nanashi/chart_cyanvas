@@ -1,10 +1,6 @@
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  json,
-} from "@remix-run/node";
-import { useSearchParams } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useSearchParams } from "react-router";
 import ChartForm from "~/components/ChartForm.tsx";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import requireLogin from "~/lib/requireLogin.tsx";

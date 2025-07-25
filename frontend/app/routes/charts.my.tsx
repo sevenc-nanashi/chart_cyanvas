@@ -1,8 +1,8 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { Link, type MetaFunction } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import type { LoaderFunction } from "react-router";
+import { Link, type MetaFunction } from "react-router";
 import ChartList from "~/components/ChartList.tsx";
 import { useMyFetch } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";

@@ -1,6 +1,6 @@
-import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunction, MetaFunction } from "react-router";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -10,7 +10,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title });
+  return { locale, title };
 };
 
 export const handle = {

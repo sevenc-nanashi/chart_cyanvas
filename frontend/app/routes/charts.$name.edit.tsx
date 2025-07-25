@@ -1,9 +1,9 @@
 import { ArrowLeftFilled, LockClosedRegular } from "@fluentui/react-icons";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { Link, useLoaderData, useParams } from "react-router";
 import ChartForm from "~/components/ChartForm.tsx";
 import { backendUrl } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts";

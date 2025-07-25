@@ -1,8 +1,8 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { Link, type MetaFunction, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs } from "react-router";
+import { Link, type MetaFunction, useNavigate } from "react-router";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import requireLogin from "~/lib/requireLogin.tsx";
 
