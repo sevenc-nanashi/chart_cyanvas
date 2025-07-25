@@ -15,6 +15,15 @@ openInSonolus: "Sonolus"
 
 adminDecorate: " (Admin)"
 
+genre:
+  others: "Others"
+  vocal_synth: "VocalSynth, Vocaloid"
+  music_game: "Music Game"
+  game: "Game"
+  meme: "Meme"
+  pops: "Pops"
+  instrumental: "Instrumental"
+
 notFound:
   title: "Not Found"
   heading: "404 Not Found"
@@ -85,6 +94,7 @@ searchCharts:
     artist: "Vocal"
     authorName: "Charter name"
     authorHandles: "Charter handle"
+    genres: "Genres"
     tags: "Tags"
     rating: "Difficulty"
     sort: "Sort by"
@@ -141,6 +151,7 @@ upload:
     chart: "Chart file"
     bgm: "BGM file"
 
+    genre: "Genre"
     tags: "Tags"
 
     author: "Charter"
