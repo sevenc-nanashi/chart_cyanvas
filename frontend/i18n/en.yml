@@ -7,6 +7,7 @@ backToHome: "Return to top page"
 separator: ", "
 brackets: " ({{content}})"
 kv: "{{key}}: {{value}}"
+all: "All"
 
 serverError: "An error occurred on the server!"
 serverErrorNote: "Please let us know <0>on our Discord server</0>."

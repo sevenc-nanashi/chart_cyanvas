@@ -185,9 +185,13 @@ const Search = () => {
       );
     }
     if (params.genres.length > 0) {
-      mappedParams[t("param.genres")] = params.genres
-        .map((g) => rootT(`genre.${g}`))
-        .join(rootT("separator"));
+      if (params.genres.length === serverSettings.genres.length) {
+        mappedParams[t("param.genres")] = rootT("all");
+      } else {
+        mappedParams[t("param.genres")] = params.genres
+          .map((g) => rootT(`genre.${g}`))
+          .join(rootT("separator"));
+      }
     }
     if (params.tags.length > 0) {
       mappedParams[t("param.tags")] = params.tags.join(rootT("separator"));

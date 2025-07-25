@@ -37,7 +37,7 @@ const SelectItemComponent: React.FC<{
     value={item.value}
     disabled={item.disabled}
   >
-    <RadixSelect.ItemIndicator className="absolute left-0 ml-1 top-1/2 transform -translate-y-1/2">
+    <RadixSelect.ItemIndicator className="absolute left-[0.25rem] top-[calc(50%_-_0.125rem)] transform -translate-y-1/2">
       <CheckmarkRegular />
     </RadixSelect.ItemIndicator>
     <RadixSelect.ItemText>{item.label}</RadixSelect.ItemText>
@@ -94,13 +94,13 @@ const Select: React.FC<{
   >
     <RadixSelect.Trigger
       className={clsx(
-        "text-input relative cursor-pointer",
+        "text-input relative cursor-pointer flex justify-between items-center",
         props.disabled && "disabled",
         props.className,
       )}
     >
       <RadixSelect.Value>{props.children}</RadixSelect.Value>
-      <RadixSelect.Icon>
+      <RadixSelect.Icon className="ml-1">
         <ChevronDownRegular />
       </RadixSelect.Icon>
     </RadixSelect.Trigger>

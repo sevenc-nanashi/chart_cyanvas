@@ -7,6 +7,7 @@ backToHome: "トップへ戻る"
 separator: "、"
 brackets: "（{{content}}）"
 kv: "{{key}}：{{value}}"
+all: "すべて"
 
 serverError: "サーバーでエラーが発生しました！"
 serverErrorNote: "<0>Discordサーバー</0>に報告してください。"
