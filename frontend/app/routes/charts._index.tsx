@@ -205,7 +205,7 @@ const Search = () => {
     return Object.entries(mappedParams)
       .map(([key, value]) => rootT("kv", { key, value }))
       .join(rootT("separator"));
-  }, [form, t, rootT]);
+  }, [form, t, rootT, serverSettings]);
   const [currentQuery, setCurrentQuery] = useState(buildCurrentQuery);
 
   return (
