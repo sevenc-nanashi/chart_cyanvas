@@ -431,11 +431,12 @@ module Sonolus
             end
           end
           .compact
-      if genres.empty?
-        charts = charts.where(genre: user_genres)
-      else
-        charts = charts.where(genre: genres)
-      end
+      charts =
+        if genres.empty?
+          charts.where(genre: user_genres)
+        else
+          charts.where(genre: genres)
+        end
 
       page_count = (charts.count / 20.0).ceil
 
