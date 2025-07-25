@@ -94,6 +94,7 @@ searchCharts:
     artist: "ボーカル"
     authorName: "作者名義"
     authorHandles: "譜面作者"
+    genres: "ジャンル"
     tags: "タグ"
     rating: "難易度"
     sort: "並び替え"

@@ -35,7 +35,13 @@ import { backendUrl, host } from "~/lib/config.server.ts";
 import { useServerSettings, useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types.ts";
-import { getRatingColor, isAdmin, isMine, sonolusUrl } from "~/lib/utils.ts";
+import {
+  getRatingColor,
+  isAdmin,
+  isMine,
+  sonolusUrl,
+  useMergeChartTags,
+} from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -150,10 +156,13 @@ const ChartPage = () => {
   const navigate = useNavigate();
   const serverSettings = useServerSettings();
   const session = useSession();
+  const mergeChartTags = useMergeChartTags();
 
   const [showDeletionModal, setShowDeletionModal] = useState(false);
 
   const [publishedAt, setPublishedAt] = useState("-");
+
+  const tags = mergeChartTags(chartData);
 
   useEffect(() => {
     if (chartData.publishedAt) {
@@ -304,13 +313,21 @@ const ChartPage = () => {
             </p>
 
             <p>
-              {chartData.tags.length > 0 ? (
+              {tags.length > 0 ? (
                 <>
                   <TagRegular className="mr-1 w-6 h-6" />
-                  {chartData.tags.map((tag, i) => (
+                  {tags.map((tag, i) => (
                     <Fragment key={i}>
-                      <Link to={pathcat("/charts", { tags: tag })}>{tag}</Link>
-                      {i < chartData.tags.length - 1 && rootT("separator")}
+                      {i === 0 && chartData.genre !== "other" ? (
+                        <Link to={pathcat("/charts", { genres: chartData.genre })}>
+                          {tag}
+                        </Link>
+                      ) : (
+                        <Link to={pathcat("/charts", { tags: tag })}>
+                          {tag}
+                        </Link>
+                      )}
+                      {i < tags.length - 1 && rootT("separator")}
                     </Fragment>
                   ))}
                 </>

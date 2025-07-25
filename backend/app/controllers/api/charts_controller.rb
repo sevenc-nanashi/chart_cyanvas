@@ -117,6 +117,7 @@ class SearchValidator
               :rating_max,
               :author_name,
               :author_handles,
+              :genres,
               :tags,
               :sort,
               :include_non_public
@@ -150,7 +151,14 @@ class SearchValidator
               maximum: 5,
               message: "tooManyTags"
             }
-
+  validate :genres
+  def validate_genres
+    if genres.present?
+      genres.each do |genre|
+        errors.add(:genres, "invalid") unless Chart::GENRES.keys.include?(genre)
+      end
+    end
+  end
   validates :sort,
             inclusion: {
               in: %w[publishedAt updatedAt likes],
@@ -175,6 +183,7 @@ class SearchValidator
     @sort = params[:sort]
     @author_name = params[:authorName]
     @author_handles = params[:authorHandles]
+    @genres = params[:genres]&.then { it.split(",").map(&:strip).compact_blank }
     @tags = params[:tags]&.then { it.split(",").map(&:strip).compact_blank }
     @rating_max = params[:ratingMax]
     @rating_min = params[:ratingMin]
@@ -200,6 +209,7 @@ module Api
         :ratingMax,
         :authorName,
         :authorHandles,
+        :genres,
         :tags,
         :sort,
         :includeNonPublic,
@@ -261,6 +271,11 @@ module Api
 
       if params[:ratingMax]
         charts = charts.where(charts: { rating: ..params[:ratingMax].to_i })
+      end
+
+      if params[:genres].present?
+        genres = params[:genres].split(",").map(&:strip).compact_blank.uniq
+        charts = charts.where(charts: { genre: genres.map(&:to_sym) })
       end
 
       if params[:tags].present?
