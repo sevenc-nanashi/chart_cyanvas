@@ -10,11 +10,11 @@ import {
 import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 import type { Chart } from "~/lib/types";
 import { useRandomValue } from "~/lib/useRandomValue.ts";
 import { getRatingColor, useMergeChartTags } from "~/lib/utils.ts";
 import OptionalImage from "./OptionalImage.tsx";
-import { useTranslation } from "react-i18next";
 
 type Props = { data?: Chart; spacer?: boolean; className?: string };
 
@@ -25,7 +25,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
   const random = useRandomValue();
   const navigate = useNavigate();
   const { t: rootT } = useTranslation();
-  const mergeChartTags = useMergeChartTags()
+  const mergeChartTags = useMergeChartTags();
   const tags = data ? mergeChartTags(data) : [];
 
   if (spacer) {

@@ -706,7 +706,9 @@ const ChartForm: React.FC<
             </InputTitle>
             <InputTitle text={t("param.artist")} optional error={errors.artist}>
               <TextInput
-                key={genre === "instrumental" ? "instrumental" : "non-instrumental"}
+                key={
+                  genre === "instrumental" ? "instrumental" : "non-instrumental"
+                }
                 name="artist"
                 className="w-full"
                 optional
