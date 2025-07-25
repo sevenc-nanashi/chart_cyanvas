@@ -19,6 +19,9 @@ ja:
         options:
           v1: "v1"
           v3: "v3"
+      genres:
+        title: "表示する曲のジャンル"
+        description: "この設定でチェックを入れていないジャンルの曲は、譜面一覧に表示されません。"
 
     popular_maintenance:
       title: "人気譜面欄はメンテナンス中です！"
@@ -39,6 +42,15 @@ ja:
     levels:
       published_at: "公開：%{time}前"
       variants: "派生譜面：%{count}個"
+
+      genres:
+        others: "その他"
+        vocal_synth: "ボカロ（広義）"
+        music_game: "音楽ゲーム"
+        game: "ゲーム"
+        meme: "音MAD・ミーム"
+        pops: "ポップス"
+        instrumental: "Inst."
 
       visibility:
         public: "公開"
@@ -67,6 +79,8 @@ ja:
       author_name_placeholder: "作者の名義を入力して下さい..."
       id: "ID"
       id_placeholder: "#の後のIDを入力して下さい..."
+      genres: "ジャンル"
+      genres_description: "空欄の場合、サーバー設定の表示設定に従います。"
       tags: "タグ"
       tags_placeholder: "タグをスペース区切りで入力して下さい（最大5個まで）..."
       sort: "並び替え"

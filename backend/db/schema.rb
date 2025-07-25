@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_04_124906) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_25_110743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -62,6 +62,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_124906) do
     t.string "scheduled_job_id"
     t.datetime "scheduled_at"
     t.integer "chart_type", default: 0
+    t.integer "genre", default: 0, null: false
     t.index ["author_id"], name: "index_charts_on_author_id"
     t.index ["name"], name: "index_charts_on_name"
     t.index ["variant_id"], name: "index_charts_on_variant_id"
@@ -105,6 +106,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_124906) do
     t.index ["name"], name: "index_tags_on_name"
   end
 
+  create_table "user_warnings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "moderator_id"
+    t.text "reason"
+    t.integer "level", null: false
+    t.boolean "seen", default: false, null: false
+    t.index ["moderator_id"], name: "index_user_warnings_on_moderator_id"
+    t.index ["user_id"], name: "index_user_warnings_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "handle", null: false
     t.string "name", null: false
@@ -124,7 +137,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_124906) do
     t.string "discord_avatar"
     t.integer "discord_status"
     t.string "discord_thread_id"
-    t.integer "warn_count", default: 0
     t.string "avatar_type", default: "default", null: false
     t.string "avatar_fg_type", default: "player", null: false
     t.string "avatar_bg_type", default: "default", null: false
@@ -142,5 +154,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_124906) do
   add_foreign_key "likes", "charts"
   add_foreign_key "likes", "users"
   add_foreign_key "tags", "charts"
+  add_foreign_key "user_warnings", "users"
+  add_foreign_key "user_warnings", "users", column: "moderator_id"
   add_foreign_key "users", "users", column: "owner_id"
 end

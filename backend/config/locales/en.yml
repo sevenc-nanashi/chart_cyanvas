@@ -22,6 +22,9 @@ en:
         options:
           v1: "v1"
           v3: "v3"
+      genres:
+        title: "Genres"
+        description: "Charts from unchecked genres will not be displayed in the chart list."
 
     popular_maintenance:
       title: "The popular levels section is under maintenance!"
@@ -41,6 +44,15 @@ en:
         zero: "No variants"
         one: "Variant"
         other: "%{count} variants"
+
+      genres:
+        others: "Others"
+        vocal_synth: "VocalSynth, Vocaloid"
+        music_game: "Music Game"
+        game: "Game"
+        meme: "Meme"
+        pops: "Pops"
+        instrumental: "Instrumental"
 
       visibility:
         public: "Public"
@@ -73,6 +85,8 @@ en:
       author_name_placeholder: "Enter the charter's name."
       id: "ID"
       id_placeholder: "Enter the ID."
+      genres: "Genres"
+      genres_placeholder: "Leave blank to use server configuration."
       tags: "Tags"
       tags_placeholder: "Enter tags, separated by spaces."
       sort: "Sort"
