@@ -48,9 +48,9 @@ export const sonolusUrl = (serverSettings: ServerSettings, path: string) => {
 
 export const useMergeChartTags = () => {
   const { t: rootT } = useTranslation();
-  return (data: Chart) => [
-    (data?.genre !== "others" && data?.genre && rootT(`genre.${data.genre}`)) ||
-      ([] as string[]),
-    ...(data?.tags || []),
-  ];
+  return (data: Chart) =>
+    [
+      (data.genre !== "others" && rootT(`genre.${data.genre}`)) || "",
+      ...data.tags,
+    ].filter((v) => v !== "");
 };
