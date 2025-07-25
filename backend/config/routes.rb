@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   get "/admin/sidekiq" => redirect("/")
   get "/admin/sidekiq/*path" => redirect("/")
 
+  # Internal
+  get "/tempfile/:id", to: "temporary_file#read"
+  get "/meta", to: "application#meta"
+
   scope "/api" do
     get "/users/:handle", to: "api/users#show"
 
@@ -109,6 +113,4 @@ Rails.application.routes.draw do
     get "/assets/:name" => redirect("/assets/%{name}"), :format => false
     get "/assets/:name" => redirect("/assets/%{name}.%{format}")
   end
-
-  get "/tempfile/:id", to: "temporary_file#read"
 end

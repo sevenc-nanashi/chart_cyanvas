@@ -37,6 +37,7 @@ type ChartFormData = {
   composer: string;
   artist: string;
   rating: number;
+  genre: string;
   tags: Tag[];
   authorHandle: string;
   authorName: string;
@@ -128,6 +129,8 @@ const ChartForm: React.FC<
     [authorHandle, selectableUsers],
   );
 
+  const [genre, setGenre] = useState<string>(chartData?.genre || "others");
+
   const [tags, setTags] = useState<Tag[]>(chartData?.tags || []);
   const closeAltUserSelector = useCallback(() => {
     setIsAltUserSelectorOpen(false);
@@ -186,7 +189,8 @@ const ChartForm: React.FC<
         title: getField("title"),
         description: getField("description"),
         composer: getField("composer"),
-        artist: getField("artist"),
+        artist: genre === "instrumental" ? undefined : getField("artist"),
+        genre,
         tags: tags.map((tag) => tag.text),
         rating: ratingValue,
         authorHandle: authorHandle,
@@ -224,6 +228,7 @@ const ChartForm: React.FC<
     visibility,
     errorT,
     isEdit,
+    genre,
   ]);
   const handleResponse = useCallback(
     async (res: Response) => {
@@ -262,13 +267,17 @@ const ChartForm: React.FC<
     myFetch("/api/charts", {
       method: "POST",
       body: formData,
-    }).then(async (res) => {
-      const data = await handleResponse(res);
-      if (!data) {
-        return;
-      }
-      navigate(`/charts/${data.chart.name}`);
-    });
+    })
+      .then(async (res) => {
+        const data = await handleResponse(res);
+        if (!data) {
+          return;
+        }
+        navigate(`/charts/${data.chart.name}`);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }, [myFetch, createFormData, handleResponse, navigate, setIsSubmitting]);
 
   const updateChart = useCallback(() => {
@@ -286,13 +295,17 @@ const ChartForm: React.FC<
         method: "PUT",
         body: formData,
       },
-    ).then(async (res) => {
-      const data = await handleResponse(res);
-      if (!data) {
-        return;
-      }
-      navigate(`/charts/${data.chart.name}`);
-    });
+    )
+      .then(async (res) => {
+        const data = await handleResponse(res);
+        if (!data) {
+          return;
+        }
+        navigate(`/charts/${data.chart.name}`);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }, [
     myFetch,
     createFormData,
@@ -693,10 +706,13 @@ const ChartForm: React.FC<
             </InputTitle>
             <InputTitle text={t("param.artist")} optional error={errors.artist}>
               <TextInput
+                key={genre === "instrumental" ? "instrumental" : "non-instrumental"}
                 name="artist"
                 className="w-full"
                 optional
                 defaultValue={chartData?.artist}
+                value={genre === "instrumental" ? "" : undefined}
+                disabled={genre === "instrumental"}
               />
             </InputTitle>
             <InputTitle
@@ -770,6 +786,24 @@ const ChartForm: React.FC<
                 optional
                 prefix="#"
                 defaultValue={variantOf || chartData?.variant}
+              />
+            </InputTitle>
+            <InputTitle text={t("param.genre")} error={errors.genre}>
+              <Select
+                items={serverSettings.genres.map(
+                  (genre) =>
+                    ({
+                      type: "item",
+                      label: rootT(`genre.${genre}`),
+                      value: genre,
+                    }) as const,
+                )}
+                defaultValue={chartData?.genre || ""}
+                value={genre}
+                onChange={(value) => {
+                  setGenre(value);
+                }}
+                className="w-full"
               />
             </InputTitle>
             <InputTitle

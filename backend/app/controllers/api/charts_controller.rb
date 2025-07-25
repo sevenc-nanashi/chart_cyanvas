@@ -9,6 +9,7 @@ class UploadValidator
               :composer,
               :artist,
               :rating,
+              :genre,
               :tags,
               :author_handle,
               :author_name,
@@ -44,6 +45,12 @@ class UploadValidator
               less_than_or_equal_to: 99,
               message: "invalid"
             }
+  validates :genre,
+            inclusion: {
+              in: Chart::GENRES.keys.map(&:to_s),
+              message: "invalid"
+            }
+
   validates :tags,
             allow_blank: true,
             length: {
@@ -85,6 +92,7 @@ class UploadValidator
     @composer = params[:composer]
     @artist = params[:artist]
     @rating = params[:rating]
+    @genre = params[:genre]
     @tags = params[:tags]
     @author_handle = params[:authorHandle]
     @author_name = params[:authorName]
@@ -167,7 +175,7 @@ class SearchValidator
     @sort = params[:sort]
     @author_name = params[:authorName]
     @author_handles = params[:authorHandles]
-    @tags = params[:tags]&.then{it.split(",").map(&:strip).compact_blank}
+    @tags = params[:tags]&.then { it.split(",").map(&:strip).compact_blank }
     @rating_max = params[:ratingMax]
     @rating_min = params[:ratingMin]
     @artist = params[:artist]
@@ -424,6 +432,7 @@ module Api
           artist: data_parsed[:artist],
           description: data_parsed[:description],
           rating: data_parsed[:rating],
+          genre: data_parsed[:genre],
           tags: data_parsed[:tags],
           author_name: data_parsed[:authorName],
           author_handle: data_parsed[:authorHandle],
@@ -462,6 +471,7 @@ module Api
           composer: data_parsed[:composer],
           artist: data_parsed[:artist],
           description: data_parsed[:description],
+          genre: data_parsed[:genre],
           rating: data_parsed[:rating],
           author_name: data_parsed[:author_name],
           variant_of: variant,
@@ -524,6 +534,7 @@ module Api
           rating: data_parsed[:rating],
           author_name: data_parsed[:author_name],
           author_id: author.id,
+          genre: data_parsed[:genre],
           visibility: data_parsed[:visibility].to_sym,
           is_chart_public: data_parsed[:is_chart_public],
           scheduled_at: Time.zone.at(data_parsed[:scheduled_at] / 1000)
