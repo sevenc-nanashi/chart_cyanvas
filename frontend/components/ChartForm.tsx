@@ -129,7 +129,7 @@ const ChartForm: React.FC<
     [authorHandle, selectableUsers],
   );
 
-  const [genre, setGenre] = useState<string>(chartData?.genre || "others");
+  const [genre, setGenre] = useState<string>(chartData?.genre || "");
 
   const [tags, setTags] = useState<Tag[]>(chartData?.tags || []);
   const closeAltUserSelector = useCallback(() => {
@@ -180,6 +180,9 @@ const ChartForm: React.FC<
       }
       return fieldElement.value;
     };
+    if (genre === "") {
+      errors.genre = errorT("cannotBeEmpty");
+    }
 
     const formData = new FormData();
     const scheduledAtField = scheduledAt.current;
@@ -704,7 +707,7 @@ const ChartForm: React.FC<
                 defaultValue={chartData?.composer}
               />
             </InputTitle>
-            <InputTitle text={t("param.artist")} optional error={errors.artist}>
+            <InputTitle text={t("param.artist")} error={errors.artist}>
               <TextInput
                 key={
                   genre === "instrumental" ? "instrumental" : "non-instrumental"

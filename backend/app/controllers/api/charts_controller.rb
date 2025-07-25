@@ -46,6 +46,7 @@ class UploadValidator
               message: "invalid"
             }
   validates :genre,
+            presence: PRESENCE,
             inclusion: {
               in: Chart::GENRES.keys.map(&:to_s),
               message: "invalid"
