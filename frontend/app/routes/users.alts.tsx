@@ -1,4 +1,4 @@
-import { type MetaFunction, json } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import type { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import clsx from "clsx";
@@ -25,7 +25,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title });
+  return { locale, title };
 };
 
 export const handle = {

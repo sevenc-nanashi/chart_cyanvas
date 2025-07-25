@@ -1,4 +1,4 @@
-import { type LoaderFunction, json } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { Link, type MetaFunction } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useCallback } from "react";
@@ -15,7 +15,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title });
+  return { locale, title };
 };
 
 export const handle = {

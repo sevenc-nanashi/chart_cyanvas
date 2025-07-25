@@ -4,11 +4,7 @@ import {
   MusicNote2Regular,
   OpenRegular,
 } from "@fluentui/react-icons";
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  defer,
-} from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
@@ -67,12 +63,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const title = `${userData.name}#${userData.handle} | ${rootT("name")}`;
 
-  return defer({
+  return {
     userData,
     userCharts,
     title,
     host,
-  });
+  };
 };
 
 export const handle = {

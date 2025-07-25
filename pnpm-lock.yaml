@@ -137,6 +137,9 @@ importers:
       '@remix-run/dev':
         specifier: ^2.16.0
         version: 2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@remix-run/fs-routes':
+        specifier: ^2.17.0
+        version: 2.17.0(@remix-run/dev@2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0))(@remix-run/route-config@2.17.0(@remix-run/dev@2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0))(typescript@5.8.2))(typescript@5.8.2)
       '@rollup/plugin-yaml':
         specifier: ^4.1.2
         version: 4.1.2(rollup@4.34.9)
@@ -1718,6 +1721,17 @@ packages:
       typescript:
         optional: true
 
+  '@remix-run/fs-routes@2.17.0':
+    resolution: {integrity: sha512-rbUVv85oWhCW8nFDNgHTYNxleYvJ3pO1nJvbHInEQZHy2tSP1jWPh1F7uPe22oNOk4y7FF8gMkhLjbeAbZgnnQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      '@remix-run/dev': ^2.17.0
+      '@remix-run/route-config': ^2.17.0
+      typescript: ^5.1.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   '@remix-run/node@2.16.0':
     resolution: {integrity: sha512-9yYBYCHYO1+bIScGAtOy5/r4BoTS8E5lpQmjWP99UxSCSiKHPEO76V9Z8mmmarTNis/FPN+sUwfmbQWNHLA2vw==}
     engines: {node: '>=18.0.0'}
@@ -1733,6 +1747,16 @@ packages:
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
+      typescript: ^5.1.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@remix-run/route-config@2.17.0':
+    resolution: {integrity: sha512-0QU4iBIZoyCxLZNGp+SLiIviLz3QRDUuXxQVtRkoBXBrjSDqLFToFb+8c+8R64rhlh8+g/Z3m5k4gN4MVnquBQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      '@remix-run/dev': ^2.17.0
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
@@ -6685,6 +6709,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.2
 
+  '@remix-run/fs-routes@2.17.0(@remix-run/dev@2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0))(@remix-run/route-config@2.17.0(@remix-run/dev@2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0))(typescript@5.8.2))(typescript@5.8.2)':
+    dependencies:
+      '@remix-run/dev': 2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@remix-run/route-config': 2.17.0(@remix-run/dev@2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0))(typescript@5.8.2)
+    optionalDependencies:
+      typescript: 5.8.2
+
   '@remix-run/node@2.16.0(typescript@5.8.2)':
     dependencies:
       '@remix-run/server-runtime': 2.16.0(typescript@5.8.2)
@@ -6706,6 +6737,13 @@ snapshots:
       react-router: 6.30.0(react@19.0.0)
       react-router-dom: 6.30.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       turbo-stream: 2.4.0
+    optionalDependencies:
+      typescript: 5.8.2
+
+  '@remix-run/route-config@2.17.0(@remix-run/dev@2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0))(typescript@5.8.2)':
+    dependencies:
+      '@remix-run/dev': 2.16.0(@remix-run/react@2.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(@remix-run/serve@2.16.0(typescript@5.8.2))(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@1.21.7)(sass-embedded@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      lodash: 4.17.21
     optionalDependencies:
       typescript: 5.8.2
 

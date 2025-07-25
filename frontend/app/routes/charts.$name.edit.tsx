@@ -1,9 +1,5 @@
 import { ArrowLeftFilled, LockClosedRegular } from "@fluentui/react-icons";
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  json,
-} from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
@@ -46,7 +42,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
   const title = `${t("titleEdit", { title: chartData.title })} | ${rootT("name")}`;
 
-  return json({ locale, title, chartData });
+  return { locale, title, chartData };
 };
 
 export const handle = {

@@ -5,7 +5,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  json,
   useLocation,
   useNavigation,
   useRouteLoaderData,
@@ -40,14 +39,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     discordEnabled: boolean;
     genres: string[];
   } = await fetch(pathcat(backendUrl, "/meta")).then((res) => res.json());
-  return json({
+  return {
     locale,
     serverSettings: {
       discordEnabled: meta.discordEnabled,
       genres: meta.genres,
       host,
     } satisfies ServerSettings,
-  });
+  };
 };
 
 export const links: LinksFunction = () => {

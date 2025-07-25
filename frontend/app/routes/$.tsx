@@ -1,5 +1,5 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/react";
+import { data, redirect } from "@remix-run/react";
 import cookie from "cookie";
 import { useTranslation } from "react-i18next";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
@@ -32,7 +32,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title }, { status: 404 });
+  return data({ locale, title }, { status: 404 });
 };
 
 export const handle = {

@@ -1,5 +1,5 @@
 import { ArrowRightFilled, OpenRegular } from "@fluentui/react-icons";
-import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useCallback } from "react";
@@ -15,7 +15,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const title = rootT("name");
 
-  return json({ title });
+  return { title };
 };
 
 export const handle = {
