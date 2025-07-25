@@ -189,7 +189,7 @@ const ChartForm: React.FC<
         title: getField("title"),
         description: getField("description"),
         composer: getField("composer"),
-        artist: genre === "instrumental" ? undefined : getField("artist"),
+        artist: genre === "instrumental" ? "" : getField("artist"),
         genre,
         tags: tags.map((tag) => tag.text),
         rating: ratingValue,
