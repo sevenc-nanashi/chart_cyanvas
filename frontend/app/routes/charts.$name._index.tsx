@@ -318,7 +318,7 @@ const ChartPage = () => {
                   <TagRegular className="mr-1 w-6 h-6" />
                   {tags.map((tag, i) => (
                     <Fragment key={i}>
-                      {i === 0 && chartData.genre !== "other" ? (
+                      {i === 0 && chartData.genre !== "others" ? (
                         <Link
                           to={pathcat("/charts", { genres: chartData.genre })}
                         >
