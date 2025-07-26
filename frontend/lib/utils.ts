@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
 import type { Chart, ServerSettings, Session } from "./types.ts";
 
+// @unocss-include
+
 export const getRatingColor = (difficulty: number) => {
   if (difficulty < 9) return "bg-green-500 dark:bg-green-400";
   if (difficulty < 15) return "bg-blue-400";
