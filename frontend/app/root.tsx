@@ -138,7 +138,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     });
   }, [session]);
   return (
-    <html lang={loaderData.locale}>
+    <html lang={loaderData.locale} className={isDarkMode ? "dark" : ""}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -146,14 +146,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body
-        className={clsx(
-          "bg-background text-normal min-h-screen flex flex-col font-sans",
-          {
-            dark: isDarkMode,
-          },
-        )}
-      >
+      <body className="bg-background text-normal min-h-screen flex flex-col font-sans">
         <SessionContext.Provider value={session}>
           <SetSessionContext.Provider value={setSession}>
             <ServerErrorContext.Provider value={setServerError}>
