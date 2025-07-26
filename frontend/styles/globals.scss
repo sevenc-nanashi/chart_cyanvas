@@ -8,7 +8,7 @@ input:focus {
   outline: none;
 }
 
-body {
+html {
   @apply font-sans;
 
   --colors-theme-text: theme("colors.themeDark");
