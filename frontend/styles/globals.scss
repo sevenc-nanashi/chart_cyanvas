@@ -8,14 +8,14 @@ input:focus {
   outline: none;
 }
 
-html {
+body {
   @apply font-sans;
 
   --colors-theme-text: theme("colors.themeDark");
   --colors-background: theme("colors.white");
   --colors-input-border: theme("colors.slate.300");
 
-  &.dark {
+  .dark & {
     --colors-theme-text: theme("colors.theme");
     --colors-background: theme("colors.slate.800");
     --colors-input-border: theme("colors.slate.700");
