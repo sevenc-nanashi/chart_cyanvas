@@ -12,7 +12,7 @@ body {
   @apply font-sans;
 
   --colors-theme-text: theme("colors.themeDark");
-  --colors-background: theme('colors.white');
+  --colors-background: theme("colors.white");
   --colors-input-border: theme("colors.slate.300");
 
   &.dark {
