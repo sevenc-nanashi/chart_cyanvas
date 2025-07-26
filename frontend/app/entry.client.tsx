@@ -5,7 +5,7 @@ import { hydrateRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { HydratedRouter } from "react-router/dom";
 import { enTranslation, jaTranslation, languages } from "~/lib/translations";
-import "budoux/module/webcomponents/budoux-ja";
+import "../node_modules/budoux/module/webcomponents/budoux-ja.js";
 import "virtual:uno.css";
 import "@fontsource/m-plus-1p/300.css";
 import "@fontsource/m-plus-1p/400.css";
