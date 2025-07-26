@@ -4,11 +4,11 @@ import {
   InfoRegular,
   MusicNote2Regular,
 } from "@fluentui/react-icons";
-import { useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { WithContext as ReactTags } from "react-tag-input";
 import {
   useMyFetch,
@@ -475,7 +475,6 @@ const ChartForm: React.FC<
           </div>
         </div>
       </ModalPortal>
-
       <ModalPortal
         isOpen={showFileSizeError}
         close={() => setShowFileSizeError(false)}
@@ -492,7 +491,6 @@ const ChartForm: React.FC<
           </div>
         </div>
       </ModalPortal>
-
       <ModalPortal
         isOpen={isVisibilityDialogOpen}
         close={() => setIsVisibilityDialogOpen(false)}
@@ -549,7 +547,6 @@ const ChartForm: React.FC<
           </div>
         </div>
       </ModalPortal>
-
       <ModalPortal
         isOpen={waitForPublishConfirm !== null}
         close={() => waitForPublishConfirm?.(false)}
@@ -616,7 +613,6 @@ const ChartForm: React.FC<
           </button>
         </div>
       </ModalPortal>
-
       <p className="mb-4">
         <Budoux>
           <Trans
@@ -656,7 +652,6 @@ const ChartForm: React.FC<
           )}
         </Budoux>
       </p>
-
       <div className="relative">
         {canPost || (
           <div className="absolute z-10 top-0 left-0 w-full h-full bg-white dark:bg-slate-800 bg-opacity-50 cursor-not-allowed" />

@@ -1,13 +1,9 @@
 import { ArrowLeftFilled, LockClosedRegular } from "@fluentui/react-icons";
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  json,
-} from "@remix-run/node";
-import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { Link, useLoaderData, useParams } from "react-router";
 import ChartForm from "~/components/ChartForm.tsx";
 import { backendUrl } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts";
@@ -46,7 +42,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
   const title = `${t("titleEdit", { title: chartData.title })} | ${rootT("name")}`;
 
-  return json({ locale, title, chartData });
+  return { locale, title, chartData };
 };
 
 export const handle = {
@@ -95,7 +91,7 @@ function EditChart() {
       <h1 className="page-title">
         <Link
           to={`/charts/${name}`}
-          className="underline text-themeText flex items-center mr-2"
+          className="underline text-theme-text flex items-center mr-2"
         >
           <ArrowLeftFilled />
         </Link>

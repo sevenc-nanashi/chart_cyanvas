@@ -64,7 +64,7 @@ const Checkbox: React.FC<
           size === "sm" ? "w-4 h-4" : "w-6 h-6",
           checked
             ? "bg-theme border-theme"
-            : "bg-background border-inputBorder",
+            : "bg-background border-input-border",
 
           "border-2 rounded flex items-center justify-center",
         )}

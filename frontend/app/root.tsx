@@ -1,19 +1,18 @@
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import clsx from "clsx";
+import { pathcat } from "pathcat";
+import { useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  json,
   useLocation,
   useNavigation,
   useRouteLoaderData,
-} from "@remix-run/react";
-import clsx from "clsx";
-import { pathcat } from "pathcat";
-import { useEffect, useMemo, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+} from "react-router";
 import favicon from "~/assets/favicon.svg?url";
 import DisablePortal from "~/components/DisablePortal";
 import Footer from "~/components/Footer.tsx";
@@ -32,7 +31,6 @@ import {
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
 import type { ServerSettings, Session } from "~/lib/types";
-import styles from "~/styles/globals.scss?url";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -40,21 +38,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     discordEnabled: boolean;
     genres: string[];
   } = await fetch(pathcat(backendUrl, "/meta")).then((res) => res.json());
-  return json({
+  return {
     locale,
     serverSettings: {
       discordEnabled: meta.discordEnabled,
       genres: meta.genres,
       host,
     } satisfies ServerSettings,
-  });
+  };
 };
 
 export const links: LinksFunction = () => {
-  return [
-    { rel: "icon", type: "image/svg+xml", href: favicon },
-    { rel: "stylesheet", href: styles },
-  ];
+  return [{ rel: "icon", type: "image/svg+xml", href: favicon }];
 };
 
 export default function App() {
@@ -153,7 +148,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body
         className={clsx(
-          "bg-background text-normal min-h-screen flex flex-col",
+          "bg-background text-normal min-h-screen flex flex-col font-sans",
           {
             dark: isDarkMode,
           },

@@ -1,12 +1,12 @@
 import { ChevronDownFilled, ChevronUpFilled } from "@fluentui/react-icons";
 import * as RadixCollapsible from "@radix-ui/react-collapsible";
-import { type LoaderFunctionArgs, json } from "@remix-run/node";
-import { type MetaFunction, useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs } from "react-router";
+import { type MetaFunction, useSearchParams } from "react-router";
 import { WithContext as ReactTags } from "react-tag-input";
 import ChartList from "~/components/ChartList.tsx";
 import Checkbox from "~/components/Checkbox";
@@ -25,7 +25,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title });
+  return { locale, title };
 };
 
 export const handle = {
@@ -205,7 +205,7 @@ const Search = () => {
     return Object.entries(mappedParams)
       .map(([key, value]) => rootT("kv", { key, value }))
       .join(rootT("separator"));
-  }, [form, t, rootT]);
+  }, [form, t, rootT, serverSettings]);
   const [currentQuery, setCurrentQuery] = useState(buildCurrentQuery);
 
   return (
@@ -214,7 +214,7 @@ const Search = () => {
         <h1 className="page-title">{t("title")}</h1>
         <div className="card">
           <RadixCollapsible.Root open={open} onOpenChange={setOpen}>
-            <RadixCollapsible.Trigger className="flex max-sm:justify-between items-center w-full p-2">
+            <RadixCollapsible.Trigger className="flex max-sm:justify-between items-center w-full p-2 cursor-pointer">
               <h2 className="font-bold text-lg mr-2">{t("queries")}</h2>
               {open ? <ChevronUpFilled /> : <ChevronDownFilled />}
               <div className="ml-4 h-6 contain-strict flex-grow overflow-ellipsis overflow-hidden whitespace-nowrap text-right break-keep">

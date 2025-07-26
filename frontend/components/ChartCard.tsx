@@ -7,10 +7,10 @@ import {
   MusicNote2Regular,
   TagRegular,
 } from "@fluentui/react-icons";
-import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router";
 import type { Chart } from "~/lib/types";
 import { useRandomValue } from "~/lib/useRandomValue.ts";
 import { getRatingColor, useMergeChartTags } from "~/lib/utils.ts";

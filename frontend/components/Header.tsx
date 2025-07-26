@@ -1,7 +1,7 @@
 import { NavigationFilled } from "@fluentui/react-icons";
-import { Link } from "@remix-run/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import LogoCF from "~/assets/logo-cf.svg?react";
 import { useSession } from "~/lib/contexts";
 import SideMenu from "./SideMenu.tsx";

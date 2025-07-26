@@ -1,10 +1,10 @@
-import { type MetaFunction, json } from "@remix-run/node";
-import { Link } from "@remix-run/react";
-import type { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
+import type { LoaderFunctionArgs } from "react-router";
 import ModalPortal from "~/components/ModalPortal.tsx";
 import SonolusAvatar from "~/components/SonolusAvatar";
 import {
@@ -25,7 +25,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title });
+  return { locale, title };
 };
 
 export const handle = {

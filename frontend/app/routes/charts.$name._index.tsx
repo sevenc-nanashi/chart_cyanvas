@@ -14,16 +14,12 @@ import {
   TagRegular,
   WarningRegular,
 } from "@fluentui/react-icons";
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  defer,
-} from "@remix-run/node";
-import { Link, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { Link, useLoaderData, useNavigate, useParams } from "react-router";
 import ChartSection from "~/components/ChartSection";
 import Checkbox from "~/components/Checkbox";
 import InputTitle from "~/components/InputTitle";
@@ -89,12 +85,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const title = `${chartData.title} | ${rootT("name")}`;
 
-  return defer({
+  return {
     chartData,
     chartsByThisCharter,
     title,
     host,
-  });
+  };
 };
 export const handle = {
   i18n: "chart",

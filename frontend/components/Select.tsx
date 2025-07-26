@@ -31,7 +31,7 @@ const SelectItemComponent: React.FC<{
 }> = ({ item, selected }) => (
   <RadixSelect.Item
     className={clsx(
-      "relative pl-6 pr-2 py-1 duration-200 transition-colors hover:text-themeText outline-none cursor-pointer rounded",
+      "relative pl-6 pr-2 py-1 duration-200 transition-colors hover:text-theme-text outline-none cursor-pointer rounded",
       selected && "bg-theme/25",
     )}
     value={item.value}

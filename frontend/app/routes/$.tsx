@@ -1,10 +1,10 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/react";
 import cookie from "cookie";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunction, MetaFunction } from "react-router";
+import { data, redirect } from "react-router";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = (async ({ request }) => {
   const url = new URL(request.url);
   if (url.pathname.startsWith("/ja") || url.pathname.startsWith("/en")) {
     const newUrl = new URL(request.url);
@@ -32,14 +32,17 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title }, { status: 404 });
-};
+  return data({ locale, title }, { status: 404 });
+}) satisfies LoaderFunction;
 
 export const handle = {
   i18n: "notFound",
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data) {
+    return [];
+  }
   return [
     {
       title: data.title,
