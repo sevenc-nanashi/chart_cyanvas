@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
   def meta
     render json: {
       genres: Chart::GENRES.keys,
-      discord_enabled: $discord.enabled?
+      discordEnabled: $discord.enabled?
     }
   end
 
