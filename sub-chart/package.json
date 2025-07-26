@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "",
+  "packageManager": "pnpm@10.5.2",
   "main": "dist/index.js",
   "exports": {
     ".": "./dist/index.js"
