@@ -36,6 +36,7 @@
     "i18next-resources-to-backend": "^1.2.1",
     "isbot": "^5.1.28",
     "pathcat": "^1.4.0",
+    "rand-seed": "^3.0.0",
     "react": "19.1.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
@@ -46,8 +47,7 @@
     "react-range": "^1.10.0",
     "react-router": "^7.7.1",
     "react-tag-input": "^6.10.6",
-    "remix-i18next": "^7.2.1",
-    "sha.js": "2.4.12"
+    "remix-i18next": "^7.2.1"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
@@ -57,7 +57,6 @@
     "@types/node": "^22.16.5",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@types/sha.js": "2.4.4",
     "dotenv": "^17.2.1",
     "sass-embedded": "^1.89.2",
     "typescript": "^5.8.3",
