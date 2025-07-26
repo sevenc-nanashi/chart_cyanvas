@@ -31,7 +31,6 @@ import {
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
 import type { ServerSettings, Session } from "~/lib/types";
-import styles from "~/styles/globals.scss?url";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -50,10 +49,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export const links: LinksFunction = () => {
-  return [
-    { rel: "icon", type: "image/svg+xml", href: favicon },
-    { rel: "stylesheet", href: styles },
-  ];
+  return [{ rel: "icon", type: "image/svg+xml", href: favicon }];
 };
 
 export default function App() {
@@ -152,7 +148,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body
         className={clsx(
-          "bg-background text-normal min-h-screen flex flex-col",
+          "bg-background text-normal min-h-screen flex flex-col font-sans",
           {
             dark: isDarkMode,
           },

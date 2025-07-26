@@ -105,7 +105,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
             </Link>
           ) : (
             <div
-              className="flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer text-themeText"
+              className="flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer text-theme-text"
               onClick={startLogin}
             >
               <PersonArrowRightFilled className="w-10 h-10 mr-2" />

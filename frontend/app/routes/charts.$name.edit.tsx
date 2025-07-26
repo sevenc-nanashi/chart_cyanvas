@@ -91,7 +91,7 @@ function EditChart() {
       <h1 className="page-title">
         <Link
           to={`/charts/${name}`}
-          className="underline text-themeText flex items-center mr-2"
+          className="underline text-theme-text flex items-center mr-2"
         >
           <ArrowLeftFilled />
         </Link>

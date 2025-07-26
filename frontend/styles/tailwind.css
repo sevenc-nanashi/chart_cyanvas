@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'M PLUS 1p', sans-serif;
+  --font-mono: 'Consolas', 'Menlo', 'Monaco', 'source-code-pro', 'Courier New', monospace;
+
+  --font-weight-sans: 400;
+  --font-weight-bold: 500;
+  --font-weight-extra-bold: 700;
+
+  --border-width
+}

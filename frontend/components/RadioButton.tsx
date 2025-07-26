@@ -27,7 +27,7 @@ const RadioItem: React.FC<
         value={value}
         disabled={disabled}
         id={id}
-        className="w-6 h-6 rounded-full border-2 border-inputBorder grid place-content-center"
+        className="w-6 h-6 rounded-full border-2 border-input-border grid place-content-center"
       >
         <RadixRadio.Indicator className="w-3 h-3 flex rounded-full bg-theme" />
       </RadixRadio.Item>
