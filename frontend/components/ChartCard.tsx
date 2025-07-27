@@ -13,11 +13,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
 import type { Chart } from "~/lib/types";
 import { useRandomValue } from "~/lib/useRandomValue.ts";
-import {
-  difficultyColors,
-  getRatingColor,
-  useMergeChartTags,
-} from "~/lib/utils.ts";
+import { getRatingColor, useMergeChartTags } from "~/lib/utils.ts";
 import OptionalImage from "./OptionalImage.tsx";
 
 type Props = { data?: Chart; spacer?: boolean; className?: string };
