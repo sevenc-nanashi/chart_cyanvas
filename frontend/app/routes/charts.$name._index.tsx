@@ -379,7 +379,7 @@ const ChartPage = () => {
               />
               {chartData && (
                 <div
-                  className={`absolute text-xs top-0 left-0 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white ${getRatingColor(chartData.rating)}`}
+                  className={`absolute text-xs top-0 left-0 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white ${getRatingColor(chartData)}`}
                 >
                   Lv. {chartData.rating}
                 </div>

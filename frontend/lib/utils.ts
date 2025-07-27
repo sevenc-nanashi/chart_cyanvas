@@ -3,13 +3,29 @@ import type { Chart, ServerSettings, Session } from "./types.ts";
 
 // @unocss-include
 
-export const getRatingColor = (difficulty: number) => {
-  if (difficulty < 9) return "bg-green-500 dark:bg-green-400";
-  if (difficulty < 15) return "bg-blue-400";
-  if (difficulty < 20) return "bg-yellow-500 dark:bg-yellow-400";
-  if (difficulty < 28) return "bg-red-400";
-  if (difficulty < 40) return "bg-purple-400";
+export const getRatingColor = (data: Chart) => {
+  const override = data.tags
+    .map((tag) =>
+      tag.toLowerCase() in difficultyColors
+        ? difficultyColors[tag.toLowerCase() as keyof typeof difficultyColors]
+        : undefined,
+    )
+    .find((v) => v !== undefined);
+  if (override) return override;
+  if (data.rating < 9) return difficultyColors.easy;
+  if (data.rating < 15) return difficultyColors.normal;
+  if (data.rating < 20) return difficultyColors.hard;
+  if (data.rating < 28) return difficultyColors.expert;
+  if (data.rating < 40) return difficultyColors.master;
   return "bg-slate-800";
+};
+export const difficultyColors = {
+  easy: "bg-green-500",
+  normal: "bg-blue-400",
+  hard: "bg-yellow-500",
+  expert: "bg-red-400",
+  master: "bg-purple-400",
+  append: "bg-pink-300",
 };
 
 export const isMine = (session: Session | undefined, chart: Chart) => {
