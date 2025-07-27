@@ -109,9 +109,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
     i18n.changeLanguage(loaderData.locale);
   }
   useEffect(() => {
-    if (session && session.loggedIn !== undefined) {
-      return;
-    }
     fetch("/api/login/session", {
       method: "GET",
     }).then(async (res) => {
@@ -136,7 +133,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         setSession({ loggedIn: false });
       }
     });
-  }, [session]);
+  }, []);
   return (
     <html lang={loaderData.locale} className={isDarkMode ? "dark" : ""}>
       <head>

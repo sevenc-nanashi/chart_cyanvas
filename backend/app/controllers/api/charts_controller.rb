@@ -354,7 +354,7 @@ module Api
           charts.order(published_at: :desc)
         end
 
-      num_charts = charts.count
+      num_charts = charts.count(:id)
       # rubocop:disable Lint/RedundantSafeNavigation
       charts = charts.limit(length).offset(params[:offset]&.to_i || 0)
       # rubocop:enable Lint/RedundantSafeNavigation
