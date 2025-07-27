@@ -94,6 +94,7 @@ en:
         published_at: "Recently published"
         updated_at: "Recently updated"
         likes_count: "Most liked"
+        random: "Random"
       rating_max: "Maximum difficulty"
       rating_min: "Minimum difficulty"
       unknown_author: "Failed to find charters. Make sure you have entered the correct handles."

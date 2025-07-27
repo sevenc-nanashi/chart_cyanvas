@@ -3,7 +3,7 @@ require "uri"
 
 module Sonolus
   class LevelsController < SonolusController
-    SORTS = %i[published_at updated_at likes_count].freeze
+    SORTS = %i[published_at updated_at likes_count random].freeze
 
     def self.search_options
       [
@@ -204,6 +204,7 @@ module Sonolus
       random_section = {
         title: "#RANDOM",
         itemType: "level",
+        searchValues: "q_sort=random",
         items:
           Chart
             .order(Arel.sql("RANDOM()"))
@@ -312,6 +313,8 @@ module Sonolus
           charts.order(updated_at: :desc)
         when :likes_count
           charts.order(likes_count: :desc)
+        when :random
+          charts.order(Arel.sql("RANDOM()"))
         else
           charts.order(published_at: :desc)
         end
@@ -346,21 +349,20 @@ module Sonolus
           )
       end
       if params[:q_tags].present?
-        tags = params[:q_tags].split.map(&:strip).compact_blank.uniq
+        tags =
+          params[:q_tags]
+            .split(",")
+            .map(&:strip)
+            .map(&:downcase)
+            .compact_blank
+            .uniq
 
-        tags.each_with_index do |tag, index|
-          charts =
-            charts.joins(
-              Chart.sanitize_sql_array(
-                [
-                  "INNER JOIN tags ct#{index} ON ct#{index}.chart_id = charts.id AND LOWER(ct#{index}.name) = ?",
-                  tag.downcase
-                ]
-              )
-            )
-        end
-
-        charts = charts.distinct
+        charts =
+          Chart
+            .joins(:tags)
+            .where("LOWER(tags.name) IN (?)", tags)
+            .group("charts.id")
+            .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
       end
 
       if params[:q_author].present?
@@ -438,14 +440,25 @@ module Sonolus
           charts.where(genre: genres)
         end
 
-      page_count = (charts.count / 20.0).ceil
+      page_count =
+        if params[:q_sort] == "random"
+          -1
+        else
+          (
+            Chart.from(
+              charts.except(:limit, :offset).select(:id),
+              :charts
+            ).count / 20.0
+          ).ceil
+        end
 
       charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
       render json: {
                items: charts.map { it.to_sonolus(background_version:) },
                searches:,
-               pageCount: page_count
+               pageCount: page_count,
+               cursor: ""
              }
     end
 

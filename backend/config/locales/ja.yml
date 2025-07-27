@@ -88,6 +88,7 @@ ja:
         published_at: "投稿順"
         updated_at: "更新順"
         likes_count: "高評価順"
+        random: "ランダム"
       rating_max: "難易度（最高）"
       rating_min: "難易度（最低）"
       unknown_author: "作者が見付かりません。作者のハンドルが合っているか確認して下さい。"

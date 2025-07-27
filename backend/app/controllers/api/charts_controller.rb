@@ -280,20 +280,20 @@ module Api
       end
 
       if params[:tags].present?
-        tags = params[:tags].split(",").map(&:strip).compact_blank.uniq
-        tags.each_with_index do |tag, i|
-          charts =
-            charts.joins(
-              Chart.sanitize_sql_array(
-                [
-                  "INNER JOIN tags ct#{i} ON ct#{i}.chart_id = charts.id AND LOWER(ct#{i}.name) = ?",
-                  tag.downcase
-                ]
-              )
-            )
-        end
+        tags =
+          params[:tags]
+            .split(",")
+            .map(&:strip)
+            .map(&:downcase)
+            .compact_blank
+            .uniq
 
-        charts = charts.distinct
+        charts =
+          Chart
+            .joins(:tags)
+            .where("LOWER(tags.name) IN (?)", tags)
+            .group("charts.id")
+            .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
       end
 
       if params[:authorHandles].present?
@@ -354,7 +354,8 @@ module Api
           charts.order(published_at: :desc)
         end
 
-      num_charts = charts.count(:id)
+      num_charts =
+        Chart.from(charts.except(:limit, :offset).select(:id), :charts).count
       # rubocop:disable Lint/RedundantSafeNavigation
       charts = charts.limit(length).offset(params[:offset]&.to_i || 0)
       # rubocop:enable Lint/RedundantSafeNavigation
