@@ -320,6 +320,7 @@ module Sonolus
         when :likes_count
           charts.order(likes_count: :desc)
         when :random
+          # TODO(maybe): use more low-cost and low-randomness method for anonymous users
           random_ids = charts.pluck(:id).sample(20)
           charts.where(id: random_ids).in_order_of(:id, random_ids)
         else
