@@ -448,13 +448,13 @@ module Sonolus
                  cursor: ""
                }
       else
-        (
-          page_count =
+        page_count =
+          (
             Chart.from(
               charts.except(:limit, :offset).select(:id),
               :charts
             ).count / 20.0
-        ).ceil
+          ).ceil
 
         charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
