@@ -32,12 +32,19 @@ import {
 import { detectLocale } from "~/lib/i18n.server";
 import type { ServerSettings, Session } from "~/lib/types";
 
+let serverSettingsCachePromise: Promise<ServerSettings> | undefined;
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
+  if (!serverSettingsCachePromise) {
+    serverSettingsCachePromise = fetch(pathcat(backendUrl, "/meta")).then(
+      (res) => res.json(),
+    );
+  }
   const meta: {
     discordEnabled: boolean;
     genres: string[];
-  } = await fetch(pathcat(backendUrl, "/meta")).then((res) => res.json());
+  } = await serverSettingsCachePromise;
   return {
     locale,
     serverSettings: {

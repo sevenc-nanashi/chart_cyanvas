@@ -3,21 +3,19 @@ require "console"
 require "active_support/log_subscriber"
 require "active_record/log_subscriber"
 
-class LogSubscriber < ::ActiveSupport::LogSubscriber
-  IGNORE_PAYLOAD_NAMES = %w[SCHEMA EXPLAIN TRANSACTION]
+class LogSubscriber < ActiveSupport::LogSubscriber
+  IGNORE_PAYLOAD_NAMES = %w[SCHEMA EXPLAIN TRANSACTION].freeze
 
   def sql(event)
     return if IGNORE_PAYLOAD_NAMES.include?(event.payload[:name])
 
     payload = event.payload.dup
-    if Console.logger
-      Console.logger.info(
+    Console.logger&.info(
         "SQL",
         payload[:sql],
         allocations: event.allocations,
         duration: event.duration
       )
-    end
   end
 
   def process_action(event)
