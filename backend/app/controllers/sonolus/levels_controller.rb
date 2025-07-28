@@ -440,26 +440,30 @@ module Sonolus
           charts.where(genre: genres)
         end
 
-      page_count =
-        if params[:q_sort] == "random"
-          -1
-        else
-          (
+      if params[:q_sort] == "random"
+        render json: {
+                 items: charts.map { it.to_sonolus(background_version:) },
+                 searches:,
+                 pageCount: -1,
+                 cursor: ""
+               }
+      else
+        (
+          page_count =
             Chart.from(
               charts.except(:limit, :offset).select(:id),
               :charts
             ).count / 20.0
-          ).ceil
-        end
+        ).ceil
 
-      charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
+        charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
-      render json: {
-               items: charts.map { it.to_sonolus(background_version:) },
-               searches:,
-               pageCount: page_count,
-               cursor: ""
-             }
+        render json: {
+                 items: charts.map { it.to_sonolus(background_version:) },
+                 searches:,
+                 pageCount: page_count
+               }
+      end
     end
 
     def show
