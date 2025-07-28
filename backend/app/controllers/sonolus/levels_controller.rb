@@ -313,19 +313,6 @@ module Sonolus
         charts.where(charts: { rating: ..(params[:q_rating_max]) }) if params[
         :q_rating_max
       ].present?
-      charts =
-        case params[:q_sort]&.to_sym
-        when :updated_at
-          charts.order(updated_at: :desc)
-        when :likes_count
-          charts.order(likes_count: :desc)
-        when :random
-          # TODO(maybe): use more low-cost and low-randomness method for anonymous users
-          random_ids = charts.pluck(:id).sample(20)
-          charts.where(id: random_ids).in_order_of(:id, random_ids)
-        else
-          charts.order(published_at: :desc)
-        end
       if params[:type] == "quick" && params[:keywords].present?
         charts =
           charts.where(
@@ -446,6 +433,20 @@ module Sonolus
           charts.where(genre: user_genres)
         else
           charts.where(genre: genres)
+        end
+
+      charts =
+        case params[:q_sort]&.to_sym
+        when :updated_at
+          charts.order(updated_at: :desc)
+        when :likes_count
+          charts.order(likes_count: :desc)
+        when :random
+          # TODO(maybe): use more low-cost and low-randomness method for anonymous users
+          random_ids = charts.pluck(:id).sample(20)
+          charts.where(id: random_ids).in_order_of(:id, random_ids)
+        else
+          charts.order(published_at: :desc)
         end
 
       if params[:q_sort] == "random"
