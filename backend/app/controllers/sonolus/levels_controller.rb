@@ -201,19 +201,25 @@ module Sonolus
             .sonolus_listed
             .map { it.to_sonolus(background_version:) }
       }
+      random_charts =
+        begin
+          chart_ids =
+            Chart
+              .where(visibility: :public, genre: user_genres)
+              .sonolus_listed
+              .pluck(:id)
+              .sample(5)
+          Chart
+            .includes(:author)
+            .eager_load(:tags, file_resources: { file_attachment: :blob })
+            .where(id: chart_ids)
+            .in_order_of(:id, chart_ids)
+        end
       random_section = {
         title: "#RANDOM",
         itemType: "level",
         searchValues: "q_sort=random",
-        items:
-          Chart
-            .order(Arel.sql("RANDOM()"))
-            .limit(5)
-            .includes(:author)
-            .eager_load(:tags, file_resources: { file_attachment: :blob })
-            .where(visibility: :public, genre: user_genres)
-            .sonolus_listed
-            .map { it.to_sonolus(background_version:) }
+        items: random_charts.map { |chart| chart.to_sonolus(background_version:) }
       }
       render json: {
                searches:,
@@ -314,7 +320,8 @@ module Sonolus
         when :likes_count
           charts.order(likes_count: :desc)
         when :random
-          charts.order(Arel.sql("RANDOM()"))
+          random_ids = charts.pluck(:id).sample(20)
+          charts.where(id: random_ids).in_order_of(:id, random_ids)
         else
           charts.order(published_at: :desc)
         end
