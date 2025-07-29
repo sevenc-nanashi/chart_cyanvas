@@ -1,9 +1,3 @@
-@use "./reset.css";
-@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 * {
   padding: 0;
   margin: 0;
@@ -17,14 +11,14 @@ input:focus {
 body {
   @apply font-sans;
 
-  --global-theme-text: theme("colors.themeDark");
-  --global-background: theme("colors.white");
-  --global-input-border: theme("colors.slate.300");
+  --colors-theme-text: theme("colors.themeDark");
+  --colors-background: theme("colors.white");
+  --colors-input-border: theme("colors.slate.300");
 
-  &.dark {
-    --global-theme-text: theme("colors.theme");
-    --global-background: theme("colors.slate.800");
-    --global-input-border: theme("colors.slate.700");
+  .dark & {
+    --colors-theme-text: theme("colors.theme");
+    --colors-background: theme("colors.slate.800");
+    --colors-input-border: theme("colors.slate.700");
   }
 }
 
@@ -53,11 +47,10 @@ li a,
   &.disabled {
     @apply border-transparent;
   }
-
 }
 
 .theme-link {
-  @apply text-themeText border-b-1 border-themeText;
+  @apply text-theme-text border-b-1 border-theme-text;
 
   &:hover:not(.disabled) {
     @apply text-themeDark border-themeDark;
@@ -66,7 +59,6 @@ li a,
   &.disabled {
     @apply border-transparent;
   }
-
 }
 
 .disabled {
@@ -74,13 +66,13 @@ li a,
 }
 
 .page-title {
-  @apply text-2xl font-bold mb-2 drop-shadow-sm text-themeText flex items-center;
-  border-bottom: 1px solid var(--global-theme-text);
+  @apply text-2xl font-bold mb-2 drop-shadow-sm text-theme-text flex items-center;
+  border-bottom: 1px solid var(--colors-theme-text);
 }
 
 .page-title-larger {
-  @apply text-4xl font-bold pb-2 drop-shadow-sm text-themeText;
-  border-bottom: 1px solid var(--global-theme-text);
+  @apply text-4xl font-bold pb-2 drop-shadow-sm text-theme-text;
+  border-bottom: 1px solid var(--colors-theme-text);
 }
 
 .square {
@@ -101,7 +93,7 @@ textarea {
 }
 
 .input-border {
-  @apply border-1 border-inputBorder focus-within:border-theme focus-within:outline-none rounded;
+  @apply border-1 border-input-border focus-within:border-theme focus-within:outline-none rounded;
 }
 
 .text-input {
@@ -184,7 +176,7 @@ textarea {
 
 .button-secondary {
   @extend .button;
-  @apply text-themeText outline -outline-offset-1 outline-1 outline-themeText bg-theme bg-opacity-0;
+  @apply text-theme-text outline -outline-offset-1 outline-1 outline-theme-text bg-theme bg-opacity-0;
 
   &:not(:disabled):not(.disabled) {
     @apply hover:bg-opacity-10 focus:bg-opacity-10;

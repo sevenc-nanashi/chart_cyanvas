@@ -78,7 +78,7 @@ pub async fn convert_post(
             let img = image::imageops::crop(&mut rendered, 0, 145, 2048, 970).to_image();
             image::imageops::resize(
                 &img,
-                ((2048f64 / 970f64) * 720f64) as _,
+                ((img.width() as f64 / img.height() as f64) * 720f64) as _,
                 720,
                 image::imageops::FilterType::Gaussian,
             )
@@ -88,7 +88,25 @@ pub async fn convert_post(
             let img = image::imageops::crop(&mut rendered, 0, 135, 2048, 897).to_image();
             image::imageops::resize(
                 &img,
-                ((2048f64 / 897f64) * 720f64) as _,
+                ((img.width() as f64 / img.height() as f64) * 720f64) as _,
+                720,
+                image::imageops::FilterType::Gaussian,
+            )
+        }
+        crate::models::ConvertType::BackgroundTabletV1 => {
+            let img = pjsekai_background_gen_core::render_v1(&base_image);
+            image::imageops::resize(
+                &img,
+                (img.width() as f64 / img.height() as f64 * 720f64) as _,
+                720,
+                image::imageops::FilterType::Gaussian,
+            )
+        }
+        crate::models::ConvertType::BackgroundTabletV3 => {
+            let img = pjsekai_background_gen_core::render_v3(&base_image);
+            image::imageops::resize(
+                &img,
+                (img.width() as f64 / img.height() as f64 * 720f64) as _,
                 720,
                 image::imageops::FilterType::Gaussian,
             )

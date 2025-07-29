@@ -10,11 +10,11 @@ import {
   SignOutRegular,
   TagRegular,
 } from "@fluentui/react-icons";
-import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import i18next from "i18next";
 import { createElement, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { useSession } from "~/lib/contexts.ts";
 import { useLogin } from "~/lib/useLogin.ts";
 import ModalPortal from "./ModalPortal.tsx";
@@ -105,7 +105,7 @@ const SideMenu: React.FC<{ close: () => void }> = ({ close }) => {
             </Link>
           ) : (
             <div
-              className="flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer text-themeText"
+              className="flex items-center bg-theme p-2 bg-opacity-0 hover:bg-opacity-10 transition-colors duration-250 rounded cursor-pointer text-theme-text"
               onClick={startLogin}
             >
               <PersonArrowRightFilled className="w-10 h-10 mr-2" />

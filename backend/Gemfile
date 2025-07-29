@@ -90,8 +90,6 @@ gem "sentry-sidekiq", "~> 5.22"
 gem "jwt", "~> 2.10"
 gem "rbnacl", "~> 7.1"
 
-gem "console-adapter-rails", "~> 0.4"
-
 gem "rails-i18n", "~> 8.0"
 
 gem "falcon", "~> 0.48"

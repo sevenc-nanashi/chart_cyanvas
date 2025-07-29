@@ -4,15 +4,11 @@ import {
   MusicNote2Regular,
   OpenRegular,
 } from "@fluentui/react-icons";
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  defer,
-} from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import ChartSection from "~/components/ChartSection";
 import SonolusAvatar from "~/components/SonolusAvatar";
 import { backendUrl, host } from "~/lib/config.server.ts";
@@ -67,12 +63,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const title = `${userData.name}#${userData.handle} | ${rootT("name")}`;
 
-  return defer({
+  return {
     userData,
     userCharts,
     title,
     host,
-  });
+  };
 };
 
 export const handle = {

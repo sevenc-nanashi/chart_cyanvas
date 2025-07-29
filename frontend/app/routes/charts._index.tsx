@@ -1,20 +1,21 @@
 import { ChevronDownFilled, ChevronUpFilled } from "@fluentui/react-icons";
 import * as RadixCollapsible from "@radix-ui/react-collapsible";
-import { type LoaderFunctionArgs, json } from "@remix-run/node";
-import { type MetaFunction, useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs } from "react-router";
+import { type MetaFunction, useSearchParams } from "react-router";
 import { WithContext as ReactTags } from "react-tag-input";
 import ChartList from "~/components/ChartList.tsx";
+import Checkbox from "~/components/Checkbox";
 import InputTitle from "~/components/InputTitle.tsx";
 import NumberInput from "~/components/NumberInput.tsx";
 import RangeInput from "~/components/RangeInput";
 import Select from "~/components/Select.tsx";
 import TextInput from "~/components/TextInput.tsx";
-import { useMyFetch } from "~/lib/contexts";
+import { useMyFetch, useServerSettings } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -24,7 +25,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title });
+  return { locale, title };
 };
 
 export const handle = {
@@ -61,12 +62,14 @@ const Search = () => {
   );
 
   const myFetch = useMyFetch();
+  const serverSettings = useServerSettings();
   const form = useForm<{
     title: string;
     composer: string;
     artist: string;
     authorName: string;
     authorHandles: string[];
+    genres: string[];
     tags: string[];
     ratingMin: number;
     ratingMax: number;
@@ -78,6 +81,7 @@ const Search = () => {
       artist: params.get("artist") || "",
       authorName: params.get("authorName") || "",
       authorHandles: params.get("authorHandles")?.split(",") || [],
+      genres: params.get("genres")?.split(",") || serverSettings.genres,
       tags: params.get("tags")?.split(",") || [],
       ratingMin: Number.parseInt(params.get("ratingMin") || "1"),
       ratingMax: Number.parseInt(params.get("ratingMax") || "99"),
@@ -96,6 +100,7 @@ const Search = () => {
       ratingMax,
       authorName,
       authorHandles,
+      genres,
       tags,
       sort,
     } = form.getValues();
@@ -107,6 +112,7 @@ const Search = () => {
       ratingMax: ratingMax === 99 ? undefined : ratingMax.toString(),
       authorName: authorName || undefined,
       authorHandles: authorHandles.join(",") || undefined,
+      genres: genres.join(",") || undefined,
       tags: tags.join(",") || undefined,
       sort: sort || undefined,
     };
@@ -136,6 +142,7 @@ const Search = () => {
               artist: form.watch("artist"),
               authorName: form.watch("authorName"),
               authorHandles: form.watch("authorHandles").join(","),
+              genres: form.watch("genres").join(","),
               tags: form.watch("tags").join(","),
               ratingMin: form.watch("ratingMin"),
               ratingMax: form.watch("ratingMax"),
@@ -177,6 +184,15 @@ const Search = () => {
         rootT("separator"),
       );
     }
+    if (params.genres.length > 0) {
+      if (params.genres.length === serverSettings.genres.length) {
+        mappedParams[t("param.genres")] = rootT("all");
+      } else {
+        mappedParams[t("param.genres")] = params.genres
+          .map((g) => rootT(`genre.${g}`))
+          .join(rootT("separator"));
+      }
+    }
     if (params.tags.length > 0) {
       mappedParams[t("param.tags")] = params.tags.join(rootT("separator"));
     }
@@ -189,7 +205,7 @@ const Search = () => {
     return Object.entries(mappedParams)
       .map(([key, value]) => rootT("kv", { key, value }))
       .join(rootT("separator"));
-  }, [form, t, rootT]);
+  }, [form, t, rootT, serverSettings]);
   const [currentQuery, setCurrentQuery] = useState(buildCurrentQuery);
 
   return (
@@ -198,7 +214,7 @@ const Search = () => {
         <h1 className="page-title">{t("title")}</h1>
         <div className="card">
           <RadixCollapsible.Root open={open} onOpenChange={setOpen}>
-            <RadixCollapsible.Trigger className="flex max-sm:justify-between items-center w-full p-2">
+            <RadixCollapsible.Trigger className="flex max-sm:justify-between items-center w-full p-2 cursor-pointer">
               <h2 className="font-bold text-lg mr-2">{t("queries")}</h2>
               {open ? <ChevronUpFilled /> : <ChevronDownFilled />}
               <div className="ml-4 h-6 contain-strict flex-grow overflow-ellipsis overflow-hidden whitespace-nowrap text-right break-keep">
@@ -286,6 +302,34 @@ const Search = () => {
                   </div>
 
                   <div className="flex flex-col xl:flex-grow gap-2">
+                    <InputTitle text={t("param.genres")} error={errors.genres}>
+                      <div className="flex flex-wrap gap-2">
+                        {serverSettings.genres.map((genre) => (
+                          <Checkbox
+                            key={genre}
+                            name="genres"
+                            checked={form.watch("genres").includes(genre)}
+                            onChange={(checked) => {
+                              if (checked) {
+                                form.setValue("genres", [
+                                  ...form.getValues("genres"),
+                                  genre,
+                                ]);
+                              } else {
+                                form.setValue(
+                                  "genres",
+                                  form
+                                    .getValues("genres")
+                                    .filter((g) => g !== genre),
+                                );
+                              }
+                            }}
+                          >
+                            {rootT(`genre.${genre}`)}
+                          </Checkbox>
+                        ))}
+                      </div>
+                    </InputTitle>
                     <InputTitle text={t("param.tags")} error={errors.tags}>
                       <div
                         className={clsx(

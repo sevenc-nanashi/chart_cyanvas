@@ -84,8 +84,9 @@ Rails.application.configure do
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
-  logger = ActiveSupport::Logger.new($stdout)
-  logger.formatter = config.log_formatter
+  # logger = ActiveSupport::Logger.new($stdout)
+  # logger.formatter = config.log_formatter
+  logger = Console::Compatible::Logger.new("Rails", Console.logger.output)
   config.logger = ActiveSupport::TaggedLogging.new(logger)
 
   # Do not dump schema after migrations.

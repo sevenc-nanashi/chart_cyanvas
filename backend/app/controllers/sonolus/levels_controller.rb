@@ -3,7 +3,7 @@ require "uri"
 
 module Sonolus
   class LevelsController < SonolusController
-    SORTS = %i[published_at updated_at likes_count].freeze
+    SORTS = %i[published_at updated_at likes_count random].freeze
 
     def self.search_options
       [
@@ -36,6 +36,18 @@ module Sonolus
           limit: 0,
           def: "",
           shortcuts: []
+        },
+        {
+          query: :q_genres,
+          name: I18n.t("sonolus.search.genres"),
+          description: I18n.t("sonolus.search.genres_description"),
+          type: "multi",
+          required: false,
+          def: Chart::GENRES.map { false },
+          values:
+            Chart::GENRES.keys.map do |genre|
+              { name: genre, title: I18n.t("sonolus.levels.genres.#{genre}") }
+            end
         },
         {
           query: :q_tags,
@@ -185,22 +197,30 @@ module Sonolus
             .limit(5)
             .includes(:author)
             .eager_load(:tags, file_resources: { file_attachment: :blob })
-            .where(visibility: :public)
+            .where(visibility: :public, genre: user_genres)
             .sonolus_listed
             .map { it.to_sonolus(background_version:) }
       }
+      random_charts =
+        begin
+          chart_ids =
+            Chart
+              .where(visibility: :public, genre: user_genres)
+              .sonolus_listed
+              .pluck(:id)
+              .sample(5)
+          Chart
+            .includes(:author)
+            .eager_load(:tags, file_resources: { file_attachment: :blob })
+            .where(id: chart_ids)
+            .in_order_of(:id, chart_ids)
+        end
       random_section = {
         title: "#RANDOM",
         itemType: "level",
+        searchValues: "q_sort=random",
         items:
-          Chart
-            .order(Arel.sql("RANDOM()"))
-            .limit(5)
-            .includes(:author)
-            .eager_load(:tags, file_resources: { file_attachment: :blob })
-            .where(visibility: :public)
-            .sonolus_listed
-            .map { it.to_sonolus(background_version:) }
+          random_charts.map { |chart| chart.to_sonolus(background_version:) }
       }
       render json: {
                searches:,
@@ -294,15 +314,6 @@ module Sonolus
         charts.where(charts: { rating: ..(params[:q_rating_max]) }) if params[
         :q_rating_max
       ].present?
-      charts =
-        case params[:q_sort]&.to_sym
-        when :updated_at
-          charts.order(updated_at: :desc)
-        when :likes_count
-          charts.order(likes_count: :desc)
-        else
-          charts.order(published_at: :desc)
-        end
       if params[:type] == "quick" && params[:keywords].present?
         charts =
           charts.where(
@@ -334,21 +345,20 @@ module Sonolus
           )
       end
       if params[:q_tags].present?
-        tags = params[:q_tags].split.map(&:strip).compact_blank.uniq
+        tags =
+          params[:q_tags]
+            .split(",")
+            .map(&:strip)
+            .map(&:downcase)
+            .compact_blank
+            .uniq
 
-        tags.each_with_index do |tag, index|
-          charts =
-            charts.joins(
-              Chart.sanitize_sql_array(
-                [
-                  "INNER JOIN tags ct#{index} ON ct#{index}.chart_id = charts.id AND LOWER(ct#{index}.name) = ?",
-                  tag.downcase
-                ]
-              )
-            )
-        end
-
-        charts = charts.distinct
+        charts =
+          Chart
+            .joins(:tags)
+            .where("LOWER(tags.name) IN (?)", tags)
+            .group("charts.id")
+            .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
       end
 
       if params[:q_author].present?
@@ -406,16 +416,64 @@ module Sonolus
             "%#{params[:q_id].downcase}%"
           )
       end
+      genres =
+        (params[:q_genres] || "")
+          .split(",")
+          .map do |genre|
+            genre = genre.strip.downcase.to_sym
+            if Chart::GENRES.key?(genre)
+              genre
+            else
+              logger.warn "Invalid genre: #{genre}"
+              nil
+            end
+          end
+          .compact
+      charts =
+        if genres.empty?
+          charts.where(genre: user_genres)
+        else
+          charts.where(genre: genres)
+        end
 
-      page_count = (charts.count / 20.0).ceil
+      charts =
+        case params[:q_sort]&.to_sym
+        when :updated_at
+          charts.order(updated_at: :desc)
+        when :likes_count
+          charts.order(likes_count: :desc)
+        when :random
+          # TODO(maybe): use more low-cost and low-randomness method for anonymous users
+          random_ids = charts.pluck(:id).sample(20)
+          charts.where(id: random_ids).in_order_of(:id, random_ids)
+        else
+          charts.order(published_at: :desc)
+        end
 
-      charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
+      if params[:q_sort] == "random"
+        render json: {
+                 items: charts.map { it.to_sonolus(background_version:) },
+                 searches:,
+                 pageCount: -1,
+                 cursor: ""
+               }
+      else
+        page_count =
+          (
+            Chart.from(
+              charts.except(:limit, :offset).select(:id),
+              :charts
+            ).count / 20.0
+          ).ceil
 
-      render json: {
-               items: charts.map { it.to_sonolus(background_version:) },
-               searches:,
-               pageCount: page_count
-             }
+        charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
+
+        render json: {
+                 items: charts.map { it.to_sonolus(background_version:) },
+                 searches:,
+                 pageCount: page_count
+               }
+      end
     end
 
     def show
@@ -475,7 +533,7 @@ module Sonolus
                        title: I18n.t("sonolus.levels.sections.backgrounds"),
                        itemType: "background",
                        items:
-                         [1, 3].map do |version|
+                         BACKGROUND_VERSIONS.map do |version|
                            chart.to_sonolus_background(
                              chart.resources,
                              version:

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require_relative "boot"
 require "dotenv"
+require "console/compatible/logger"
 
 require "rails/all"
 
@@ -43,5 +44,9 @@ module Backend
     config.paths.add "lib", eager_load: true
 
     config.active_job.queue_adapter = :sidekiq
+
+    logger = Console::Compatible::Logger.new("Rails", Console.logger.output)
+    logger.info!
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 end

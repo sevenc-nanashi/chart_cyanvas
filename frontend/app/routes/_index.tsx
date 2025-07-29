@@ -1,28 +1,31 @@
 import { ArrowRightFilled, OpenRegular } from "@fluentui/react-icons";
-import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
-import { Link } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import type { LoaderFunction, MetaFunction } from "react-router";
+import { Link } from "react-router";
 import ChartList from "~/components/ChartList";
 import { useMyFetch, useServerSettings } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import { sonolusUrl } from "~/lib/utils";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = (async ({ request }) => {
   const locale = await detectLocale(request);
   const rootT = await i18n.getFixedT(locale, "root");
 
   const title = rootT("name");
 
-  return json({ title });
-};
+  return { title };
+}) satisfies LoaderFunction;
 
 export const handle = {
   i18n: "home",
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data) {
+    return [];
+  }
   return [
     {
       title: data.title,

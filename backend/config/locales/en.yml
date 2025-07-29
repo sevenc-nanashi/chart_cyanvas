@@ -19,9 +19,9 @@ en:
     configuration:
       background:
         title: "Background"
-        options:
-          v1: "v1"
-          v3: "v3"
+      genres:
+        title: "Genres"
+        description: "Charts from unchecked genres will not be displayed in the chart list."
 
     popular_maintenance:
       title: "The popular levels section is under maintenance!"
@@ -32,15 +32,29 @@ en:
       description: "Chart Cyanvas is a sekai custom charts platform for Sonolus."
       logged_in: "You are signed in as %{name}#%{handle}."
     backgrounds:
-      title: "%{name} (v%{version})"
+      title: "%{name}: %{version}"
       sections:
         versions: "Versions"
+      versions:
+        v1: "v1 (Phone)"
+        v3: "v3 (Phone)"
+        tablet_v1: "v1 (Tablet)"
+        tablet_v3: "v3 (Tablet)"
     levels:
       published_at: "Published: %{time} ago"
       variants:
         zero: "No variants"
         one: "Variant"
         other: "%{count} variants"
+
+      genres:
+        others: "Others"
+        vocal_synth: "VocalSynth, Vocaloid"
+        music_game: "Music Game"
+        game: "Game"
+        meme: "Meme"
+        pops: "Pop"
+        instrumental: "Instrumental"
 
       visibility:
         public: "Public"
@@ -73,6 +87,8 @@ en:
       author_name_placeholder: "Enter the charter's name."
       id: "ID"
       id_placeholder: "Enter the ID."
+      genres: "Genres"
+      genres_placeholder: "Leave blank to use server configuration."
       tags: "Tags"
       tags_placeholder: "Enter tags, separated by spaces."
       sort: "Sort"
@@ -80,6 +96,7 @@ en:
         published_at: "Recently published"
         updated_at: "Recently updated"
         likes_count: "Most liked"
+        random: "Random"
       rating_max: "Maximum difficulty"
       rating_min: "Minimum difficulty"
       unknown_author: "Failed to find charters. Make sure you have entered the correct handles."

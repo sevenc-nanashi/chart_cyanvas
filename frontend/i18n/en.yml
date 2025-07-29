@@ -7,6 +7,7 @@ backToHome: "Return to top page"
 separator: ", "
 brackets: " ({{content}})"
 kv: "{{key}}: {{value}}"
+all: "All"
 
 serverError: "An error occurred on the server!"
 serverErrorNote: "Please let us know <0>on our Discord server</0>."
@@ -14,6 +15,15 @@ serverErrorNote: "Please let us know <0>on our Discord server</0>."
 openInSonolus: "Sonolus"
 
 adminDecorate: " (Admin)"
+
+genre:
+  others: "Others"
+  vocal_synth: "VocalSynth, Vocaloid"
+  music_game: "Music Game"
+  game: "Game"
+  meme: "Meme"
+  pops: "Pop"
+  instrumental: "Instrumental"
 
 notFound:
   title: "Not Found"
@@ -85,6 +95,7 @@ searchCharts:
     artist: "Vocal"
     authorName: "Charter name"
     authorHandles: "Charter handle"
+    genres: "Genres"
     tags: "Tags"
     rating: "Difficulty"
     sort: "Sort by"
@@ -141,6 +152,7 @@ upload:
     chart: "Chart file"
     bgm: "BGM file"
 
+    genre: "Genre"
     tags: "Tags"
 
     author: "Charter"

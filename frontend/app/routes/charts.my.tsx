@@ -1,28 +1,31 @@
-import { type LoaderFunction, json } from "@remix-run/node";
-import { Link, type MetaFunction } from "@remix-run/react";
 import { pathcat } from "pathcat";
 import { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import type { LoaderFunction } from "react-router";
+import { Link, type MetaFunction } from "react-router";
 import ChartList from "~/components/ChartList.tsx";
 import { useMyFetch } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import requireLogin from "~/lib/requireLogin.tsx";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = (async ({ request }) => {
   const locale = await detectLocale(request);
   const rootT = await i18n.getFixedT(locale, "root");
   const t = await i18n.getFixedT(locale, "my");
 
   const title = `${t("title")} | ${rootT("name")}`;
 
-  return json({ locale, title });
-};
+  return { locale, title };
+}) satisfies LoaderFunction;
 
 export const handle = {
   i18n: "my",
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data) {
+    return [];
+  }
   return [
     {
       title: data.title,

@@ -14,16 +14,12 @@ import {
   TagRegular,
   WarningRegular,
 } from "@fluentui/react-icons";
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  defer,
-} from "@remix-run/node";
-import { Link, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import clsx from "clsx";
 import { pathcat } from "pathcat";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { Link, useLoaderData, useNavigate, useParams } from "react-router";
 import ChartSection from "~/components/ChartSection";
 import Checkbox from "~/components/Checkbox";
 import InputTitle from "~/components/InputTitle";
@@ -35,7 +31,13 @@ import { backendUrl, host } from "~/lib/config.server.ts";
 import { useServerSettings, useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types.ts";
-import { getRatingColor, isAdmin, isMine, sonolusUrl } from "~/lib/utils.ts";
+import {
+  getRatingColor,
+  isAdmin,
+  isMine,
+  sonolusUrl,
+  useMergeChartTags,
+} from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
@@ -83,12 +85,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const title = `${chartData.title} | ${rootT("name")}`;
 
-  return defer({
+  return {
     chartData,
     chartsByThisCharter,
     title,
     host,
-  });
+  };
 };
 export const handle = {
   i18n: "chart",
@@ -150,10 +152,13 @@ const ChartPage = () => {
   const navigate = useNavigate();
   const serverSettings = useServerSettings();
   const session = useSession();
+  const mergeChartTags = useMergeChartTags();
 
   const [showDeletionModal, setShowDeletionModal] = useState(false);
 
   const [publishedAt, setPublishedAt] = useState("-");
+
+  const tags = mergeChartTags(chartData);
 
   useEffect(() => {
     if (chartData.publishedAt) {
@@ -304,13 +309,23 @@ const ChartPage = () => {
             </p>
 
             <p>
-              {chartData.tags.length > 0 ? (
+              {tags.length > 0 ? (
                 <>
                   <TagRegular className="mr-1 w-6 h-6" />
-                  {chartData.tags.map((tag, i) => (
+                  {tags.map((tag, i) => (
                     <Fragment key={i}>
-                      <Link to={pathcat("/charts", { tags: tag })}>{tag}</Link>
-                      {i < chartData.tags.length - 1 && rootT("separator")}
+                      {i === 0 && chartData.genre !== "others" ? (
+                        <Link
+                          to={pathcat("/charts", { genres: chartData.genre })}
+                        >
+                          {tag}
+                        </Link>
+                      ) : (
+                        <Link to={pathcat("/charts", { tags: tag })}>
+                          {tag}
+                        </Link>
+                      )}
+                      {i < tags.length - 1 && rootT("separator")}
                     </Fragment>
                   ))}
                 </>
@@ -364,7 +379,7 @@ const ChartPage = () => {
               />
               {chartData && (
                 <div
-                  className={`absolute text-xs top-0 left-0 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white ${getRatingColor(chartData.rating)}`}
+                  className={`absolute text-xs top-0 left-0 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white ${getRatingColor(chartData)}`}
                 >
                   Lv. {chartData.rating}
                 </div>

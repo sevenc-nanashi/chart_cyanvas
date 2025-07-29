@@ -9,6 +9,7 @@ class UploadValidator
               :composer,
               :artist,
               :rating,
+              :genre,
               :tags,
               :author_handle,
               :author_name,
@@ -44,6 +45,13 @@ class UploadValidator
               less_than_or_equal_to: 99,
               message: "invalid"
             }
+  validates :genre,
+            presence: PRESENCE,
+            inclusion: {
+              in: Chart::GENRES.keys.map(&:to_s),
+              message: "invalid"
+            }
+
   validates :tags,
             allow_blank: true,
             length: {
@@ -85,6 +93,7 @@ class UploadValidator
     @composer = params[:composer]
     @artist = params[:artist]
     @rating = params[:rating]
+    @genre = params[:genre]
     @tags = params[:tags]
     @author_handle = params[:authorHandle]
     @author_name = params[:authorName]
@@ -109,6 +118,7 @@ class SearchValidator
               :rating_max,
               :author_name,
               :author_handles,
+              :genres,
               :tags,
               :sort,
               :include_non_public
@@ -142,7 +152,14 @@ class SearchValidator
               maximum: 5,
               message: "tooManyTags"
             }
-
+  validate :genres
+  def validate_genres
+    if genres.present?
+      genres.each do |genre|
+        errors.add(:genres, "invalid") unless Chart::GENRES.keys.include?(genre)
+      end
+    end
+  end
   validates :sort,
             inclusion: {
               in: %w[publishedAt updatedAt likes],
@@ -167,7 +184,8 @@ class SearchValidator
     @sort = params[:sort]
     @author_name = params[:authorName]
     @author_handles = params[:authorHandles]
-    @tags = params[:tags]&.then{it.split(",").map(&:strip).compact_blank}
+    @genres = params[:genres]&.then { it.split(",").map(&:strip).compact_blank }
+    @tags = params[:tags]&.then { it.split(",").map(&:strip).compact_blank }
     @rating_max = params[:ratingMax]
     @rating_min = params[:ratingMin]
     @artist = params[:artist]
@@ -192,6 +210,7 @@ module Api
         :ratingMax,
         :authorName,
         :authorHandles,
+        :genres,
         :tags,
         :sort,
         :includeNonPublic,
@@ -255,21 +274,26 @@ module Api
         charts = charts.where(charts: { rating: ..params[:ratingMax].to_i })
       end
 
-      if params[:tags].present?
-        tags = params[:tags].split(",").map(&:strip).compact_blank.uniq
-        tags.each_with_index do |tag, i|
-          charts =
-            charts.joins(
-              Chart.sanitize_sql_array(
-                [
-                  "INNER JOIN tags ct#{i} ON ct#{i}.chart_id = charts.id AND LOWER(ct#{i}.name) = ?",
-                  tag.downcase
-                ]
-              )
-            )
-        end
+      if params[:genres].present?
+        genres = params[:genres].split(",").map(&:strip).compact_blank.uniq
+        charts = charts.where(charts: { genre: genres.map(&:to_sym) })
+      end
 
-        charts = charts.distinct
+      if params[:tags].present?
+        tags =
+          params[:tags]
+            .split(",")
+            .map(&:strip)
+            .map(&:downcase)
+            .compact_blank
+            .uniq
+
+        charts =
+          Chart
+            .joins(:tags)
+            .where("LOWER(tags.name) IN (?)", tags)
+            .group("charts.id")
+            .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
       end
 
       if params[:authorHandles].present?
@@ -330,7 +354,8 @@ module Api
           charts.order(published_at: :desc)
         end
 
-      num_charts = charts.count
+      num_charts =
+        Chart.from(charts.except(:limit, :offset).select(:id), :charts).count
       # rubocop:disable Lint/RedundantSafeNavigation
       charts = charts.limit(length).offset(params[:offset]&.to_i || 0)
       # rubocop:enable Lint/RedundantSafeNavigation
@@ -424,6 +449,7 @@ module Api
           artist: data_parsed[:artist],
           description: data_parsed[:description],
           rating: data_parsed[:rating],
+          genre: data_parsed[:genre],
           tags: data_parsed[:tags],
           author_name: data_parsed[:authorName],
           author_handle: data_parsed[:authorHandle],
@@ -462,6 +488,7 @@ module Api
           composer: data_parsed[:composer],
           artist: data_parsed[:artist],
           description: data_parsed[:description],
+          genre: data_parsed[:genre],
           rating: data_parsed[:rating],
           author_name: data_parsed[:author_name],
           variant_of: variant,
@@ -524,6 +551,7 @@ module Api
           rating: data_parsed[:rating],
           author_name: data_parsed[:author_name],
           author_id: author.id,
+          genre: data_parsed[:genre],
           visibility: data_parsed[:visibility].to_sym,
           is_chart_public: data_parsed[:is_chart_public],
           scheduled_at: Time.zone.at(data_parsed[:scheduled_at] / 1000)

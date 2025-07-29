@@ -13,7 +13,7 @@ class SonolusController < ApplicationController
         y: "Hxzi9DHrlJ4CVSJVRnydxFWBZAgkFxZXbyxPSa8SJQw"
       }
     )
-  VALID_BACKGROUND_VERSIONS = [1, 3].freeze
+  BACKGROUND_VERSIONS = %i[v1 v3 tablet_v1 tablet_v3].freeze
 
   around_action do |_, action|
     params.permit(:localization)
@@ -26,14 +26,25 @@ class SonolusController < ApplicationController
   end
 
   before_action do
-    params.permit(:c_background)
+    params.permit(:c_background, :c_genres)
     background_version =
-      params[:c_background]&.then { it.delete_prefix("v").to_i }
-    background_version = 3 unless VALID_BACKGROUND_VERSIONS.include?(
-      background_version
-    )
+      BACKGROUND_VERSIONS.find { |v| v.to_s == params[:c_background] } || :v3
 
     self.background_version = background_version
+
+    genres =
+      (params[:c_genres] || "")
+        .split(",")
+        .filter_map do |genre|
+          if Chart::GENRES.key?(genre.to_sym)
+            genre.to_sym
+          else
+            logger.warn "Invalid genre: #{genre}"
+            nil
+          end
+        end
+
+    self.user_genres = (genres.empty? ? Chart::GENRES.keys : genres)
   end
 
   around_action do |_, action|
@@ -86,6 +97,14 @@ class SonolusController < ApplicationController
 
   def background_version=(value)
     RequestLocals.store[:sonolus_background_version] = value
+  end
+
+  def user_genres
+    RequestLocals.store[:sonolus_genres] || Chart::GENRES.keys
+  end
+
+  def user_genres=(value)
+    RequestLocals.store[:sonolus_genres] = value
   end
 
   def dummy_level(key, name, cover: nil, **)

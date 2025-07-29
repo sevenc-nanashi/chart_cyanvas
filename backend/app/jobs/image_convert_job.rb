@@ -34,18 +34,16 @@ class ImageConvertJob < ApplicationJob
     raise "Failed to download image file!" if image_data.status != 200
     resource =
       FileResource.upload_from_string(chart_name, type, image_data.body.to_s)
-    HTTP.delete("#{ENV.fetch("HOSTS_SUB_IMAGE", nil)}/download/#{response[:id]}")
-    case type
-    when :cover
+    HTTP.delete(
+      "#{ENV.fetch("HOSTS_SUB_IMAGE", nil)}/download/#{response[:id]}"
+    )
+    if type == :cover
       ImageConvertJob.perform_later(chart_name, resource, :background_v3)
+      ImageConvertJob.perform_later(chart_name, resource, :background_v1)
+      ImageConvertJob.perform_later(chart_name, resource, :background_tablet_v3)
+      ImageConvertJob.perform_later(chart_name, resource, :background_tablet_v1)
       image_file.delete
-    when :background_v3
-      chart = Chart.find_by(name: chart_name)
-      ImageConvertJob.perform_later(
-        chart_name,
-        chart.resources[:cover],
-        :background_v1
-      )
     end
   end
-end
+end
+

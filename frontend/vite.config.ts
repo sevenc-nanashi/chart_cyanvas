@@ -1,24 +1,27 @@
-import { vitePlugin as remix } from "@remix-run/dev";
+import { reactRouter } from "@react-router/dev/vite";
+import yaml from "@rollup/plugin-yaml";
 import { config } from "dotenv";
+import unocss from "unocss/vite";
 import { defineConfig } from "vite";
 import { cjsInterop } from "vite-plugin-cjs-interop";
-import yaml from "@rollup/plugin-yaml";
 import svgr from "vite-plugin-svgr";
 
 config({ path: "../.env" });
 
-const finalHost = process.env.FINAL_HOST && new URL(process.env.FINAL_HOST).hostname;
+const finalHost =
+  process.env.FINAL_HOST && new URL(process.env.FINAL_HOST).hostname;
 const backendUrl = process.env.HOSTS_BACKEND;
 const wikiUrl = process.env.HOSTS_WIKI;
 
 export default defineConfig({
   plugins: [
     yaml(),
+    unocss(),
     svgr({}),
     cjsInterop({
       dependencies: ["react-range"],
     }),
-    remix(),
+    reactRouter(),
   ],
   server: {
     proxy: {

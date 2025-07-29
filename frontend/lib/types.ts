@@ -17,6 +17,7 @@ export type Chart = {
   data: string | null;
   variants: Chart[];
   variantOf: Chart | null;
+  genre: string;
   tags: string[];
   visibility: "public" | "private" | "scheduled";
   isChartPublic: boolean;
@@ -62,6 +63,7 @@ export type Session =
 
 export type ServerSettings = {
   discordEnabled: boolean;
+  genres: string[];
   host: string;
 };
 

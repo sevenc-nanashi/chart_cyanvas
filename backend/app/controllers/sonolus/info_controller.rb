@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 module Sonolus
   class InfoController < SonolusController
-    BACKGROUNDS = %i[v1 v3].freeze
     def info
       title = I18n.t("sonolus.title")
       title += " (dev)" if ENV["RAILS_ENV"] != "production"
@@ -38,13 +37,29 @@ module Sonolus
                      required: false,
                      def: :v3,
                      values:
-                       BACKGROUNDS.map { |background|
+                       BACKGROUND_VERSIONS.map { |background|
                          {
                            name: background,
                            title:
                              I18n.t(
-                               "sonolus.configuration.background.options.#{background}"
+                               "sonolus.backgrounds.versions.#{background}"
                              )
+                         }
+                       }
+                   },
+                   {
+                     query: :c_genres,
+                     name: I18n.t("sonolus.configuration.genres.title"),
+                     description:
+                       I18n.t("sonolus.configuration.genres.description"),
+                     type: "multi",
+                     required: false,
+                     def: Chart::GENRES.map { true },
+                     values:
+                       Chart::GENRES.keys.map { |genre|
+                         {
+                           name: genre,
+                           title: I18n.t("sonolus.levels.genres.#{genre}")
                          }
                        }
                    }

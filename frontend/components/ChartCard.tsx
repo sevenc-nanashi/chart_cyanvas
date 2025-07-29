@@ -7,12 +7,13 @@ import {
   MusicNote2Regular,
   TagRegular,
 } from "@fluentui/react-icons";
-import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import { forwardRef } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router";
 import type { Chart } from "~/lib/types";
 import { useRandomValue } from "~/lib/useRandomValue.ts";
-import { getRatingColor } from "~/lib/utils.ts";
+import { getRatingColor, useMergeChartTags } from "~/lib/utils.ts";
 import OptionalImage from "./OptionalImage.tsx";
 
 type Props = { data?: Chart; spacer?: boolean; className?: string };
@@ -23,6 +24,9 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
 ) {
   const random = useRandomValue();
   const navigate = useNavigate();
+  const { t: rootT } = useTranslation();
+  const mergeChartTags = useMergeChartTags();
+  const tags = data ? mergeChartTags(data) : [];
 
   if (spacer) {
     return <div className="px-2 h-0 w-full md:w-[480px]" ref={ref} />;
@@ -51,7 +55,7 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
           <div
             className={clsx(
               "absolute text-xs top-2 left-2 p-1 px-2 rounded-br-xl rounded-tl-[10px] font-bold text-white",
-              getRatingColor(data.rating),
+              getRatingColor(data),
             )}
           >
             Lv. {data.rating}
@@ -94,10 +98,10 @@ const ChartCard = forwardRef<HTMLDivElement, Props>(function ChartCard(
               {data.artist || "-"}
             </p>
             <p className="text-xs whitespace-nowrap overflow-x-hidden overflow-ellipsis">
-              {data.tags.length > 0 ? (
+              {tags.length > 0 ? (
                 <>
                   <TagRegular className="mr-1 w-4 h-4" />
-                  {data.tags.join("、")}
+                  {tags.join(rootT("separator"))}
                 </>
               ) : (
                 <>

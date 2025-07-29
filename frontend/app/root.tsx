@@ -1,24 +1,24 @@
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import clsx from "clsx";
+import { pathcat } from "pathcat";
+import { useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  json,
   useLocation,
   useNavigation,
   useRouteLoaderData,
-} from "@remix-run/react";
-import clsx from "clsx";
-import { useEffect, useMemo, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+} from "react-router";
 import favicon from "~/assets/favicon.svg?url";
 import DisablePortal from "~/components/DisablePortal";
 import Footer from "~/components/Footer.tsx";
 import Header from "~/components/Header.tsx";
 import ModalPortal from "~/components/ModalPortal";
-import { discordEnabled, host } from "~/lib/config.server.ts";
+import { backendUrl, host } from "~/lib/config.server.ts";
 import {
   IsSubmittingContext,
   ServerErrorContext,
@@ -31,24 +31,32 @@ import {
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
 import type { ServerSettings, Session } from "~/lib/types";
-import styles from "~/styles/globals.scss?url";
+
+let serverSettingsCachePromise: Promise<ServerSettings> | undefined;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const locale = await detectLocale(request);
-  return json({
+  if (!serverSettingsCachePromise) {
+    serverSettingsCachePromise = fetch(pathcat(backendUrl, "/meta")).then(
+      (res) => res.json(),
+    );
+  }
+  const meta: {
+    discordEnabled: boolean;
+    genres: string[];
+  } = await serverSettingsCachePromise;
+  return {
     locale,
     serverSettings: {
-      discordEnabled,
+      discordEnabled: meta.discordEnabled,
+      genres: meta.genres,
       host,
     } satisfies ServerSettings,
-  });
+  };
 };
 
 export const links: LinksFunction = () => {
-  return [
-    { rel: "icon", type: "image/svg+xml", href: favicon },
-    { rel: "stylesheet", href: styles },
-  ];
+  return [{ rel: "icon", type: "image/svg+xml", href: favicon }];
 };
 
 export default function App() {
@@ -108,9 +116,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
     i18n.changeLanguage(loaderData.locale);
   }
   useEffect(() => {
-    if (session && session.loggedIn !== undefined) {
-      return;
-    }
     fetch("/api/login/session", {
       method: "GET",
     }).then(async (res) => {
@@ -135,9 +140,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         setSession({ loggedIn: false });
       }
     });
-  }, [session]);
+  }, []);
   return (
-    <html lang={loaderData.locale}>
+    <html lang={loaderData.locale} className={isDarkMode ? "dark" : ""}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -145,14 +150,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body
-        className={clsx(
-          "bg-background text-normal min-h-screen flex flex-col",
-          {
-            dark: isDarkMode,
-          },
-        )}
-      >
+      <body className="bg-background text-normal min-h-screen flex flex-col font-sans">
         <SessionContext.Provider value={session}>
           <SetSessionContext.Provider value={setSession}>
             <ServerErrorContext.Provider value={setServerError}>

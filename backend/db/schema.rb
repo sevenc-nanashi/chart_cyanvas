@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_04_124906) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_25_110743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -62,6 +62,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_124906) do
     t.string "scheduled_job_id"
     t.datetime "scheduled_at"
     t.integer "chart_type", default: 0
+    t.integer "genre", default: 0, null: false
     t.index ["author_id"], name: "index_charts_on_author_id"
     t.index ["name"], name: "index_charts_on_name"
     t.index ["variant_id"], name: "index_charts_on_variant_id"

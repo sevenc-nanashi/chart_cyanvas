@@ -3,7 +3,7 @@ version: 2
 title: Live v3
 subtitle: プロジェクトセカイ カラフルステージ!
 author: Burrito
-thumbnail: "!file:v3_thumbnail.png/BackgroundThumbnail"
-data: "!file:v3_data.json.gz/BackgroundData"
-image: "!file:v3.png/BackgroundImage"
-configuration: "!file:configuration.json.gz/BackgroundConfiguration"
+thumbnail: "!file:v3_thumbnail.png"
+data: "!file:data.json.gz"
+image: "!file:v3.png"
+configuration: "!file:configuration.json.gz"
