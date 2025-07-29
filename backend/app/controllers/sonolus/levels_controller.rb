@@ -589,7 +589,7 @@ module Sonolus
     def background
       params.permit(:name)
       name, version = params[:name].split("-")
-      unless version.match?(/v[13]/)
+      unless BACKGROUND_VERSIONS.include?(version.to_sym)
         render json: {
                  code: "bad_request",
                  error: "Invalid background name"
@@ -608,14 +608,8 @@ module Sonolus
         return
       end
 
-      version_num = version.delete_prefix("v").to_i
-
       render json: {
-               item:
-                 chart.to_sonolus_background(
-                   chart.resources,
-                   version: version_num
-                 ),
+               item: chart.to_sonolus_background(chart.resources, version:),
                hasCommunity: false,
                actions: [],
                leaderboards: [],
@@ -625,10 +619,7 @@ module Sonolus
                    title: I18n.t("sonolus.backgrounds.sections.versions"),
                    itemType: "background",
                    items: [
-                     chart.to_sonolus_background(
-                       chart.resources,
-                       version: version_num == 1 ? 3 : 1
-                     )
+                     chart.to_sonolus_background(chart.resources, version:)
                    ]
                  }
                ]
