@@ -110,11 +110,35 @@ function WarningModal() {
       setIsOpen(true);
     }
   }, [session]);
+  if (!session?.loggedIn) {
+    return null;
+  }
 
   return (
     <ModalPortal isOpen={isOpen} close={() => setIsOpen(false)}>
       <h1 className="text-xl font-bold mb-2">{t("warning.title")}</h1>
-      <p className="text-sm text-gray-500">{t("warning.deletedDescription")}</p>
+      <p>
+        {t("warning.deletedDescription", {
+          titles: session.warnings
+            .map((w) => w.chartTitle)
+            .join(t("separator")),
+        })}
+      </p>
+      <div className="flex flex-col gap-2 mt-2">
+        {session.warnings.map((warning) => (
+          <div key={warning.id} className="card flex flex-col gap-1 p-2">
+            <p className="font-bold">{warning.chartTitle}</p>
+            <p className="text-sm text-gray-500">
+              {t("warning.reason", { reason: warning.reason })}
+            </p>
+            <p className="text-sm text-gray-500">
+              {t("warning.date", {
+                date: new Date(warning.createdAt).toLocaleDateString(),
+              })}
+            </p>
+          </div>
+        ))}
+      </div>
     </ModalPortal>
   );
 }

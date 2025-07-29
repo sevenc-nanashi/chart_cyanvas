@@ -53,6 +53,7 @@ export type DiscordInfo = {
 };
 
 export type Warning = {
+  id: number;
   createdAt: string;
   updatedAt: string;
   chartTitle: string;

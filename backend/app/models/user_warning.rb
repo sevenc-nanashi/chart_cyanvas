@@ -19,7 +19,7 @@ class UserWarning < ApplicationRecord
       id:,
       createdAt: created_at.iso8601,
       updatedAt: updated_at.iso8601,
-      chartTitle: user.to_s,
+      chartTitle: chart_title,
       reason:,
       level:,
       seen:,

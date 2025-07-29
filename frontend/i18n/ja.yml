@@ -32,7 +32,7 @@ notFound:
 
 warning:
   title: "警告"
-  deletedDescription: "譜面 {{title}} は以下の理由により削除されました："
+  deletedDescription: "譜面 {{titles}} は以下の理由により削除されました："
   warnLevels:
     low: "譜面の投稿は継続できます。"
     medium: "譜面の投稿は1日間停止されます。"
