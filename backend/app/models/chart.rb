@@ -164,7 +164,7 @@ class Chart < ApplicationRecord
 
   def to_sonolus_background(resources, version: :v3)
     {
-      name: "chcy-bg-#{name}-v#{version}",
+      name: "chcy-bg-#{name}-#{version}",
       version: 2,
       tags: [],
       source: ENV.fetch("FINAL_HOST", nil),
