@@ -50,7 +50,7 @@ All of these rules may be enforced at the discretion of the moderators.
 You will be warned if you violate the rules above.
 When the guideline is updated, if a chart violates the new guideline, it will not be deleted but will be hidden.
 
-Multiple or severe violations may result in the deletion of your account and all charts associated with it, along with your Discord account being banned from the Chart Cyanvas Discord server. This means you will no longer be able to post your charts.
+Multiple or severe violations may result in bans.
 
 ## Having any complaints?
 
