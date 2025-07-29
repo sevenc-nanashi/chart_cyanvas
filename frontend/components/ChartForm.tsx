@@ -433,7 +433,27 @@ const ChartForm: React.FC<
     }
   }, []);
 
-  const canPost = !serverSettings.discordEnabled || !!session.discord;
+  let canPost = true;
+  if (serverSettings.discordEnabled && !session.discord) {
+    canPost = false;
+  }
+  if (session.warnings.some((w) => w.active)) {
+    canPost = false;
+  }
+
+  const warningEndsAt = session.warnings
+    .filter((w) => w.active)
+    .reduce((acc, w) => {
+      if (!w.endsAt) {
+        return acc;
+      }
+      if (new Date(w.endsAt).getTime() > acc.getTime()) {
+        return new Date(w.endsAt);
+      }
+      return acc;
+    }, new Date());
+  const hasWarning = session.warnings.some((w) => w.active);
+  const isBanned = session.warnings.some((w) => w.active && w.level === "ban");
 
   return (
     <form
@@ -613,7 +633,7 @@ const ChartForm: React.FC<
           </button>
         </div>
       </ModalPortal>
-      <p className="mb-4">
+      <p>
         <Budoux>
           <Trans
             i18nKey="upload:description"
@@ -625,33 +645,43 @@ const ChartForm: React.FC<
               />,
             ]}
           />
-          {serverSettings.discordEnabled && (
-            <>
-              <br />
-              <br />
-              {t("discordInfo.description")}
-              <br />
-              {t("discordInfo.status.label")}
-              {session.discord ? (
-                <>
-                  {t("discordInfo.status.connected", {
-                    username: session.discord.username,
-                  })}
-                </>
-              ) : (
-                <>{t("discordInfo.status.notConnected")}</>
-              )}
-              <a
-                href={`https://cc.sevenc7c.com/wiki/${i18n.language}/publishing`}
-                target="_blank"
-                className="ml-2"
-              >
-                {t("discordInfo.connectGuide")}
-              </a>
-            </>
-          )}
         </Budoux>
       </p>
+      {isBanned ? (
+        <p className="box box-error">{t("warning.banned")}</p>
+      ) : hasWarning ? (
+        <p className="box box-warning">
+          {t("warning.endsAt", {
+            endsAt: warningEndsAt.toLocaleString(),
+          })}
+        </p>
+      ) : null}
+
+      {serverSettings.discordEnabled && (
+        <p className="mb-2 box box-info">
+          <Budoux>
+            {t("discordInfo.description")}
+            <br />
+            {t("discordInfo.status.label")}
+            {session.discord ? (
+              <>
+                {t("discordInfo.status.connected", {
+                  username: session.discord.username,
+                })}
+              </>
+            ) : (
+              <>{t("discordInfo.status.notConnected")}</>
+            )}
+            <a
+              href={`https://cc.sevenc7c.com/wiki/${i18n.language}/publishing`}
+              target="_blank"
+              className="ml-2"
+            >
+              {t("discordInfo.connectGuide")}
+            </a>
+          </Budoux>
+        </p>
+      )}
       <div className="relative">
         {canPost || (
           <div className="absolute z-10 top-0 left-0 w-full h-full bg-white dark:bg-slate-800 bg-opacity-50 cursor-not-allowed" />

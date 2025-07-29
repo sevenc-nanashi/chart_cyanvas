@@ -58,8 +58,9 @@ export type Warning = {
   updatedAt: string;
   chartTitle: string;
   reason: string;
-  level: "soft" | "hard" | "critical" | "ban";
+  level: "low" | "medium" | "high" | "ban";
   seen: boolean;
+  endsAt: string | null;
   active: boolean;
 };
 

@@ -31,7 +31,7 @@ import {
   useSession,
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
-import type { ServerSettings, Session } from "~/lib/types";
+import type { ServerSettings, Session, Warning } from "~/lib/types";
 
 let serverSettingsCachePromise: Promise<ServerSettings> | undefined;
 
@@ -63,6 +63,8 @@ export const links: LinksFunction = () => {
 export default function App() {
   return <Outlet />;
 }
+
+const warnLevels = ["low", "medium", "high", "ban"] as const;
 
 function ServerErrorModal(
   props: React.PropsWithChildren<{
@@ -99,45 +101,131 @@ function ServerErrorModal(
 }
 
 function WarningModal() {
-  const [isOpen, setIsOpen] = useState(false);
-  const { t } = useTranslation("root");
+  const [isOpen, setIsOpen] = useState<undefined | boolean>(undefined);
+  const { t, i18n } = useTranslation("root");
   const session = useSession();
+  const unseenWarnings = ((session?.loggedIn && session.warnings) || []).filter(
+    (w) => !w.seen,
+  );
   useEffect(() => {
+    if (isOpen !== undefined) {
+      return;
+    }
     if (!session?.loggedIn) {
       return;
     }
-    if (session.warnings.length) {
+    if (unseenWarnings.length > 0) {
       setIsOpen(true);
     }
-  }, [session]);
+  }, [session, unseenWarnings, isOpen]);
+
+  const highestWarningLevel = useMemo(() => {
+    return unseenWarnings.reduce(
+      (highest, warning) => {
+        const currentLevelIndex = warnLevels.indexOf(warning.level);
+        const highestLevelIndex = warnLevels.indexOf(highest);
+        return currentLevelIndex > highestLevelIndex ? warning.level : highest;
+      },
+      "low" as Warning["level"],
+    );
+  }, [unseenWarnings]);
+
+  const sendSeen = async () => {
+    setIsOpen(false);
+    try {
+      const res = await fetch("/api/my/warnings/seen", {
+        method: "PUT",
+      });
+      const json = await res.json();
+      if (json.code !== "ok") {
+        throw new Error(json.message);
+      }
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Failed to mark warnings as seen:", error);
+    }
+  };
+
   if (!session?.loggedIn) {
     return null;
   }
 
   return (
-    <ModalPortal isOpen={isOpen} close={() => setIsOpen(false)}>
+    <ModalPortal isOpen={!!isOpen}>
       <h1 className="text-xl font-bold mb-2">{t("warning.title")}</h1>
       <p>
         {t("warning.deletedDescription", {
-          titles: session.warnings
-            .map((w) => w.chartTitle)
-            .join(t("separator")),
+          count: unseenWarnings.length,
         })}
       </p>
-      <div className="flex flex-col gap-2 mt-2">
-        {session.warnings.map((warning) => (
+      <form
+        className="flex flex-col gap-2 mt-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendSeen();
+        }}
+      >
+        {unseenWarnings.map((warning) => (
           <div key={warning.id} className="card flex flex-col gap-1 p-2">
             <p className="font-bold">{warning.chartTitle}</p>
             <p>{warning.reason}</p>
-            <p className="text-sm text-gray-500">
-              {t("warning.footer", {
-                warnLevel: t(`warning.level.${warning.level}`),
-                date: new Date(warning.createdAt).toLocaleDateString(),
-              })}
+            <p className="text-sm text-gray-500 whitespace-pre-wrap">
+              <Trans
+                i18nKey="warning.footer"
+                components={[
+                  <span
+                    key={0}
+                    className={
+                      warning.level === "low"
+                        ? "text-green-500"
+                        : warning.level === "medium"
+                          ? "text-yellow-500"
+                          : warning.level === "high"
+                            ? "text-red-500"
+                            : "text-purple-500"
+                    }
+                  />,
+                ]}
+                values={{
+                  warnLevel: t(`warning.level.${warning.level}`),
+                  date: new Date(warning.createdAt).toLocaleDateString(),
+                }}
+              />
             </p>
           </div>
         ))}
-      </div>
+        <p className="whitespace-pre-wrap">
+          <span className="font-bold">
+            {t(`warning.levelDescription.${highestWarningLevel}`)}
+          </span>
+        </p>
+        {highestWarningLevel === "ban" ? (
+          <button className="px-4 py-2 button-cancel" type="submit">
+            {t("close")}
+          </button>
+        ) : (
+          <>
+            {highestWarningLevel !== "low" && (
+              <p>
+                <Trans
+                  i18nKey="warning.timeoutNote"
+                  components={[
+                    <a
+                      href={`https://cc.sevenc7c.com/wiki/${i18n.language}/guideline`}
+                      key="0"
+                      target="_blank"
+                    />,
+                  ]}
+                />
+              </p>
+            )}
+
+            <button className="px-4 py-2 button-cancel" type="submit">
+              {t("gotIt")}
+            </button>
+          </>
+        )}
+      </form>
     </ModalPortal>
   );
 }

@@ -1,6 +1,7 @@
 language: "English"
 
 name: "Chart Cyanvas"
+gotIt: "Got it"
 close: "Close"
 cancel: "Cancel"
 backToHome: "Return to top page"
@@ -15,6 +16,25 @@ serverErrorNote: "Please let us know <0>on our Discord server</0>."
 openInSonolus: "Sonolus"
 
 adminDecorate: " (Admin)"
+
+warning:
+  title: "Warning"
+  deletedDescription_one: "One of your charts has been deleted."
+  deletedDescription_other: "{{count}} of your charts have been deleted."
+  footer: "Warning Level: <0>{{warnLevel}}</0> | {{date}}"
+  level:
+    low: "Low"
+    medium: "Medium"
+    high: "High"
+    ban: "Ban"
+  levelDescription:
+    low: "You can continue to post charts."
+    medium: "Posting charts is suspended for 1 day."
+    high: "Posting charts is suspended for 7 days."
+    ban: "Posting charts is permanently suspended."
+  timeoutNote: |
+    Please check the <0>guideline</0> again.
+    The countdown will start when you click the button below.
 
 genre:
   others: "Others"
@@ -80,9 +100,19 @@ chart:
   deletionModal:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
-    timeout: "Temporarily suspend the user's posting"
-    warnAuthor: "Warn the charter"
-    warnReason: "Reason for warning"
+    warning:
+      title: "Warning level"
+      level:
+        low: "Low"
+        medium: "Medium"
+        high: "High"
+        ban: "Ban"
+      levelDescription:
+        low: "User can continue to post charts."
+        medium: "User is suspended from posting charts for 1 day."
+        high: "User is suspended from posting charts for 7 days."
+        ban: "User is permanently suspended from posting charts."
+      reason: "Reason"
     ok: "Delete"
 
 searchCharts:
@@ -135,6 +165,9 @@ upload:
   title: "Post chart"
   titleEdit: "Edit chart: {{title}}"
   description: Read the <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
+  warning:
+    endsAt: "You are suspended from posting or editing charts until {{endsAt}}."
+    banned: "You are banned. You cannot post or edit charts."
   discordInfo:
     description: You need to link your Discord account to post a chart.
     status:

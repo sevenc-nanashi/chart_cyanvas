@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   # Internal
   get "/tempfile/:id", to: "temporary_file#read"
-  get "/meta", to: "application#meta"
+  get "/meta", to: "frontend#meta"
 
   scope "/api" do
     get "/users/:handle", to: "api/users#show"
@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     put "/my/alt-users/:handle", to: "api/my#update_alt_user"
     delete "/my/alt-users/:handle", to: "api/my#delete_alt_user"
     get "/my/warnings", to: "api/my#warnings"
+    put "/my/warnings/seen", to: "api/my#acknowledge_warnings"
 
     get "/admin", to: "api/admin#data"
     get "/admin/users/:handle", to: "api/admin#show_user"

@@ -23,6 +23,7 @@ class UserWarning < ApplicationRecord
       reason:,
       level:,
       seen:,
+      endsAt: ends_at.iso8601,
       active: active?
     }
   end
@@ -36,7 +37,7 @@ class UserWarning < ApplicationRecord
   end
 
   def ends_at
-    return Time.new("9999-12-31") if level == "ban"
+    return Time.new("9999-12-31T23:59:59") if level == "ban"
 
     if seen
       updated_at + WARNING_TIMEOUTS[level.to_sym]

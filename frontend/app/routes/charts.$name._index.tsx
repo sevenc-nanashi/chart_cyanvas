@@ -234,40 +234,36 @@ const ChartPage = () => {
           <h1 className="text-xl font-bold text-normal mb-2 break-word">
             {t("deletionModal.title")}
           </h1>
-          <InputTitle text={t("deletionModal.timeout.title")}>
+          <InputTitle text={t("deletionModal.warning.title")}>
             <Select
               className="w-full"
               value={warnLevel}
               items={[
                 {
                   type: "item",
-                  label: t("deletionModal.timeout.warnLevel.low"),
-                  description: t(
-                    "deletionModal.timeout.warnLevel.lowDescription",
-                  ),
+                  label: t("deletionModal.warning.level.low"),
+                  description: t("deletionModal.warning.levelDescription.low"),
                   value: "low",
                 },
                 {
                   type: "item",
-                  label: t("deletionModal.timeout.warnLevel.medium"),
+                  label: t("deletionModal.warning.level.medium"),
                   description: t(
-                    "deletionModal.timeout.warnLevel.mediumDescription",
+                    "deletionModal.warning.levelDescription.medium",
                   ),
                   value: "medium",
                 },
                 {
                   type: "item",
-                  label: t("deletionModal.timeout.warnLevel.high"),
-                  description: t(
-                    "deletionModal.timeout.warnLevel.highDescription",
-                  ),
+                  label: t("deletionModal.warning.level.high"),
+                  description: t("deletionModal.warning.levelDescription.high"),
                   value: "high",
                 },
                 {
                   type: "item",
-                  label: t("deletionModal.timeout.warnLevel.ban"),
+                  label: t("deletionModal.warning.level.ban"),
                   description: t(
-                    "deletionModal.timeout.warnLevel.banDescription",
+                    "deletionModal.warning.levelDescription.ban",
                   ),
                   value: "ban",
                 },
@@ -277,7 +273,7 @@ const ChartPage = () => {
               }
             />
           </InputTitle>
-          <InputTitle text={t("deletionModal.warnReason")}>
+          <InputTitle text={t("deletionModal.warning.reason")}>
             <TextInput
               name="warnReason"
               textarea

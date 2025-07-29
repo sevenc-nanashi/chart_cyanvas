@@ -1,6 +1,7 @@
 language: "日本語"
 
 name: "Chart Cyanvas"
+gotIt: "了解"
 close: "閉じる"
 cancel: "キャンセル"
 backToHome: "トップへ戻る"
@@ -32,20 +33,21 @@ notFound:
 
 warning:
   title: "警告"
-  deletedDescription: "{{count}} 個の譜面が以下の理由により削除されました："
-  footer: "警告レベル：{{warnLevel}} / {{date}}"
+  deletedDescription: "{{count}} 個の譜面が削除されました。"
+  footer: "警告レベル：<0>{{warnLevel}}</0> | {{date}}"
   level:
     low: "低"
     medium: "中"
     high: "高"
     ban: "Ban"
-  levelDescriptions:
+  levelDescription:
     low: "譜面の投稿は継続できます。"
     medium: "譜面の投稿は1日間停止されます。"
     high: "譜面の投稿は7日間停止されます。"
     ban: "譜面の投稿は永久に停止されます。"
-  timerStart: "下のボタンを押すと、制限期間のカウントダウンが始まります。"
-  close: "閉じる"
+  timeoutNote: |
+    <0>ガイドライン</0>をもう一度確認してください。
+    下のボタンを押すと、制限期間のカウントダウンが始まります。
 
 home:
   newCharts: "新着譜面"
@@ -98,19 +100,19 @@ chart:
   deletionModal:
     title: "譜面を削除しますか？"
     description: "削除した譜面は復元できません！"
-    warnAuthor: "譜面作者に警告をする"
-    timeout:
+    warning:
       title: "警告レベル"
-      warnLevel:
+      level:
         low: "低"
-        lowDescription: "警告を行うだけで、投稿は継続できます。"
         medium: "中"
-        mediumDescription: "警告を行い、投稿を1日間停止します。"
         high: "高"
-        highDescription: "警告を行い、投稿を7日間停止します。"
         ban: "Ban"
-        banDescription: "警告を行い、投稿を永久に停止します。"
-    warnReason: "警告理由"
+      levelDescription:
+        low: "警告を行うだけで、投稿は継続できます。"
+        medium: "警告を行い、投稿を1日間停止します。"
+        high: "警告を行い、投稿を7日間停止します。"
+        ban: "警告を行い、投稿を永久に停止します。"
+      reason: "警告理由"
     ok: "削除"
 
 searchCharts:
@@ -162,6 +164,9 @@ upload:
   titleEdit: "譜面編集：{{title}}"
   description: |
     譜面を投稿する前に、<0>投稿ガイドライン</0>を必ずお読みください。
+  warning:
+    endsAt: "あなたは{{endsAt}}まで譜面の投稿・編集が禁止されています。"
+    banned: "あなたはBanされています。譜面の投稿・編集はできません。"
   discordInfo:
     description: "譜面を投稿するには、Discordアカウントと連携する必要があります。"
     status:
