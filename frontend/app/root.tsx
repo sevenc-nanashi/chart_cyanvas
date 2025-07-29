@@ -28,6 +28,7 @@ import {
   SetSessionContext,
   SetThemeContext,
   ThemeContext,
+  useSession,
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
 import type { ServerSettings, Session } from "~/lib/types";
@@ -61,6 +62,61 @@ export const links: LinksFunction = () => {
 
 export default function App() {
   return <Outlet />;
+}
+
+function ServerErrorModal(
+  props: React.PropsWithChildren<{
+    serverError?: Error;
+    setServerError: (error: Error | undefined) => void;
+  }>,
+) {
+  const { t } = useTranslation("root");
+  return (
+    <ModalPortal isOpen={!!props.serverError}>
+      <h1 className="text-xl font-bold mb-2">{t("serverError")}</h1>
+      <p className="text-sm text-gray-500">
+        <Trans
+          components={[<a href="https://discord.gg/2NP3U3r8Rz" key="0" />]}
+          i18nKey="serverErrorNote"
+        />
+      </p>
+
+      <textarea
+        readOnly
+        className="card font-monospace overflow-scroll block w-[80vw] md:w-[480px] h-48 whitespace-pre"
+        value={`${props.serverError?.message}\n${props.serverError?.stack}`}
+      />
+      <div className="flex justify-end mt-4">
+        <button
+          className="px-4 py-2 button-cancel"
+          onClick={() => props.setServerError(undefined)}
+        >
+          {t("close")}
+        </button>
+      </div>
+    </ModalPortal>
+  );
+}
+
+function WarningModal() {
+  const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation("root");
+  const session = useSession();
+  useEffect(() => {
+    if (!session?.loggedIn) {
+      return;
+    }
+    if (session.warnings.length) {
+      setIsOpen(true);
+    }
+  }, [session]);
+
+  return (
+    <ModalPortal isOpen={isOpen} close={() => setIsOpen(false)}>
+      <h1 className="text-xl font-bold mb-2">{t("warning.title")}</h1>
+      <p className="text-sm text-gray-500">{t("warning.deletedDescription")}</p>
+    </ModalPortal>
+  );
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -111,7 +167,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     () => isSubmitting || navigation.state !== "idle",
     [isSubmitting, navigation],
   );
-  const { t, i18n } = useTranslation("root");
+  const { i18n } = useTranslation("root");
   if (i18n.language !== loaderData.locale) {
     i18n.changeLanguage(loaderData.locale);
   }
@@ -121,12 +177,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
     }).then(async (res) => {
       const json = await res.json();
       if (json.code === "ok") {
-        const [altUsers, discordUser] = await Promise.all([
-          fetch("/api/my/alt_users").then(
+        const [altUsers, discordUser, warnings] = await Promise.all([
+          fetch("/api/my/alt-users").then(
             async (res) => (await res.json()).users,
           ),
           fetch("/api/my/discord").then(
             async (res) => (await res.json()).discord,
+          ),
+          fetch("/api/my/warnings").then(
+            async (res) => (await res.json()).warnings,
           ),
         ]);
 
@@ -135,6 +194,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           user: json.user,
           altUsers,
           discord: discordUser,
+          warnings,
         });
       } else {
         setSession({ loggedIn: false });
@@ -160,36 +220,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <SetThemeContext.Provider value={setTheme}>
                       <ThemeContext.Provider value={theme}>
                         <DisablePortal isShown={isSubmittingOrTransitioning} />
-                        <ModalPortal isOpen={!!serverError}>
-                          <h1 className="text-xl font-bold mb-2">
-                            {t("serverError")}
-                          </h1>
-                          <p className="text-sm text-gray-500">
-                            <Trans
-                              components={[
-                                <a
-                                  href="https://discord.gg/2NP3U3r8Rz"
-                                  key="0"
-                                />,
-                              ]}
-                              i18nKey="serverErrorNote"
-                            />
-                          </p>
-
-                          <textarea
-                            readOnly
-                            className="card font-monospace overflow-scroll block w-[80vw] md:w-[480px] h-48 whitespace-pre"
-                            value={`${serverError?.message}\n${serverError?.stack}`}
-                          />
-                          <div className="flex justify-end mt-4">
-                            <button
-                              className="px-4 py-2 button-cancel"
-                              onClick={() => setServerError(undefined)}
-                            >
-                              {t("close")}
-                            </button>
-                          </div>
-                        </ModalPortal>
+                        <ServerErrorModal
+                          serverError={serverError}
+                          setServerError={setServerError}
+                        />
+                        <WarningModal />
                         <Header />
                         <main
                           className={clsx(

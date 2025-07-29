@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_25_110743) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_29_102100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -114,6 +114,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_25_110743) do
     t.text "reason"
     t.integer "level", null: false
     t.boolean "seen", default: false, null: false
+    t.string "chart_title"
     t.index ["moderator_id"], name: "index_user_warnings_on_moderator_id"
     t.index ["user_id"], name: "index_user_warnings_on_user_id"
   end

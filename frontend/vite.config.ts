@@ -31,6 +31,9 @@ export default defineConfig({
       "/sonolus": {
         target: backendUrl,
       },
+      "/admin": {
+        target: backendUrl,
+      },
       "/rails": {
         target: backendUrl,
       },

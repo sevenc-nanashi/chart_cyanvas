@@ -68,7 +68,7 @@ const MyAlts = () => {
     }
 
     setIsSubmitting(true);
-    const result = await myFetch("/api/my/alt_users", {
+    const result = await myFetch("/api/my/alt-users", {
       method: "POST",
       body: JSON.stringify({ name }),
       headers: {
@@ -110,7 +110,7 @@ const MyAlts = () => {
 
     setIsSubmitting(true);
     const result = await myFetch(
-      pathcat("/api/my/alt_users/:handle", { handle: editingUsersHandle }),
+      pathcat("/api/my/alt-users/:handle", { handle: editingUsersHandle }),
       {
         method: "PUT",
         body: JSON.stringify({ name }),
@@ -148,7 +148,7 @@ const MyAlts = () => {
     setErrorText(undefined);
     setIsSubmitting(true);
     const result = await myFetch(
-      pathcat("/api/my/alt_users/:handle", { handle: deletingUsersHandle }),
+      pathcat("/api/my/alt-users/:handle", { handle: deletingUsersHandle }),
       {
         method: "DELETE",
       },

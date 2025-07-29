@@ -7,7 +7,7 @@ logger =
     Console::Compatible::Logger.new("Sidekiq", Console.logger.output)
   )
 Sidekiq.configure_server do |config|
-  config.redis = { url: ENV.fetch("REDIS_URL", nil) }
+  config.redis = { url: ENV.fetch("REDIS_URL", nil), network_timeout: 10 }
   config.logger = logger
 end
 

@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     get "/charts/:name", to: "api/charts#show"
     put "/charts/:name", to: "api/charts#update"
     delete "/charts/:name", to: "api/charts#delete"
-    get "/charts/:name/download_chart", to: "api/charts#download_chart"
+    get "/charts/:name/download-chart", to: "api/charts#download_chart"
     post "/charts", to: "api/charts#create"
 
     post "/login/start", to: "api/auth#start"
@@ -35,10 +35,11 @@ Rails.application.routes.draw do
     get "/login/session", to: "api/auth#restore_session"
     delete "/login/session", to: "api/auth#logout"
 
-    get "/my/alt_users", to: "api/my#alt_users"
-    post "/my/alt_users", to: "api/my#create_alt_user"
-    put "/my/alt_users/:handle", to: "api/my#update_alt_user"
-    delete "/my/alt_users/:handle", to: "api/my#delete_alt_user"
+    get "/my/alt-users", to: "api/my#alt_users"
+    post "/my/alt-users", to: "api/my#create_alt_user"
+    put "/my/alt-users/:handle", to: "api/my#update_alt_user"
+    delete "/my/alt-users/:handle", to: "api/my#delete_alt_user"
+    get "/my/warnings", to: "api/my#warnings"
 
     get "/admin", to: "api/admin#data"
     get "/admin/users/:handle", to: "api/admin#show_user"

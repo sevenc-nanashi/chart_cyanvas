@@ -30,12 +30,24 @@ notFound:
   heading: "404 Not Found"
   description: "お探しのページは存在しません。"
 
+warning:
+  title: "警告"
+  deletedDescription: "譜面 {{title}} は以下の理由により削除されました："
+  warnLevels:
+    low: "譜面の投稿は継続できます。"
+    medium: "譜面の投稿は1日間停止されます。"
+    high: "譜面の投稿は7日間停止されます。"
+    ban: "譜面の投稿は永久に停止されます。"
+  timerStart: "下のボタンを押すと、制限期間のカウントダウンが始まります。"
+  close: "閉じる"
+
 home:
   newCharts: "新着譜面"
   welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
   openInSonolus: "Sonolusで開く"
   empty: "譜面が見付かりませんでした。"
   more: "もっと見る"
+
 menu:
   search: "譜面検索"
   post: "譜面投稿"
@@ -81,6 +93,17 @@ chart:
     title: "譜面を削除しますか？"
     description: "削除した譜面は復元できません！"
     warnAuthor: "譜面作者に警告をする"
+    timeout:
+      title: "警告レベル"
+      warnLevel:
+        low: "低"
+        lowDescription: "警告を行うだけで、投稿は継続できます。"
+        medium: "中"
+        mediumDescription: "警告を行い、投稿を1日間停止します。"
+        high: "高"
+        highDescription: "警告を行い、投稿を7日間停止します。"
+        ban: "Ban"
+        banDescription: "警告を行い、投稿を永久に停止します。"
     warnReason: "警告理由"
     ok: "削除"
 
@@ -111,7 +134,9 @@ user:
   totalCharts: "総譜面数：{{count}}"
   totalLikes: "総高評価数：{{count}}"
   showSecret: "管理者専用情報"
-  secretUserInfo: "Discord：{{discord}}、警告数：{{warn}}、本名義：<0>{{owner}}</0>"
+  secretUserInfo:
+    label: "Discord：{{discord}}、本名義：<0>{{owner}}</0>"
+    warnings: "過去の警告"
   userCharts: "この作者の譜面"
 
 chartSection:

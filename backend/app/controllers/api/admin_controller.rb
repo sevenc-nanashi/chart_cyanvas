@@ -55,7 +55,7 @@ module Api
                      username: user.discord_username,
                      avatar: user.discord_avatar
                    },
-                   warnCount: user.warn_count,
+                   warnings: user.warnings.map(&:to_frontend),
                    owner: (user.to_frontend if params[:handle].start_with?("x"))
                  }
                }
@@ -64,13 +64,44 @@ module Api
       end
     end
 
+    class DeleteChartValidator
+      include ActiveModel::Validations
+
+      attr_accessor :name, :reason, :level
+
+      validates :name, presence: true
+      validates :reason, presence: true
+      validates :level, inclusion: { in: %w[low medium high ban] }
+    end
+
     def delete_chart
-      params.permit(:name, :warn, :reason)
+      params.permit(:name, :reason, :level)
+      validator = DeleteChartValidator.new
+      validator.name = params[:name]
+      validator.reason = params[:reason]
+      validator.level = params[:level]
+      unless validator.valid?
+        render json: {
+                 code: "bad_request",
+                 error: validator.errors
+               },
+               status: :bad_request
+        return
+      end
+
       chart = Chart.find_by(name: params[:name])
       return render json: { code: "not_found" }, status: :not_found unless chart
 
-      if params["warn"]
-        chart.author.increment!(:warn_count)
+      UserWarning.create!(
+        user: chart.author,
+        moderator: current_user,
+        reason: params[:reason],
+        level: params[:level],
+        seen: false,
+        chart_title: chart.title
+      )
+
+      if $discord.nil?
         unless chart.author.discord_thread_id
           thread =
             $discord.post(

@@ -25,10 +25,11 @@ import Checkbox from "~/components/Checkbox";
 import InputTitle from "~/components/InputTitle";
 import ModalPortal from "~/components/ModalPortal";
 import OptionalImage from "~/components/OptionalImage";
+import Select from "~/components/Select";
 import TextInput from "~/components/TextInput";
 import Tooltip from "~/components/Tooltip";
 import { backendUrl, host } from "~/lib/config.server.ts";
-import { useServerSettings, useSession } from "~/lib/contexts.ts";
+import { useMyFetch, useServerSettings, useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types.ts";
 import {
@@ -155,6 +156,7 @@ const ChartPage = () => {
   const mergeChartTags = useMergeChartTags();
 
   const [showDeletionModal, setShowDeletionModal] = useState(false);
+  const [showAdminDeletionModal, setShowAdminDeletionModal] = useState(false);
 
   const [publishedAt, setPublishedAt] = useState("-");
 
@@ -172,40 +174,48 @@ const ChartPage = () => {
     }
   }, [chartData.publishedAt]);
 
-  const [warnAuthor, setWarnAuthor] = useState(false);
+  const [warnLevel, setWarnLevel] = useState<"low" | "medium" | "high" | "ban">(
+    "medium",
+  );
+
+  const myFetch = useMyFetch();
+
+  const sendAdminDeletionRequest = useCallback(async () => {
+    const resp = await myFetch("/api/admin/delete-chart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: chartName,
+        level: warnLevel,
+        reason: (
+          document.querySelector("[data-name=warnReason]") as HTMLInputElement
+        ).value,
+      }),
+    });
+    if (!resp.ok) {
+      const error = await resp.json();
+      throw new Error(error.message);
+    }
+    navigate(
+      pathcat("/users/:handle", {
+        handle: chartData.author.handle,
+      }),
+    );
+  }, [chartData.author.handle, chartName, myFetch, navigate, warnLevel]);
 
   const sendDeleteRequest = useCallback(async () => {
-    if (session?.loggedIn && session.user.userType === "admin") {
-      await fetch("/api/admin/delete-chart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: chartName,
-          warn: warnAuthor,
-          reason: (
-            document.querySelector("[data-name=warnReason]") as HTMLInputElement
-          ).value,
-        }),
-      });
-      navigate(
-        pathcat("/users/:handle", {
-          handle: chartData.author.handle,
-        }),
-      );
-    } else {
-      await fetch(
-        pathcat("/api/charts/:name", {
-          name: chartName,
-        }),
-        {
-          method: "DELETE",
-        },
-      );
-      navigate("/charts/my");
-    }
-  }, [chartName, navigate, session, warnAuthor, chartData]);
+    await myFetch(
+      pathcat("/api/charts/:name", {
+        name: chartName,
+      }),
+      {
+        method: "DELETE",
+      },
+    );
+    navigate("/charts/my");
+  }, [chartName, navigate, myFetch]);
 
   const doesUserOwn =
     isMine(session, chartData) ||
@@ -214,6 +224,82 @@ const ChartPage = () => {
 
   return (
     <>
+      <ModalPortal isOpen={showAdminDeletionModal}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendAdminDeletionRequest();
+          }}
+        >
+          <h1 className="text-xl font-bold text-normal mb-2 break-word">
+            {t("deletionModal.title")}
+          </h1>
+          <InputTitle text={t("deletionModal.timeout.title")}>
+            <Select
+              className="w-full"
+              value={warnLevel}
+              items={[
+                {
+                  type: "item",
+                  label: t("deletionModal.timeout.warnLevel.low"),
+                  description: t(
+                    "deletionModal.timeout.warnLevel.lowDescription",
+                  ),
+                  value: "low",
+                },
+                {
+                  type: "item",
+                  label: t("deletionModal.timeout.warnLevel.medium"),
+                  description: t(
+                    "deletionModal.timeout.warnLevel.mediumDescription",
+                  ),
+                  value: "medium",
+                },
+                {
+                  type: "item",
+                  label: t("deletionModal.timeout.warnLevel.high"),
+                  description: t(
+                    "deletionModal.timeout.warnLevel.highDescription",
+                  ),
+                  value: "high",
+                },
+                {
+                  type: "item",
+                  label: t("deletionModal.timeout.warnLevel.ban"),
+                  description: t(
+                    "deletionModal.timeout.warnLevel.banDescription",
+                  ),
+                  value: "ban",
+                },
+              ]}
+              onChange={(e) =>
+                setWarnLevel(e as "low" | "medium" | "high" | "ban")
+              }
+            />
+          </InputTitle>
+          <InputTitle text={t("deletionModal.warnReason")}>
+            <TextInput
+              name="warnReason"
+              textarea
+              optional
+              className="w-full h-32"
+            />
+          </InputTitle>
+          <div className="flex justify-end mt-4 gap-2">
+            <button
+              className="px-4 py-2 button-cancel"
+              onClick={() => {
+                setShowAdminDeletionModal(false);
+              }}
+            >
+              {rootT("cancel")}
+            </button>
+            <button type="submit" className={clsx("px-4 py-2 button-danger")}>
+              {t("deletionModal.ok")}
+            </button>
+          </div>
+        </form>
+      </ModalPortal>
       <ModalPortal isOpen={showDeletionModal}>
         <form
           onSubmit={(e) => {
@@ -224,28 +310,9 @@ const ChartPage = () => {
           <h1 className="text-xl font-bold text-normal mb-2 break-word">
             {t("deletionModal.title")}
           </h1>
-          {isAdmin(session) ? (
-            <>
-              <Checkbox
-                label={t("deletionModal.warnAuthor")}
-                checked={warnAuthor}
-                onChange={(e) => setWarnAuthor(e)}
-              />
-              <InputTitle text={t("deletionModal.warnReason")}>
-                <TextInput
-                  name="warnReason"
-                  textarea
-                  optional
-                  className="w-full h-32"
-                  disabled={!warnAuthor}
-                />
-              </InputTitle>
-            </>
-          ) : (
-            <p className="text-sm text-gray-500 text-normal mb-1">
-              {t("deletionModal.description")}
-            </p>
-          )}
+          <p className="text-sm text-gray-500 text-normal mb-1">
+            {t("deletionModal.description")}
+          </p>
           <div className="flex justify-end mt-4 gap-2">
             <button
               className="px-4 py-2 button-cancel"
@@ -403,6 +470,15 @@ const ChartPage = () => {
                     }}
                   >
                     <DeleteRegular className="h-5 w-5 mr-1" />
+                    {t("delete")}
+                  </button>
+                  <button
+                    className="button button-fatal text-center p-1"
+                    onClick={() => {
+                      setShowAdminDeletionModal(true);
+                    }}
+                  >
+                    <DeleteRegular className="h-5 w-5 mr-1" />
                     {t("delete") + adminDecoration}
                   </button>
                   <Link
@@ -416,7 +492,7 @@ const ChartPage = () => {
               )}
               {chartData.chart && (
                 <a
-                  href={pathcat("/api/charts/:name/download_chart", {
+                  href={pathcat("/api/charts/:name/download-chart", {
                     name: chartName,
                   })}
                   target="_blank"

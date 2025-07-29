@@ -10,6 +10,7 @@ const Checkbox: React.FC<
     name?: string;
     disabled?: boolean;
     defaultChecked?: boolean;
+    className?: string;
   } & (
     | {
         indeterminate: true;
@@ -31,12 +32,20 @@ const Checkbox: React.FC<
         }
     )
 > = (props) => {
-  const { label, children, size, checked, onChange, disabled, defaultChecked } =
-    {
-      label: undefined,
-      children: undefined,
-      ...props,
-    };
+  const {
+    label,
+    children,
+    size,
+    checked,
+    onChange,
+    disabled,
+    defaultChecked,
+    className,
+  } = {
+    label: undefined,
+    children: undefined,
+    ...props,
+  };
   const id = useLocalId("checkbox");
   const checkboxRef = useRef<HTMLButtonElement>(null);
 
@@ -46,6 +55,7 @@ const Checkbox: React.FC<
         "flex items-center text-normal gap-2",
         size === "sm" ? "text-sm" : "text-md",
         disabled ? "cursor-not-allowed" : "cursor-pointer",
+        className,
       )}
       onClick={(e) => {
         if (disabled) {
@@ -69,7 +79,11 @@ const Checkbox: React.FC<
           "border-2 rounded flex items-center justify-center",
         )}
         checked={checked}
-        onCheckedChange={onChange}
+        onCheckedChange={(newChecked) => {
+          if (!disabled) {
+            onChange(newChecked as boolean);
+          }
+        }}
         defaultChecked={defaultChecked}
         id={id}
       >

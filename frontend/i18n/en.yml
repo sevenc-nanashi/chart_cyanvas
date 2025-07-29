@@ -80,6 +80,7 @@ chart:
   deletionModal:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
+    timeout: "Temporarily suspend the user's posting"
     warnAuthor: "Warn the charter"
     warnReason: "Reason for warning"
     ok: "Delete"
@@ -111,7 +112,9 @@ user:
   totalCharts: "Total charts: {{count}}"
   totalLikes: "Total likes: {{count}}"
   showSecret: "Toggle admin-only information"
-  secretUserInfo: "Discord: {{discord}}, Warnings: {{warn}}, Owner: <0></0>"
+  secretUserInfo:
+    label: "Discord: {{discord}}、Owned by: <0>{{owner}}</0>"
+    warnings: "Past warnings"
   userCharts: "Charts by this user"
 
 chartSection:

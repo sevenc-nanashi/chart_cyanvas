@@ -14,7 +14,7 @@ import SonolusAvatar from "~/components/SonolusAvatar";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
-import type { Chart, DiscordInfo, User } from "~/lib/types.ts";
+import type { Chart, DiscordInfo, User, Warning } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -91,8 +91,8 @@ const UserPage = () => {
   const session = useSession();
 
   const [secretUserInfo, setSecretUserInfo] = useState<{
-    discord: DiscordInfo;
-    warnCount: number;
+    discord: DiscordInfo | null;
+    warnings: Warning[];
     owner: User | null;
   } | null>(null);
   const [showSecretUserInfo, setShowSecretUserInfo] = useState(false);
@@ -135,7 +135,7 @@ const UserPage = () => {
               <div className="text-md mt-4 card flex flex-col">
                 <button
                   onClick={() => setShowSecretUserInfo(!showSecretUserInfo)}
-                  className="font-bold text-left"
+                  className="font-bold text-left cursor-pointer hover:underline"
                 >
                   {showSecretUserInfo ? (
                     <EyeOffRegular className="mr-1 w-6 h-6" />
@@ -153,8 +153,7 @@ const UserPage = () => {
                         <span />
                       )}
                       {{
-                        discord: secretUserInfo.discord.username,
-                        warn: secretUserInfo.warnCount,
+                        discord: secretUserInfo.discord?.username || "-",
                         owner: secretUserInfo.owner
                           ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
                           : "-",
