@@ -128,11 +128,10 @@ function WarningModal() {
         {session.warnings.map((warning) => (
           <div key={warning.id} className="card flex flex-col gap-1 p-2">
             <p className="font-bold">{warning.chartTitle}</p>
+            <p>{warning.reason}</p>
             <p className="text-sm text-gray-500">
-              {t("warning.reason", { reason: warning.reason })}
-            </p>
-            <p className="text-sm text-gray-500">
-              {t("warning.date", {
+              {t("warning.footer", {
+                warnLevel: t(`warning.level.${warning.level}`),
                 date: new Date(warning.createdAt).toLocaleDateString(),
               })}
             </p>

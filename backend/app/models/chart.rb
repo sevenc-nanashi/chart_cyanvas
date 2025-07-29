@@ -142,7 +142,7 @@ class Chart < ApplicationRecord
       preview: resources[:preview]&.to_srl || { hash: "", url: "" },
       data:
         resources[:data]&.to_srl ||
-          { hash: "", url: "/sonolus/assets/generate?chart=#{name}&type=data" },
+          { hash: "", url: "/sonolus/generate-assets?chart=#{name}&type=data" },
       rating:,
       version: 1,
       useSkin: {
@@ -184,7 +184,7 @@ class Chart < ApplicationRecord
           {
             hash: "",
             url:
-              "/sonolus/assets/generate?chart=#{name}&type=background_#{version}"
+              "/sonolus/generate-assets?chart=#{name}&type=background_#{version}"
           },
       configuration:
         Sonolus::AssetController.asset_get_static(
