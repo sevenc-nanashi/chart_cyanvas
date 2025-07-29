@@ -74,7 +74,7 @@ Rails.application.routes.draw do
 
     get "/generate-asset", to: "sonolus/asset#generate"
     scope "/assets" do
-      get "/:type/chcy-:name", to: "sonolus/asset#show"
+      # NOTE: This route will be replaced with nginx on production, DO NOT PUT API HERE
       get "/:type/:name",
           to: "sonolus/asset#show_static",
           constraints: {
