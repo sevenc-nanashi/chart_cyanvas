@@ -107,7 +107,7 @@ class Chart < ApplicationRecord
     }
   end
 
-  def to_sonolus(background_version: 3)
+  def to_sonolus(background_version: :v3)
     resources = self.resources
     {
       name: "chcy-#{name}",
@@ -162,39 +162,34 @@ class Chart < ApplicationRecord
     }
   end
 
-  def to_sonolus_background(resources, version: 3)
-    config = {
-      hash:
-        Digest::SHA1.file(
-          Rails.root.join("assets/backgrounds/configuration.json.gz")
-        ).hexdigest,
-      url: "/sonolus/assets/backgrounds/configuration.json.gz"
-    }
-    data = {
-      hash:
-        Digest::SHA1.file(
-          Rails.root.join("assets/backgrounds/v#{version}_data.json.gz")
-        ).hexdigest,
-      url: "/sonolus/assets/backgrounds/v#{version}_data.json.gz"
-    }
+  def to_sonolus_background(resources, version: :v3)
     {
       name: "chcy-bg-#{name}-v#{version}",
       version: 2,
       tags: [],
       source: ENV.fetch("FINAL_HOST", nil),
-      title: I18n.t("sonolus.backgrounds.title", name: title, version:),
+      title:
+        I18n.t(
+          "sonolus.backgrounds.title",
+          name: title,
+          version: I18n.t("sonolus.backgrounds.versions.#{version}")
+        ),
       subtitle: "#{composer}#{" / #{artist}" if artist.presence}",
       author: "#{author_name.presence || author.name}##{author.display_handle}",
       thumbnail: resources[:cover]&.to_srl || { hash: "", url: "" },
-      data:,
+      data:
+        Sonolus::AssetController.asset_get_static("backgrounds/data.json.gz"),
       image:
-        resources[:"background_v#{version}"]&.to_srl ||
+        resources[:"background_#{version}"]&.to_srl ||
           {
             hash: "",
             url:
-              "/sonolus/assets/generate?chart=#{name}&type=background_v#{version}"
+              "/sonolus/assets/generate?chart=#{name}&type=background_#{version}"
           },
-      configuration: config
+      configuration:
+        Sonolus::AssetController.asset_get_static(
+          "backgrounds/configuration.json.gz"
+        )
     }
   end
 end

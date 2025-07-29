@@ -219,7 +219,8 @@ module Sonolus
         title: "#RANDOM",
         itemType: "level",
         searchValues: "q_sort=random",
-        items: random_charts.map { |chart| chart.to_sonolus(background_version:) }
+        items:
+          random_charts.map { |chart| chart.to_sonolus(background_version:) }
       }
       render json: {
                searches:,
@@ -532,7 +533,7 @@ module Sonolus
                        title: I18n.t("sonolus.levels.sections.backgrounds"),
                        itemType: "background",
                        items:
-                         [1, 3].map do |version|
+                         BACKGROUND_VERSIONS.map do |version|
                            chart.to_sonolus_background(
                              chart.resources,
                              version:

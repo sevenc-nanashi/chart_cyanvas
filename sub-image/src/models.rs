@@ -17,6 +17,8 @@ pub enum ConvertType {
     Cover,
     BackgroundV1,
     BackgroundV3,
+    BackgroundTabletV1,
+    BackgroundTabletV3,
 }
 
 #[derive(Serialize, Debug)]

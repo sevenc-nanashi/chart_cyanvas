@@ -110,27 +110,22 @@ module Sonolus
           Rails.logger.info("Generating #{type} for #{chart.name}...")
           begin
             case type
-            when :background_v1
+            when :background_v1, :background_v3, :background_tablet_v1,
+                 :background_tablet_v3
               ImageConvertJob.perform_now(
                 chart.name,
                 chart.resources[:cover],
-                :background_v1
-              )
-            when :background_v3
-              ImageConvertJob.perform_now(
-                chart.name,
-                chart.resources[:cover],
-                :background_v3
+                type
               )
             when :data
               ChartConvertJob.perform_now(chart.resources[:chart])
             else
               return(
                 render json: {
-                         code: "not_found",
-                         message: "Not Found"
+                         code: "bad_request",
+                         message: "Unknown asset type: #{type}"
                        },
-                       status: :not_found
+                       status: :bad_request
               )
             end
           ensure
@@ -159,9 +154,9 @@ module Sonolus
 
         50.times do
           if FileResource.exists?(chart_id: chart.id, kind: type) ||
-               $redis.with do |conn|
+               $redis.with { |conn|
                  conn.get("sonolus:generate:#{chart.id}:#{type}").nil?
-               end
+               }
             break
           end
 
@@ -204,22 +199,25 @@ module Sonolus
         .to_h do |k, v|
           next k, v unless v.is_a?(String)
 
-          if k == "name"
-            v = "chcy-#{v}"
-          elsif v.start_with?("!asset:")
-            v = asset_get(k, v.delete_prefix("!asset:"))
-          elsif v.start_with?("!file:")
-            name, srl_type = v.delete_prefix("!file:").split("/")
-            srl_type || name
-            hash =
-              Digest::SHA1.file(
-                Rails.root.join("assets", "#{type}s", name)
-              ).hexdigest
-            v = { hash:, url: "/sonolus/assets/#{type}s/#{name}?hash=#{hash}" }
-          end
+          v =
+            if k == "name"
+              "chcy-#{v}"
+            elsif v.start_with?("!asset:")
+              asset_get(k, v.delete_prefix("!asset:"))
+            elsif v.start_with?("!file:")
+              name = v.delete_prefix("!file:")
+              asset_get_static("#{type}s/#{name}")
+            else
+              v
+            end
           [k, v]
         end
         .merge({ source: ENV.fetch("FINAL_HOST", nil), tags: [] })
+    end
+
+    def self.asset_get_static(path)
+      hash = Digest::SHA1.file(Rails.root.join("assets", path)).hexdigest
+      { hash:, url: "/sonolus/assets/#{path}?hash=#{hash}" }
     end
   end
 end

@@ -16,9 +16,6 @@ ja:
     configuration:
       background:
         title: "背景"
-        options:
-          v1: "v1"
-          v3: "v3"
       genres:
         title: "表示する曲のジャンル"
         description: "この設定でチェックを入れていないジャンルの曲は、譜面一覧に表示されません。"
@@ -32,9 +29,15 @@ ja:
       description: "Chart Cyanvas は Sonolus 用の某セカイ創作譜面プラットフォームです。"
       logged_in: "%{name}#%{handle} としてログインしています。"
     backgrounds:
-      title: "%{name}（v%{version}）"
+      title: "%{name}：%{version}"
       sections:
         versions: "バージョン"
+      versions:
+        v1: "v1（スマホ用）"
+        v3: "v3（スマホ用）"
+        tablet_v1: "v1（タブレット用）"
+        tablet_v3: "v3（タブレット用）"
+
 
     targets:
       liked: "いいねした譜面"

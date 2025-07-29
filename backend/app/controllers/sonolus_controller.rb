@@ -13,7 +13,7 @@ class SonolusController < ApplicationController
         y: "Hxzi9DHrlJ4CVSJVRnydxFWBZAgkFxZXbyxPSa8SJQw"
       }
     )
-  VALID_BACKGROUND_VERSIONS = [1, 3].freeze
+  BACKGROUND_VERSIONS = %i[v1 v3 tablet_v1 tablet_v3].freeze
 
   around_action do |_, action|
     params.permit(:localization)
@@ -28,10 +28,7 @@ class SonolusController < ApplicationController
   before_action do
     params.permit(:c_background, :c_genres)
     background_version =
-      params[:c_background]&.then { it.delete_prefix("v").to_i }
-    background_version = 3 unless VALID_BACKGROUND_VERSIONS.include?(
-      background_version
-    )
+      BACKGROUND_VERSIONS.find { |v| v.to_s == params[:c_background] } || :v3
 
     self.background_version = background_version
 

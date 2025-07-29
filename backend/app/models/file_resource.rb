@@ -3,7 +3,8 @@ class FileResource < ApplicationRecord
   has_one_attached :file
   belongs_to :chart
 
-  enum :kind, {
+  enum :kind,
+       {
          data: 0,
          cover: 1,
          bgm: 2,
@@ -12,7 +13,9 @@ class FileResource < ApplicationRecord
          base_bgm: 5,
          background_v1: 6,
          base_cover: 7,
-         background_v3: 8
+         background_v3: 8,
+         background_tablet_v3: 9,
+         background_tablet_v1: 10
        }
 
   TYPES = {
@@ -21,7 +24,9 @@ class FileResource < ApplicationRecord
     bgm: "LevelBgm",
     preview: "LevelPreview",
     background_v3: "BackgroundImage",
-    background_v1: "BackgroundImage"
+    background_v1: "BackgroundImage",
+    background_tablet_v3: "BackgroundImage",
+    background_tablet_v1: "BackgroundImage"
   }.freeze
 
   def self.upload(chart, kind, file)
