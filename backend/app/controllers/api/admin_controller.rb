@@ -55,7 +55,10 @@ module Api
                      username: user.discord_username,
                      avatar: user.discord_avatar
                    },
-                   warnings: user.warnings.map(&:to_frontend),
+                   warnings:
+                     user.warnings.map {
+                       _1.to_frontend(include_moderator: true)
+                     },
                    owner: (user.to_frontend if params[:handle].start_with?("x"))
                  }
                }

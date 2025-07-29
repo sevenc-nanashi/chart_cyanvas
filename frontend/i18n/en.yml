@@ -91,6 +91,7 @@ chart:
   sameAuthor: "Charts by this charter"
   edit: "Edit"
   delete: "Delete"
+  warn: "Warn"
   createVariant: "Create variant"
   download: "Download chart"
   noLevelData: |
@@ -100,20 +101,21 @@ chart:
   deletionModal:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
-    warning:
-      title: "Warning level"
-      level:
-        low: "Low"
-        medium: "Medium"
-        high: "High"
-        ban: "Ban"
-      levelDescription:
-        low: "User can continue to post charts."
-        medium: "User is suspended from posting charts for 1 day."
-        high: "User is suspended from posting charts for 7 days."
-        ban: "User is permanently suspended from posting charts."
-      reason: "Reason"
     ok: "Delete"
+  warning:
+    title: "Warn Level"
+    delete: "Delete chart"
+    level:
+      low: "Low"
+      medium: "Medium"
+      high: "High"
+      ban: "Ban"
+    levelDescription:
+      low: "User can continue to post charts."
+      medium: "User is suspended from posting charts for 1 day."
+      high: "User is suspended from posting charts for 7 days."
+      ban: "User is permanently suspended from posting charts."
+    reason: "Reason"
 
 searchCharts:
   title: "Search charts"
@@ -145,6 +147,8 @@ user:
   secretUserInfo:
     label: "Discord: {{discord}}、Owned by: <0>{{owner}}</0>"
     warnings: "Past warnings"
+    warning: "Level: {{level}}, Date: {{date}}, Moderator: <0>{{moderator}}</0>, Reason: {{reason}}"
+    noWarnings: "No warnings"
   userCharts: "Charts by this user"
 
 chartSection:

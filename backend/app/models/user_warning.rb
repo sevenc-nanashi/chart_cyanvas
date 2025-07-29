@@ -14,7 +14,7 @@ class UserWarning < ApplicationRecord
     ban: 9999.years
   }.freeze
 
-  def to_frontend
+  def to_frontend(include_moderator: false)
     {
       id:,
       createdAt: created_at.iso8601,
@@ -24,7 +24,8 @@ class UserWarning < ApplicationRecord
       level:,
       seen:,
       endsAt: ends_at.iso8601,
-      active: active?
+      active: active?,
+      moderator: include_moderator ? moderator&.to_frontend : nil
     }
   end
 

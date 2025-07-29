@@ -279,9 +279,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
     [isSubmitting, navigation],
   );
   const { i18n } = useTranslation("root");
-  if (i18n.language !== loaderData.locale) {
-    i18n.changeLanguage(loaderData.locale);
-  }
+  useEffect(() => {
+    if (i18n.language !== loaderData.locale) {
+      i18n.changeLanguage(loaderData.locale);
+    }
+  }, [i18n, loaderData.locale]);
   useEffect(() => {
     fetch("/api/login/session", {
       method: "GET",

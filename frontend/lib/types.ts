@@ -63,6 +63,9 @@ export type Warning = {
   endsAt: string | null;
   active: boolean;
 };
+export type AdminWarning = Warning & {
+  moderator: User;
+};
 
 export type Session =
   | {

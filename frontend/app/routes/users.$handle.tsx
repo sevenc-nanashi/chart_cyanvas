@@ -14,7 +14,7 @@ import SonolusAvatar from "~/components/SonolusAvatar";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
-import type { Chart, DiscordInfo, User, Warning } from "~/lib/types.ts";
+import type { AdminWarning, Chart, DiscordInfo, User } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -92,7 +92,7 @@ const UserPage = () => {
 
   const [secretUserInfo, setSecretUserInfo] = useState<{
     discord: DiscordInfo | null;
-    warnings: Warning[];
+    warnings: AdminWarning[];
     owner: User | null;
   } | null>(null);
   const [showSecretUserInfo, setShowSecretUserInfo] = useState(false);
@@ -145,21 +145,60 @@ const UserPage = () => {
                   {t("showSecret")}
                 </button>
                 {showSecretUserInfo && (
-                  <p>
-                    <Trans t={t} i18nKey="secretUserInfo">
-                      {secretUserInfo.owner ? (
-                        <Link to={`/users/${secretUserInfo.owner.handle}`} />
-                      ) : (
-                        <span />
-                      )}
-                      {{
-                        discord: secretUserInfo.discord?.username || "-",
-                        owner: secretUserInfo.owner
-                          ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
-                          : "-",
-                      }}
-                    </Trans>
-                  </p>
+                  <>
+                    <p>
+                      <Trans t={t} i18nKey="secretUserInfo.label">
+                        {secretUserInfo.owner ? (
+                          <Link to={`/users/${secretUserInfo.owner.handle}`} />
+                        ) : (
+                          <span />
+                        )}
+                        {{
+                          discord: secretUserInfo.discord?.username || "-",
+                          owner: secretUserInfo.owner
+                            ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
+                            : "-",
+                        }}
+                      </Trans>
+                    </p>
+                    <h2 className="text-lg font-bold">
+                      {t("secretUserInfo.warnings")}
+                    </h2>
+                    {secretUserInfo.warnings.length > 0 ? (
+                      <ul className="list-disc pl-4">
+                        {secretUserInfo.warnings.map((warning) => (
+                          <li key={warning.id}>
+                            <Trans
+                              t={t}
+                              i18nKey="secretUserInfo.warning"
+                              values={{
+                                level: rootT(`warning.level.${warning.level}`),
+                                date: new Date(
+                                  warning.createdAt,
+                                ).toLocaleDateString(),
+                                reason: warning.reason.split("\n")[0],
+                                moderator: `${warning.moderator.name}#${warning.moderator.handle}`,
+                              }}
+                              components={[
+                                <Link
+                                  key={0}
+                                  to={`/users/${warning.moderator.handle}`}
+                                />,
+                              ]}
+                            />
+                            {/* {t("secretUserInfo.warning", { */}
+                            {/*   level: rootT(`warning.level.${warning.level}`), */}
+                            {/*   date: new Date(warning.createdAt).toLocaleDateString(), */}
+                            {/*   reason: warning.reason.split("\n")[0], */}
+                            {/**/}
+                            {/* })} */}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>{t("secretUserInfo.noWarnings")}</p>
+                    )}
+                  </>
                 )}
               </div>
             )}
