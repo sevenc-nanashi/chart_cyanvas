@@ -21,11 +21,9 @@ export const ServerErrorContext = createContext<(error: Error) => void>(
 );
 export const IsSubmittingContext = createContext<boolean>(false);
 export const ThemeContext = createContext<Theme>("auto");
-export const SetThemeContext = createContext<Dispatch<SetStateAction<Theme>>>(
-  () => {
-    throw new Error("Theme provider not found");
-  },
-);
+export const SetThemeContext = createContext<(theme: Theme) => void>(() => {
+  throw new Error("Theme provider not found");
+});
 
 export const SetIsSubmittingContext = createContext<
   Dispatch<SetStateAction<boolean>> | undefined

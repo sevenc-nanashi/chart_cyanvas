@@ -31,7 +31,7 @@ import {
   useSession,
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
-import type { ServerSettings, Session, Warning } from "~/lib/types";
+import type { ServerSettings, Session, Theme, Warning } from "~/lib/types";
 
 let serverSettingsCachePromise: Promise<ServerSettings> | undefined;
 
@@ -343,8 +343,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <ServerSettingsContext.Provider value={loaderData.serverSettings}>
                 <IsSubmittingContext.Provider value={isSubmitting}>
                   <SetIsSubmittingContext.Provider value={setIsSubmitting}>
-                    <SetThemeContext.Provider value={setTheme}>
-                      <ThemeContext.Provider value={theme}>
+                    <SetThemeContext.Provider
+                      value={(newTheme: Theme) => {
+                        setTheme(newTheme);
+                      }}
+                    >
+                      <ThemeContext.Provider value={theme || "auto"}>
                         <DisablePortal isShown={isSubmittingOrTransitioning} />
                         <ServerErrorModal
                           serverError={serverError}
