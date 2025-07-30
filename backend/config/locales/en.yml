@@ -9,20 +9,16 @@ en:
     dummy:
       title: "This level cannot be played!"
       description: "Go back to the previous page and read the title."
-
   sonolus:
     title: "Chart Cyanvas"
-
     configuration:
       background:
         title: "Background"
       genres:
         title: "Genres to display"
         description: "Charts of genres that are not checked in this setting will not be displayed in the chart list."
-
     popular_maintenance:
       title: "Popular charts are under maintenance!"
-
     auth:
       external_done: "Login successful! Please return to the web page."
     info:
@@ -37,15 +33,11 @@ en:
         v3: "v3 (for smartphones)"
         tablet_v1: "v1 (for tablets)"
         tablet_v3: "v3 (for tablets)"
-
-
     targets:
       liked: "Liked charts"
-
     levels:
       published_at: "Published: %{time} ago"
       variants: "Variants: %{count}"
-
       genres:
         others: "Others"
         vocal_synth: "Vocal Synth (broadly)"
@@ -54,21 +46,17 @@ en:
         meme: "OtoMAD/Meme"
         pops: "Pops"
         instrumental: "Inst."
-
       visibility:
         public: "Public"
         private: "Private"
         scheduled: "Scheduled"
-
       sections:
         actions: "Actions"
         variant_of: "Variant of"
         variants: "Variants"
         backgrounds: "Backgrounds"
-
       like: "Like"
       unlike: "Unlike"
-
     search:
       title: "Title"
       title_placeholder: "Enter title..."
