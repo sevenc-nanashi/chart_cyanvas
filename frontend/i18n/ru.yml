@@ -1,300 +1,298 @@
-language: "日本語"
+language: "English"
 name: "Chart Cyanvas"
-gotIt: "了解"
-close: "閉じる"
-cancel: "キャンセル"
-backToHome: "トップへ戻る"
-separator: "、"
-brackets: "（{content}）"
-kv: "{key}：{value}"
-all: "すべて"
-serverError: "サーバーでエラーが発生しました！"
-serverErrorNote: "<0>Discordサーバー</0>に報告してください。"
+gotIt: "Got it"
+close: "Close"
+cancel: "Cancel"
+backToHome: "Return to top page"
+separator: ", "
+brackets: " ({content})"
+kv: "{key}: {value}"
+all: "All"
+serverError: "An error occurred on the server!"
+serverErrorNote: "Please let us know <0>on our Discord server</0>."
 openInSonolus: "Sonolus"
-adminDecorate: "（管理者）"
+adminDecorate: " (Admin)"
 genre:
-  others: "その他"
-  vocal_synth: "ボカロ（広義）"
-  music_game: "音楽ゲーム"
-  game: "ゲーム"
-  meme: "音MAD・ミーム"
-  pops: "ポップス"
-  instrumental: "Inst."
+  others: "Others"
+  vocal_synth: "VocalSynth & Vocaloid"
+  music_game: "Music Game"
+  game: "Game"
+  meme: "Meme"
+  pops: "Pop"
+  instrumental: "Instrumental"
 notFound:
   title: "Not Found"
   heading: "404 Not Found"
-  description: "お探しのページは存在しません。"
+  description: "The page you are looking for does not exist."
 warning:
-  title: "警告"
-  description: "あなたは現在{count}件の警告を受けています。"
+  title: "Warning"
+  description: "You have received {count, plural, one {1 warning} other {# warnings}:"
   target:
-    title: "対象：{target}"
-    chart: "譜面「{title}」"
-    user: "ユーザー"
-  chartDeleted: "譜面は削除されました。"
-  footer: "警告レベル：<0>{warnLevel}</0> | {date}"
+    title: "Target: {target}"
+    chart: "Chart \"{title}\""
+    user: "Account"
+  chartDeleted: "The chart has been deleted."
+  footer: "Warning Level: <0>{warnLevel}</0> | {date}"
   level:
-    low: "低"
-    medium: "中"
-    high: "高"
+    low: "Low"
+    medium: "Medium"
+    high: "High"
     ban: "Ban"
   levelDescription:
-    low: "譜面の投稿は継続できます。"
-    medium: "譜面の投稿は1日間停止されます。"
-    high: "譜面の投稿は7日間停止されます。"
-    ban: "譜面の投稿は永久に停止されます。"
+    low: "You can continue to post charts."
+    medium: "Your account is suspended for 1 day."
+    high: "Your account is suspended for 7 days."
+    ban: "You are permanently banned."
   timeoutNote: |
-    <0>ガイドライン</0>をもう一度確認してください。
-    下のボタンを押すと、制限期間のカウントダウンが始まります。
+    Please check the <0>guideline</0> again.
+    The countdown will start when you click the button below.
 home:
-  newCharts: "新着譜面"
-  welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
-  openInSonolus: "Sonolusで開く"
-  empty: "譜面が見付かりませんでした。"
-  more: "もっと見る"
+  newCharts: "New charts"
+  welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
+  openInSonolus: "Open in Sonolus"
+  empty: "No charts found."
+  more: "More"
 menu:
-  search: "譜面検索"
-  post: "譜面投稿"
-  my: "自分の譜面"
-  liked: "高評価した譜面"
-  myAlts: "名義の管理"
-  admin: "管理者ページ"
-  guideline: "ガイドライン"
-  logout: "ログアウト"
-  settings: "設定"
+  search: "Search charts"
+  post: "Post chart"
+  my: "My charts"
+  liked: "Liked charts"
+  myAlts: "My alts"
+  admin: "Admin"
+  guideline: "Guideline"
+  logout: "Sign out"
+  settings: "Settings"
   login:
-    button: "ログイン"
-    title: "ログイン中..."
+    button: "Sign in"
+    title: "Signing in..."
     description: |
-      Sonolusアカウントでログインしてください。
-      ログイン後、このページは自動的に更新されます。
-      ポップアップが表示されない場合は、<0>ここをクリックしてください。</0>
+      Sign in with your Sonolus account.<br/>
+      This page will be refreshed automatically after logging in.<br/>
+      Didn't get a popup? <0>Click here</0>.
 settings:
-  title: "設定"
+  title: "Settings"
   lang:
-    title: "言語"
-    auto: "自動"
+    title: "Language"
+    auto: "Auto"
   theme:
-    title: "テーマ"
-    auto: "自動"
-    light: "ライト"
-    dark: "ダーク"
+    title: "Theme"
+    auto: "Auto"
+    light: "Light"
+    dark: "Dark"
 warnModal:
-  label: "警告"
-  title: "警告する"
-  delete: "譜面を削除する"
+  label: "Warn"
+  title: "Warn Chart"
+  delete: "Delete chart"
   level:
-    title: "警告レベル"
-    low: "低"
-    medium: "中"
-    high: "高"
+    title: "Warning Level"
+    low: "Low"
+    medium: "Medium"
+    high: "High"
     ban: "Ban"
   levelDescription:
-    low: "警告を行うだけで、投稿は継続できます。"
-    medium: "警告を行い、譜面の編集権限を1日間停止します。"
-    high: "警告を行い、譜面の編集権限を7日間停止します。"
-    ban: "警告を行い、譜面の編集権限を永久に停止します。"
-  reason: "警告理由"
-  ok: "警告する"
+    low: "User can continue to post charts."
+    medium: "User's account will be suspended for 1 day."
+    high: "User's account will be suspended for 7 days."
+    ban: "User will be permanently banned."
+  reason: "Reason"
+  ok: "Warn"
 chart:
-  notFound: "譜面が見付かりませんでした。"
-  variants: "派生譜面"
-  sameAuthor: "同じ作者の譜面"
-  edit: "編集"
-  delete: "削除"
-  createVariant: "派生を作成"
-  download: "譜面をDL"
+  notFound: "Couldn't find the chart."
+  variants: "Variants"
+  sameAuthor: "Charts by this charter"
+  edit: "Edit"
+  delete: "Delete"
+  createVariant: "Create variant"
+  download: "Download chart"
   noLevelData: |
-    レベルデータがありません。
-    エンジンの更新から譜面が遊ばれていない、または譜面の変換に失敗した可能性があります。
+    No level data found.
+    The chart may not have been played since the engine was updated, or the conversion of the chart may have failed.
   deletionModal:
-    title: "譜面を削除しますか？"
-    description: "削除した譜面は復元できません！"
-    ok: "削除"
+    title: "Delete this chart?"
+    description: "Deleted charts cannot be restored!"
+    ok: "Delete"
 searchCharts:
-  title: "譜面検索"
-  queries: "絞り込み"
-  search: "検索"
-  empty: "検索結果がありません。"
+  title: "Search charts"
+  queries: "Filters"
+  search: "Search"
+  empty: "No charts found."
   param:
-    title: "タイトル"
-    composer: "作曲者"
-    artist: "ボーカル"
-    authorName: "作者名義"
-    authorHandles: "譜面作者"
-    genres: "ジャンル"
-    tags: "タグ"
-    rating: "難易度"
-    sort: "並び替え"
+    title: "Title"
+    composer: "Composer"
+    artist: "Vocal"
+    authorName: "Charter name"
+    authorHandles: "Charter handle"
+    genres: "Genres"
+    tags: "Tags"
+    rating: "Difficulty"
+    sort: "Sort by"
   description:
-    rating: "1から99までを指定できます。右の入力欄から直接入力することもできます。"
-    authorHandles: "作者のハンドル（例：1234、x567）をスペース区切りで入力してください。"
+    rating: "You can select difficulty from 1 to 99. Use the input box beside the slider to set the difficulty to more than 40."
+    authorHandles: "Separate handles (e.g. 1234, x567) with spaces."
   sort:
-    publishedAt: "投稿順"
-    updatedAt: "更新順"
-    likes: "高評価順"
+    publishedAt: "Last published"
+    updatedAt: "Last updated"
+    likes: "Most liked"
 user:
-  totalCharts: "総譜面数：{count}"
-  totalLikes: "総高評価数：{count}"
-  showSecret: "管理者専用情報"
+  totalCharts: "Total charts: {count}"
+  totalLikes: "Total likes: {count}"
+  showSecret: "Toggle admin-only information"
   secretUserInfo:
-    label: "Discord：{discord}、本名義：<0>{owner}</0>"
-    warnings: "過去の警告"
-    warning: "レベル：{level}、日時：{date}、モデレーター：<0>{moderator}</0>、理由：{reason}"
-    noWarnings: "警告はありません。"
-  userCharts: "この作者の譜面"
+    label: "Discord: {discord}, Owned by: <0>{owner}</0>"
+    warnings: "Past warnings"
+    warning: "Level: {level}, Date: {date}, Moderator: <0>{moderator}</0>, Reason: {reason}"
+    noWarnings: "No warnings"
+  userCharts: "Charts by this user"
 chartSection:
-  notFound: "譜面が見付かりませんでした。"
+  notFound: "No charts found."
 my:
-  title: "自分の譜面"
-  empty: "まだ譜面を投稿していません。<0>譜面投稿</0>から投稿してみましょう！"
-  description: "投稿した譜面はここに表示されます。鍵マークがついている譜面は、自分以外の人には見えません。"
+  title: "My charts"
+  empty: "You haven't posted any charts yet. <0>Post a chart</0> to get started!"
+  description: "Your charts are listed below. A padlock icon represents that the chart is private."
 liked:
-  title: "高評価した譜面"
-  empty: "まだ高評価した譜面がありません。"
-  description: "高評価した譜面はここに表示されます。Sonolusで譜面を開いて、下にスクロールすると出てくるハートマークを押すことで高評価できます。"
+  title: "Liked charts"
+  empty: "You haven't liked any charts yet."
+  description: "Charts you liked are listed below.\nYou can like a chart by clicking the heart icon in Sonolus."
 upload:
-  title: "譜面投稿"
-  titleEdit: "譜面編集：{title}"
+  title: "Post chart"
+  titleEdit: "Edit chart: {title}"
   description: |
-    譜面を投稿する前に、<0>投稿ガイドライン</0>を必ずお読みください。
+    Read the <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
   warning:
-    endsAt: "あなたは{endsAt}まで譜面の投稿・編集が禁止されています。"
-    banned: "あなたはBanされています。譜面の投稿・編集はできません。"
+    endsAt: "You are suspended from posting or editing charts until {endsAt}."
+    banned: "You are banned. You cannot post or edit charts."
   discordInfo:
-    description: "譜面を投稿するには、Discordアカウントと連携する必要があります。"
+    description: "You need to link your Discord account to post a chart."
     status:
-      label: "連携状態："
-      connected: "連携済み（{username}）"
-      notConnected: "未連携"
-    connectGuide: "連携方法"
+      label: "You have: "
+      connected: "Linked ({username})"
+      notConnected: "Not linked"
+    connectGuide: "How to link your Discord account"
   param:
-    title: "タイトル"
-    composer: "作曲者"
-    artist: "ボーカル"
-    rating: "難易度"
-    variant: "派生元譜面"
-    description: "説明"
-    cover: "ジャケット"
-    chart: "譜面"
-    bgm: "音源"
-    tags: "タグ"
-    author: "譜面作者"
-    genre: "ジャンル"
+    title: "Title"
+    composer: "Composer"
+    artist: "Vocal"
+    rating: "Difficulty"
+    variant: "Variant of"
+    description: "Description"
+    cover: "Jacket image"
+    chart: "Chart file"
+    bgm: "BGM file"
+    tags: "Tags"
+    author: "Charter"
+    genre: "Genre"
   tooltip:
-    rating: "1から99までを指定できます。40より大きい譜面を指定する場合は、右の入力欄から直接入力してください。"
-    variant: "派生元譜面のIDを指定して下さい。派生元譜面の概要欄に表示されます。難易度差分などの譜面は派生元譜面を指定してください。"
-    tags: "スペース、カンマ、改行でタグを追加できます。最大5個まで。"
+    rating: "You can select difficulty from 1 to 99. Use the input box beside the slider to set the difficulty to more than 40."
+    variant: "If this chart is a variant of another chart, select it here.\nYour chart will be linked to the original chart.\nYou should set this if the chart is another difficulty of the original chart."
+    tags: "Separate tags with spaces, commas, or newlines. Maximum 5 tags."
   visibility:
-    title: "公開設定"
-    public: "一般公開"
-    scheduled: "予約公開"
-    private: "非公開"
+    title: "Visibility"
+    public: "Public"
+    scheduled: "Scheduled"
+    private: "Private"
     description:
       public: |
-        トップやSonolusサーバー上に表示されます。
+        Anyone can see this chart. The chart will be listed in the chart list.
       scheduled: |
-        指定した時刻以降になると公開されます。
+        Only you can see this chart until the scheduled date.
       private: |
-        「テスト中」表示でしか表示されません。
-        URLを共有することで、他の人にも見せることができます。
-  dndHint: "ファイルはドラッグ&ドロップでもアップロードできます。ジャケット・音源・譜面を同時にアップロードすることもできます。"
-  isChartPublic: "譜面ファイルを公開する"
-  submit: "アップロード"
-  update: "更新"
-  publish: "公開"
-  unpublish: "非公開"
-  optional: "（任意）"
-  dropHere: "ドロップしてアップロード"
-  unUploadedFiles: "対応していないファイルがドロップされました。"
-  unUploadedFilesNote: ".sus、.usc、.json、.mp3、.wav、.ogg、.png、.jpg、.jpeg、.webpのみ対応しています。"
-  filesTooLarge: ファイルが大きすぎます。
-  filesTooLargeNote: ファイルは合計で最大20MBまでです。
+        Only you can see this chart. Share the URL to let others see it.
+  dndHint: "Click or drag files to upload. You can drop multiple files at once."
+  isChartPublic: "Allow others to download the chart file"
+  submit: "Upload"
+  update: "Update"
+  publish: "Publish"
+  unpublish: "Unpublish"
+  optional: " (optional)"
+  dropHere: "Drop to upload"
+  unUploadedFiles: "Some files were not uploaded."
+  unUploadedFilesNote: "Supported files: .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
+  filesTooLarge: Files are too large
+  filesTooLargeNote: The sum of the file sizes must be less than 20MB.
   publishModal:
-    title: "以上の内容で公開しますか？"
-    description: "投稿する譜面は以下のルールに従っている必要があります："
+    title: "Publish this chart?"
+    description: "Your chart must..."
     check0:
-      title: "完成していること"
-      description: 未完成の譜面の公開は<strong>一発Banの対象です！</strong>
+      title: "be complete"
+      description: Publishing incomplete charts is not allowed, and <strong>may result in an instant ban!</strong>
     check1:
-      title: "オリジナリティがあること"
+      title: "have originality"
       description: |
-        既存の譜面のコピーが主な目的の譜面は公開できません。
-        これは移植譜面や、単純な加工（例：全ノーツをフリック化）も含みます。
+        Do not publish a chart that intends to copy existing charts.
+        Porting a chart from another game, or applying only minor changes (such as adding a flick to every note) is not allowed.
     check2:
-      title: 曲の規約に反していないこと
+      title: use music that allows fan-made charts
       description: |
-        曲の規約を確認してください。
-        例えば、某超感覚リズムゲーム、某達人の曲は二次創作が禁止されています。
+        Some games do not allow fan-made charts using their music. (For example, Arcaea and Taiko do not allow fan-made charts.)
     check3:
-      title: 宗教的・政治的・性的な内容を含まないこと
+      title: not have religious, political, sexual or other inappropriate content
     check4:
-      title: "正しく情報が入力されていること"
+      title: "have the correct information"
       description: |
-        タイトル・作曲者・アーティスト・BPMなどが正しく入力されていることを確認してください。
-    description2: "<0>ガイドライン</0>に違反する譜面は削除され、投稿者に対して警告が行われます。"
-    ok: "公開する"
+        Make sure the title, composer, artist, BPM, and other information are correct.
+    description2: "Any chart that violates the <0>guideline</0> will be deleted, \\ and you will be warned or banned."
+    ok: "Publish"
 errors:
-  cannotBeEmpty: "この項目は空にできません。"
-  tooLong: "項目が長すぎます。"
-  variantNotFound: "派生元譜面が見付かりませんでした。"
-  tooManyTags: "タグが多すぎます。"
+  cannotBeEmpty: "This field cannot be empty."
+  tooLong: "This field is too long."
+  variantNotFound: "Couldn't find the chart you selected as a variant."
+  tooManyTags: "Too many tags."
 admin:
-  title: "管理者ページ"
+  title: "Admin"
   stats:
-    title: "統計"
+    title: "Stats"
     users:
-      title: "ユーザー"
-      total: "総数"
-      original: "本名義"
-      alt: "別名義"
-      discord: "Discord連携済"
+      title: "Users"
+      total: "Total"
+      original: "Original"
+      alt: "Alt"
+      discord: "With Discord"
     charts:
-      title: "譜面"
-      public: "公開"
-      private: "非公開"
-    files: "ファイル"
-    storage: "ストレージ"
+      title: "Charts"
+      public: "Public"
+      private: "Private"
+    files: "Files"
+    storage: "Storage"
     db:
-      title: "データベース"
-      connections: "使用中：{busy}、待機中：{waiting} / 最大：{size}"
+      title: "Database"
+      connections: "{busy} busy, {waiting} waiting / {size} max"
   sidekiq:
-    title: "ジョブ（Sidekiq）"
-    description: "バックグラウンドジョブの状態を確認できます。"
+    title: "Jobs (Sidekiq)"
+    description: "You can see the status of background jobs here."
   actions:
-    title: "コマンド"
+    title: "Commands"
     expireData:
-      title: "譜面データを失効"
+      title: "Expire chart data"
       description: |
-        すべての譜面データを失効させます。次の更新、または譜面のプレイ時に再生成されます。
-        エンジンの仕様が変更された場合などに使用してください。
-      button: "失効"
-      success: "{count}個の譜面データを失効させました。"
+        Expire all chart data. They will be regenerated on the next update or play.
+        Use this when the engine is updated.
+      button: "Expire"
+      success: "{count} chart data expired."
 myAlts:
-  title: 別名義一覧
-  description: ここから別名義を管理できます。
-  mobileDescription: 技術的な理由により、追加・編集・削除はPCから行う必要があります。
-  empty: まだ名義がありません。
-  add: 作成
-  delete: 削除
-  edit: 編集
-  save: 保存
-  cancel: キャンセル
-  namePlaceholder: 名前を入力（4～16文字）
+  title: My alts
+  description: Your alt users are listed below.
+  mobileDescription: "Due to technical limitations, you cannot edit your alt users on mobile devices.\nPlease use a desktop browser to edit your alt users."
+  empty: You haven't registered any alt users yet.
+  add: Add
+  delete: Delete
+  edit: Edit
+  save: Save
+  cancel: Cancel
+  namePlaceholder: Type name here... (4-16 characters)
   deletionModal:
-    title: 名義を削除
-    description: この名義を削除しますか？
-    nameChangeWarning: この名義で投稿された{count}個の譜面の名義は「{currentUser}」に変更されます。
-    ok: 削除
+    title: Delete this alt user?
+    description: Deleted alt users cannot be restored!
+    nameChangeWarning: "You have {count, plural, one {1 chart} other {# charts} which belong to this alt user.\nIf you delete this alt user, the chart will be changed to your main user."
+    ok: Delete
   errors:
-    tooShort: 名前が短すぎます。
-    tooLong: 名前が長すぎます。
+    tooShort: The name is too short.
+    tooLong: The name is too long.
 discordError:
-  title: 連携エラー
-  description: Discordとの連携に失敗しました（{code}）。
+  title: Integration failed
+  description: Failed to integrate with Discord. ({code})
   error:
-    discordError: Discordとの通信に失敗しました
-    notInGuild: サーバーに参加していません
-    unknown: 不明なエラーが発生しました
+    discordError: Discord API error
+    notInGuild: You are not in the server
+    unknown: Unknown error
 login:
-  title: "ログイン"
+  title: "Sign in"
