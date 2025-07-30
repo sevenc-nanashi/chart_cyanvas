@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class MakeSeenTimestampInUserWarnings < ActiveRecord::Migration[8.0]
   def change
     reversible do |dir|

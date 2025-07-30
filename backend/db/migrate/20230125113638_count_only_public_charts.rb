@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CountOnlyPublicCharts < ActiveRecord::Migration[7.0]
   def change
     Chart.counter_culture_fix_counts column_name:

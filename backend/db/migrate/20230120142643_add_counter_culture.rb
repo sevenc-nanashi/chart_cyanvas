@@ -1,15 +1,16 @@
+# frozen_string_literal: true
 class AddCounterCulture < ActiveRecord::Migration[7.0]
   class MigrationLike < ActiveRecord::Base
-    self.table_name = 'likes'
+    self.table_name = "likes"
 
-    belongs_to :chart, class_name: 'MigrationChart', foreign_key: 'chart_id'
-    counter_culture :chart, column_name: 'likes_count'
+    belongs_to :chart, class_name: "MigrationChart"
+    counter_culture :chart, column_name: "likes_count"
   end
 
   class MigrationChart < ActiveRecord::Base
-    self.table_name = 'charts'
+    self.table_name = "charts"
 
-    has_many :likes, class_name: 'MigrationLike', foreign_key: 'chart_id'
+    has_many :likes, class_name: "MigrationLike", foreign_key: "chart_id"
   end
 
   def change

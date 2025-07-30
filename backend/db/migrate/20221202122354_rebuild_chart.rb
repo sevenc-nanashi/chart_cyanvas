@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class RebuildChart < ActiveRecord::Migration[7.0]
   def change
-    drop_table :charts, force: :cascade
+    drop_table :charts, force: :cascade # rubocop:disable Rails/ReversibleMigration
     create_table :charts do |t|
       t.string :name, null: false, unique: true, index: true
 
@@ -20,7 +20,7 @@ class RebuildChart < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    drop_table :file_resources, force: :cascade
+    drop_table :file_resources, force: :cascade # rubocop:disable Rails/ReversibleMigration
     create_table :file_resources do |t|
       t.references :chart, null: false, foreign_key: true
       t.string :name, null: false, unique: true, index: true

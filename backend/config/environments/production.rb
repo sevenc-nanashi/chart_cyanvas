@@ -70,9 +70,12 @@ Rails.application.configure do
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
   config.i18n.available_locales =
-    Dir
-      .glob(Rails.root.join("config", "locales", "*.yml"))
-      .map { |file| file.match(/(\w+)\.yml$/)[1].to_sym }
+    (
+      Rails
+        .root
+        .glob("config/locales/*.yml")
+        .map { |file| file.match(/(\w+)\.yml$/)[1].to_sym }
+    )
   config.i18n.default_locale = :en
 
   # Don't log any deprecations.

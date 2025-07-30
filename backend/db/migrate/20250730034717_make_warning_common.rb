@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class MakeWarningCommon < ActiveRecord::Migration[8.0]
   def change
     add_column :user_warnings, :target_type, :integer, null: false, default: 0

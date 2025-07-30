@@ -74,3 +74,9 @@ Rails/SkipsModelValidations:
 
 Style/NumericLiterals:
   Enabled: false
+
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+
+Rails/ApplicationRecord:
+  Enabled: false

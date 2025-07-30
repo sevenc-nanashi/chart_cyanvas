@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddNewAvatarPropertiesToUser < ActiveRecord::Migration[8.0]
   def change
     rename_column :users, :fg_color, :avatar_fg_color

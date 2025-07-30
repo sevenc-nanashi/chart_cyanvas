@@ -1,0 +1,11 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.4
+  Exclude:
+    - "*"
+
+plugins:
+  - rubocop-rails
+
+inherit_gem:
+  syntax_tree: config/rubocop.yml

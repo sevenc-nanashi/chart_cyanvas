@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FillAuthorName < ActiveRecord::Migration[7.0]
   class MigrationChart < ActiveRecord::Base
     self.table_name = :charts
