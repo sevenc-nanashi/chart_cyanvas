@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import languageDetector from "i18next-browser-languagedetector";
+import i18nextIcu from "i18next-icu";
 import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
@@ -16,6 +17,7 @@ import "~/styles/globals.scss";
 import "~/styles/reset.css";
 
 i18next
+  .use(i18nextIcu)
   .use(initReactI18next) // passes i18n down to react-i18next
   .use(languageDetector)
   .init({
