@@ -9,9 +9,9 @@ Rails.application.routes.draw do
   get "/", to: "application#index"
 
   mount Sidekiq::Web => "/admin/sidekiq",
-        :constraints => ->(req) {
+        :constraints => ->(req) do
           User.find_by(id: req.session[:user_id])&.admin?
-        }
+        end
   get "/admin/sidekiq" => redirect("/")
   get "/admin/sidekiq/*path" => redirect("/")
 
@@ -74,9 +74,9 @@ Rails.application.routes.draw do
     get "/levels/result/info", to: "sonolus/levels#result_info"
     post "/authenticate", to: "sonolus#authenticate"
 
+    get "/generate-asset", to: "sonolus/asset#generate"
     scope "/assets" do
-      get "/generate", to: "sonolus/asset#generate"
-      get "/:type/chcy-:name", to: "sonolus/asset#show"
+      # NOTE: This route will be replaced with nginx on production, DO NOT PUT API HERE
       get "/:type/:name",
           to: "sonolus/asset#show_static",
           constraints: {

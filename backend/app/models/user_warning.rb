@@ -4,7 +4,6 @@ class UserWarning < ApplicationRecord
   belongs_to :user
   belongs_to :moderator,
              class_name: "User",
-             foreign_key: "moderator_id",
              optional: true
 
   LEVELS = { low: 0, medium: 1, high: 2, ban: 3 }.freeze
@@ -49,7 +48,7 @@ class UserWarning < ApplicationRecord
   end
 
   def ends_at
-    return Time.new("9999-12-31T23:59:59") if level == "ban"
+    return Time.zone.parse("9999-12-31T23:59:59") if level == "ban"
 
     if seen?
       seen_at + WARNING_TIMEOUTS[level.to_sym]

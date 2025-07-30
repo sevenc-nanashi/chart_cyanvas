@@ -57,7 +57,7 @@ module Api
                    },
                    warnings:
                      user.warnings.map {
-                       _1.to_frontend(include_moderator: true)
+                       it.to_frontend(include_moderator: true)
                      },
                    owner: (user.to_frontend if params[:handle].start_with?("x"))
                  }
