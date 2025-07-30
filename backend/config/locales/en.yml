@@ -40,7 +40,7 @@ en:
       variants: "Variants: %{count}"
       genres:
         others: "Others"
-        vocal_synth: "Vocal Synth (broadly)"
+        vocal_synth: "VocalSynth & Vocaloid"
         music_game: "Music Game"
         game: "Game"
         meme: "OtoMAD/Meme"
