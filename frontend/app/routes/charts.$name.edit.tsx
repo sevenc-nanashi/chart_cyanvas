@@ -9,7 +9,7 @@ import { backendUrl } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import requireLogin from "~/lib/requireLogin.tsx";
-import type { AdminOnlyUserData, Chart } from "~/lib/types.ts";
+import type { AdminOnlyUserData, Chart, User } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
@@ -67,7 +67,7 @@ function EditChart() {
   const { t } = useTranslation("upload");
 
   const [adminOnlyUserData, setAdminOnlyUserData] = useState<
-    AdminOnlyUserData | undefined
+    (AdminOnlyUserData & { user: User }) | undefined
   >(undefined);
   useEffect(() => {
     if (isAdmin(session) && chartData) {
@@ -81,7 +81,18 @@ function EditChart() {
         const data = await res.json();
 
         if (data.code === "ok") {
-          setAdminOnlyUserData(data.user);
+          console.log("fetching user data");
+          const res = await fetch(
+            pathcat("/api/users/:handle", {
+              handle: chartData.author.handle,
+            }),
+          );
+          const user = await res.json();
+
+          setAdminOnlyUserData({
+            ...data.user,
+            user: user.user,
+          });
         }
       })();
     }

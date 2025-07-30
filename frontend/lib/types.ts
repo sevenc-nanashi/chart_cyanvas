@@ -44,7 +44,12 @@ export type Avatar = {
   backgroundColor: string;
 };
 
-export type AdminOnlyUserData = User & { altUsers: User[] };
+export type AdminOnlyUserData = {
+  discord?: DiscordInfo | undefined;
+  user: User;
+  altUsers: User[];
+  warnings: Warning[];
+};
 
 export type DiscordInfo = {
   displayName: string;

@@ -55,7 +55,7 @@ const ChartForm: React.FC<
       isEdit: true;
       chartData: ChartFormData;
       chartName: string;
-      adminOnlyAuthorData: AdminOnlyUserData | undefined;
+      adminOnlyAuthorData: (AdminOnlyUserData & { user: User }) | undefined;
     }
   | {
       isEdit: false;
@@ -118,7 +118,7 @@ const ChartForm: React.FC<
   const selectableUsers = useMemo(
     () =>
       isAdmin(session) && adminOnlyAuthorData
-        ? [adminOnlyAuthorData, ...adminOnlyAuthorData.altUsers]
+        ? [adminOnlyAuthorData.user, ...adminOnlyAuthorData.altUsers]
         : [session.user, ...session.altUsers],
     [session, adminOnlyAuthorData],
   );
