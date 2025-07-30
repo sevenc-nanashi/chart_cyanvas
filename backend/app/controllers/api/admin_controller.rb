@@ -147,32 +147,6 @@ module Api
         )
       end
 
-      if $discord.enabled?
-        unless chart.author.discord_thread_id
-          thread =
-            $discord.post(
-              "/channels/#{ENV.fetch("DISCORD_WARNING_CHANNEL_ID", nil)}/threads",
-              json: {
-                name: "warn-#{chart.author.handle}",
-                type: 12
-              }
-            )
-          chart.author.update!(discord_thread_id: thread["id"])
-        end
-
-        $discord.post(
-          "/channels/#{chart.author.discord_thread_id}/messages",
-          json: {
-            content: <<~MSG
-              **:warning: #{chart.title} (`#{chart.name}`)**
-
-              #{params[:reason].indent(1, "> ")}
-
-              *:mailbox: #{chart.author} / <@#{chart.author.discord_id}>*
-            MSG
-          }
-        )
-      end
       render json: { code: "ok" }
     end
 
