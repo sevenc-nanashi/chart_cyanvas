@@ -9,7 +9,7 @@ import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { Link, useLoaderData, useNavigate, useNavigation } from "react-router";
+import { Link, useLoaderData, useNavigate } from "react-router";
 import AdminWarnModal from "~/components/AdminWarnModal";
 import ChartSection from "~/components/ChartSection";
 import SonolusAvatar from "~/components/SonolusAvatar";
