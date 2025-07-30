@@ -256,17 +256,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const navigation = useNavigation();
   const location = useLocation();
 
-  const [theme, setTheme] = useState<"light" | "dark" | "auto">("auto");
+  const [theme, setTheme] = useState<"light" | "dark" | "auto" | undefined>(
+    undefined,
+  );
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => {
-    if (theme === "auto") {
-      setIsDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches);
-    } else {
-      setIsDarkMode(theme === "dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
   useEffect(() => {
     const listener = (e: MediaQueryListEvent) => {
       if (theme === "auto") {
@@ -287,6 +281,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
       setTheme("auto");
     }
   }, []);
+  useEffect(() => {
+    if (theme === undefined) {
+      return;
+    }
+    if (theme === "auto") {
+      setIsDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches);
+    } else {
+      setIsDarkMode(theme === "dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const isSubmittingOrTransitioning = useMemo(
     () => isSubmitting || navigation.state !== "idle",
