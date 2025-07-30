@@ -5,8 +5,8 @@ close: "Close"
 cancel: "Cancel"
 backToHome: "Return to top page"
 separator: ", "
-brackets: " ({{content}})"
-kv: "{{key}}: {{value}}"
+brackets: " ({content})"
+kv: "{key}: {value}"
 all: "All"
 serverError: "An error occurred on the server!"
 serverErrorNote: "Please let us know <0>on our Discord server</0>."
@@ -26,13 +26,13 @@ notFound:
   description: "The page you are looking for does not exist."
 warning:
   title: "Warning"
-  description: "あなたは現在{{count}}件の警告を受けています。"
+  description: "You have received {count, plural, one {1 warning} other {# warnings}:"
   target:
-    title: "Target: {{target}}"
-    chart: "Chart \"{{title}}\""
+    title: "Target: {target}"
+    chart: "Chart \"{title}\""
     user: "Account"
   chartDeleted: "The chart has been deleted."
-  footer: "Warning Level: <0>{{warnLevel}}</0> | {{date}}"
+  footer: "Warning Level: <0>{warnLevel}</0> | {date}"
   level:
     low: "Low"
     medium: "Medium"
@@ -134,13 +134,13 @@ searchCharts:
     updatedAt: "Last updated"
     likes: "Most liked"
 user:
-  totalCharts: "Total charts: {{count}}"
-  totalLikes: "Total likes: {{count}}"
+  totalCharts: "Total charts: {count}"
+  totalLikes: "Total likes: {count}"
   showSecret: "Toggle admin-only information"
   secretUserInfo:
-    label: "Discord: {{discord}}、Owned by: <0>{{owner}}</0>"
+    label: "Discord: {discord}、Owned by: <0>{owner}</0>"
     warnings: "Past warnings"
-    warning: "Level: {{level}}, Date: {{date}}, Moderator: <0>{{moderator}}</0>, Reason: {{reason}}"
+    warning: "Level: {level}, Date: {date}, Moderator: <0>{moderator}</0>, Reason: {reason}"
     noWarnings: "No warnings"
   userCharts: "Charts by this user"
 chartSection:
@@ -155,17 +155,17 @@ liked:
   description: "Charts you liked are listed below.\nYou can like a chart by clicking the heart icon in Sonolus."
 upload:
   title: "Post chart"
-  titleEdit: "Edit chart: {{title}}"
+  titleEdit: "Edit chart: {title}"
   description: |
     Read the <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
   warning:
-    endsAt: "You are suspended from posting or editing charts until {{endsAt}}."
+    endsAt: "You are suspended from posting or editing charts until {endsAt}."
     banned: "You are banned. You cannot post or edit charts."
   discordInfo:
     description: "You need to link your Discord account to post a chart."
     status:
       label: "You have: "
-      connected: "Linked ({{username}})"
+      connected: "Linked ({username})"
       notConnected: "Not linked"
     connectGuide: "How to link your Discord account"
   param:
@@ -255,7 +255,7 @@ admin:
     storage: "Storage"
     db:
       title: "Database"
-      connections: "{{busy}} busy, {{waiting}} waiting / {{size}} max"
+      connections: "{busy} busy, {waiting} waiting / {size} max"
   sidekiq:
     title: "Jobs (Sidekiq)"
     description: "You can see the status of background jobs here."
@@ -267,7 +267,7 @@ admin:
         Expire all chart data. They will be regenerated on the next update or play.
         Use this when the engine is updated.
       button: "Expire"
-      success: "{{count}} chart data expired."
+      success: "{count} chart data expired."
 myAlts:
   title: My alts
   description: Your alt users are listed below.
@@ -282,14 +282,14 @@ myAlts:
   deletionModal:
     title: Delete this alt user?
     description: Deleted alt users cannot be restored!
-    nameChangeWarning: この名義で投稿された{{count}}個の譜面の名義は「{{currentUser}}」に変更されます。
+    nameChangeWarning: "You have {count, plural, one {1 chart} other {# charts} which belong to this alt user.\nIf you delete this alt user, the chart will be changed to your main user."
     ok: Delete
   errors:
     tooShort: The name is too short.
     tooLong: The name is too long.
 discordError:
   title: Integration failed
-  description: Failed to integrate with Discord. ({{code}})
+  description: Failed to integrate with Discord. ({code})
   error:
     discordError: Discord API error
     notInGuild: You are not in the server
