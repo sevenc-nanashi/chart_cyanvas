@@ -162,19 +162,26 @@ const UserPage = () => {
                 {showSecretUserInfo && (
                   <>
                     <p>
-                      <Trans t={t} i18nKey="secretUserInfo.label">
-                        {secretUserInfo.owner ? (
-                          <Link to={`/users/${secretUserInfo.owner.handle}`} />
-                        ) : (
-                          <span />
-                        )}
-                        {{
+                      <Trans
+                        t={t}
+                        i18nKey="secretUserInfo.label"
+                        values={{
                           discord: secretUserInfo.discord?.username || "-",
                           owner: secretUserInfo.owner
                             ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
                             : "-",
                         }}
-                      </Trans>
+                        components={[
+                          secretUserInfo.owner ? (
+                            <Link
+                              key={0}
+                              to={`/users/${secretUserInfo.owner.handle}`}
+                            />
+                          ) : (
+                            <span key={0} />
+                          ),
+                        ]}
+                      />
                     </p>
                     <h2 className="text-lg font-bold">
                       {t("secretUserInfo.warnings")}
