@@ -54,19 +54,10 @@ Rails.application.routes.draw do
 
   scope "/sonolus" do
     get "/info", to: "sonolus/info#info"
-    get "/playlists/info", to: "sonolus/info#empty_info"
-    get "/posts/info", to: "sonolus/info#empty_info"
     get "/levels/info", to: "sonolus/levels#info"
     get "/levels/list", to: "sonolus/levels#list"
 
     get "/backgrounds/chcy-bg-:name", to: "sonolus/levels#background"
-  end
-  scope "/test" do
-    scope "sonolus" do
-      get "/info", to: "sonolus/info#test_info"
-    end
-    get "/rails/active_storage/*path" =>
-          redirect("/rails/active_storage/%{path}")
   end
   scope "/sonolus" do
     get "/levels/chcy-:name", to: "sonolus/levels#show"
@@ -100,19 +91,5 @@ Rails.application.routes.draw do
         constraints: {
           type: Regexp.new(types.join("|"))
         }
-  end
-
-  scope "/auth" do
-    scope "/sonolus" do
-      get "/info", to: "sonolus/auth#sonolus_info"
-      get "/levels/list", to: "sonolus/auth#sonolus_levels_list"
-      post "/authenticate", to: "sonolus#authenticate"
-
-      get "/levels/chcy-sys-auth-confirm-:code",
-          to: "sonolus/auth#sonolus_confirm"
-      get "/levels/chcy-sys-:id", to: "sonolus#dummy_level_info"
-    end
-    get "/assets/:name" => redirect("/assets/%{name}"), :format => false
-    get "/assets/:name" => redirect("/assets/%{name}.%{format}")
   end
 end
