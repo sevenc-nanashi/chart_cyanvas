@@ -28,9 +28,10 @@ import {
   SetSessionContext,
   SetThemeContext,
   ThemeContext,
+  useSession,
 } from "~/lib/contexts";
 import { detectLocale } from "~/lib/i18n.server";
-import type { ServerSettings, Session } from "~/lib/types";
+import type { ServerSettings, Session, Warning } from "~/lib/types";
 
 let serverSettingsCachePromise: Promise<ServerSettings> | undefined;
 
@@ -61,6 +62,186 @@ export const links: LinksFunction = () => {
 
 export default function App() {
   return <Outlet />;
+}
+
+const warnLevels = ["low", "medium", "high", "ban"] as const;
+
+function ServerErrorModal(
+  props: React.PropsWithChildren<{
+    serverError?: Error;
+    setServerError: (error: Error | undefined) => void;
+  }>,
+) {
+  const { t } = useTranslation("root");
+  return (
+    <ModalPortal isOpen={!!props.serverError}>
+      <h1 className="text-xl font-bold mb-2">{t("serverError")}</h1>
+      <p className="text-sm text-gray-500">
+        <Trans
+          components={[<a href="https://discord.gg/2NP3U3r8Rz" key="0" />]}
+          i18nKey="serverErrorNote"
+        />
+      </p>
+
+      <textarea
+        readOnly
+        className="card font-monospace overflow-scroll block w-[80vw] md:w-[480px] h-48 whitespace-pre"
+        value={`${props.serverError?.message}\n${props.serverError?.stack}`}
+      />
+      <div className="flex justify-end mt-4">
+        <button
+          className="px-4 py-2 button-cancel"
+          onClick={() => props.setServerError(undefined)}
+        >
+          {t("close")}
+        </button>
+      </div>
+    </ModalPortal>
+  );
+}
+
+function WarningModal() {
+  const [isOpen, setIsOpen] = useState<undefined | boolean>(undefined);
+  const { t, i18n } = useTranslation("root");
+  const session = useSession();
+  const unseenWarnings = ((session?.loggedIn && session.warnings) || []).filter(
+    (w) => !w.seen,
+  );
+  useEffect(() => {
+    if (isOpen !== undefined) {
+      return;
+    }
+    if (!session?.loggedIn) {
+      return;
+    }
+    if (unseenWarnings.length > 0) {
+      setIsOpen(true);
+    }
+  }, [session, unseenWarnings, isOpen]);
+
+  const highestWarningLevel = useMemo(() => {
+    return unseenWarnings.reduce(
+      (highest, warning) => {
+        const currentLevelIndex = warnLevels.indexOf(warning.level);
+        const highestLevelIndex = warnLevels.indexOf(highest);
+        return currentLevelIndex > highestLevelIndex ? warning.level : highest;
+      },
+      "low" as Warning["level"],
+    );
+  }, [unseenWarnings]);
+
+  const sendSeen = async () => {
+    setIsOpen(false);
+    try {
+      const res = await fetch("/api/my/warnings/seen", {
+        method: "PUT",
+      });
+      const json = await res.json();
+      if (json.code !== "ok") {
+        throw new Error(json.message);
+      }
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Failed to mark warnings as seen:", error);
+    }
+  };
+
+  if (!session?.loggedIn) {
+    return null;
+  }
+
+  return (
+    <ModalPortal isOpen={!!isOpen}>
+      <h1 className="text-xl font-bold mb-2">{t("warning.title")}</h1>
+      <p>
+        {t("warning.description", {
+          count: unseenWarnings.length,
+        })}
+      </p>
+      <form
+        className="flex flex-col gap-2 mt-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendSeen();
+        }}
+      >
+        {unseenWarnings.map((warning) => (
+          <div key={warning.id} className="card flex flex-col gap-1 p-2">
+            <p className="font-bold">
+              {t("warning.target.title", {
+                target:
+                  warning.targetType === "user"
+                    ? t("warning.target.user")
+                    : t("warning.target.chart", {
+                        title: warning.targetName,
+                      }),
+              })}
+            </p>
+            <p>{warning.reason}</p>
+            {warning.chartDeleted && (
+              <p className="text-sm text-red-500">
+                {t("warning.chartDeleted")}
+              </p>
+            )}
+            <p className="text-sm text-gray-500 whitespace-pre-wrap">
+              <Trans
+                i18nKey="warning.footer"
+                components={[
+                  <span
+                    key={0}
+                    className={
+                      warning.level === "low"
+                        ? "text-green-500"
+                        : warning.level === "medium"
+                          ? "text-yellow-500"
+                          : warning.level === "high"
+                            ? "text-red-500"
+                            : "text-purple-500"
+                    }
+                  />,
+                ]}
+                values={{
+                  warnLevel: t(`warning.level.${warning.level}`),
+                  date: new Date(warning.createdAt).toLocaleDateString(),
+                }}
+              />
+            </p>
+          </div>
+        ))}
+        <p className="whitespace-pre-wrap">
+          <span className="font-bold">
+            {t(`warning.levelDescription.${highestWarningLevel}`)}
+          </span>
+        </p>
+        {highestWarningLevel === "ban" ? (
+          <button className="px-4 py-2 button-cancel" type="submit">
+            {t("close")}
+          </button>
+        ) : (
+          <>
+            {highestWarningLevel !== "low" && (
+              <p>
+                <Trans
+                  i18nKey="warning.timeoutNote"
+                  components={[
+                    <a
+                      href={`https://cc.sevenc7c.com/wiki/${i18n.language}/guideline`}
+                      key="0"
+                      target="_blank"
+                    />,
+                  ]}
+                />
+              </p>
+            )}
+
+            <button className="px-4 py-2 button-cancel" type="submit">
+              {t("gotIt")}
+            </button>
+          </>
+        )}
+      </form>
+    </ModalPortal>
+  );
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -111,22 +292,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
     () => isSubmitting || navigation.state !== "idle",
     [isSubmitting, navigation],
   );
-  const { t, i18n } = useTranslation("root");
-  if (i18n.language !== loaderData.locale) {
-    i18n.changeLanguage(loaderData.locale);
-  }
   useEffect(() => {
     fetch("/api/login/session", {
       method: "GET",
     }).then(async (res) => {
       const json = await res.json();
       if (json.code === "ok") {
-        const [altUsers, discordUser] = await Promise.all([
-          fetch("/api/my/alt_users").then(
+        const [altUsers, discordUser, warnings] = await Promise.all([
+          fetch("/api/my/alt-users").then(
             async (res) => (await res.json()).users,
           ),
           fetch("/api/my/discord").then(
             async (res) => (await res.json()).discord,
+          ),
+          fetch("/api/my/warnings").then(
+            async (res) => (await res.json()).warnings,
           ),
         ]);
 
@@ -135,6 +315,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           user: json.user,
           altUsers,
           discord: discordUser,
+          warnings,
         });
       } else {
         setSession({ loggedIn: false });
@@ -160,36 +341,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <SetThemeContext.Provider value={setTheme}>
                       <ThemeContext.Provider value={theme}>
                         <DisablePortal isShown={isSubmittingOrTransitioning} />
-                        <ModalPortal isOpen={!!serverError}>
-                          <h1 className="text-xl font-bold mb-2">
-                            {t("serverError")}
-                          </h1>
-                          <p className="text-sm text-gray-500">
-                            <Trans
-                              components={[
-                                <a
-                                  href="https://discord.gg/2NP3U3r8Rz"
-                                  key="0"
-                                />,
-                              ]}
-                              i18nKey="serverErrorNote"
-                            />
-                          </p>
-
-                          <textarea
-                            readOnly
-                            className="card font-monospace overflow-scroll block w-[80vw] md:w-[480px] h-48 whitespace-pre"
-                            value={`${serverError?.message}\n${serverError?.stack}`}
-                          />
-                          <div className="flex justify-end mt-4">
-                            <button
-                              className="px-4 py-2 button-cancel"
-                              onClick={() => setServerError(undefined)}
-                            >
-                              {t("close")}
-                            </button>
-                          </div>
-                        </ModalPortal>
+                        <ServerErrorModal
+                          serverError={serverError}
+                          setServerError={setServerError}
+                        />
+                        <WarningModal />
                         <Header />
                         <main
                           className={clsx(

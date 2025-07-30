@@ -1,6 +1,7 @@
 language: "日本語"
 
 name: "Chart Cyanvas"
+gotIt: "了解"
 close: "閉じる"
 cancel: "キャンセル"
 backToHome: "トップへ戻る"
@@ -30,12 +31,36 @@ notFound:
   heading: "404 Not Found"
   description: "お探しのページは存在しません。"
 
+warning:
+  title: "警告"
+  description: "あなたは現在{{count}}件の警告を受けています。"
+  target:
+    title: "対象：{{target}}"
+    chart: "譜面「{{title}}」"
+    user: "ユーザー"
+  chartDeleted: "譜面は削除されました。"
+  footer: "警告レベル：<0>{{warnLevel}}</0> | {{date}}"
+  level:
+    low: "低"
+    medium: "中"
+    high: "高"
+    ban: "Ban"
+  levelDescription:
+    low: "譜面の投稿は継続できます。"
+    medium: "譜面の投稿は1日間停止されます。"
+    high: "譜面の投稿は7日間停止されます。"
+    ban: "譜面の投稿は永久に停止されます。"
+  timeoutNote: |
+    <0>ガイドライン</0>をもう一度確認してください。
+    下のボタンを押すと、制限期間のカウントダウンが始まります。
+
 home:
   newCharts: "新着譜面"
   welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
   openInSonolus: "Sonolusで開く"
   empty: "譜面が見付かりませんでした。"
   more: "もっと見る"
+
 menu:
   search: "譜面検索"
   post: "譜面投稿"
@@ -65,6 +90,24 @@ settings:
     light: "ライト"
     dark: "ダーク"
 
+warnModal:
+  label: "警告"
+  title: "警告する"
+  delete: "譜面を削除する"
+  level:
+    title: "警告レベル"
+    low: "低"
+    medium: "中"
+    high: "高"
+    ban: "Ban"
+  levelDescription:
+    low: "警告を行うだけで、投稿は継続できます。"
+    medium: "警告を行い、譜面の編集権限を1日間停止します。"
+    high: "警告を行い、譜面の編集権限を7日間停止します。"
+    ban: "警告を行い、譜面の編集権限を永久に停止します。"
+  reason: "警告理由"
+  ok: "警告する"
+
 chart:
   notFound: "譜面が見付かりませんでした。"
   variants: "派生譜面"
@@ -80,8 +123,6 @@ chart:
   deletionModal:
     title: "譜面を削除しますか？"
     description: "削除した譜面は復元できません！"
-    warnAuthor: "譜面作者に警告をする"
-    warnReason: "警告理由"
     ok: "削除"
 
 searchCharts:
@@ -111,7 +152,11 @@ user:
   totalCharts: "総譜面数：{{count}}"
   totalLikes: "総高評価数：{{count}}"
   showSecret: "管理者専用情報"
-  secretUserInfo: "Discord：{{discord}}、警告数：{{warn}}、本名義：<0>{{owner}}</0>"
+  secretUserInfo:
+    label: "Discord：{{discord}}、本名義：<0>{{owner}}</0>"
+    warnings: "過去の警告"
+    warning: "レベル：{{level}}、日時：{{date}}、モデレーター：<0>{{moderator}}</0>、理由：{{reason}}"
+    noWarnings: "警告はありません。"
   userCharts: "この作者の譜面"
 
 chartSection:
@@ -131,6 +176,9 @@ upload:
   titleEdit: "譜面編集：{{title}}"
   description: |
     譜面を投稿する前に、<0>投稿ガイドライン</0>を必ずお読みください。
+  warning:
+    endsAt: "あなたは{{endsAt}}まで譜面の投稿・編集が禁止されています。"
+    banned: "あなたはBanされています。譜面の投稿・編集はできません。"
   discordInfo:
     description: "譜面を投稿するには、Discordアカウントと連携する必要があります。"
     status:

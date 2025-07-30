@@ -3,18 +3,20 @@ import {
   EyeRegular,
   MusicNote2Regular,
   OpenRegular,
+  WarningRegular,
 } from "@fluentui/react-icons";
 import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { Link, useLoaderData } from "react-router";
+import { Link, useLoaderData, useNavigate } from "react-router";
+import AdminWarnModal from "~/components/AdminWarnModal";
 import ChartSection from "~/components/ChartSection";
 import SonolusAvatar from "~/components/SonolusAvatar";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
-import type { Chart, DiscordInfo, User } from "~/lib/types.ts";
+import type { AdminWarning, Chart, DiscordInfo, User } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -91,11 +93,13 @@ const UserPage = () => {
   const session = useSession();
 
   const [secretUserInfo, setSecretUserInfo] = useState<{
-    discord: DiscordInfo;
-    warnCount: number;
+    discord: DiscordInfo | null;
+    warnings: AdminWarning[];
     owner: User | null;
   } | null>(null);
   const [showSecretUserInfo, setShowSecretUserInfo] = useState(false);
+  const [showAdminWarnModal, setShowAdminWarnModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAdmin(session)) {
@@ -118,6 +122,17 @@ const UserPage = () => {
 
   return (
     <>
+      <AdminWarnModal
+        showAdminWarnModal={showAdminWarnModal}
+        setShowAdminWarnModal={setShowAdminWarnModal}
+        target={{
+          type: "user",
+          value: userData.handle,
+        }}
+        onSend={() => {
+          navigate(0);
+        }}
+      />
       <div className="flex flex-col">
         <div className="min-h-[300px] w-full flex relative">
           <div className="flex flex-col flex-grow">
@@ -135,7 +150,7 @@ const UserPage = () => {
               <div className="text-md mt-4 card flex flex-col">
                 <button
                   onClick={() => setShowSecretUserInfo(!showSecretUserInfo)}
-                  className="font-bold text-left"
+                  className="font-bold text-left cursor-pointer hover:underline"
                 >
                   {showSecretUserInfo ? (
                     <EyeOffRegular className="mr-1 w-6 h-6" />
@@ -145,22 +160,54 @@ const UserPage = () => {
                   {t("showSecret")}
                 </button>
                 {showSecretUserInfo && (
-                  <p>
-                    <Trans t={t} i18nKey="secretUserInfo">
-                      {secretUserInfo.owner ? (
-                        <Link to={`/users/${secretUserInfo.owner.handle}`} />
-                      ) : (
-                        <span />
-                      )}
-                      {{
-                        discord: secretUserInfo.discord.username,
-                        warn: secretUserInfo.warnCount,
-                        owner: secretUserInfo.owner
-                          ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
-                          : "-",
-                      }}
-                    </Trans>
-                  </p>
+                  <>
+                    <p>
+                      <Trans t={t} i18nKey="secretUserInfo.label">
+                        {secretUserInfo.owner ? (
+                          <Link to={`/users/${secretUserInfo.owner.handle}`} />
+                        ) : (
+                          <span />
+                        )}
+                        {{
+                          discord: secretUserInfo.discord?.username || "-",
+                          owner: secretUserInfo.owner
+                            ? `${secretUserInfo.owner.name}#${secretUserInfo.owner.handle}`
+                            : "-",
+                        }}
+                      </Trans>
+                    </p>
+                    <h2 className="text-lg font-bold">
+                      {t("secretUserInfo.warnings")}
+                    </h2>
+                    {secretUserInfo.warnings.length > 0 ? (
+                      <ul className="list-disc pl-4">
+                        {secretUserInfo.warnings.map((warning) => (
+                          <li key={warning.id}>
+                            <Trans
+                              t={t}
+                              i18nKey="secretUserInfo.warning"
+                              values={{
+                                level: rootT(`warning.level.${warning.level}`),
+                                date: new Date(
+                                  warning.createdAt,
+                                ).toLocaleDateString(),
+                                reason: warning.reason.split("\n")[0],
+                                moderator: `${warning.moderator.name}#${warning.moderator.handle}`,
+                              }}
+                              components={[
+                                <Link
+                                  key={0}
+                                  to={`/users/${warning.moderator.handle}`}
+                                />,
+                              ]}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>{t("secretUserInfo.noWarnings")}</p>
+                    )}
+                  </>
                 )}
               </div>
             )}
@@ -178,6 +225,17 @@ const UserPage = () => {
               />
             </div>
             <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">
+              {isAdmin(session) && (
+                <button
+                  className="button button-fatal text-center p-1"
+                  onClick={() => {
+                    setShowAdminWarnModal(true);
+                  }}
+                >
+                  <WarningRegular className="h-5 w-5 mr-1" />
+                  {rootT("warnModal.label") + rootT("adminDecorate")}
+                </button>
+              )}
               <a
                 href={`https://open.sonolus.com/players/id/${userData.handle}`}
                 target="_blank"

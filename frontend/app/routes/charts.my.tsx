@@ -65,7 +65,7 @@ const MyCharts = () => {
           fetchCharts={fetchCharts}
           pagination
           onEmpty={() => (
-            <div className="text-center">
+            <div className="box box-info w-full">
               <Trans
                 i18nKey="my:empty"
                 components={[<Link to="/charts/upload" key="0" />]}

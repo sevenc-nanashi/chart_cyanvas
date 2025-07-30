@@ -52,12 +52,30 @@ export type DiscordInfo = {
   avatar: string;
 };
 
+export type Warning = {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  reason: string;
+  level: "low" | "medium" | "high" | "ban";
+  seen: boolean;
+  endsAt: string | null;
+  active: boolean;
+  targetType: "chart" | "user";
+  targetName: string;
+  chartDeleted: boolean;
+};
+export type AdminWarning = Warning & {
+  moderator: User;
+};
+
 export type Session =
   | {
       loggedIn: true;
       user: User;
       altUsers: User[];
       discord: DiscordInfo | undefined;
+      warnings: Warning[];
     }
   | { loggedIn: false };
 

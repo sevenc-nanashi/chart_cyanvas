@@ -60,7 +60,9 @@ const MyCharts = () => {
         <ChartList
           fetchCharts={fetchCharts}
           pagination
-          onEmpty={() => <div className="text-center">{t("empty")}</div>}
+          onEmpty={() => (
+            <div className="box box-info w-full">{t("empty")}</div>
+          )}
         />
       </div>
     </div>

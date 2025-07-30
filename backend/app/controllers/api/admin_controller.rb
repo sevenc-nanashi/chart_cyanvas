@@ -55,7 +55,10 @@ module Api
                      username: user.discord_username,
                      avatar: user.discord_avatar
                    },
-                   warnCount: user.warn_count,
+                   warnings:
+                     user.warnings.map { |warning|
+                       warning.to_frontend(include_moderator: true)
+                     },
                    owner: (user.to_frontend if params[:handle].start_with?("x"))
                  }
                }
@@ -64,40 +67,86 @@ module Api
       end
     end
 
-    def delete_chart
-      params.permit(:name, :warn, :reason)
-      chart = Chart.find_by(name: params[:name])
-      return render json: { code: "not_found" }, status: :not_found unless chart
+    class WarnValidator
+      include ActiveModel::Validations
 
-      if params["warn"]
-        chart.author.increment!(:warn_count)
-        unless chart.author.discord_thread_id
-          thread =
-            $discord.post(
-              "/channels/#{ENV.fetch("DISCORD_WARNING_CHANNEL_ID", nil)}/threads",
-              json: {
-                name: "warn-#{chart.author.handle}",
-                type: 12
-              }
-            )
-          chart.author.update!(discord_thread_id: thread["id"])
+      attr_accessor :name, :reason, :level, :target_type, :target, :delete_chart
+
+      validates :reason, presence: true
+      validates :level, inclusion: { in: %w[low medium high ban] }
+      validates :target_type, inclusion: { in: %w[chart user] }
+      validates :delete_chart, inclusion: { in: [true, false] }
+      validate :validate_target
+
+      def validate_target
+        if target_type == "user"
+          unless User.exists?(handle: target)
+            errors.add(:target, "must be a valid user handle")
+          end
+        elsif target_type == "chart"
+          unless Chart.exists?(name: target)
+            errors.add(:target, "must be a valid chart name")
+          end
+        else
+          errors.add(:target_type, "must be either 'user' or 'chart'")
+        end
+      end
+    end
+
+    def create_warn
+      params.permit(:reason, :level, :targetType, :target, :deleteChart)
+      validator = WarnValidator.new
+      validator.reason = params[:reason]
+      validator.level = params[:level]
+      validator.target_type = params[:targetType]
+      validator.target = params[:target]
+      validator.delete_chart = params[:deleteChart]
+
+      unless validator.valid?
+        render json: {
+                 code: "bad_request",
+                 error: validator.errors
+               },
+               status: :bad_request
+        return
+      end
+
+      case validator.target_type
+      when "user"
+        user = User.find_by(handle: validator.target)
+        unless user
+          return render json: { code: "not_found" }, status: :not_found
         end
 
-        $discord.post(
-          "/channels/#{chart.author.discord_thread_id}/messages",
-          json: {
-            content: <<~MSG
-              **:wastebasket: #{chart.title} (`#{chart.name}`) - :warning: #{chart.author.warn_count}**
+        user.charts.each(&:destroy!) if validator.delete_chart
 
-              #{params[:reason].indent(1, "> ")}
+        UserWarning.create!(
+          user:,
+          moderator: current_user,
+          reason: params[:reason],
+          level: params[:level],
+          target_type: "user",
+          chart_deleted: validator.delete_chart
+        )
+      when "chart"
+        chart = Chart.find_by(name: validator.target)
+        unless chart
+          return render json: { code: "not_found" }, status: :not_found
+        end
 
-              *:mailbox: #{chart.author} / <@#{chart.author.discord_id}>*
-            MSG
-          }
+        chart.destroy! if validator.delete_chart
+
+        UserWarning.create!(
+          user: chart.author,
+          moderator: current_user,
+          reason: params[:reason],
+          level: params[:level],
+          target_name: chart.title,
+          target_type: "chart",
+          chart_deleted: validator.delete_chart
         )
       end
 
-      chart.destroy!
       render json: { code: "ok" }
     end
 

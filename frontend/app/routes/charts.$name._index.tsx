@@ -20,15 +20,13 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { Link, useLoaderData, useNavigate, useParams } from "react-router";
+import AdminWarnModal from "~/components/AdminWarnModal";
 import ChartSection from "~/components/ChartSection";
-import Checkbox from "~/components/Checkbox";
-import InputTitle from "~/components/InputTitle";
 import ModalPortal from "~/components/ModalPortal";
 import OptionalImage from "~/components/OptionalImage";
-import TextInput from "~/components/TextInput";
 import Tooltip from "~/components/Tooltip";
 import { backendUrl, host } from "~/lib/config.server.ts";
-import { useServerSettings, useSession } from "~/lib/contexts.ts";
+import { useMyFetch, useServerSettings, useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import type { Chart } from "~/lib/types.ts";
 import {
@@ -155,6 +153,7 @@ const ChartPage = () => {
   const mergeChartTags = useMergeChartTags();
 
   const [showDeletionModal, setShowDeletionModal] = useState(false);
+  const [showAdminWarnModal, setShowAdminWarnModal] = useState(false);
 
   const [publishedAt, setPublishedAt] = useState("-");
 
@@ -172,48 +171,39 @@ const ChartPage = () => {
     }
   }, [chartData.publishedAt]);
 
-  const [warnAuthor, setWarnAuthor] = useState(false);
+  const myFetch = useMyFetch();
 
   const sendDeleteRequest = useCallback(async () => {
-    if (session?.loggedIn && session.user.userType === "admin") {
-      await fetch("/api/admin/delete-chart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: chartName,
-          warn: warnAuthor,
-          reason: (
-            document.querySelector("[data-name=warnReason]") as HTMLInputElement
-          ).value,
-        }),
-      });
-      navigate(
-        pathcat("/users/:handle", {
-          handle: chartData.author.handle,
-        }),
-      );
-    } else {
-      await fetch(
-        pathcat("/api/charts/:name", {
-          name: chartName,
-        }),
-        {
-          method: "DELETE",
-        },
-      );
-      navigate("/charts/my");
-    }
-  }, [chartName, navigate, session, warnAuthor, chartData]);
+    await myFetch(
+      pathcat("/api/charts/:name", {
+        name: chartName,
+      }),
+      {
+        method: "DELETE",
+      },
+    );
+    navigate("/charts/my");
+  }, [chartName, navigate, myFetch]);
 
-  const doesUserOwn =
-    isMine(session, chartData) ||
-    (session?.loggedIn && session.user.userType === "admin");
-  const adminDecoration = isAdmin(session) ? rootT("adminDecorate") : "";
+  const doesUserOwn = isMine(session, chartData);
 
   return (
     <>
+      <AdminWarnModal
+        showAdminWarnModal={showAdminWarnModal}
+        setShowAdminWarnModal={setShowAdminWarnModal}
+        target={{
+          type: "chart",
+          value: chartData.name,
+        }}
+        onSend={() => {
+          navigate(
+            pathcat("/users/:handle", {
+              handle: chartData.author.handle,
+            }),
+          );
+        }}
+      />
       <ModalPortal isOpen={showDeletionModal}>
         <form
           onSubmit={(e) => {
@@ -224,28 +214,9 @@ const ChartPage = () => {
           <h1 className="text-xl font-bold text-normal mb-2 break-word">
             {t("deletionModal.title")}
           </h1>
-          {isAdmin(session) ? (
-            <>
-              <Checkbox
-                label={t("deletionModal.warnAuthor")}
-                checked={warnAuthor}
-                onChange={(e) => setWarnAuthor(e)}
-              />
-              <InputTitle text={t("deletionModal.warnReason")}>
-                <TextInput
-                  name="warnReason"
-                  textarea
-                  optional
-                  className="w-full h-32"
-                  disabled={!warnAuthor}
-                />
-              </InputTitle>
-            </>
-          ) : (
-            <p className="text-sm text-gray-500 text-normal mb-1">
-              {t("deletionModal.description")}
-            </p>
-          )}
+          <p className="text-sm text-gray-500 text-normal mb-1">
+            {t("deletionModal.description")}
+          </p>
           <div className="flex justify-end mt-4 gap-2">
             <button
               className="px-4 py-2 button-cancel"
@@ -394,7 +365,7 @@ const ChartPage = () => {
                     className="button button-primary text-center p-1"
                   >
                     <EditRegular className="small-button-icon" />
-                    {t("edit") + adminDecoration}
+                    {t("edit")}
                   </Link>
                   <button
                     className="button button-danger text-center p-1"
@@ -403,7 +374,7 @@ const ChartPage = () => {
                     }}
                   >
                     <DeleteRegular className="h-5 w-5 mr-1" />
-                    {t("delete") + adminDecoration}
+                    {t("delete")}
                   </button>
                   <Link
                     to={pathcat("/charts/upload", { variantOf: chartName })}
@@ -414,9 +385,29 @@ const ChartPage = () => {
                   </Link>
                 </>
               )}
+              {isAdmin(session) && (
+                <>
+                  <Link
+                    to={pathcat("/charts/:name/edit", { name: chartName })}
+                    className="button button-primary text-center p-1"
+                  >
+                    <EditRegular className="small-button-icon" />
+                    {t("edit") + rootT("adminDecorate")}
+                  </Link>
+                  <button
+                    className="button button-fatal text-center p-1"
+                    onClick={() => {
+                      setShowAdminWarnModal(true);
+                    }}
+                  >
+                    <WarningRegular className="h-5 w-5 mr-1" />
+                    {rootT("warnModal.label") + rootT("adminDecorate")}
+                  </button>
+                </>
+              )}
               {chartData.chart && (
                 <a
-                  href={pathcat("/api/charts/:name/download_chart", {
+                  href={pathcat("/api/charts/:name/download-chart", {
                     name: chartName,
                   })}
                   target="_blank"

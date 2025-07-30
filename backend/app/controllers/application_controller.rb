@@ -9,13 +9,6 @@ class ApplicationController < ActionController::API
     render json: { code: "ok" }
   end
 
-  def meta
-    render json: {
-      genres: Chart::GENRES.keys,
-      discordEnabled: $discord.enabled?
-    }
-  end
-
   def not_found
     render json: { code: "not_found" }, status: :not_found
   end

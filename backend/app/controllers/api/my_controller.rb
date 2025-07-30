@@ -9,16 +9,40 @@ module Api
              }
     end
 
+    def warnings
+      require_login!
+      render json: { warnings: current_user.warnings.map(&:to_frontend) }
+    end
+
+    def acknowledge_warnings
+      require_login!
+      warnings = current_user.warnings.select(&:active?)
+      if warnings.empty?
+        render json: { code: "ok" }
+        return
+      end
+      warnings.each(&:seen!)
+      render json: { code: "ok" }
+    end
+
     def create_alt_user
       params.require(:name)
       require_login!
 
       name = params[:name]
       if name.length < 4
-        render json: { code: "bad_request", error: "tooShort" }, status: :bad_request
+        render json: {
+                 code: "bad_request",
+                 error: "tooShort"
+               },
+               status: :bad_request
         return
       elsif name.length > 16
-        render json: { code: "bad_request", error: "tooLong" }, status: :bad_request
+        render json: {
+                 code: "bad_request",
+                 error: "tooLong"
+               },
+               status: :bad_request
         return
       end
       user =
@@ -50,10 +74,18 @@ module Api
 
       name = params[:name]
       if name.length < 4
-        render json: { code: "bad_request", error: "tooShort" }, status: :bad_request
+        render json: {
+                 code: "bad_request",
+                 error: "tooShort"
+               },
+               status: :bad_request
         return
       elsif name.length > 16
-        render json: { code: "bad_request", error: "tooLong" }, status: :bad_request
+        render json: {
+                 code: "bad_request",
+                 error: "tooLong"
+               },
+               status: :bad_request
         return
       end
       user.update!(name:)

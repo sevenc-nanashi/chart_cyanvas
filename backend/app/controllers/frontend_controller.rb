@@ -3,6 +3,14 @@ require "http"
 
 class FrontendController < ApplicationController
   include ActionController::Cookies
+
+  def meta
+    render json: {
+             genres: Chart::GENRES.keys,
+             discordEnabled: $discord.enabled?
+           }
+  end
+
   def session_data
     RequestLocals.store[:frontend_auth_session]
   end

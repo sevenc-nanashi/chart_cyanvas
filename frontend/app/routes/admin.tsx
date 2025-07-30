@@ -73,7 +73,7 @@ const Admin = () => {
     };
   } | null>(null);
 
-  const card = "bg-slate-100 dark:bg-slate-800 rounded-md p-4";
+  const card = "bg-slate-100 dark:bg-slate-900 rounded-md p-4";
   const statCard = clsx(card, "w-full md:w-80");
   const actionCard = clsx(card, "w-full");
 

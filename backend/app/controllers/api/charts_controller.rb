@@ -152,7 +152,7 @@ class SearchValidator
               maximum: 5,
               message: "tooManyTags"
             }
-  validate :genres
+  validate :validate_genres
   def validate_genres
     if genres.present?
       genres.each do |genre|
@@ -466,6 +466,14 @@ module Api
       params.permit(%i[data chart cover bgm])
       require_login!
       require_discord!
+      if current_user.timed_out?
+        render json: {
+                 code: "timed_out",
+                 until: current_user.timed_out_until&.iso8601
+               },
+               status: :forbidden
+        return
+      end
       unless params.to_unsafe_hash.symbolize_keys in {
                data: String,
                chart: ActionDispatch::Http::UploadedFile,
@@ -515,6 +523,14 @@ module Api
     def update
       params.permit(%i[data chart cover bgm name])
       require_login!
+      if current_user.timed_out?
+        render json: {
+                 code: "timed_out",
+                 until: current_user.timed_out_until&.iso8601
+               },
+               status: :forbidden
+        return
+      end
       hash = params.to_unsafe_hash.symbolize_keys
       if hash[:data].blank? &&
            %i[chart cover bgm].all? { |k|

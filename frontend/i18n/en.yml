@@ -1,6 +1,7 @@
 language: "English"
 
 name: "Chart Cyanvas"
+gotIt: "Got it"
 close: "Close"
 cancel: "Cancel"
 backToHome: "Return to top page"
@@ -15,6 +16,48 @@ serverErrorNote: "Please let us know <0>on our Discord server</0>."
 openInSonolus: "Sonolus"
 
 adminDecorate: " (Admin)"
+
+warning:
+  title: "Warning"
+  description_one: "You got a warning:"
+  description_other: "You got {{count}} warnings:"
+  target:
+    title: "Target: {{target}}"
+    chart: 'Chart "{{title}}"'
+    user: "Account"
+  chartDeleted: "The chart has been deleted."
+  footer: "Warning Level: <0>{{warnLevel}}</0> | {{date}}"
+  level:
+    low: "Low"
+    medium: "Medium"
+    high: "High"
+    ban: "Ban"
+  levelDescription:
+    low: "You can continue to post charts."
+    medium: "Your account is suspended for 1 day."
+    high: "Your account is suspended for 7 days."
+    ban: "You are permanently banned."
+  timeoutNote: |
+    Please check the <0>guideline</0> again.
+    The countdown will start when you click the button below.
+
+warnModal:
+  label: "Warn"
+  title: "Warn Chart"
+  delete: "Delete chart"
+  level:
+    title: "Warning Level"
+    low: "Low"
+    medium: "Medium"
+    high: "High"
+    ban: "Ban"
+  levelDescription:
+    low: "User can continue to post charts."
+    medium: "User's account will be suspended for 1 day."
+    high: "User's account will be suspended for 7 days."
+    ban: "User will be permanently banned."
+  reason: "Reason"
+  ok: "Warn"
 
 genre:
   others: "Others"
@@ -80,10 +123,7 @@ chart:
   deletionModal:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
-    warnAuthor: "Warn the charter"
-    warnReason: "Reason for warning"
     ok: "Delete"
-
 searchCharts:
   title: "Search charts"
   queries: "Filters"
@@ -111,7 +151,11 @@ user:
   totalCharts: "Total charts: {{count}}"
   totalLikes: "Total likes: {{count}}"
   showSecret: "Toggle admin-only information"
-  secretUserInfo: "Discord: {{discord}}, Warnings: {{warn}}, Owner: <0></0>"
+  secretUserInfo:
+    label: "Discord: {{discord}}、Owned by: <0>{{owner}}</0>"
+    warnings: "Past warnings"
+    warning: "Level: {{level}}, Date: {{date}}, Moderator: <0>{{moderator}}</0>, Reason: {{reason}}"
+    noWarnings: "No warnings"
   userCharts: "Charts by this user"
 
 chartSection:
@@ -132,6 +176,9 @@ upload:
   title: "Post chart"
   titleEdit: "Edit chart: {{title}}"
   description: Read the <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
+  warning:
+    endsAt: "You are suspended from posting or editing charts until {{endsAt}}."
+    banned: "You are banned. You cannot post or edit charts."
   discordInfo:
     description: You need to link your Discord account to post a chart.
     status:
@@ -227,6 +274,7 @@ errors:
   cannotBeEmpty: "This field cannot be empty."
   tooLong: "This field is too long."
   variantNotFound: "Couldn't find the chart you selected as a variant."
+  tooManyTags: "Too many tags."
 
 myAlts:
   title: "My alts"

@@ -6,27 +6,32 @@ import {
 import * as RadixSelect from "@radix-ui/react-select";
 import clsx from "clsx";
 
-export type SelectItem = {
+export type SelectItem<T extends string> = {
   type: "item";
-  value: string;
+  value: T;
   label: string;
+  description?: string;
   disabled?: boolean;
 };
 
-export type SelectGroup = {
+export type SelectGroup<T extends string> = {
   type: "group";
   label: string;
-  items: SelectItems;
+  items: SelectItems<T>;
 };
 
 export type SelectSeparator = {
   type: "separator";
 };
 
-export type SelectItems = (SelectItem | SelectGroup | SelectSeparator)[];
+export type SelectItems<T extends string> = (
+  | SelectItem<T>
+  | SelectGroup<T>
+  | SelectSeparator
+)[];
 
 const SelectItemComponent: React.FC<{
-  item: SelectItem;
+  item: SelectItem<string>;
   selected: boolean;
 }> = ({ item, selected }) => (
   <RadixSelect.Item
@@ -41,23 +46,32 @@ const SelectItemComponent: React.FC<{
       <CheckmarkRegular />
     </RadixSelect.ItemIndicator>
     <RadixSelect.ItemText>{item.label}</RadixSelect.ItemText>
+    {item.description && (
+      <p className="text-xs text-gray-500">{item.description}</p>
+    )}
   </RadixSelect.Item>
 );
 
-const SelectGroupComponent: React.FC<{
-  group: SelectGroup;
-  selected: string;
-}> = ({ group, selected }) => (
+const SelectGroupComponent = <T extends string>({
+  group,
+  selected,
+}: React.PropsWithoutRef<{
+  group: SelectGroup<T>;
+  selected: T;
+}>) => (
   <RadixSelect.Group>
     <RadixSelect.Label>{group.label}</RadixSelect.Label>
     <SelectItemsComponent items={group.items} selected={selected} />
   </RadixSelect.Group>
 );
 
-const SelectItemsComponent: React.FC<{
-  items: SelectItems;
-  selected: string;
-}> = ({ items, selected }) =>
+const SelectItemsComponent = <T extends string>({
+  items,
+  selected,
+}: React.PropsWithoutRef<{
+  items: SelectItems<T>;
+  selected: T;
+}>) =>
   items.map((item, i) => {
     switch (item.type) {
       case "item":
@@ -77,15 +91,17 @@ const SelectItemsComponent: React.FC<{
     }
   });
 
-const Select: React.FC<{
-  items: SelectItems;
-  value: string;
-  defaultValue?: string;
-  onChange: (value: string) => void;
-  disabled?: boolean;
-  children?: React.ReactNode;
-  className?: string;
-}> = (props) => (
+const Select = <T extends string = string>(
+  props: React.PropsWithoutRef<{
+    items: SelectItems<T>;
+    value: T;
+    defaultValue?: T;
+    onChange: (value: T) => void;
+    disabled?: boolean;
+    children?: React.ReactNode;
+    className?: string;
+  }>,
+) => (
   <RadixSelect.Root
     defaultValue={props.defaultValue}
     disabled={props.disabled}
