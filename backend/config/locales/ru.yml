@@ -1,21 +1,11 @@
 ru:
-  test:
-    title: "このサーバーは使用しないで下さい！"
-    description: "このサーバーはもう使用されていません。"
-  levels:
-    _:
-      engine-title: "（メッセージ）"
-      author: "（メッセージ）"
-    dummy:
-      title: "このレベルはプレイできません！"
-      description: "一つ前のページに戻って、タイトルを読んで下さい。"
   sonolus:
     title: "Chart Cyanvas"
     configuration:
       background:
-        title: "背景"
+        title: "Задний фон"
       genres:
-        title: "表示する曲のジャンル"
+        title: "Показать жанры"
         description: "この設定でチェックを入れていないジャンルの曲は、譜面一覧に表示されません。"
     popular_maintenance:
       title: "人気譜面欄はメンテナンス中です！"
@@ -31,10 +21,10 @@ ru:
       versions:
         v1: "v1（スマホ用）"
         v3: "v3（スマホ用）"
-        tablet_v1: "v1（タブレット用）"
-        tablet_v3: "v3（タブレット用）"
+        tablet_v1: "v1（для планшетов）"
+        tablet_v3: "v3（для планшетов）"
     targets:
-      liked: "いいねした譜面"
+      liked: "Лайкнутые чарты"
     levels:
       published_at: "公開：%{time}前"
       variants: "派生譜面：%{count}個"
