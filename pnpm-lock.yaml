@@ -88,9 +88,6 @@ importers:
       i18next-icu:
         specifier: ^2.3.0
         version: 2.3.0(intl-messageformat@10.7.16)
-      i18next-resources-to-backend:
-        specifier: ^1.2.1
-        version: 1.2.1
       isbot:
         specifier: ^5.1.29
         version: 5.1.29
@@ -2768,9 +2765,6 @@ packages:
     resolution: {integrity: sha512-x+j7kd5nDJCfbU53uwsMfXD7ALPu5uv0bqjAMQ5nVvXRoj1L7gkmswKtM3XDWYo4YUHf1jznlhSdPyy0xEwU+Q==}
     peerDependencies:
       intl-messageformat: ^10.3.3
-
-  i18next-resources-to-backend@1.2.1:
-    resolution: {integrity: sha512-okHbVA+HZ7n1/76MsfhPqDou0fptl2dAlhRDu2ideXloRRduzHsqDOznJBef+R3DFZnbvWoBW+KxJ7fnFjd6Yw==}
 
   i18next@25.3.2:
     resolution: {integrity: sha512-JSnbZDxRVbphc5jiptxr3o2zocy5dEqpVm9qCGdJwRNO+9saUJS0/u4LnM/13C23fUEWxAylPqKU/NpMV/IjqA==}
@@ -6740,10 +6734,6 @@ snapshots:
   i18next-icu@2.3.0(intl-messageformat@10.7.16):
     dependencies:
       intl-messageformat: 10.7.16
-
-  i18next-resources-to-backend@1.2.1:
-    dependencies:
-      '@babel/runtime': 7.28.2
 
   i18next@25.3.2(typescript@5.8.3):
     dependencies:
