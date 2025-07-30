@@ -34,9 +34,9 @@ warning:
   chartDeleted: "Le niveau a été supprimé."
   footer: "Niveau d'Avertissement : <0>{warnLevel}</0> | {date}"
   level:
-    low: "Bas"
+    low: "Faible"
     medium: "Moyen"
-    high: "Haut"
+    high: "Élevé"
     ban: "Ban"
   levelDescription:
     low: "Vous pouvez continuer à publier des niveaux."
@@ -85,9 +85,9 @@ warnModal:
   delete: "Supprimer le niveau"
   level:
     title: "Niveau d'Avertissement"
-    low: "Bas"
+    low: "Faible"
     medium: "Moyen"
-    high: "Haut"
+    high: "Élevé"
     ban: "Ban"
   levelDescription:
     low: "L'utilisateur peut continuer à publier des niveaux."
@@ -208,7 +208,7 @@ upload:
   unUploadedFiles: "Certains fichiers n'ont pas été importés."
   unUploadedFilesNote: "Fichiers reconnus : .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
   filesTooLarge: Les fichiers sont trop volumineux
-  filesTooLargeNote: La somme des tailles de fichiers doit être inférieure à 20 Mo.
+  filesTooLargeNote: La somme des tailles des fichiers doit être inférieure à 20 Mo.
   publishModal:
     title: "Publier ce niveau ?"
     description: "Votre niveau doit..."
