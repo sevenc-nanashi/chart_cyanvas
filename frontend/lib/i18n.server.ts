@@ -1,17 +1,13 @@
 import cookie from "cookie";
 import i18nextIcu from "i18next-icu";
 import { RemixI18Next } from "remix-i18next/server";
-import { enTranslation, jaTranslation, languages } from "./translations.ts";
+import { languages, lazyLoadBackend } from "./translations.ts";
 
 export const i18n = new RemixI18Next({
   detection: languages,
-  plugins: [i18nextIcu],
+  plugins: [i18nextIcu, lazyLoadBackend],
   i18next: {
     fallbackNS: "root",
-    resources: {
-      ja: jaTranslation,
-      en: enTranslation,
-    },
   },
 });
 

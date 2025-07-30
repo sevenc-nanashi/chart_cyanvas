@@ -5,7 +5,7 @@ import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { HydratedRouter } from "react-router/dom";
-import { enTranslation, jaTranslation, languages } from "~/lib/translations";
+import { languages, lazyLoadBackend } from "~/lib/translations";
 // budoux doesn't configure ESM: https://github.com/google/budoux/issues/1015
 import "../node_modules/budoux/module/webcomponents/budoux-ja.js";
 import "virtual:uno.css";
@@ -20,11 +20,10 @@ i18next
   .use(i18nextIcu)
   .use(initReactI18next) // passes i18n down to react-i18next
   .use(languageDetector)
+  .use(lazyLoadBackend) // loads translations on demand
   .init({
-    resources: {
-      ja: jaTranslation,
-      en: enTranslation,
-    },
+    resources: {},
+    partialBundledLanguages: true,
     supportedLngs: languages.supportedLanguages,
     fallbackLng: languages.fallbackLanguage,
     defaultNS: "root",

@@ -1,6 +1,8 @@
 import type { Resource } from "i18next";
-import enTranslations from "~/i18n/en.yml";
-import jaTranslations from "~/i18n/ja.yml";
+import resourcesToBackend from "i18next-resources-to-backend";
+import { languageNames as languageNames_ } from "./languageNames.macro.ts" with {
+  type: "macro",
+};
 
 const parseTranslations: (
   translations: Record<string, string | unknown>,
@@ -15,15 +17,36 @@ const parseTranslations: (
   return parsedTranslations as unknown as Resource;
 };
 
-export const jaTranslation = parseTranslations(jaTranslations);
-export const enTranslation = parseTranslations(enTranslations);
+const translations = import.meta.glob<Record<string, string | unknown>>(
+  "~/i18n/*.yml",
+  {
+    import: "default",
+  },
+);
+const translationMap = Object.fromEntries(
+  Object.entries(translations).map(([key, value]) => {
+    const lang = key.match(/\/([a-z]{2})\.yml$/)?.[1];
+    if (!lang) {
+      throw new Error(`Invalid language file: ${key}`);
+    }
+    return [lang, value];
+  }),
+);
 
+export const lazyLoadBackend = resourcesToBackend(
+  async (language: string, namespace: string) => {
+    const translation = translationMap[language];
+    if (!translation) {
+      return {};
+    }
+    const data = await translation();
+    const parsed = parseTranslations(data);
+    return parsed[namespace] || {};
+  },
+);
+
+export const languageNames = languageNames_;
 export const languages = {
-  supportedLanguages: ["ja", "en"],
+  supportedLanguages: Object.keys(languageNames),
   fallbackLanguage: "en",
-};
-
-export const languageNames = {
-  ja: jaTranslations.language,
-  en: enTranslations.language,
 };

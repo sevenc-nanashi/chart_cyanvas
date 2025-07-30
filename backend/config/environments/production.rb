@@ -7,8 +7,6 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
-  config.i18n.available_locales = %i[ja en]
-
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.
@@ -71,7 +69,10 @@ Rails.application.configure do
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
-  config.i18n.available_locales = %i[en ja]
+  config.i18n.available_locales =
+    Dir
+      .glob(Rails.root.join("config", "locales", "*.yml"))
+      .map { |file| file.match(/(\w+)\.yml$/)[1].to_sym }
   config.i18n.default_locale = :en
 
   # Don't log any deprecations.

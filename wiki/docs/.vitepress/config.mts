@@ -8,6 +8,7 @@ export default defineConfig({
   vite: {
     server: {
       port: 3101,
+      allowedHosts: true,
     },
   },
   cleanUrls: true,
@@ -65,6 +66,9 @@ export default defineConfig({
       link: "/en/",
       themeConfig: {
         nav: [{ text: "Home", link: "/en/" }],
+        notFound: {
+          link: "/en",
+        },
         sidebar: [
           { text: "Publishing a chart", link: "/en/publishing" },
           { text: "Guideline", link: "/en/guideline" },
@@ -76,6 +80,9 @@ export default defineConfig({
   },
 
   themeConfig: {
+    notFound: {
+      link: "/en",
+    },
     socialLinks: [
       {
         icon: "github",

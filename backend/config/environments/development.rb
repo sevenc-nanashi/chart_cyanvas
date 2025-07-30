@@ -8,7 +8,10 @@ Rails.application.configure do
     Bullet.add_footer = true
   end
 
-  config.i18n.available_locales = %i[ja en]
+  config.i18n.available_locales =
+    Dir
+      .glob(Rails.root.join("config", "locales", "*.yml"))
+      .map { |file| file.match(/(\w+)\.yml$/)[1].to_sym }
 
   config.hosts.clear
 

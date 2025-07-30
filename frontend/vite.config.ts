@@ -5,6 +5,7 @@ import unocss from "unocss/vite";
 import { defineConfig } from "vite";
 import { cjsInterop } from "vite-plugin-cjs-interop";
 import svgr from "vite-plugin-svgr";
+import macros from "unplugin-macros/vite";
 
 config({ path: "../.env" });
 
@@ -21,6 +22,7 @@ export default defineConfig({
     cjsInterop({
       dependencies: ["react-range"],
     }),
+    macros(),
     reactRouter(),
   ],
   server: {

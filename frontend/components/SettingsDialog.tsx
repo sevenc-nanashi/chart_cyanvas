@@ -7,8 +7,6 @@ import type { Theme } from "~/lib/types.ts";
 import InputTitle from "./InputTitle.tsx";
 import Select, { type SelectItems } from "./Select.tsx";
 
-type Language = "auto" | keyof typeof languageNames;
-
 const SettingsDialog = (props: {
   close: () => void;
 }) => {
@@ -23,15 +21,15 @@ const SettingsDialog = (props: {
     },
     ...Object.entries(languageNames).map(([lang, languageName]) => ({
       type: "item" as const,
-      value: lang as Language,
+      value: lang,
       label: languageName,
     })),
-  ] satisfies SelectItems<Language>;
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>("auto");
+  ] satisfies SelectItems<string>;
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("auto");
   useEffect(() => {
     const lang = cookies.parse(document.cookie).locale;
     if (lang && lang in languageNames) {
-      setSelectedLanguage(lang as Language);
+      setSelectedLanguage(lang);
     } else {
       setSelectedLanguage("auto");
     }
@@ -50,7 +48,7 @@ const SettingsDialog = (props: {
           items={languageOptions}
           value={selectedLanguage}
           onChange={(value) => {
-            setSelectedLanguage(value as Language);
+            setSelectedLanguage(value);
             document.cookie = cookies.serialize("locale", value, {
               maxAge: 60 * 60 * 24 * 365,
               sameSite: "lax",

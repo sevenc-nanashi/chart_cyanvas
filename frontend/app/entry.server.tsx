@@ -8,7 +8,7 @@ import { I18nextProvider, initReactI18next } from "react-i18next";
 import type { EntryContext } from "react-router";
 import { ServerRouter } from "react-router";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
-import { enTranslation, jaTranslation } from "~/lib/translations";
+import { lazyLoadBackend } from "~/lib/translations";
 
 const ABORT_DELAY = 5000;
 
@@ -28,13 +28,12 @@ export default async function handleRequest(
   await instance
     .use(i18nextIcu)
     .use(initReactI18next)
+    .use(lazyLoadBackend)
     .init({
       lng, // The locale we detected above
       ns, // The namespaces the routes about to render want to use
-      resources: {
-        ja: jaTranslation,
-        en: enTranslation,
-      },
+      resources: {},
+      partialBundledLanguages: true,
       fallbackLng: "en",
       defaultNS: "root",
     });
