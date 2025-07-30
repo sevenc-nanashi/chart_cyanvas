@@ -1,14 +1,4 @@
 fr:
-  test:
-    title: "このサーバーは使用しないで下さい！"
-    description: "このサーバーはもう使用されていません。"
-  levels:
-    _:
-      engine-title: "（メッセージ）"
-      author: "（メッセージ）"
-    dummy:
-      title: "このレベルはプレイできません！"
-      description: "一つ前のページに戻って、タイトルを読んで下さい。"
   sonolus:
     title: "Chart Cyanvas"
     configuration:
