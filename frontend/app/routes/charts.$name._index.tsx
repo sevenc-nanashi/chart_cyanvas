@@ -20,13 +20,10 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { Link, useLoaderData, useNavigate, useParams } from "react-router";
+import AdminWarnModal from "~/components/AdminWarnModal";
 import ChartSection from "~/components/ChartSection";
-import Checkbox from "~/components/Checkbox";
-import InputTitle from "~/components/InputTitle";
 import ModalPortal from "~/components/ModalPortal";
 import OptionalImage from "~/components/OptionalImage";
-import Select from "~/components/Select";
-import TextInput from "~/components/TextInput";
 import Tooltip from "~/components/Tooltip";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import { useMyFetch, useServerSettings, useSession } from "~/lib/contexts.ts";
@@ -156,7 +153,7 @@ const ChartPage = () => {
   const mergeChartTags = useMergeChartTags();
 
   const [showDeletionModal, setShowDeletionModal] = useState(false);
-  const [showAdminDeletionModal, setShowAdminDeletionModal] = useState(false);
+  const [showAdminWarnModal, setShowAdminWarnModal] = useState(false);
 
   const [publishedAt, setPublishedAt] = useState("-");
 
@@ -174,36 +171,7 @@ const ChartPage = () => {
     }
   }, [chartData.publishedAt]);
 
-  const [warnLevel, setWarnLevel] = useState<"low" | "medium" | "high" | "ban">(
-    "medium",
-  );
-
   const myFetch = useMyFetch();
-
-  const sendAdminDeletionRequest = useCallback(async () => {
-    const resp = await myFetch("/api/admin/delete-chart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: chartName,
-        level: warnLevel,
-        reason: (
-          document.querySelector("[data-name=warnReason]") as HTMLInputElement
-        ).value,
-      }),
-    });
-    if (!resp.ok) {
-      const error = await resp.json();
-      throw new Error(error.message);
-    }
-    navigate(
-      pathcat("/users/:handle", {
-        handle: chartData.author.handle,
-      }),
-    );
-  }, [chartData.author.handle, chartName, myFetch, navigate, warnLevel]);
 
   const sendDeleteRequest = useCallback(async () => {
     await myFetch(
@@ -217,85 +185,25 @@ const ChartPage = () => {
     navigate("/charts/my");
   }, [chartName, navigate, myFetch]);
 
-  const doesUserOwn =
-    isMine(session, chartData) ||
-    (session?.loggedIn && session.user.userType === "admin");
-  const adminDecoration = isAdmin(session) ? rootT("adminDecorate") : "";
+  const doesUserOwn = isMine(session, chartData);
 
   return (
     <>
-      <ModalPortal isOpen={showAdminDeletionModal}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            sendAdminDeletionRequest();
-          }}
-        >
-          <h1 className="text-xl font-bold text-normal mb-2 break-word">
-            {t("deletionModal.title")}
-          </h1>
-          <InputTitle text={t("deletionModal.warning.title")}>
-            <Select
-              className="w-full"
-              value={warnLevel}
-              items={[
-                {
-                  type: "item",
-                  label: t("deletionModal.warning.level.low"),
-                  description: t("deletionModal.warning.levelDescription.low"),
-                  value: "low",
-                },
-                {
-                  type: "item",
-                  label: t("deletionModal.warning.level.medium"),
-                  description: t(
-                    "deletionModal.warning.levelDescription.medium",
-                  ),
-                  value: "medium",
-                },
-                {
-                  type: "item",
-                  label: t("deletionModal.warning.level.high"),
-                  description: t("deletionModal.warning.levelDescription.high"),
-                  value: "high",
-                },
-                {
-                  type: "item",
-                  label: t("deletionModal.warning.level.ban"),
-                  description: t(
-                    "deletionModal.warning.levelDescription.ban",
-                  ),
-                  value: "ban",
-                },
-              ]}
-              onChange={(e) =>
-                setWarnLevel(e as "low" | "medium" | "high" | "ban")
-              }
-            />
-          </InputTitle>
-          <InputTitle text={t("deletionModal.warning.reason")}>
-            <TextInput
-              name="warnReason"
-              textarea
-              optional
-              className="w-full h-32"
-            />
-          </InputTitle>
-          <div className="flex justify-end mt-4 gap-2">
-            <button
-              className="px-4 py-2 button-cancel"
-              onClick={() => {
-                setShowAdminDeletionModal(false);
-              }}
-            >
-              {rootT("cancel")}
-            </button>
-            <button type="submit" className={clsx("px-4 py-2 button-danger")}>
-              {t("deletionModal.ok")}
-            </button>
-          </div>
-        </form>
-      </ModalPortal>
+      <AdminWarnModal
+        showAdminWarnModal={showAdminWarnModal}
+        setShowAdminWarnModal={setShowAdminWarnModal}
+        target={{
+          type: "chart",
+          value: chartData.name,
+        }}
+        onSend={() => {
+          navigate(
+            pathcat("/users/:handle", {
+              handle: chartData.author.handle,
+            }),
+          );
+        }}
+      />
       <ModalPortal isOpen={showDeletionModal}>
         <form
           onSubmit={(e) => {
@@ -457,7 +365,7 @@ const ChartPage = () => {
                     className="button button-primary text-center p-1"
                   >
                     <EditRegular className="small-button-icon" />
-                    {t("edit") + adminDecoration}
+                    {t("edit")}
                   </Link>
                   <button
                     className="button button-danger text-center p-1"
@@ -468,15 +376,6 @@ const ChartPage = () => {
                     <DeleteRegular className="h-5 w-5 mr-1" />
                     {t("delete")}
                   </button>
-                  <button
-                    className="button button-fatal text-center p-1"
-                    onClick={() => {
-                      setShowAdminDeletionModal(true);
-                    }}
-                  >
-                    <DeleteRegular className="h-5 w-5 mr-1" />
-                    {t("delete") + adminDecoration}
-                  </button>
                   <Link
                     to={pathcat("/charts/upload", { variantOf: chartName })}
                     className="button button-secondary text-center p-1"
@@ -484,6 +383,26 @@ const ChartPage = () => {
                     <ArrowTurnDownRightFilled className="small-button-icon" />
                     {t("createVariant")}
                   </Link>
+                </>
+              )}
+              {isAdmin(session) && (
+                <>
+                  <Link
+                    to={pathcat("/charts/:name/edit", { name: chartName })}
+                    className="button button-primary text-center p-1"
+                  >
+                    <EditRegular className="small-button-icon" />
+                    {t("edit") + rootT("adminDecorate")}
+                  </Link>
+                  <button
+                    className="button button-fatal text-center p-1"
+                    onClick={() => {
+                      setShowAdminWarnModal(true);
+                    }}
+                  >
+                    <WarningRegular className="h-5 w-5 mr-1" />
+                    {rootT("warnModal.label") + rootT("adminDecorate")}
+                  </button>
                 </>
               )}
               {chartData.chart && (

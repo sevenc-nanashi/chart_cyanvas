@@ -11,7 +11,7 @@ class User < ApplicationRecord
            class_name: "User",
            inverse_of: :owner
   has_many :likes, dependent: :destroy
-  has_many :warnings, class_name: "UserWarning", dependent: :destroy
+  has_many :warnings, dependent: :destroy, class_name: "UserWarning"
   enum :discord_status, { no: 0, linked: 1, joined: 2 }
 
   def display_handle

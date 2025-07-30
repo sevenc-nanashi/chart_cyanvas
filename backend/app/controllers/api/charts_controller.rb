@@ -152,7 +152,7 @@ class SearchValidator
               maximum: 5,
               message: "tooManyTags"
             }
-  validate :genres
+  validate :validate_genres
   def validate_genres
     if genres.present?
       genres.each do |genre|

@@ -33,7 +33,12 @@ notFound:
 
 warning:
   title: "警告"
-  deletedDescription: "{{count}} 個の譜面が削除されました。"
+  description: "あなたは現在{{count}}件の警告を受けています。"
+  target:
+    title: "対象：{{target}}"
+    chart: "譜面「{{title}}」"
+    user: "ユーザー"
+  chartDeleted: "譜面は削除されました。"
   footer: "警告レベル：<0>{{warnLevel}}</0> | {{date}}"
   level:
     low: "低"
@@ -85,6 +90,24 @@ settings:
     light: "ライト"
     dark: "ダーク"
 
+warnModal:
+  label: "警告"
+  title: "警告する"
+  delete: "譜面を削除する"
+  level:
+    title: "警告レベル"
+    low: "低"
+    medium: "中"
+    high: "高"
+    ban: "Ban"
+  levelDescription:
+    low: "警告を行うだけで、投稿は継続できます。"
+    medium: "警告を行い、譜面の編集権限を1日間停止します。"
+    high: "警告を行い、譜面の編集権限を7日間停止します。"
+    ban: "警告を行い、譜面の編集権限を永久に停止します。"
+  reason: "警告理由"
+  ok: "警告する"
+
 chart:
   notFound: "譜面が見付かりませんでした。"
   variants: "派生譜面"
@@ -100,19 +123,6 @@ chart:
   deletionModal:
     title: "譜面を削除しますか？"
     description: "削除した譜面は復元できません！"
-    warning:
-      title: "警告レベル"
-      level:
-        low: "低"
-        medium: "中"
-        high: "高"
-        ban: "Ban"
-      levelDescription:
-        low: "警告を行うだけで、投稿は継続できます。"
-        medium: "警告を行い、投稿を1日間停止します。"
-        high: "警告を行い、投稿を7日間停止します。"
-        ban: "警告を行い、投稿を永久に停止します。"
-      reason: "警告理由"
     ok: "削除"
 
 searchCharts:

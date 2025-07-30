@@ -2,10 +2,16 @@
 
 class UserWarning < ApplicationRecord
   belongs_to :user
-  belongs_to :moderator, class_name: "User", foreign_key: "moderator_id"
+  belongs_to :moderator,
+             class_name: "User",
+             foreign_key: "moderator_id",
+             optional: true
 
   LEVELS = { low: 0, medium: 1, high: 2, ban: 3 }.freeze
   enum :level, LEVELS
+
+  TARGET_TYPES = { chart: 0, user: 1 }.freeze
+  enum :target_type, TARGET_TYPES
 
   WARNING_TIMEOUTS = {
     low: 0,
@@ -18,30 +24,35 @@ class UserWarning < ApplicationRecord
     {
       id:,
       createdAt: created_at.iso8601,
-      updatedAt: updated_at.iso8601,
-      chartTitle: chart_title,
       reason:,
       level:,
-      seen:,
+      seen: seen?,
       endsAt: ends_at.iso8601,
       active: active?,
-      moderator: include_moderator ? moderator&.to_frontend : nil
+      moderator: include_moderator ? moderator&.to_frontend : nil,
+      targetType: target_type,
+      targetName: target_name,
+      chartDeleted: chart_deleted
     }
   end
 
   def active?
-    !seen || ends_at > Time.zone.now
+    !seen? || ends_at > Time.zone.now
   end
 
   def seen!
-    update!(seen: true)
+    update!(seen_at: Time.zone.now)
+  end
+
+  def seen?
+    seen_at.present?
   end
 
   def ends_at
     return Time.new("9999-12-31T23:59:59") if level == "ban"
 
-    if seen
-      updated_at + WARNING_TIMEOUTS[level.to_sym]
+    if seen?
+      seen_at + WARNING_TIMEOUTS[level.to_sym]
     else
       Time.zone.now + WARNING_TIMEOUTS[level.to_sym]
     end

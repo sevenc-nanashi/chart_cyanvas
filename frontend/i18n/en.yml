@@ -19,8 +19,13 @@ adminDecorate: " (Admin)"
 
 warning:
   title: "Warning"
-  deletedDescription_one: "One of your charts has been deleted."
-  deletedDescription_other: "{{count}} of your charts have been deleted."
+  description_one: "You got a warning:"
+  description_other: "You got {{count}} warnings:"
+  target:
+    title: "Target: {{target}}"
+    chart: 'Chart "{{title}}"'
+    user: "Account"
+  chartDeleted: "The chart has been deleted."
   footer: "Warning Level: <0>{{warnLevel}}</0> | {{date}}"
   level:
     low: "Low"
@@ -29,12 +34,30 @@ warning:
     ban: "Ban"
   levelDescription:
     low: "You can continue to post charts."
-    medium: "Posting charts is suspended for 1 day."
-    high: "Posting charts is suspended for 7 days."
-    ban: "Posting charts is permanently suspended."
+    medium: "Your account is suspended for 1 day."
+    high: "Your account is suspended for 7 days."
+    ban: "You are permanently banned."
   timeoutNote: |
     Please check the <0>guideline</0> again.
     The countdown will start when you click the button below.
+
+warnModal:
+  label: "Warn"
+  title: "Warn Chart"
+  delete: "Delete chart"
+  level:
+    title: "Warning Level"
+    low: "Low"
+    medium: "Medium"
+    high: "High"
+    ban: "Ban"
+  levelDescription:
+    low: "User can continue to post charts."
+    medium: "User's account will be suspended for 1 day."
+    high: "User's account will be suspended for 7 days."
+    ban: "User will be permanently banned."
+  reason: "Reason"
+  ok: "Warn"
 
 genre:
   others: "Others"
@@ -102,21 +125,6 @@ chart:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
     ok: "Delete"
-  warning:
-    title: "Warn Level"
-    delete: "Delete chart"
-    level:
-      low: "Low"
-      medium: "Medium"
-      high: "High"
-      ban: "Ban"
-    levelDescription:
-      low: "User can continue to post charts."
-      medium: "User is suspended from posting charts for 1 day."
-      high: "User is suspended from posting charts for 7 days."
-      ban: "User is permanently suspended from posting charts."
-    reason: "Reason"
-
 searchCharts:
   title: "Search charts"
   queries: "Filters"

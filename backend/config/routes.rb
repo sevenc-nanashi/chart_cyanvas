@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     get "/admin", to: "api/admin#data"
     get "/admin/users/:handle", to: "api/admin#show_user"
     post "/admin/expire-data", to: "api/admin#expire_data"
-    post "/admin/delete-chart", to: "api/admin#delete_chart"
+    post "/admin/warn", to: "api/admin#create_warn"
 
     get "/my/discord", to: "api/discord#my_discord"
     get "/discord/link", to: "api/discord#link"

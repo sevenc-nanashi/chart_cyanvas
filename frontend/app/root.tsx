@@ -154,7 +154,7 @@ function WarningModal() {
     <ModalPortal isOpen={!!isOpen}>
       <h1 className="text-xl font-bold mb-2">{t("warning.title")}</h1>
       <p>
-        {t("warning.deletedDescription", {
+        {t("warning.description", {
           count: unseenWarnings.length,
         })}
       </p>
@@ -167,8 +167,22 @@ function WarningModal() {
       >
         {unseenWarnings.map((warning) => (
           <div key={warning.id} className="card flex flex-col gap-1 p-2">
-            <p className="font-bold">{warning.chartTitle}</p>
+            <p className="font-bold">
+              {t("warning.target.title", {
+                target:
+                  warning.targetType === "user"
+                    ? t("warning.target.user")
+                    : t("warning.target.chart", {
+                        title: warning.targetName,
+                      }),
+              })}
+            </p>
             <p>{warning.reason}</p>
+            {warning.chartDeleted && (
+              <p className="text-sm text-red-500">
+                {t("warning.chartDeleted")}
+              </p>
+            )}
             <p className="text-sm text-gray-500 whitespace-pre-wrap">
               <Trans
                 i18nKey="warning.footer"
@@ -278,12 +292,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
     () => isSubmitting || navigation.state !== "idle",
     [isSubmitting, navigation],
   );
-  const { i18n } = useTranslation("root");
-  useEffect(() => {
-    if (i18n.language !== loaderData.locale) {
-      i18n.changeLanguage(loaderData.locale);
-    }
-  }, [i18n, loaderData.locale]);
   useEffect(() => {
     fetch("/api/login/session", {
       method: "GET",

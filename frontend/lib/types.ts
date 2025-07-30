@@ -56,12 +56,14 @@ export type Warning = {
   id: number;
   createdAt: string;
   updatedAt: string;
-  chartTitle: string;
   reason: string;
   level: "low" | "medium" | "high" | "ban";
   seen: boolean;
   endsAt: string | null;
   active: boolean;
+  targetType: "chart" | "user";
+  targetName: string;
+  chartDeleted: boolean;
 };
 export type AdminWarning = Warning & {
   moderator: User;

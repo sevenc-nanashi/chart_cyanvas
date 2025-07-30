@@ -3,12 +3,14 @@ import {
   EyeRegular,
   MusicNote2Regular,
   OpenRegular,
+  WarningRegular,
 } from "@fluentui/react-icons";
 import { pathcat } from "pathcat";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { Link, useLoaderData } from "react-router";
+import { Link, useLoaderData, useNavigate, useNavigation } from "react-router";
+import AdminWarnModal from "~/components/AdminWarnModal";
 import ChartSection from "~/components/ChartSection";
 import SonolusAvatar from "~/components/SonolusAvatar";
 import { backendUrl, host } from "~/lib/config.server.ts";
@@ -96,6 +98,8 @@ const UserPage = () => {
     owner: User | null;
   } | null>(null);
   const [showSecretUserInfo, setShowSecretUserInfo] = useState(false);
+  const [showAdminWarnModal, setShowAdminWarnModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAdmin(session)) {
@@ -118,6 +122,17 @@ const UserPage = () => {
 
   return (
     <>
+      <AdminWarnModal
+        showAdminWarnModal={showAdminWarnModal}
+        setShowAdminWarnModal={setShowAdminWarnModal}
+        target={{
+          type: "user",
+          value: userData.handle,
+        }}
+        onSend={() => {
+          navigate(0);
+        }}
+      />
       <div className="flex flex-col">
         <div className="min-h-[300px] w-full flex relative">
           <div className="flex flex-col flex-grow">
@@ -186,12 +201,6 @@ const UserPage = () => {
                                 />,
                               ]}
                             />
-                            {/* {t("secretUserInfo.warning", { */}
-                            {/*   level: rootT(`warning.level.${warning.level}`), */}
-                            {/*   date: new Date(warning.createdAt).toLocaleDateString(), */}
-                            {/*   reason: warning.reason.split("\n")[0], */}
-                            {/**/}
-                            {/* })} */}
                           </li>
                         ))}
                       </ul>
@@ -216,6 +225,17 @@ const UserPage = () => {
               />
             </div>
             <div className="flex flex-col w-32 md:w-40 mt-4 text-center gap-2">
+              {isAdmin(session) && (
+                <button
+                  className="button button-fatal text-center p-1"
+                  onClick={() => {
+                    setShowAdminWarnModal(true);
+                  }}
+                >
+                  <WarningRegular className="h-5 w-5 mr-1" />
+                  {rootT("warnModal.label") + rootT("adminDecorate")}
+                </button>
+              )}
               <a
                 href={`https://open.sonolus.com/players/id/${userData.handle}`}
                 target="_blank"

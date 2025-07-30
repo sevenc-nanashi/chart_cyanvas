@@ -26,7 +26,7 @@ const SettingsDialog = (props: {
       value: lang,
       label: languageName,
     })),
-  ] satisfies SelectItems;
+  ] satisfies SelectItems<Language>;
   const [selectedLanguage, setSelectedLanguage] = useState<Language>("auto");
   useEffect(() => {
     const lang = cookies.parse(document.cookie).locale;

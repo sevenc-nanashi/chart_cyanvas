@@ -67,22 +67,41 @@ module Api
       end
     end
 
-    class DeleteChartValidator
+    class WarnValidator
       include ActiveModel::Validations
 
-      attr_accessor :name, :reason, :level
+      attr_accessor :name, :reason, :level, :target_type, :target, :delete_chart
 
-      validates :name, presence: true
       validates :reason, presence: true
       validates :level, inclusion: { in: %w[low medium high ban] }
+      validates :target_type, inclusion: { in: %w[chart user] }
+      validates :delete_chart, inclusion: { in: [true, false] }
+      validate :validate_target
+
+      def validate_target
+        if target_type == "user"
+          unless User.exists?(handle: target)
+            errors.add(:target, "must be a valid user handle")
+          end
+        elsif target_type == "chart"
+          unless Chart.exists?(name: target)
+            errors.add(:target, "must be a valid chart name")
+          end
+        else
+          errors.add(:target_type, "must be either 'user' or 'chart'")
+        end
+      end
     end
 
-    def delete_chart
-      params.permit(:name, :reason, :level)
-      validator = DeleteChartValidator.new
-      validator.name = params[:name]
+    def create_warn
+      params.permit(:reason, :level, :targetType, :target, :deleteChart)
+      validator = WarnValidator.new
       validator.reason = params[:reason]
       validator.level = params[:level]
+      validator.target_type = params[:targetType]
+      validator.target = params[:target]
+      validator.delete_chart = params[:deleteChart]
+
       unless validator.valid?
         render json: {
                  code: "bad_request",
@@ -92,17 +111,41 @@ module Api
         return
       end
 
-      chart = Chart.find_by(name: params[:name])
-      return render json: { code: "not_found" }, status: :not_found unless chart
+      case validator.target_type
+      when "user"
+        user = User.find_by(handle: validator.target)
+        unless user
+          return render json: { code: "not_found" }, status: :not_found
+        end
 
-      UserWarning.create!(
-        user: chart.author,
-        moderator: current_user,
-        reason: params[:reason],
-        level: params[:level],
-        seen: false,
-        chart_title: chart.title
-      )
+        user.charts.each(&:destroy!) if validator.delete_chart
+
+        UserWarning.create!(
+          user:,
+          moderator: current_user,
+          reason: params[:reason],
+          level: params[:level],
+          target_type: "user",
+          chart_deleted: validator.delete_chart
+        )
+      when "chart"
+        chart = Chart.find_by(name: validator.target)
+        unless chart
+          return render json: { code: "not_found" }, status: :not_found
+        end
+
+        chart.destroy! if validator.delete_chart
+
+        UserWarning.create!(
+          user: chart.author,
+          moderator: current_user,
+          reason: params[:reason],
+          level: params[:level],
+          target_name: chart.title,
+          target_type: "chart",
+          chart_deleted: validator.delete_chart
+        )
+      end
 
       if $discord.nil?
         unless chart.author.discord_thread_id
@@ -121,7 +164,7 @@ module Api
           "/channels/#{chart.author.discord_thread_id}/messages",
           json: {
             content: <<~MSG
-              **:wastebasket: #{chart.title} (`#{chart.name}`) - :warning: #{chart.author.warn_count}**
+              **:warning: #{chart.title} (`#{chart.name}`)**
 
               #{params[:reason].indent(1, "> ")}
 
@@ -130,8 +173,6 @@ module Api
           }
         )
       end
-
-      chart.destroy!
       render json: { code: "ok" }
     end
 

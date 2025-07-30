@@ -682,7 +682,7 @@ const ChartForm: React.FC<
           </Budoux>
         </p>
       )}
-      <div className="relative">
+      <fieldset className="relative" disabled={!canPost}>
         {canPost || (
           <div className="absolute z-10 top-0 left-0 w-full h-full bg-white dark:bg-slate-800 bg-opacity-50 cursor-not-allowed" />
         )}
@@ -907,7 +907,7 @@ const ChartForm: React.FC<
             <button className="p-2 w-full button-primary">{t("submit")}</button>
           )}
         </div>
-      </div>
+      </fieldset>
     </form>
   );
 };

@@ -6,7 +6,7 @@ import { renderToPipeableStream } from "react-dom/server";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import type { EntryContext } from "react-router";
 import { ServerRouter } from "react-router";
-import { i18n } from "~/lib/i18n.server.ts";
+import { detectLocale, i18n } from "~/lib/i18n.server.ts";
 import { enTranslation, jaTranslation } from "~/lib/translations";
 
 const ABORT_DELAY = 5000;
@@ -17,7 +17,7 @@ export default async function handleRequest(
   responseHeaders: Headers,
   reactRouterContext: EntryContext,
 ) {
-  const lng = await i18n.getLocale(request);
+  const lng = await detectLocale(request);
   const ns = i18n.getRouteNamespaces(reactRouterContext);
   const callbackName = isbot(request.headers.get("user-agent"))
     ? "onAllReady"
