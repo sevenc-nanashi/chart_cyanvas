@@ -1,11 +1,11 @@
-en:
+ru:
   sonolus:
     title: "Chart Cyanvas"
     configuration:
       background:
-        title: "Background"
+        title: "Задний фон"
       genres:
-        title: "Genres to display"
+        title: "Показать жанры"
         description: "Charts of genres that are not checked in this setting will not be displayed in the chart list."
     popular_maintenance:
       title: "Popular charts are under maintenance!"
@@ -21,10 +21,10 @@ en:
       versions:
         v1: "v1 (for smartphones)"
         v3: "v3 (for smartphones)"
-        tablet_v1: "v1 (for tablets)"
-        tablet_v3: "v3 (for tablets)"
+        tablet_v1: "v1（для планшетов）"
+        tablet_v3: "v3（для планшетов）"
     targets:
-      liked: "Liked charts"
+      liked: "Лайкнутые чарты"
     levels:
       published_at: "Published: %{time} ago"
       variants: "Variants: %{count}"

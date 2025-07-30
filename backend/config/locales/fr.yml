@@ -1,0 +1,75 @@
+fr:
+  sonolus:
+    title: "Chart Cyanvas"
+    configuration:
+      background:
+        title: "Arrière-plan"
+      genres:
+        title: "Genres à afficher"
+        description: "Les niveaux de genres qui ne sont pas cochés dans ce paramètre ne seront pas affichés dans la liste des niveaux."
+    popular_maintenance:
+      title: "La section populaire est en cours de maintenance !"
+    auth:
+      external_done: "Connexion réussie ! Veuillez revenir à la page Web."
+    info:
+      description: "Chart Cyanvas est une plateforme Sonolus pour les niveaux non officiels de Sekai."
+      logged_in: "Connecté en tant que %{name}#%{handle}."
+    backgrounds:
+      title: "%{name}: %{version}"
+      sections:
+        versions: "Versions"
+      versions:
+        v1: "v1 (pour smartphones)"
+        v3: "v3 (pour smartphones)"
+        tablet_v1: "v1 (pour tablettes)"
+        tablet_v3: "v3 (pour tablettes)"
+    targets:
+      liked: "Niveaux favoris"
+    levels:
+      published_at: "Publié : il y a %{time}"
+      variants: "Variantes: %{count}"
+      genres:
+        others: "Autres"
+        vocal_synth: "VocalSynth et Vocaloid"
+        music_game: "Jeu de Rythme"
+        game: "Jeu Vidéo"
+        meme: "Mème"
+        pops: "Pop"
+        instrumental: "Instrumental"
+      visibility:
+        public: "Publique"
+        private: "Privé"
+        scheduled: "Programmé"
+      sections:
+        actions: "Actions"
+        variant_of: "Variante de"
+        variants: "Variantes"
+        backgrounds: "Arrière-plans"
+      like: "Ajouter aux favoris"
+      unlike: "Supprimer des favoris"
+    search:
+      title: "Titre"
+      title_placeholder: "Entrez le titre..."
+      composer: "Compositeur"
+      composer_placeholder: "Entrez le compositeur..."
+      artist: "Chanteur"
+      artist_placeholder: "Entrez le chanteur..."
+      author: "Créateur"
+      author_placeholder: "Entrez les suffixes des créateurs séparés par espaces (par exemple, 1234 x5678)..."
+      author_name: "Nom du Créateur"
+      author_name_placeholder: "Entrez le nom du créateur..."
+      id: "Identifiant"
+      id_placeholder: "Entrez l'identifiant après #..."
+      genres: "Genres"
+      genres_description: "Si ce champ est vide, les paramètres d'affichage du serveur seront utilisés."
+      tags: "Tags"
+      tags_placeholder: "Entrez les tags séparés par des espaces (jusqu'à 5)..."
+      sort: "Trier par"
+      sorts:
+        published_at: "Date de publication"
+        updated_at: "Date de mise à jour"
+        likes_count: "Favoris"
+        random: "Aléatoire"
+      rating_max: "Difficulté (Max)"
+      rating_min: "Difficulté (Min)"
+      unknown_author: "Créateur introuvable. Veuillez vérifier si le suffixe du créateur est correct."

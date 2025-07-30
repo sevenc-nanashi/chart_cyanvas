@@ -1,0 +1,298 @@
+language: "Français"
+name: "Chart Cyanvas"
+gotIt: "Compris"
+close: "Fermer"
+cancel: "Annuler"
+backToHome: "Retour à la page d'accueil"
+separator: ", "
+brackets: "({content})"
+kv: "{key} : {value}"
+all: "Tout"
+serverError: "Une erreur s'est produite dans le serveur !"
+serverErrorNote: "Veuillez nous en informer <0>sur notre serveur Discord</0>."
+openInSonolus: "Sonolus"
+adminDecorate: " (Admin)"
+genre:
+  others: "Autres"
+  vocal_synth: "VocalSynth et Vocaloid"
+  music_game: "Jeu de Rythme"
+  game: "Jeu Vidéo"
+  meme: "Mème"
+  pops: "Pop"
+  instrumental: "Instrumental"
+notFound:
+  title: "Introuvable"
+  heading: "404 Introuvable"
+  description: "La page que vous recherchez n'existe pas."
+warning:
+  title: "Avertissement"
+  description: "Vous avez reçu {count, plural, one {1 avertissement} other {# avertissements} :"
+  target:
+    title: "Cible : {target}"
+    chart: "Niveau \"{title}\""
+    user: "Compte"
+  chartDeleted: "Le niveau a été supprimé."
+  footer: "Niveau d'Avertissement : <0>{warnLevel}</0> | {date}"
+  level:
+    low: "Faible"
+    medium: "Moyen"
+    high: "Élevé"
+    ban: "Ban"
+  levelDescription:
+    low: "Vous pouvez continuer à publier des niveaux."
+    medium: "Votre compte est suspendu pendant 1 jour."
+    high: "Votre compte est suspendu pendant 7 jours."
+    ban: "Vous êtes banni définitivement."
+  timeoutNote: |
+    Veuillez vérifier à nouveau les <0>règles</0>. 
+    Le compte à rebours commencera lorsque vous cliquerez sur le bouton ci-dessous.
+home:
+  newCharts: "Nouveaux niveaux"
+  welcome: "Bienvenue à Chart Cyanvas ! Si vous êtes nouveau sur le site, veuillez lire le <0>Guide d'utilisation</0>."
+  openInSonolus: "Ouvrir dans Sonolus"
+  empty: "Aucun niveau trouvé."
+  more: "Plus"
+menu:
+  search: "Rechercher des niveaux"
+  post: "Importer un niveau"
+  my: "Mes niveaux"
+  liked: "Niveaux favoris"
+  myAlts: "Mes alts"
+  admin: "Admin"
+  guideline: "Règles"
+  logout: "Se déconnecter"
+  settings: "Paramètres"
+  login:
+    button: "Se connecter"
+    title: "Connexion en cours..."
+    description: |
+      Connectez-vous avec votre compte Sonolus.<br/>
+      Cette page sera actualisée automatiquement après vous être connecté.<br/>
+      Si vous n'avez pas reçu de popup, <0>cliquez ici.</0>.
+settings:
+  title: "Paramètres"
+  lang:
+    title: "Langue"
+    auto: "Auto"
+  theme:
+    title: "Thème"
+    auto: "Auto"
+    light: "Clair"
+    dark: "Sombre"
+warnModal:
+  label: "Avertissement"
+  title: "Avertir"
+  delete: "Supprimer le niveau"
+  level:
+    title: "Niveau d'Avertissement"
+    low: "Faible"
+    medium: "Moyen"
+    high: "Élevé"
+    ban: "Ban"
+  levelDescription:
+    low: "L'utilisateur peut continuer à publier des niveaux."
+    medium: "Le compte de l'utilisateur sera suspendu pendant 1 jour."
+    high: "Le compte de l'utilisateur sera suspendu pendant 7 jours."
+    ban: "L'utilisateur sera banni définitivement."
+  reason: "Raison"
+  ok: "Avertir"
+chart:
+  notFound: "Niveau introuvable."
+  variants: "Variantes"
+  sameAuthor: "Niveaux par ce créateur"
+  edit: "Modifier"
+  delete: "Supprimer"
+  createVariant: "Créer une variante"
+  download: "Télécharger le niveau"
+  noLevelData: |
+    Aucunes données de niveau trouvées.
+    Il se peut que le niveau n'a pas été joué depuis une mise à jour du moteur, ou que la conversion du niveau a échoué.
+  deletionModal:
+    title: "Supprimer ce niveau ?"
+    description: "Les niveaux supprimés ne peuvent pas être restaurés !"
+    ok: "Supprimer"
+searchCharts:
+  title: "Recherchez des niveaux"
+  queries: "Filtres"
+  search: "Rechercher"
+  empty: "Aucun niveau trouvé."
+  param:
+    title: "Titre"
+    composer: "Compositeur"
+    artist: "Chanteur"
+    authorName: "Nom du créateur"
+    authorHandles: "Suffixe du créateur"
+    genres: "Genres"
+    tags: "Tags"
+    rating: "Difficulté"
+    sort: "Trier par"
+  description:
+    rating: "Vous pouvez sélectionner la difficulté entre 1 et 99. Utilisez la zone de saisie à côté du curseur pour définir une difficulté supérieure à 40."
+    authorHandles: "Séparez les suffixes (par exemple 1234, x567) par des espaces."
+  sort:
+    publishedAt: "Date de publication"
+    updatedAt: "Date de mise à jour"
+    likes: "Nombre de favoris"
+user:
+  totalCharts: "Niveaux totaux : {count}"
+  totalLikes: "Favoris totaux : {count}"
+  showSecret: "Afficher/masquer les informations pour les administrateurs"
+  secretUserInfo:
+    label: "Discord: {discord}, Appartenant à : <0>{owner}</0>"
+    warnings: "Avertissements passés"
+    warning: "Niveau : {level}, Date : {date}, Modérateur : <0>{moderator}</0>, Raison : {reason}"
+    noWarnings: "Aucun avertissement"
+  userCharts: "Niveaux par cet utilisateur"
+chartSection:
+  notFound: "Aucun niveau trouvé."
+my:
+  title: "Mes niveaux"
+  empty: "Vous n'avez pas encore importé un niveau. <0>Importez un niveau</0> pour commencer !"
+  description: "Vos niveaux sont affichés ci-dessous. L'icône de cadenas signifie que le niveau est privé."
+liked:
+  title: "Niveaux favoris"
+  empty: "Vous n'avez pas encore de niveaux favoris."
+  description: "Vos niveaux favoris sont affichés ci-dessous.\nVous pouvez ajouter un niveau aux favoris en cliquant sur l'icône de cœur dans Sonolus."
+upload:
+  title: "Importer le niveau"
+  titleEdit: "Modifier le niveau : {title}"
+  description: |
+    Veuillez lire les <0>Règles</0> avant d'importer un niveau. Vous pouvez importer les fichiers en les déposant ici.
+  warning:
+    endsAt: "Vous êtes suspendu de la publication ou modification de niveaux jusqu'au {endsAt}."
+    banned: "Vous êtes banni. Vous ne pouvez pas importer ou modifier des niveaux."
+  discordInfo:
+    description: "Vous devez associer votre compte Discord pour publier un niveau."
+    status:
+      label: "Vous avez : "
+      connected: "Associé ({username})"
+      notConnected: "Pas associé"
+    connectGuide: "Comment associer votre compte Discord"
+  param:
+    title: "Titre"
+    composer: "Compositeur"
+    artist: "Chanteur"
+    rating: "Difficulté"
+    variant: "Variante de"
+    description: "Description"
+    cover: "Image de jaquette"
+    chart: "Fichier de niveau"
+    bgm: "Fichier audio"
+    tags: "Tags"
+    author: "Créateur"
+    genre: "Genre"
+  tooltip:
+    rating: "Vous pouvez sélectionner une difficulté entre 1 et 99. Utilisez la zone de saisie à côté du curseur pour définir une difficulté supérieure à 40."
+    variant: "Si ce niveau est une variante d'un autre niveau, sélectionnez-le ici.\nVotre niveau sera associé au niveau original.\nVous devez définir cette option si le niveau est une autre difficulté du niveau original."
+    tags: "Séparez les tags avec des espaces, virgules, ou sauts de lignes. Maximum 5 tags."
+  visibility:
+    title: "Visibilité"
+    public: "Publique"
+    scheduled: "Programmée"
+    private: "Privée"
+    description:
+      public: |
+        Tout le monde peut voir ce niveau. Le niveau sera affiché dans la liste de niveaux.
+      scheduled: |
+        Vous seul pouvez voir ce niveau jusqu'à la date programmée.
+      private: |
+        Vous seul pouvez voir ce niveau. Partagez l'URL pour permettre à d'autres personnes de le voir.
+  dndHint: "Cliquez ou glissez les fichiers pour les importer. Vous pouvez déposer plusieurs fichiers à la fois."
+  isChartPublic: "Autoriser les autres à télécharger le fichier de niveau"
+  submit: "Importer"
+  update: "Mettre à jour"
+  publish: "Publier"
+  unpublish: "Dépublier"
+  optional: " (facultatif)"
+  dropHere: "Déposez pour importer"
+  unUploadedFiles: "Certains fichiers n'ont pas été importés."
+  unUploadedFilesNote: "Fichiers reconnus : .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
+  filesTooLarge: Les fichiers sont trop volumineux
+  filesTooLargeNote: La somme des tailles des fichiers doit être inférieure à 20 Mo.
+  publishModal:
+    title: "Publier ce niveau ?"
+    description: "Votre niveau doit..."
+    check0:
+      title: "être complet"
+      description: Il est interdit de publier des niveaux incomplets, et <strong>peut entraîner un ban immédiat !</strong>
+    check1:
+      title: "être original"
+      description: |
+        Il est interdit de publier un niveau qui a l'intention de copier un niveau existant.
+        Il est interdit de reprendre un niveau d'un autre jeu ou d'y apporter seulement des modifications mineures (comme ajouter un flick a chaque note).
+    check2:
+      title: utiliser de la musique qui autorise les niveaux non officiels
+      description: |
+        Certains jeux n'autorisent pas les niveaux non officiels utilisant leur musique. (Par exemple, Arcaea et Taiko n'autorisent pas les niveaux non officiels).
+    check3:
+      title: pas avoir du contenu religieux, politique, sexuel ou autre contenu inapproprié.
+    check4:
+      title: "avoir les informations correctes"
+      description: |
+        Assurez-vous que le titre, compositeur, chanteur, BPM, et les autres informations sont correctes.
+    description2: "Tout niveau qui enfreint les <0>règles</0> sera supprimé, \\ et vous recevrez un avertissement ou serez banni."
+    ok: "Publier"
+errors:
+  cannotBeEmpty: "Ce champ ne peut pas être vide."
+  tooLong: "Ce champ est trop long."
+  variantNotFound: "Le niveau que vous avez sélectionné comme variante n'a pas été trouvé."
+  tooManyTags: "Trop de tags."
+admin:
+  title: "Admin"
+  stats:
+    title: "Statistiques"
+    users:
+      title: "Utilisateurs"
+      total: "Total"
+      original: "Original"
+      alt: "Alt"
+      discord: "Avec Discord"
+    charts:
+      title: "Niveaux"
+      public: "Publique"
+      private: "Privé"
+    files: "Fichiers"
+    storage: "Stockage"
+    db:
+      title: "Base de données"
+      connections: "{busy} occupé, {waiting} en attente / {size} max"
+  sidekiq:
+    title: "Tâches (Sidekiq)"
+    description: "Vous pouvez consulter ici l'état des tâches d'arrière-plan."
+  actions:
+    title: "Commandes"
+    expireData:
+      title: "Expirer les données de niveau"
+      description: |
+        Expirer toutes les données de niveau. Ils seront régénérés lors de la prochaine mise à jour ou partie.
+        Utilisez cette option lorsque le moteur est mis à jour.
+      button: "Expirer"
+      success: "{count} données de niveau expirées."
+myAlts:
+  title: Mes alts
+  description: Vos alts sont affichés ci-dessous.
+  mobileDescription: "En raison de limitations techniques, vous ne pouvez pas modifier vos alts sur les appareils mobiles.\nVeuillez utiliser un navigateur de bureau pour modifier vos alts."
+  empty: Vous n'avez pas encore enregistré des alts.
+  add: Ajouter
+  delete: Supprimer
+  edit: Modifier
+  save: Sauvegarder
+  cancel: Annuler
+  namePlaceholder: Entrez le nom ici... (4 à 16 caractères)
+  deletionModal:
+    title: Supprimer cet alt ?
+    description: Les alts supprimés ne peuvent pas être restaurés !
+    nameChangeWarning: "Cet alt a {count, plural, one {1 niveau} other {# niveaux}.\nSi vous supprimez cet alt, le niveau sera transféré à votre compte principal.\n"
+    ok: Supprimer
+  errors:
+    tooShort: Ce nom est trop court.
+    tooLong: Ce nom est trop long.
+discordError:
+  title: L'intégration a échoué
+  description: Échec de l'intégration avec Discord. ({code})
+  error:
+    discordError: Erreur API Discord
+    notInGuild: Vous n'êtes pas dans le serveur.
+    unknown: Erreur inconnue
+login:
+  title: "Se connecter"
