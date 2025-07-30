@@ -16,7 +16,7 @@ import {
   useSession,
   useSetIsSubmitting,
 } from "~/lib/contexts";
-import type { AdminOnlyUserData, Chart } from "~/lib/types.ts";
+import type { AdminOnlyUserData, Chart, User } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
 import Budoux from "./Budoux.tsx";
 import Checkbox from "./Checkbox.tsx";

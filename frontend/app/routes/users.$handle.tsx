@@ -16,13 +16,7 @@ import SonolusAvatar from "~/components/SonolusAvatar";
 import { backendUrl, host } from "~/lib/config.server.ts";
 import { useSession } from "~/lib/contexts.ts";
 import { detectLocale, i18n } from "~/lib/i18n.server.ts";
-import type {
-  AdminOnlyUserData,
-  AdminWarning,
-  Chart,
-  DiscordInfo,
-  User,
-} from "~/lib/types.ts";
+import type { AdminOnlyUserData, Chart, User } from "~/lib/types.ts";
 import { isAdmin } from "~/lib/utils.ts";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {

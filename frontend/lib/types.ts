@@ -46,9 +46,9 @@ export type Avatar = {
 
 export type AdminOnlyUserData = {
   discord?: DiscordInfo | undefined;
-  user: User;
   altUsers: User[];
-  warnings: Warning[];
+  warnings: AdminWarning[];
+  owner: User | undefined;
 };
 
 export type DiscordInfo = {
