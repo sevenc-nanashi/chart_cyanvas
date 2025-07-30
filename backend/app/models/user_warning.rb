@@ -2,9 +2,7 @@
 
 class UserWarning < ApplicationRecord
   belongs_to :user
-  belongs_to :moderator,
-             class_name: "User",
-             optional: true
+  belongs_to :moderator, class_name: "User", optional: true
 
   LEVELS = { low: 0, medium: 1, high: 2, ban: 3 }.freeze
   enum :level, LEVELS
@@ -19,7 +17,7 @@ class UserWarning < ApplicationRecord
     ban: 9999.years
   }.freeze
 
-  FOREVER = Time.zone.at(2**63 - 1)
+  FOREVER = Time.zone.at(2**63).freeze
 
   def to_frontend(include_moderator: false)
     {
