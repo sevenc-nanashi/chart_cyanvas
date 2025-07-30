@@ -80,8 +80,8 @@ settings:
     light: "Clair"
     dark: "Sombre"
 warnModal:
-  label: "Avertir"
-  title: "Avertir le Niveau"
+  label: "Avertissement"
+  title: "Avertir"
   delete: "Supprimer le niveau"
   level:
     title: "Niveau d'Avertissement"
