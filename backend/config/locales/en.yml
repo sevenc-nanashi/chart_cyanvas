@@ -77,7 +77,7 @@ en:
       artist: "Artist"
       artist_placeholder: "Enter artist..."
       author: "Author"
-      author_placeholder: "Enter author handles separated by spaces (e.g., 1234x 567)..."
+      author_placeholder: "Enter author handles separated by spaces (e.g., 1234 x5678)..."
       author_name: "Author Name"
       author_name_placeholder: "Enter author name..."
       id: "ID"

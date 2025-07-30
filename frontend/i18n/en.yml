@@ -6,8 +6,8 @@ close: "Close"
 cancel: "Cancel"
 backToHome: "Return to top page"
 separator: ", "
-brackets: " ({{content}})"
-kv: "{{key}}: {{value}}"
+brackets: " ({content})"
+kv: "{key}: {value}"
 all: "All"
 
 serverError: "An error occurred on the server!"
@@ -19,13 +19,13 @@ adminDecorate: " (Admin)"
 
 warning:
   title: "Warning"
-  description: "You have received {count, plural, one {1 warning} other {# warnings}}:"
+  description: "You have received {count, plural, one {1 warning} other {# warnings}:"
   target:
-    title: "Target: {{target}}"
-    chart: 'Chart "{{title}}"'
+    title: "Target: {target}"
+    chart: 'Chart "{title}"'
     user: "Account"
   chartDeleted: "The chart has been deleted."
-  footer: "Warning Level: <0>{{warnLevel}}</0> | {{date}}"
+  footer: "Warning Level: <0>{warnLevel}</0> | {date}"
   level:
     low: "Low"
     medium: "Medium"
@@ -147,13 +147,13 @@ searchCharts:
     likes: "Most liked"
 
 user:
-  totalCharts: "Total charts: {{count}}"
-  totalLikes: "Total likes: {{count}}"
+  totalCharts: "Total charts: {count}"
+  totalLikes: "Total likes: {count}"
   showSecret: "Toggle admin-only information"
   secretUserInfo:
-    label: "Discord: {{discord}}、Owned by: <0>{{owner}}</0>"
+    label: "Discord: {discord}、Owned by: <0>{owner}</0>"
     warnings: "Past warnings"
-    warning: "Level: {{level}}, Date: {{date}}, Moderator: <0>{{moderator}}</0>, Reason: {{reason}}"
+    warning: "Level: {level}, Date: {date}, Moderator: <0>{moderator}</0>, Reason: {reason}"
     noWarnings: "No warnings"
   userCharts: "Charts by this user"
 
@@ -173,16 +173,16 @@ liked:
 
 upload:
   title: "Post chart"
-  titleEdit: "Edit chart: {{title}}"
+  titleEdit: "Edit chart: {title}"
   description: Read the <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
   warning:
-    endsAt: "You are suspended from posting or editing charts until {{endsAt}}."
+    endsAt: "You are suspended from posting or editing charts until {endsAt}."
     banned: "You are banned. You cannot post or edit charts."
   discordInfo:
     description: You need to link your Discord account to post a chart.
     status:
       label: "You have: "
-      connected: "Linked ({{username}})"
+      connected: "Linked ({username})"
       notConnected: "Not linked"
     connectGuide: "How to link your Discord account"
 
@@ -294,7 +294,7 @@ myAlts:
     title: "Delete this alt user?"
     description: "Deleted alt users cannot be restored!"
     nameChangeWarning: |
-      You have {count, plural, one {1 chart} other {# charts}} which belong to this alt user.
+      You have {count, plural, one {1 chart} other {# charts} which belong to this alt user.
       If you delete this alt user, the chart will be changed to your main user.
 
     ok: "Delete"
@@ -321,7 +321,7 @@ admin:
     storage: "Storage"
     db:
       title: "Database"
-      connections: "{{busy}} busy, {{waiting}} waiting / {{size}} max"
+      connections: "{busy} busy, {waiting} waiting / {size} max"
   sidekiq:
     title: "Jobs (Sidekiq)"
     description: "You can see the status of background jobs here."
@@ -334,12 +334,12 @@ admin:
         Expire all chart data. They will be regenerated on the next update or play.
         Use this when the engine is updated.
       button: "Expire"
-      success: "{{count}} chart data expired."
+      success: "{count} chart data expired."
 
 discordError:
   title: Integration failed
   description: |
-    Failed to integrate with Discord. ({{code}})
+    Failed to integrate with Discord. ({code})
   error:
     discordError: Discord API error
     notInGuild: You are not in the server

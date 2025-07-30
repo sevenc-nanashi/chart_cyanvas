@@ -38,7 +38,6 @@ ja:
         tablet_v1: "v1（タブレット用）"
         tablet_v3: "v3（タブレット用）"
 
-
     targets:
       liked: "いいねした譜面"
 
@@ -77,7 +76,7 @@ ja:
       artist: "アーティスト"
       artist_placeholder: "アーティストを入力して下さい..."
       author: "譜面作者"
-      author_placeholder: "作者のハンドルをスペース区切りで入力して下さい（例：1234x 567）..."
+      author_placeholder: "作者のハンドルをスペース区切りで入力して下さい（例：1234 x567）..."
       author_name: "作者名義"
       author_name_placeholder: "作者の名義を入力して下さい..."
       id: "ID"

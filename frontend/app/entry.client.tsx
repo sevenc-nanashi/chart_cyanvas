@@ -1,10 +1,10 @@
 import i18next from "i18next";
 import languageDetector from "i18next-browser-languagedetector";
+import i18nextIcu from "i18next-icu";
 import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { HydratedRouter } from "react-router/dom";
-import i18nextIcu from "i18next-icu";
 import { enTranslation, jaTranslation, languages } from "~/lib/translations";
 // budoux doesn't configure ESM: https://github.com/google/budoux/issues/1015
 import "../node_modules/budoux/module/webcomponents/budoux-ja.js";

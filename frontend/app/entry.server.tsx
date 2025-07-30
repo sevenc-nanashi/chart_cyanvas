@@ -1,6 +1,7 @@
 import { PassThrough } from "node:stream";
 import { createReadableStreamFromReadable } from "@react-router/node";
 import { createInstance } from "i18next";
+import i18nextIcu from "i18next-icu";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { I18nextProvider, initReactI18next } from "react-i18next";
@@ -24,16 +25,19 @@ export default async function handleRequest(
     : "onShellReady";
   const instance = createInstance();
 
-  await instance.use(initReactI18next).init({
-    lng, // The locale we detected above
-    ns, // The namespaces the routes about to render want to use
-    resources: {
-      ja: jaTranslation,
-      en: enTranslation,
-    },
-    fallbackLng: "en",
-    defaultNS: "root",
-  });
+  await instance
+    .use(i18nextIcu)
+    .use(initReactI18next)
+    .init({
+      lng, // The locale we detected above
+      ns, // The namespaces the routes about to render want to use
+      resources: {
+        ja: jaTranslation,
+        en: enTranslation,
+      },
+      fallbackLng: "en",
+      defaultNS: "root",
+    });
 
   return new Promise((resolve, reject) => {
     let didError = false;

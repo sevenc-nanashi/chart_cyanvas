@@ -6,8 +6,8 @@ close: "閉じる"
 cancel: "キャンセル"
 backToHome: "トップへ戻る"
 separator: "、"
-brackets: "（{{content}}）"
-kv: "{{key}}：{{value}}"
+brackets: "（{content}）"
+kv: "{key}：{value}"
 all: "すべて"
 
 serverError: "サーバーでエラーが発生しました！"
@@ -33,13 +33,13 @@ notFound:
 
 warning:
   title: "警告"
-  description: "あなたは現在{{count}}件の警告を受けています。"
+  description: "あなたは現在{count}件の警告を受けています。"
   target:
-    title: "対象：{{target}}"
-    chart: "譜面「{{title}}」"
+    title: "対象：{target}"
+    chart: "譜面「{title}」"
     user: "ユーザー"
   chartDeleted: "譜面は削除されました。"
-  footer: "警告レベル：<0>{{warnLevel}}</0> | {{date}}"
+  footer: "警告レベル：<0>{warnLevel}</0> | {date}"
   level:
     low: "低"
     medium: "中"
@@ -149,13 +149,13 @@ searchCharts:
     likes: "高評価順"
 
 user:
-  totalCharts: "総譜面数：{{count}}"
-  totalLikes: "総高評価数：{{count}}"
+  totalCharts: "総譜面数：{count}"
+  totalLikes: "総高評価数：{count}"
   showSecret: "管理者専用情報"
   secretUserInfo:
-    label: "Discord：{{discord}}、本名義：<0>{{owner}}</0>"
+    label: "Discord：{discord}、本名義：<0>{owner}</0>"
     warnings: "過去の警告"
-    warning: "レベル：{{level}}、日時：{{date}}、モデレーター：<0>{{moderator}}</0>、理由：{{reason}}"
+    warning: "レベル：{level}、日時：{date}、モデレーター：<0>{moderator}</0>、理由：{reason}"
     noWarnings: "警告はありません。"
   userCharts: "この作者の譜面"
 
@@ -173,17 +173,17 @@ liked:
 
 upload:
   title: "譜面投稿"
-  titleEdit: "譜面編集：{{title}}"
+  titleEdit: "譜面編集：{title}"
   description: |
     譜面を投稿する前に、<0>投稿ガイドライン</0>を必ずお読みください。
   warning:
-    endsAt: "あなたは{{endsAt}}まで譜面の投稿・編集が禁止されています。"
+    endsAt: "あなたは{endsAt}まで譜面の投稿・編集が禁止されています。"
     banned: "あなたはBanされています。譜面の投稿・編集はできません。"
   discordInfo:
     description: "譜面を投稿するには、Discordアカウントと連携する必要があります。"
     status:
       label: "連携状態："
-      connected: "連携済み（{{username}}）"
+      connected: "連携済み（{username}）"
       notConnected: "未連携"
     connectGuide: "連携方法"
 
@@ -291,7 +291,7 @@ admin:
     storage: "ストレージ"
     db:
       title: "データベース"
-      connections: "使用中：{{busy}}、待機中：{{waiting}} / 最大：{{size}}"
+      connections: "使用中：{busy}、待機中：{waiting} / 最大：{size}"
   sidekiq:
     title: "ジョブ（Sidekiq）"
     description: "バックグラウンドジョブの状態を確認できます。"
@@ -304,7 +304,7 @@ admin:
         すべての譜面データを失効させます。次の更新、または譜面のプレイ時に再生成されます。
         エンジンの仕様が変更された場合などに使用してください。
       button: "失効"
-      success: "{{count}}個の譜面データを失効させました。"
+      success: "{count}個の譜面データを失効させました。"
 
 myAlts:
   title: 別名義一覧
@@ -323,7 +323,7 @@ myAlts:
   deletionModal:
     title: 名義を削除
     description: この名義を削除しますか？
-    nameChangeWarning: この名義で投稿された{{count}}個の譜面の名義は「{{currentUser}}」に変更されます。
+    nameChangeWarning: この名義で投稿された{count}個の譜面の名義は「{currentUser}」に変更されます。
     ok: 削除
 
   errors:
@@ -332,7 +332,7 @@ myAlts:
 
 discordError:
   title: 連携エラー
-  description: Discordとの連携に失敗しました（{{code}}）。
+  description: Discordとの連携に失敗しました（{code}）。
   error:
     discordError: Discordとの通信に失敗しました
     notInGuild: サーバーに参加していません
