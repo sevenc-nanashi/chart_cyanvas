@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Chart Cyanvas",
+  title: "Chart Cyanvas Docs",
   description: "A sekai custom chart platform.",
   base: "/wiki/",
   vite: {
@@ -54,6 +54,8 @@ export default defineConfig({
           { text: "ガイドライン", link: "/ja/guideline" },
           { text: "寄付", link: "/ja/donation" },
           { text: "SUS拡張仕様", link: "/ja/sus-extended-features" },
+
+          { text: "Community Wiki", link: "https://wikiwiki.jp/chcy-user" },
         ],
       },
     },
