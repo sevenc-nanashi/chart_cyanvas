@@ -156,7 +156,7 @@ class SearchValidator
   def validate_genres
     if genres.present?
       genres.each do |genre|
-        errors.add(:genres, "invalid") unless Chart::GENRES.keys.include?(genre)
+        errors.add(:genres, "invalid") unless Chart::GENRES.keys.include?(genre.to_sym)
       end
     end
   end
