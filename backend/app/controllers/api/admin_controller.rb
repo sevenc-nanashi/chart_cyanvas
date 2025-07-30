@@ -147,7 +147,7 @@ module Api
         )
       end
 
-      if $discord.nil?
+      if $discord.enabled?
         unless chart.author.discord_thread_id
           thread =
             $discord.post(
