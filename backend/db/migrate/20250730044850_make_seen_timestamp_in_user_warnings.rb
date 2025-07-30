@@ -3,10 +3,10 @@ class MakeSeenTimestampInUserWarnings < ActiveRecord::Migration[8.0]
     reversible do |dir|
       dir.up do
         add_column :user_warnings, :seen_at, :datetime, null: true
-        # Set seen_at to updated_at for existing warnings where seen is true
+        # Set seen_at to oldest possible time for existing records
         execute <<-SQL.squish
           UPDATE user_warnings
-          SET seen_at = updated_at
+          SET seen_at = '1970-01-01 00:00:00'
           WHERE seen = true
         SQL
         # Remove the seen column

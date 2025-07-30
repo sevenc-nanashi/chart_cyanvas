@@ -458,7 +458,7 @@ module Sonolus
                  cursor: ""
                }
       else
-        page_count = (charts.count / 20.0).ceil
+        page_count = (charts.unscope(:group, :having).count / 20.0).ceil
 
         charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
