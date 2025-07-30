@@ -1,0 +1,85 @@
+ru:
+  test:
+    title: "このサーバーは使用しないで下さい！"
+    description: "このサーバーはもう使用されていません。"
+  levels:
+    _:
+      engine-title: "（メッセージ）"
+      author: "（メッセージ）"
+    dummy:
+      title: "このレベルはプレイできません！"
+      description: "一つ前のページに戻って、タイトルを読んで下さい。"
+  sonolus:
+    title: "Chart Cyanvas"
+    configuration:
+      background:
+        title: "背景"
+      genres:
+        title: "表示する曲のジャンル"
+        description: "この設定でチェックを入れていないジャンルの曲は、譜面一覧に表示されません。"
+    popular_maintenance:
+      title: "人気譜面欄はメンテナンス中です！"
+    auth:
+      external_done: "ログインに成功しました！Webページに戻って下さい。"
+    info:
+      description: "Chart Cyanvas は Sonolus 用の某セカイ創作譜面プラットフォームです。"
+      logged_in: "%{name}#%{handle} としてログインしています。"
+    backgrounds:
+      title: "%{name}：%{version}"
+      sections:
+        versions: "バージョン"
+      versions:
+        v1: "v1（スマホ用）"
+        v3: "v3（スマホ用）"
+        tablet_v1: "v1（タブレット用）"
+        tablet_v3: "v3（タブレット用）"
+    targets:
+      liked: "いいねした譜面"
+    levels:
+      published_at: "公開：%{time}前"
+      variants: "派生譜面：%{count}個"
+      genres:
+        others: "その他"
+        vocal_synth: "ボカロ（広義）"
+        music_game: "音楽ゲーム"
+        game: "ゲーム"
+        meme: "音MAD・ミーム"
+        pops: "ポップス"
+        instrumental: "Inst."
+      visibility:
+        public: "公開"
+        private: "非公開"
+        scheduled: "予約済"
+      sections:
+        actions: "操作"
+        variant_of: "派生元"
+        variants: "派生譜面"
+        backgrounds: "背景"
+      like: "いいね"
+      unlike: "いいね解除"
+    search:
+      title: "タイトル"
+      title_placeholder: "タイトルを入力して下さい..."
+      composer: "作曲者"
+      composer_placeholder: "作曲者を入力して下さい..."
+      artist: "アーティスト"
+      artist_placeholder: "アーティストを入力して下さい..."
+      author: "譜面作者"
+      author_placeholder: "作者のハンドルをスペース区切りで入力して下さい（例：1234 x567）..."
+      author_name: "作者名義"
+      author_name_placeholder: "作者の名義を入力して下さい..."
+      id: "ID"
+      id_placeholder: "#の後のIDを入力して下さい..."
+      genres: "ジャンル"
+      genres_description: "空欄の場合、サーバー設定の表示設定に従います。"
+      tags: "タグ"
+      tags_placeholder: "タグをスペース区切りで入力して下さい（最大5個まで）..."
+      sort: "並び替え"
+      sorts:
+        published_at: "投稿順"
+        updated_at: "更新順"
+        likes_count: "高評価順"
+        random: "ランダム"
+      rating_max: "難易度（最高）"
+      rating_min: "難易度（最低）"
+      unknown_author: "作者が見付かりません。作者のハンドルが合っているか確認して下さい。"
