@@ -23,7 +23,7 @@ const SettingsDialog = (props: {
     },
     ...Object.entries(languageNames).map(([lang, languageName]) => ({
       type: "item" as const,
-      value: lang,
+      value: lang as Language,
       label: languageName,
     })),
   ] satisfies SelectItems<Language>;

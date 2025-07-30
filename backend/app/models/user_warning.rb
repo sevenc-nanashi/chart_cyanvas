@@ -19,6 +19,8 @@ class UserWarning < ApplicationRecord
     ban: 9999.years
   }.freeze
 
+  FOREVER = Time.zone.at(2**63 - 1)
+
   def to_frontend(include_moderator: false)
     {
       id:,
@@ -48,7 +50,7 @@ class UserWarning < ApplicationRecord
   end
 
   def ends_at
-    return Time.zone.parse("9999-12-31T23:59:59") if level == "ban"
+    return FOREVER if level == "ban"
 
     if seen?
       seen_at + WARNING_TIMEOUTS[level.to_sym]

@@ -8,8 +8,8 @@ import clsx from "clsx";
 
 export type SelectItem<T extends string> = {
   type: "item";
-  value: string;
-  label: T;
+  value: T;
+  label: string;
   description?: string;
   disabled?: boolean;
 };
