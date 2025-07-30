@@ -65,10 +65,13 @@ const SelectGroupComponent = <T extends string>({
   </RadixSelect.Group>
 );
 
-const SelectItemsComponent: React.FC<{
-  items: SelectItems<string>;
-  selected: string;
-}> = ({ items, selected }) =>
+const SelectItemsComponent = <T extends string>({
+  items,
+  selected,
+}: React.PropsWithoutRef<{
+  items: SelectItems<T>;
+  selected: T;
+}>) =>
   items.map((item, i) => {
     switch (item.type) {
       case "item":
@@ -88,12 +91,12 @@ const SelectItemsComponent: React.FC<{
     }
   });
 
-const Select = <T extends string>(
+const Select = <T extends string = string>(
   props: React.PropsWithoutRef<{
     items: SelectItems<T>;
-    value: string;
-    defaultValue?: string;
-    onChange: (value: string) => void;
+    value: T;
+    defaultValue?: T;
+    onChange: (value: T) => void;
     disabled?: boolean;
     children?: React.ReactNode;
     className?: string;
