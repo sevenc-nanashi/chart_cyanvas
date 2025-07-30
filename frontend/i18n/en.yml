@@ -114,7 +114,6 @@ chart:
   sameAuthor: "Charts by this charter"
   edit: "Edit"
   delete: "Delete"
-  warn: "Warn"
   createVariant: "Create variant"
   download: "Download chart"
   noLevelData: |
@@ -275,6 +274,7 @@ errors:
   cannotBeEmpty: "This field cannot be empty."
   tooLong: "This field is too long."
   variantNotFound: "Couldn't find the chart you selected as a variant."
+  tooManyTags: "Too many tags."
 
 myAlts:
   title: "My alts"
