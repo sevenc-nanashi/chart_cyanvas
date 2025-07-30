@@ -1,5 +1,4 @@
 language: "English"
-
 name: "Chart Cyanvas"
 gotIt: "Got it"
 close: "Close"
@@ -9,21 +8,28 @@ separator: ", "
 brackets: " ({{content}})"
 kv: "{{key}}: {{value}}"
 all: "All"
-
 serverError: "An error occurred on the server!"
 serverErrorNote: "Please let us know <0>on our Discord server</0>."
-
 openInSonolus: "Sonolus"
-
 adminDecorate: " (Admin)"
-
+genre:
+  others: "Others"
+  vocal_synth: "VocalSynth, Vocaloid"
+  music_game: "Music Game"
+  game: "Game"
+  meme: "Meme"
+  pops: "Pop"
+  instrumental: "Instrumental"
+notFound:
+  title: "Not Found"
+  heading: "404 Not Found"
+  description: "The page you are looking for does not exist."
 warning:
   title: "Warning"
-  description_one: "You got a warning:"
-  description_other: "You got {{count}} warnings:"
+  description: "あなたは現在{{count}}件の警告を受けています。"
   target:
     title: "Target: {{target}}"
-    chart: 'Chart "{{title}}"'
+    chart: "Chart \"{{title}}\""
     user: "Account"
   chartDeleted: "The chart has been deleted."
   footer: "Warning Level: <0>{{warnLevel}}</0> | {{date}}"
@@ -40,7 +46,39 @@ warning:
   timeoutNote: |
     Please check the <0>guideline</0> again.
     The countdown will start when you click the button below.
-
+home:
+  newCharts: "New charts"
+  welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
+  openInSonolus: "Open in Sonolus"
+  empty: "No charts found."
+  more: "More"
+menu:
+  search: "Search charts"
+  post: "Post chart"
+  my: "My charts"
+  liked: "Liked charts"
+  myAlts: "My alts"
+  admin: "Admin"
+  guideline: "Guideline"
+  logout: "Sign out"
+  settings: "Settings"
+  login:
+    button: "Sign in"
+    title: "Signing in..."
+    description: |
+      Sign in with your Sonolus account.<br/>
+      This page will be refreshed automatically after logging in.<br/>
+      Didn't get a popup? <0>Click here</0>.
+settings:
+  title: "Settings"
+  lang:
+    title: "Language"
+    auto: "Auto"
+  theme:
+    title: "Theme"
+    auto: "Auto"
+    light: "Light"
+    dark: "Dark"
 warnModal:
   label: "Warn"
   title: "Warn Chart"
@@ -58,56 +96,6 @@ warnModal:
     ban: "User will be permanently banned."
   reason: "Reason"
   ok: "Warn"
-
-genre:
-  others: "Others"
-  vocal_synth: "VocalSynth, Vocaloid"
-  music_game: "Music Game"
-  game: "Game"
-  meme: "Meme"
-  pops: "Pop"
-  instrumental: "Instrumental"
-
-notFound:
-  title: "Not Found"
-  heading: "404 Not Found"
-  description: "The page you are looking for does not exist."
-
-home:
-  newCharts: "New charts"
-  welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
-  empty: "No charts found."
-  openInSonolus: "Open in Sonolus"
-  more: "More"
-
-menu:
-  search: "Search charts"
-  post: "Post chart"
-  my: "My charts"
-  liked: "Liked charts"
-  myAlts: "My alts"
-  guideline: "Guideline"
-  logout: "Sign out"
-  settings: "Settings"
-  admin: "Admin"
-  login:
-    button: "Sign in"
-    title: "Signing in..."
-    description: |
-      Sign in with your Sonolus account.<br/>
-      This page will be refreshed automatically after logging in.<br/>
-      Didn't get a popup? <0>Click here</0>.
-
-settings:
-  title: "Settings"
-  lang:
-    title: "Language"
-    auto: "Auto"
-  theme:
-    title: "Theme"
-    auto: "Auto"
-    light: "Light"
-    dark: "Dark"
 chart:
   notFound: "Couldn't find the chart."
   variants: "Variants"
@@ -119,7 +107,6 @@ chart:
   noLevelData: |
     No level data found.
     The chart may not have been played since the engine was updated, or the conversion of the chart may have failed.
-
   deletionModal:
     title: "Delete this chart?"
     description: "Deleted charts cannot be restored!"
@@ -146,7 +133,6 @@ searchCharts:
     publishedAt: "Last published"
     updatedAt: "Last updated"
     likes: "Most liked"
-
 user:
   totalCharts: "Total charts: {{count}}"
   totalLikes: "Total likes: {{count}}"
@@ -157,10 +143,8 @@ user:
     warning: "Level: {{level}}, Date: {{date}}, Moderator: <0>{{moderator}}</0>, Reason: {{reason}}"
     noWarnings: "No warnings"
   userCharts: "Charts by this user"
-
 chartSection:
   notFound: "No charts found."
-
 my:
   title: "My charts"
   empty: "You haven't posted any charts yet. <0>Post a chart</0> to get started!"
@@ -168,82 +152,63 @@ my:
 liked:
   title: "Liked charts"
   empty: "You haven't liked any charts yet."
-  description: |
-    Charts you liked are listed below.
-    You can like a chart by clicking the heart icon in Sonolus.
-
+  description: "Charts you liked are listed below.\nYou can like a chart by clicking the heart icon in Sonolus."
 upload:
   title: "Post chart"
   titleEdit: "Edit chart: {{title}}"
-  description: Read the <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
+  description: |
+    Read the <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
   warning:
     endsAt: "You are suspended from posting or editing charts until {{endsAt}}."
     banned: "You are banned. You cannot post or edit charts."
   discordInfo:
-    description: You need to link your Discord account to post a chart.
+    description: "You need to link your Discord account to post a chart."
     status:
       label: "You have: "
       connected: "Linked ({{username}})"
       notConnected: "Not linked"
     connectGuide: "How to link your Discord account"
-
   param:
     title: "Title"
     composer: "Composer"
     artist: "Vocal"
     rating: "Difficulty"
-
     variant: "Variant of"
     description: "Description"
     cover: "Jacket image"
     chart: "Chart file"
     bgm: "BGM file"
-
-    genre: "Genre"
     tags: "Tags"
-
     author: "Charter"
-
+    genre: "Genre"
   tooltip:
-    rating: |
-      You can select difficulty from 1 to 99. Use the input box beside the slider to set the difficulty to more than 40.
-
-    variant: |
-      If this chart is a variant of another chart, select it here.
-      Your chart will be linked to the original chart.
-      You should set this if the chart is another difficulty of the original chart.
-
-    tags: |
-      Separate tags with spaces, commas, or newlines. Maximum 5 tags.
-
+    rating: "You can select difficulty from 1 to 99. Use the input box beside the slider to set the difficulty to more than 40."
+    variant: "If this chart is a variant of another chart, select it here.\nYour chart will be linked to the original chart.\nYou should set this if the chart is another difficulty of the original chart."
+    tags: "Separate tags with spaces, commas, or newlines. Maximum 5 tags."
   visibility:
     title: "Visibility"
     public: "Public"
     scheduled: "Scheduled"
     private: "Private"
-
     description:
-      public: Anyone can see this chart. The chart will be listed in the chart list.
-      scheduled: Only you can see this chart until the scheduled date.
-      private: Only you can see this chart. Share the URL to let others see it.
-
+      public: |
+        Anyone can see this chart. The chart will be listed in the chart list.
+      scheduled: |
+        Only you can see this chart until the scheduled date.
+      private: |
+        Only you can see this chart. Share the URL to let others see it.
   dndHint: "Click or drag files to upload. You can drop multiple files at once."
-
-  isChartPublic: Allow others to download the chart file
-
+  isChartPublic: "Allow others to download the chart file"
   submit: "Upload"
   update: "Update"
   publish: "Publish"
   unpublish: "Unpublish"
-
   optional: " (optional)"
   dropHere: "Drop to upload"
   unUploadedFiles: "Some files were not uploaded."
   unUploadedFilesNote: "Supported files: .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
-
   filesTooLarge: Files are too large
-  filesTooLargeNote: "The sum of the file sizes must be less than 20MB."
-
+  filesTooLargeNote: The sum of the file sizes must be less than 20MB.
   publishModal:
     title: "Publish this chart?"
     description: "Your chart must..."
@@ -256,58 +221,22 @@ upload:
         Do not publish a chart that intends to copy existing charts.
         Porting a chart from another game, or applying only minor changes (such as adding a flick to every note) is not allowed.
     check2:
-      title: "use music that allows fan-made charts"
+      title: use music that allows fan-made charts
       description: |
         Some games do not allow fan-made charts using their music. (For example, Arcaea and Taiko do not allow fan-made charts.)
     check3:
-      title: "not have religious, political, sexual or other inappropriate content"
+      title: not have religious, political, sexual or other inappropriate content
     check4:
       title: "have the correct information"
       description: |
         Make sure the title, composer, artist, BPM, and other information are correct.
-    description2:
-      "Any chart that violates the <0>guideline</0> will be deleted, \
-      and you will be warned or banned."
+    description2: "Any chart that violates the <0>guideline</0> will be deleted, \\ and you will be warned or banned."
     ok: "Publish"
-
 errors:
   cannotBeEmpty: "This field cannot be empty."
   tooLong: "This field is too long."
   variantNotFound: "Couldn't find the chart you selected as a variant."
   tooManyTags: "Too many tags."
-
-myAlts:
-  title: "My alts"
-  description: "Your alt users are listed below."
-  mobileDescription: |
-    Due to technical limitations, you cannot edit your alt users on mobile devices.
-    Please use a desktop browser to edit your alt users.
-  empty: "You haven't registered any alt users yet."
-  add: "Add"
-  delete: "Delete"
-  edit: "Edit"
-  save: "Save"
-  cancel: "Cancel"
-
-  namePlaceholder: "Type name here... (4-16 characters)"
-
-  deletionModal:
-    title: "Delete this alt user?"
-    description: "Deleted alt users cannot be restored!"
-    nameChangeWarning:
-      one: |
-        You have {{count}} chart which belongs to this alt user.
-        If you delete this alt user, the chart will be changed to your main user.
-      other: |
-        You have {{count}} charts which belong to this alt user.
-        If you delete this alt user, the charts will be changed to your main user.
-
-    ok: "Delete"
-
-  errors:
-    tooShort: "The name is too short."
-    tooLong: "The name is too long."
-
 admin:
   title: "Admin"
   stats:
@@ -330,7 +259,6 @@ admin:
   sidekiq:
     title: "Jobs (Sidekiq)"
     description: "You can see the status of background jobs here."
-
   actions:
     title: "Commands"
     expireData:
@@ -340,15 +268,31 @@ admin:
         Use this when the engine is updated.
       button: "Expire"
       success: "{{count}} chart data expired."
-
+myAlts:
+  title: My alts
+  description: Your alt users are listed below.
+  mobileDescription: "Due to technical limitations, you cannot edit your alt users on mobile devices.\nPlease use a desktop browser to edit your alt users."
+  empty: You haven't registered any alt users yet.
+  add: Add
+  delete: Delete
+  edit: Edit
+  save: Save
+  cancel: Cancel
+  namePlaceholder: Type name here... (4-16 characters)
+  deletionModal:
+    title: Delete this alt user?
+    description: Deleted alt users cannot be restored!
+    nameChangeWarning: この名義で投稿された{{count}}個の譜面の名義は「{{currentUser}}」に変更されます。
+    ok: Delete
+  errors:
+    tooShort: The name is too short.
+    tooLong: The name is too long.
 discordError:
   title: Integration failed
-  description: |
-    Failed to integrate with Discord. ({{code}})
+  description: Failed to integrate with Discord. ({{code}})
   error:
     discordError: Discord API error
     notInGuild: You are not in the server
-    unknown: "Unknown error"
-
+    unknown: Unknown error
 login:
   title: "Sign in"
