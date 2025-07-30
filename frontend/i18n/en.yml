@@ -19,8 +19,7 @@ adminDecorate: " (Admin)"
 
 warning:
   title: "Warning"
-  description_one: "You got a warning:"
-  description_other: "You got {{count}} warnings:"
+  description: "You have received {count, plural, one {1 warning} other {# warnings}}:"
   target:
     title: "Target: {{target}}"
     chart: 'Chart "{{title}}"'
@@ -294,13 +293,9 @@ myAlts:
   deletionModal:
     title: "Delete this alt user?"
     description: "Deleted alt users cannot be restored!"
-    nameChangeWarning:
-      one: |
-        You have {{count}} chart which belongs to this alt user.
-        If you delete this alt user, the chart will be changed to your main user.
-      other: |
-        You have {{count}} charts which belong to this alt user.
-        If you delete this alt user, the charts will be changed to your main user.
+    nameChangeWarning: |
+      You have {count, plural, one {1 chart} other {# charts}} which belong to this alt user.
+      If you delete this alt user, the chart will be changed to your main user.
 
     ok: "Delete"
 
