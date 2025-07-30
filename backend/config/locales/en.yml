@@ -1,14 +1,4 @@
 en:
-  test:
-    title: "Do not use this server!"
-    description: "This server is no longer in use."
-  levels:
-    _:
-      engine-title: "(Message)"
-      author: "(Message)"
-    dummy:
-      title: "This level cannot be played!"
-      description: "Go back to the previous page and read the title."
   sonolus:
     title: "Chart Cyanvas"
     configuration:
