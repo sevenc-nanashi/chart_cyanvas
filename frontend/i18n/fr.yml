@@ -1,300 +1,298 @@
-language: "日本語"
+language: "Français"
 name: "Chart Cyanvas"
-gotIt: "了解"
-close: "閉じる"
-cancel: "キャンセル"
-backToHome: "トップへ戻る"
-separator: "、"
-brackets: "（{content}）"
-kv: "{key}：{value}"
-all: "すべて"
-serverError: "サーバーでエラーが発生しました！"
-serverErrorNote: "<0>Discordサーバー</0>に報告してください。"
+gotIt: "Compris"
+close: "Fermer"
+cancel: "Annuler"
+backToHome: "Retour à la page d'accueil"
+separator: ", "
+brackets: "({content})"
+kv: "{key} : {value}"
+all: "Tout"
+serverError: "Une erreur s'est produite dans le serveur !"
+serverErrorNote: "Veuillez nous en informer <0>sur notre serveur Discord</0>."
 openInSonolus: "Sonolus"
-adminDecorate: "（管理者）"
+adminDecorate: " (Admin)"
 genre:
-  others: "その他"
-  vocal_synth: "ボカロ（広義）"
-  music_game: "音楽ゲーム"
-  game: "ゲーム"
-  meme: "音MAD・ミーム"
-  pops: "ポップス"
-  instrumental: "Inst."
+  others: "Autres"
+  vocal_synth: "VocalSynth et Vocaloid"
+  music_game: "Jeu de Rythme"
+  game: "Jeu Vidéo"
+  meme: "Mème"
+  pops: "Pop"
+  instrumental: "Instrumental"
 notFound:
-  title: "Not Found"
-  heading: "404 Not Found"
-  description: "お探しのページは存在しません。"
+  title: "Introuvable"
+  heading: "404 Introuvable"
+  description: "La page que vous recherchez n'existe pas."
 warning:
-  title: "警告"
-  description: "あなたは現在{count}件の警告を受けています。"
+  title: "Avertissement"
+  description: "Vous avez reçu {count, plural, one {1 avertissement} other {# avertissements} :"
   target:
-    title: "対象：{target}"
-    chart: "譜面「{title}」"
-    user: "ユーザー"
-  chartDeleted: "譜面は削除されました。"
-  footer: "警告レベル：<0>{warnLevel}</0> | {date}"
+    title: "Cible : {target}"
+    chart: "Niveau \"{title}\""
+    user: "Compte"
+  chartDeleted: "Le niveau a été supprimé."
+  footer: "Niveau d'Avertissement : <0>{warnLevel}</0> | {date}"
   level:
-    low: "低"
-    medium: "中"
-    high: "高"
+    low: "Bas"
+    medium: "Moyen"
+    high: "Haut"
     ban: "Ban"
   levelDescription:
-    low: "譜面の投稿は継続できます。"
-    medium: "譜面の投稿は1日間停止されます。"
-    high: "譜面の投稿は7日間停止されます。"
-    ban: "譜面の投稿は永久に停止されます。"
+    low: "Vous pouvez continuer à publier des niveaux."
+    medium: "Votre compte est suspendu pendant 1 jour."
+    high: "Votre compte est suspendu pendant 7 jours."
+    ban: "Vous êtes banni définitivement."
   timeoutNote: |
-    <0>ガイドライン</0>をもう一度確認してください。
-    下のボタンを押すと、制限期間のカウントダウンが始まります。
+    Veuillez vérifier à nouveau les <0>règles</0>. 
+    Le compte à rebours commencera lorsque vous cliquerez sur le bouton ci-dessous.
 home:
-  newCharts: "新着譜面"
-  welcome: "Chart Cyanvasへようこそ！初めての方は<0>初めての方へ</0>を参照して下さい。"
-  openInSonolus: "Sonolusで開く"
-  empty: "譜面が見付かりませんでした。"
-  more: "もっと見る"
+  newCharts: "Nouveaux niveaux"
+  welcome: "Bienvenue à Chart Cyanvas ! Si vous êtes nouveau sur le site, veuillez lire le <0>Guide d'utilisation</0>."
+  openInSonolus: "Ouvrir dans Sonolus"
+  empty: "Aucun niveau trouvé."
+  more: "Plus"
 menu:
-  search: "譜面検索"
-  post: "譜面投稿"
-  my: "自分の譜面"
-  liked: "高評価した譜面"
-  myAlts: "名義の管理"
-  admin: "管理者ページ"
-  guideline: "ガイドライン"
-  logout: "ログアウト"
-  settings: "設定"
+  search: "Rechercher des niveaux"
+  post: "Importer un niveau"
+  my: "Mes niveaux"
+  liked: "Niveaux favoris"
+  myAlts: "Mes alts"
+  admin: "Admin"
+  guideline: "Règles"
+  logout: "Se déconnecter"
+  settings: "Paramètres"
   login:
-    button: "ログイン"
-    title: "ログイン中..."
+    button: "Se connecter"
+    title: "Connexion en cours..."
     description: |
-      Sonolusアカウントでログインしてください。
-      ログイン後、このページは自動的に更新されます。
-      ポップアップが表示されない場合は、<0>ここをクリックしてください。</0>
+      Connectez-vous avec votre compte Sonolus.<br/>
+      Cette page sera actualisée automatiquement après vous être connecté.<br/>
+      Si vous n'avez pas reçu de popup, <0>cliquez ici.</0>.
 settings:
-  title: "設定"
+  title: "Paramètres"
   lang:
-    title: "言語"
-    auto: "自動"
+    title: "Langue"
+    auto: "Auto"
   theme:
-    title: "テーマ"
-    auto: "自動"
-    light: "ライト"
-    dark: "ダーク"
+    title: "Thème"
+    auto: "Auto"
+    light: "Clair"
+    dark: "Sombre"
 warnModal:
-  label: "警告"
-  title: "警告する"
-  delete: "譜面を削除する"
+  label: "Avertir"
+  title: "Avertir le Niveau"
+  delete: "Supprimer le niveau"
   level:
-    title: "警告レベル"
-    low: "低"
-    medium: "中"
-    high: "高"
+    title: "Niveau d'Avertissement"
+    low: "Bas"
+    medium: "Moyen"
+    high: "Haut"
     ban: "Ban"
   levelDescription:
-    low: "警告を行うだけで、投稿は継続できます。"
-    medium: "警告を行い、譜面の編集権限を1日間停止します。"
-    high: "警告を行い、譜面の編集権限を7日間停止します。"
-    ban: "警告を行い、譜面の編集権限を永久に停止します。"
-  reason: "警告理由"
-  ok: "警告する"
+    low: "L'utilisateur peut continuer à publier des niveaux."
+    medium: "Le compte de l'utilisateur sera suspendu pendant 1 jour."
+    high: "Le compte de l'utilisateur sera suspendu pendant 7 jours."
+    ban: "L'utilisateur sera banni définitivement."
+  reason: "Raison"
+  ok: "Avertir"
 chart:
-  notFound: "譜面が見付かりませんでした。"
-  variants: "派生譜面"
-  sameAuthor: "同じ作者の譜面"
-  edit: "編集"
-  delete: "削除"
-  createVariant: "派生を作成"
-  download: "譜面をDL"
+  notFound: "Niveau introuvable."
+  variants: "Variantes"
+  sameAuthor: "Niveaux par ce créateur"
+  edit: "Modifier"
+  delete: "Supprimer"
+  createVariant: "Créer une variante"
+  download: "Télécharger le niveau"
   noLevelData: |
-    レベルデータがありません。
-    エンジンの更新から譜面が遊ばれていない、または譜面の変換に失敗した可能性があります。
+    Aucunes données de niveau trouvées.
+    Il se peut que le niveau n'a pas été joué depuis une mise à jour du moteur, ou que la conversion du niveau a échoué.
   deletionModal:
-    title: "譜面を削除しますか？"
-    description: "削除した譜面は復元できません！"
-    ok: "削除"
+    title: "Supprimer ce niveau ?"
+    description: "Les niveaux supprimés ne peuvent pas être restaurés !"
+    ok: "Supprimer"
 searchCharts:
-  title: "譜面検索"
-  queries: "絞り込み"
-  search: "検索"
-  empty: "検索結果がありません。"
+  title: "Recherchez des niveaux"
+  queries: "Filtres"
+  search: "Rechercher"
+  empty: "Aucun niveau trouvé."
   param:
-    title: "タイトル"
-    composer: "作曲者"
-    artist: "ボーカル"
-    authorName: "作者名義"
-    authorHandles: "譜面作者"
-    genres: "ジャンル"
-    tags: "タグ"
-    rating: "難易度"
-    sort: "並び替え"
+    title: "Titre"
+    composer: "Compositeur"
+    artist: "Chanteur"
+    authorName: "Nom du créateur"
+    authorHandles: "Suffixe du créateur"
+    genres: "Genres"
+    tags: "Tags"
+    rating: "Difficulté"
+    sort: "Trier par"
   description:
-    rating: "1から99までを指定できます。右の入力欄から直接入力することもできます。"
-    authorHandles: "作者のハンドル（例：1234、x567）をスペース区切りで入力してください。"
+    rating: "Vous pouvez sélectionner la difficulté entre 1 et 99. Utilisez la zone de saisie à côté du curseur pour définir une difficulté supérieure à 40."
+    authorHandles: "Séparez les suffixes (par exemple 1234, x567) par des espaces."
   sort:
-    publishedAt: "投稿順"
-    updatedAt: "更新順"
-    likes: "高評価順"
+    publishedAt: "Date de publication"
+    updatedAt: "Date de mise à jour"
+    likes: "Nombre de favoris"
 user:
-  totalCharts: "総譜面数：{count}"
-  totalLikes: "総高評価数：{count}"
-  showSecret: "管理者専用情報"
+  totalCharts: "Niveaux totaux : {count}"
+  totalLikes: "Favoris totaux : {count}"
+  showSecret: "Afficher/masquer les informations pour les administrateurs"
   secretUserInfo:
-    label: "Discord：{discord}、本名義：<0>{owner}</0>"
-    warnings: "過去の警告"
-    warning: "レベル：{level}、日時：{date}、モデレーター：<0>{moderator}</0>、理由：{reason}"
-    noWarnings: "警告はありません。"
-  userCharts: "この作者の譜面"
+    label: "Discord: {discord}, Appartenant à : <0>{owner}</0>"
+    warnings: "Avertissements passés"
+    warning: "Niveau : {level}, Date : {date}, Modérateur : <0>{moderator}</0>, Raison : {reason}"
+    noWarnings: "Aucun avertissement"
+  userCharts: "Niveaux par cet utilisateur"
 chartSection:
-  notFound: "譜面が見付かりませんでした。"
+  notFound: "Aucun niveau trouvé."
 my:
-  title: "自分の譜面"
-  empty: "まだ譜面を投稿していません。<0>譜面投稿</0>から投稿してみましょう！"
-  description: "投稿した譜面はここに表示されます。鍵マークがついている譜面は、自分以外の人には見えません。"
+  title: "Mes niveaux"
+  empty: "Vous n'avez pas encore importé un niveau. <0>Importez un niveau</0> pour commencer !"
+  description: "Vos niveaux sont affichés ci-dessous. L'icône de cadenas signifie que le niveau est privé."
 liked:
-  title: "高評価した譜面"
-  empty: "まだ高評価した譜面がありません。"
-  description: "高評価した譜面はここに表示されます。Sonolusで譜面を開いて、下にスクロールすると出てくるハートマークを押すことで高評価できます。"
+  title: "Niveaux favoris"
+  empty: "Vous n'avez pas encore de niveaux favoris."
+  description: "Vos niveaux favoris sont affichés ci-dessous.\nVous pouvez ajouter un niveau aux favoris en cliquant sur l'icône de cœur dans Sonolus."
 upload:
-  title: "譜面投稿"
-  titleEdit: "譜面編集：{title}"
+  title: "Importer le niveau"
+  titleEdit: "Modifier le niveau : {title}"
   description: |
-    譜面を投稿する前に、<0>投稿ガイドライン</0>を必ずお読みください。
+    Veuillez lire les <0>Règles</0> avant d'importer un niveau. Vous pouvez importer les fichiers en les déposant ici.
   warning:
-    endsAt: "あなたは{endsAt}まで譜面の投稿・編集が禁止されています。"
-    banned: "あなたはBanされています。譜面の投稿・編集はできません。"
+    endsAt: "Vous êtes suspendu de la publication ou modification de niveaux jusqu'au {endsAt}."
+    banned: "Vous êtes banni. Vous ne pouvez pas importer ou modifier des niveaux."
   discordInfo:
-    description: "譜面を投稿するには、Discordアカウントと連携する必要があります。"
+    description: "Vous devez associer votre compte Discord pour publier un niveau."
     status:
-      label: "連携状態："
-      connected: "連携済み（{username}）"
-      notConnected: "未連携"
-    connectGuide: "連携方法"
+      label: "Vous avez : "
+      connected: "Associé ({username})"
+      notConnected: "Pas associé"
+    connectGuide: "Comment associer votre compte Discord"
   param:
-    title: "タイトル"
-    composer: "作曲者"
-    artist: "ボーカル"
-    rating: "難易度"
-    variant: "派生元譜面"
-    description: "説明"
-    cover: "ジャケット"
-    chart: "譜面"
-    bgm: "音源"
-    tags: "タグ"
-    author: "譜面作者"
-    genre: "ジャンル"
+    title: "Titre"
+    composer: "Compositeur"
+    artist: "Chanteur"
+    rating: "Difficulté"
+    variant: "Variante de"
+    description: "Description"
+    cover: "Image de jaquette"
+    chart: "Fichier de niveau"
+    bgm: "Fichier audio"
+    tags: "Tags"
+    author: "Créateur"
+    genre: "Genre"
   tooltip:
-    rating: "1から99までを指定できます。40より大きい譜面を指定する場合は、右の入力欄から直接入力してください。"
-    variant: "派生元譜面のIDを指定して下さい。派生元譜面の概要欄に表示されます。難易度差分などの譜面は派生元譜面を指定してください。"
-    tags: "スペース、カンマ、改行でタグを追加できます。最大5個まで。"
+    rating: "Vous pouvez sélectionner une difficulté entre 1 et 99. Utilisez la zone de saisie à côté du curseur pour définir une difficulté supérieure à 40."
+    variant: "Si ce niveau est une variante d'un autre niveau, sélectionnez-le ici.\nVotre niveau sera associé au niveau original.\nVous devez définir cette option si le niveau est une autre difficulté du niveau original."
+    tags: "Séparez les tags avec des espaces, virgules, ou sauts de lignes. Maximum 5 tags."
   visibility:
-    title: "公開設定"
-    public: "一般公開"
-    scheduled: "予約公開"
-    private: "非公開"
+    title: "Visibilité"
+    public: "Publique"
+    scheduled: "Programmée"
+    private: "Privée"
     description:
       public: |
-        トップやSonolusサーバー上に表示されます。
+        Tout le monde peut voir ce niveau. Le niveau sera affiché dans la liste de niveaux.
       scheduled: |
-        指定した時刻以降になると公開されます。
+        Vous seul pouvez voir ce niveau jusqu'à la date programmée.
       private: |
-        「テスト中」表示でしか表示されません。
-        URLを共有することで、他の人にも見せることができます。
-  dndHint: "ファイルはドラッグ&ドロップでもアップロードできます。ジャケット・音源・譜面を同時にアップロードすることもできます。"
-  isChartPublic: "譜面ファイルを公開する"
-  submit: "アップロード"
-  update: "更新"
-  publish: "公開"
-  unpublish: "非公開"
-  optional: "（任意）"
-  dropHere: "ドロップしてアップロード"
-  unUploadedFiles: "対応していないファイルがドロップされました。"
-  unUploadedFilesNote: ".sus、.usc、.json、.mp3、.wav、.ogg、.png、.jpg、.jpeg、.webpのみ対応しています。"
-  filesTooLarge: ファイルが大きすぎます。
-  filesTooLargeNote: ファイルは合計で最大20MBまでです。
+        Vous seul pouvez voir ce niveau. Partagez l'URL pour permettre à d'autres personnes de le voir.
+  dndHint: "Cliquez ou glissez les fichiers pour les importer. Vous pouvez déposer plusieurs fichiers à la fois."
+  isChartPublic: "Autoriser les autres à télécharger le fichier de niveau"
+  submit: "Importer"
+  update: "Mettre à jour"
+  publish: "Publier"
+  unpublish: "Dépublier"
+  optional: " (facultatif)"
+  dropHere: "Déposez pour importer"
+  unUploadedFiles: "Certains fichiers n'ont pas été importés."
+  unUploadedFilesNote: "Fichiers reconnus : .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
+  filesTooLarge: Les fichiers sont trop volumineux
+  filesTooLargeNote: La somme des tailles de fichiers doit être inférieure à 20 Mo.
   publishModal:
-    title: "以上の内容で公開しますか？"
-    description: "投稿する譜面は以下のルールに従っている必要があります："
+    title: "Publier ce niveau ?"
+    description: "Votre niveau doit..."
     check0:
-      title: "完成していること"
-      description: 未完成の譜面の公開は<strong>一発Banの対象です！</strong>
+      title: "être complet"
+      description: Il est interdit de publier des niveaux incomplets, et <strong>peut entraîner un ban immédiat !</strong>
     check1:
-      title: "オリジナリティがあること"
+      title: "être original"
       description: |
-        既存の譜面のコピーが主な目的の譜面は公開できません。
-        これは移植譜面や、単純な加工（例：全ノーツをフリック化）も含みます。
+        Il est interdit de publier un niveau qui a l'intention de copier un niveau existant.
+        Il est interdit de reprendre un niveau d'un autre jeu ou d'y apporter seulement des modifications mineures (comme ajouter un flick a chaque note).
     check2:
-      title: 曲の規約に反していないこと
+      title: utiliser de la musique qui autorise les niveaux non officiels
       description: |
-        曲の規約を確認してください。
-        例えば、某超感覚リズムゲーム、某達人の曲は二次創作が禁止されています。
+        Certains jeux n'autorisent pas les niveaux non officiels utilisant leur musique. (Par exemple, Arcaea et Taiko n'autorisent pas les niveaux non officiels).
     check3:
-      title: 宗教的・政治的・性的な内容を含まないこと
+      title: pas avoir du contenu religieux, politique, sexuel ou autre contenu inapproprié.
     check4:
-      title: "正しく情報が入力されていること"
+      title: "avoir les informations correctes"
       description: |
-        タイトル・作曲者・アーティスト・BPMなどが正しく入力されていることを確認してください。
-    description2: "<0>ガイドライン</0>に違反する譜面は削除され、投稿者に対して警告が行われます。"
-    ok: "公開する"
+        Assurez-vous que le titre, compositeur, chanteur, BPM, et les autres informations sont correctes.
+    description2: "Tout niveau qui enfreint les <0>règles</0> sera supprimé, \\ et vous recevrez un avertissement ou serez banni."
+    ok: "Publier"
 errors:
-  cannotBeEmpty: "この項目は空にできません。"
-  tooLong: "項目が長すぎます。"
-  variantNotFound: "派生元譜面が見付かりませんでした。"
-  tooManyTags: "タグが多すぎます。"
+  cannotBeEmpty: "Ce champ ne peut pas être vide."
+  tooLong: "Ce champ est trop long."
+  variantNotFound: "Le niveau que vous avez sélectionné comme variante n'a pas été trouvé."
+  tooManyTags: "Trop de tags."
 admin:
-  title: "管理者ページ"
+  title: "Admin"
   stats:
-    title: "統計"
+    title: "Statistiques"
     users:
-      title: "ユーザー"
-      total: "総数"
-      original: "本名義"
-      alt: "別名義"
-      discord: "Discord連携済"
+      title: "Utilisateurs"
+      total: "Total"
+      original: "Original"
+      alt: "Alt"
+      discord: "Avec Discord"
     charts:
-      title: "譜面"
-      public: "公開"
-      private: "非公開"
-    files: "ファイル"
-    storage: "ストレージ"
+      title: "Niveaux"
+      public: "Publique"
+      private: "Privé"
+    files: "Fichiers"
+    storage: "Stockage"
     db:
-      title: "データベース"
-      connections: "使用中：{busy}、待機中：{waiting} / 最大：{size}"
+      title: "Base de données"
+      connections: "{busy} occupé, {waiting} en attente / {size} max"
   sidekiq:
-    title: "ジョブ（Sidekiq）"
-    description: "バックグラウンドジョブの状態を確認できます。"
+    title: "Tâches (Sidekiq)"
+    description: "Vous pouvez consulter ici l'état des tâches d'arrière-plan."
   actions:
-    title: "コマンド"
+    title: "Commandes"
     expireData:
-      title: "譜面データを失効"
+      title: "Expirer les données de niveau"
       description: |
-        すべての譜面データを失効させます。次の更新、または譜面のプレイ時に再生成されます。
-        エンジンの仕様が変更された場合などに使用してください。
-      button: "失効"
-      success: "{count}個の譜面データを失効させました。"
+        Expirer toutes les données de niveau. Ils seront régénérés lors de la prochaine mise à jour ou partie.
+        Utilisez cette option lorsque le moteur est mis à jour.
+      button: "Expirer"
+      success: "{count} données de niveau expirées."
 myAlts:
-  title: 別名義一覧
-  description: ここから別名義を管理できます。
-  mobileDescription: 技術的な理由により、追加・編集・削除はPCから行う必要があります。
-  empty: まだ名義がありません。
-  add: 作成
-  delete: 削除
-  edit: 編集
-  save: 保存
-  cancel: キャンセル
-  namePlaceholder: 名前を入力（4～16文字）
+  title: Mes alts
+  description: Vos alts sont affichés ci-dessous.
+  mobileDescription: "En raison de limitations techniques, vous ne pouvez pas modifier vos alts sur les appareils mobiles.\nVeuillez utiliser un navigateur de bureau pour modifier vos alts."
+  empty: Vous n'avez pas encore enregistré des alts.
+  add: Ajouter
+  delete: Supprimer
+  edit: Modifier
+  save: Sauvegarder
+  cancel: Annuler
+  namePlaceholder: Entrez le nom ici... (4 à 16 caractères)
   deletionModal:
-    title: 名義を削除
-    description: この名義を削除しますか？
-    nameChangeWarning: この名義で投稿された{count}個の譜面の名義は「{currentUser}」に変更されます。
-    ok: 削除
+    title: Supprimer cet alt ?
+    description: Les alts supprimés ne peuvent pas être restaurés !
+    nameChangeWarning: "Cet alt a {count, plural, one {1 niveau} other {# niveaux}.\nSi vous supprimez cet alt, le niveau sera transféré à votre compte principal.\n"
+    ok: Supprimer
   errors:
-    tooShort: 名前が短すぎます。
-    tooLong: 名前が長すぎます。
+    tooShort: Ce nom est trop court.
+    tooLong: Ce nom est trop long.
 discordError:
-  title: 連携エラー
-  description: Discordとの連携に失敗しました（{code}）。
+  title: L'intégration a échoué
+  description: Échec de l'intégration avec Discord. ({code})
   error:
-    discordError: Discordとの通信に失敗しました
-    notInGuild: サーバーに参加していません
-    unknown: 不明なエラーが発生しました
+    discordError: Erreur API Discord
+    notInGuild: Vous n'êtes pas dans le serveur.
+    unknown: Erreur inconnue
 login:
-  title: "ログイン"
+  title: "Se connecter"
