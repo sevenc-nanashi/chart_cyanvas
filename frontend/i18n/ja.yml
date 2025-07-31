@@ -322,7 +322,7 @@ myAlts:
 
   deletionModal:
     title: 名義を削除
-    description: この名義を削除しますか？
+    description: 削除した名義は復元できません！
     nameChangeWarning: この名義で投稿された{count}個の譜面の名義は「{currentUser}」に変更されます。
     ok: 削除
 
