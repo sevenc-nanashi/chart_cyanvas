@@ -281,7 +281,7 @@ myAlts:
   namePlaceholder: Entrez le nom ici... (4 à 16 caractères)
   deletionModal:
     title: Supprimer cet alt ?
-    description: 削除した名義は復元できません！
+    description: Les alts supprimés ne peuvent pas être restaurés !
     nameChangeWarning: "Cet alt a {count, plural, one {1 niveau} other {# niveaux}.\nSi vous supprimez cet alt, le niveau sera transféré à votre compte principal.\n"
     ok: Supprimer
   errors:
