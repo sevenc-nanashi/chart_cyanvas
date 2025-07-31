@@ -26,7 +26,7 @@ notFound:
   description: "Страница которую вы ищете не существует."
 warning:
   title: "Предупреждение"
-  description: "Вы получили {count, plural, one {1 предупреждение} other {# предупреждения}."
+  description: "Вы получили {count, plural, one {1 предупреждение} other {# предупреждения}}:"
   target:
     title: "Цель: {target}"
     chart: "Чарт \"{title}\""
