@@ -13,7 +13,7 @@ Rails.application.configure do
       Rails
         .root
         .glob("config/locales/*.yml")
-        .map { |file| file.match(/(\w+)\.yml$/)[1].to_sym }
+        .map { |file| File.basename(file, ".yml") }
     )
 
   config.hosts.clear
