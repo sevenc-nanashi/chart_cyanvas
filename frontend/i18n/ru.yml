@@ -1,298 +1,298 @@
-language: "русский"
+language: "Русский"
 name: "Chart Cyanvas"
-gotIt: "Got it"
-close: "Close"
-cancel: "Cancel"
-backToHome: "Return to top page"
+gotIt: "Понял"
+close: "Закрыть"
+cancel: "Отменить"
+backToHome: "Вернуться на главную страницу"
 separator: ", "
 brackets: " ({content})"
 kv: "{key}: {value}"
-all: "All"
-serverError: "An error occurred on the server!"
-serverErrorNote: "Please let us know <0>on our Discord server</0>."
+all: "Все"
+serverError: "Произошла ошибка на сервере!"
+serverErrorNote: "Пожалуйста дайте нам знать <0>в нашем дискорд сервере</0>."
 openInSonolus: "Sonolus"
-adminDecorate: " (Admin)"
+adminDecorate: " (Админ)"
 genre:
-  others: "Others"
+  others: "Другие"
   vocal_synth: "VocalSynth & Vocaloid"
-  music_game: "Music Game"
-  game: "Game"
-  meme: "Meme"
-  pops: "Pop"
-  instrumental: "Instrumental"
+  music_game: "Ритм Игра"
+  game: "Игра"
+  meme: "Мем"
+  pops: "Поп"
+  instrumental: "Инструментал"
 notFound:
-  title: "Not Found"
-  heading: "404 Not Found"
-  description: "The page you are looking for does not exist."
+  title: "Не найдено"
+  heading: "404 Не найдено"
+  description: "Страница которую вы ищете не существует."
 warning:
-  title: "Warning"
-  description: "You have received {count, plural, one {1 warning} other {# warnings}:"
+  title: "Предупреждение"
+  description: "Вы получили {count, plural, one {1 предупреждение} other {# предупреждения}."
   target:
-    title: "Target: {target}"
-    chart: "Chart \"{title}\""
-    user: "Account"
-  chartDeleted: "The chart has been deleted."
-  footer: "Warning Level: <0>{warnLevel}</0> | {date}"
+    title: "Цель: {target}"
+    chart: "Чарт \"{title}\""
+    user: "Аккаунт"
+  chartDeleted: "Чарт был удалён."
+  footer: "Уровень предупреждения: <0>{warnLevel}</0> | {date}"
   level:
-    low: "Low"
-    medium: "Medium"
-    high: "High"
-    ban: "Ban"
+    low: "Низкий"
+    medium: "Средний"
+    high: "Высокий"
+    ban: "Бан"
   levelDescription:
-    low: "You can continue to post charts."
-    medium: "Your account is suspended for 1 day."
-    high: "Your account is suspended for 7 days."
-    ban: "You are permanently banned."
+    low: "Вы можете продолжить публиковать чарты."
+    medium: "Ваш аккаунт под надзором на 1 день."
+    high: "Ваш аккаунт под надзором на 7 дней."
+    ban: "Ваш аккаунт перманентно забанен."
   timeoutNote: |
-    Please check the <0>guideline</0> again.
-    The countdown will start when you click the button below.
+    Пожалуйста проверьте <0>правила</0> ещё раз.
+    Отсчёт начнётся когда вы нажмёте на кнопку снизу.
 home:
-  newCharts: "New charts"
-  welcome: "Welcome to Chart Cyanvas! If you are new to this site, please read <0>How to use</0>."
-  openInSonolus: "Open in Sonolus"
-  empty: "No charts found."
-  more: "More"
+  newCharts: "Новые чарты"
+  welcome: "Добро пожаловать на Chart Cyanvas! Если вы новичок на этом сайте, пожалуйста прочтите <0>Как использовать</0>."
+  openInSonolus: "Открыть в Sonolus"
+  empty: "Чарты не найдены."
+  more: "Больше"
 menu:
-  search: "Search charts"
-  post: "Post chart"
-  my: "My charts"
-  liked: "Liked charts"
-  myAlts: "My alts"
-  admin: "Admin"
-  guideline: "Guideline"
-  logout: "Sign out"
-  settings: "Settings"
+  search: "Искать чарты"
+  post: "Опубликовать чарт"
+  my: "Мои чарты"
+  liked: "Лайкнутые чарты"
+  myAlts: "Мои альты"
+  admin: "Админ"
+  guideline: "Правила"
+  logout: "Выйти"
+  settings: "Настройки"
   login:
-    button: "Sign in"
-    title: "Signing in..."
+    button: "Войти"
+    title: "Входим..."
     description: |
-      Sign in with your Sonolus account.<br/>
-      This page will be refreshed automatically after logging in.<br/>
-      Didn't get a popup? <0>Click here</0>.
+      Войдите используя свой Sonolus аккаунт.<br/>
+      Эта страница обновится автоматически после входа.<br/>
+      Не открылось всплыв. окно? <0>Нажмите сюда</0>.
 settings:
-  title: "Settings"
+  title: "Настройки"
   lang:
-    title: "Language"
-    auto: "Auto"
+    title: "Язык"
+    auto: "Авто"
   theme:
-    title: "Theme"
-    auto: "Auto"
-    light: "Light"
-    dark: "Dark"
+    title: "Тема"
+    auto: "Авто"
+    light: "Светлая"
+    dark: "Тёмная"
 warnModal:
-  label: "Warn"
-  title: "Warn Chart"
-  delete: "Delete chart"
+  label: "Предупредить"
+  title: "Предупредить чарт"
+  delete: "Удалить чарт"
   level:
-    title: "Warning Level"
-    low: "Low"
-    medium: "Medium"
-    high: "High"
-    ban: "Ban"
+    title: "Уровень Предупреждения"
+    low: "Низкий"
+    medium: "Средний"
+    high: "Высокий"
+    ban: "Бан"
   levelDescription:
-    low: "User can continue to post charts."
-    medium: "User's account will be suspended for 1 day."
-    high: "User's account will be suspended for 7 days."
-    ban: "User will be permanently banned."
-  reason: "Reason"
-  ok: "Warn"
+    low: "Пользователь может продолжать постить чарты."
+    medium: "Аккаунт пользователя будет под надзором на 1 день."
+    high: "Аккаунт пользователя будет под надзором на 7 дней."
+    ban: "Пользователь будет перманентно забанен."
+  reason: "Причина"
+  ok: "Предупреждение"
 chart:
-  notFound: "Couldn't find the chart."
-  variants: "Variants"
-  sameAuthor: "Charts by this charter"
-  edit: "Edit"
-  delete: "Delete"
-  createVariant: "Create variant"
-  download: "Download chart"
+  notFound: "Не удалось найти чарт."
+  variants: "Варианты"
+  sameAuthor: "Чарты от данного чартера"
+  edit: "Изменить"
+  delete: "Удалить"
+  createVariant: "Создать вариант"
+  download: "Скачать чарт"
   noLevelData: |
-    No level data found.
-    The chart may not have been played since the engine was updated, or the conversion of the chart may have failed.
+    Данные уровня не найдены.
+    Возможно чарт не был проигран с момента как движок был обновлён, или же конверсия чарта была провалена.
   deletionModal:
-    title: "Delete this chart?"
-    description: "Deleted charts cannot be restored!"
-    ok: "Delete"
+    title: "Удалить этот чарт?"
+    description: "Удалённые чарты не могут быть восстановлены!"
+    ok: "Удалить"
 searchCharts:
-  title: "Search charts"
-  queries: "Filters"
-  search: "Search"
-  empty: "No charts found."
+  title: "Искать чарты"
+  queries: "Фильтры"
+  search: "Поиск"
+  empty: "Чарты не найдены."
   param:
-    title: "Title"
-    composer: "Composer"
-    artist: "Vocal"
-    authorName: "Charter name"
-    authorHandles: "Charter handle"
-    genres: "Genres"
-    tags: "Tags"
-    rating: "Difficulty"
-    sort: "Sort by"
+    title: "Название"
+    composer: "Композитор"
+    artist: "Вокал"
+    authorName: "Имя чартера"
+    authorHandles: "Тэг чартера"
+    genres: "Жанры"
+    tags: "Тэги"
+    rating: "Сложность"
+    sort: "Отсортировать"
   description:
-    rating: "You can select difficulty from 1 to 99. Use the input box beside the slider to set the difficulty to more than 40."
-    authorHandles: "Separate handles (e.g. 1234, x567) with spaces."
+    rating: "Вы можете выбрать сложность от 1 до 99. Используйте поле ввода после слайдера чтобы поставить сложность выше 40."
+    authorHandles: "Отделить тэги (к примеру 1234, x567) с пробелами."
   sort:
-    publishedAt: "Last published"
-    updatedAt: "Last updated"
-    likes: "Most liked"
+    publishedAt: "Недавно опубликованные"
+    updatedAt: "Недавно обновлённые"
+    likes: "Больше залайканный"
 user:
-  totalCharts: "Total charts: {count}"
-  totalLikes: "Total likes: {count}"
-  showSecret: "Toggle admin-only information"
+  totalCharts: "Всего чартов: {count}"
+  totalLikes: "Всего лайков: {count}"
+  showSecret: "Включить информацию админа"
   secretUserInfo:
-    label: "Discord: {discord}, Owned by: <0>{owner}</0>"
-    warnings: "Past warnings"
-    warning: "Level: {level}, Date: {date}, Moderator: <0>{moderator}</0>, Reason: {reason}"
-    noWarnings: "No warnings"
-  userCharts: "Charts by this user"
+    label: "Дискорд: {discord}, Принадлежит: <0>{owner}</0>"
+    warnings: "Прошлые предупреждения"
+    warning: "Уровень: {level}, Дата: {date}, Модератор: <0>{moderator}</0>, Причина: {reason}"
+    noWarnings: "Нет предупреждений"
+  userCharts: "Чарты от этого пользователя"
 chartSection:
-  notFound: "No charts found."
+  notFound: "Чарты не найдены."
 my:
-  title: "My charts"
-  empty: "You haven't posted any charts yet. <0>Post a chart</0> to get started!"
-  description: "Your charts are listed below. A padlock icon represents that the chart is private."
+  title: "Мои чарты"
+  empty: "Вы не опубликовали ни одного чарта. <0>Опубликуйте чарт</0> чтобы начать!"
+  description: "Ваши чарты указаны ниже. Значок замка означает что ваш чарт приватный."
 liked:
-  title: "Liked charts"
-  empty: "You haven't liked any charts yet."
-  description: "Charts you liked are listed below.\nYou can like a chart by clicking the heart icon in Sonolus."
+  title: "Лайкнутые чарты"
+  empty: "Вы не лайкнули ни одного чарта."
+  description: "Чарты которые вы лайкнули указаны ниже.\nВы можете лайкнуть чарт нажав на иконку сердечка в Sonolus'е."
 upload:
-  title: "Post chart"
-  titleEdit: "Edit chart: {title}"
+  title: "Опубликовать чарт"
+  titleEdit: "Изменить чарт: {title}"
   description: |
-    Read the <0>Guideline</0> before posting a chart. You can upload files by dragging and dropping them here.
+    Прочтите <0>Правила</0> перед тем как постить чарт. Вы можете загрузить файлы перетаскивая их сюда.
   warning:
-    endsAt: "You are suspended from posting or editing charts until {endsAt}."
-    banned: "You are banned. You cannot post or edit charts."
+    endsAt: "Вы запрещены постить или изменять чарты до {endsAt}."
+    banned: "Вы забанены. Вы не можете публиковать или изменять чарты."
   discordInfo:
-    description: "You need to link your Discord account to post a chart."
+    description: "Вы должны привязать ваш Discord аккаунт чтобы опубликовать чарт."
     status:
-      label: "You have: "
-      connected: "Linked ({username})"
-      notConnected: "Not linked"
-    connectGuide: "How to link your Discord account"
+      label: "Вы: "
+      connected: "Привязали ({username})"
+      notConnected: "Не привязали"
+    connectGuide: "Как привязать ваш Discord аккаунт"
   param:
-    title: "Title"
-    composer: "Composer"
-    artist: "Vocal"
-    rating: "Difficulty"
-    variant: "Variant of"
-    description: "Description"
-    cover: "Jacket image"
-    chart: "Chart file"
-    bgm: "BGM file"
-    tags: "Tags"
-    author: "Charter"
-    genre: "Genre"
+    title: "Название"
+    composer: "Композитор"
+    artist: "Вокал"
+    rating: "Сложность"
+    variant: "Вариация"
+    description: "Описание"
+    cover: "Фото"
+    chart: "Файл чарта"
+    bgm: "Файл BGM"
+    tags: "Тэги"
+    author: "Чартер"
+    genre: "Жанр"
   tooltip:
-    rating: "You can select difficulty from 1 to 99. Use the input box beside the slider to set the difficulty to more than 40."
-    variant: "If this chart is a variant of another chart, select it here.\nYour chart will be linked to the original chart.\nYou should set this if the chart is another difficulty of the original chart."
-    tags: "Separate tags with spaces, commas, or newlines. Maximum 5 tags."
+    rating: "Вы можете выбрать сложность от 1 до 99. Используйте поле ввода после слайдера чтобы поставить сложность выще 40."
+    variant: "Если этот чарт вариация другого чарта, выберите здесь.\nВаш чарт будет привязан к оригинальному чарту.\nВы должны указать это если чарт другая сложность от оригинального чарта."
+    tags: "Отделите тэги с помощью пробелов, запятых и новых строк. Максимум 5 тэгов."
   visibility:
-    title: "Visibility"
-    public: "Public"
-    scheduled: "Scheduled"
-    private: "Private"
+    title: "Видимость"
+    public: "Публичный"
+    scheduled: "Запланированный"
+    private: "Приватный"
     description:
       public: |
-        Anyone can see this chart. The chart will be listed in the chart list.
+        Каждый может увидеть этот чарт. Этот чарт будет указан в списке чартов.
       scheduled: |
-        Only you can see this chart until the scheduled date.
+        Только вы можете увидеть этот чарт до запланированной даты.
       private: |
-        Only you can see this chart. Share the URL to let others see it.
-  dndHint: "Click or drag files to upload. You can drop multiple files at once."
-  isChartPublic: "Allow others to download the chart file"
-  submit: "Upload"
-  update: "Update"
-  publish: "Publish"
-  unpublish: "Unpublish"
-  optional: " (optional)"
-  dropHere: "Drop to upload"
-  unUploadedFiles: "Some files were not uploaded."
-  unUploadedFilesNote: "Supported files: .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
-  filesTooLarge: Files are too large
-  filesTooLargeNote: The sum of the file sizes must be less than 20MB.
+        Только вы можете увидеть этот чарт. Поделитесь ссылкой чтобы другие могли увидеть.
+  dndHint: "Нажмите или же перетащите файлы чтобы загрузить. Вы можете сбросить несколько файлов за раз."
+  isChartPublic: "Разрешить другим скачать файл чарта"
+  submit: "Загрузить"
+  update: "Обновить"
+  publish: "Опубликовать"
+  unpublish: "Отменить публик."
+  optional: " (необязательно)"
+  dropHere: "Сбросьте чтобы загрузить"
+  unUploadedFiles: "Некоторые файлы не были загружены."
+  unUploadedFilesNote: "Поддерживаемые файлы: .sus, .usc, .mp3, .ogg, .wav, .jpg, .jpeg, .png, .gif, .webp"
+  filesTooLarge: Файлы слишком большие
+  filesTooLargeNote: Сумма всех файлов должна быть ниже 20МБ.
   publishModal:
-    title: "Publish this chart?"
-    description: "Your chart must..."
+    title: "Опубликовать этот чарт?"
+    description: "Ваш чарт должен быть..."
     check0:
-      title: "be complete"
-      description: Publishing incomplete charts is not allowed, and <strong>may result in an instant ban!</strong>
+      title: "завершённым"
+      description: Публиковать незавершённые чарты запрещено, и  <strong>могут привести к моментальному бану!</strong>
     check1:
-      title: "have originality"
+      title: "иметь оригинальность"
       description: |
-        Do not publish a chart that intends to copy existing charts.
-        Porting a chart from another game, or applying only minor changes (such as adding a flick to every note) is not allowed.
+        Не публикуйте чарты которые копируют существующие чарты.
+        Портировать чарт из другой игры, или же применить мелкие изменения (по типу добавить флик к каждой ноте) не разрешено.
     check2:
-      title: use music that allows fan-made charts
+      title: использовать музыку которая разрешает фан-мейд чарты
       description: |
-        Some games do not allow fan-made charts using their music. (For example, Arcaea and Taiko do not allow fan-made charts.)
+        Некоторые игры не разрешают фан-мейд чарты используя их музыку. (К примеру, Arcaea и Taiko не разрешают фан-мейд чарты.)
     check3:
-      title: not have religious, political, sexual or other inappropriate content
+      title: не иметь религиозный, политический, сексуальный или же другой неприемлемый контент
     check4:
-      title: "have the correct information"
+      title: "иметь верную информацию"
       description: |
-        Make sure the title, composer, artist, BPM, and other information are correct.
-    description2: "Any chart that violates the <0>guideline</0> will be deleted, \\ and you will be warned or banned."
-    ok: "Publish"
+        Проверьте что название, композитор, артист, BPM, и другая информация верна.
+    description2: "Любой чарт которые нарушает <0>правила</0> будет удалён, \\ и вы будете предупреждены или забанены."
+    ok: "Опубликовать"
 errors:
-  cannotBeEmpty: "This field cannot be empty."
-  tooLong: "This field is too long."
-  variantNotFound: "Couldn't find the chart you selected as a variant."
-  tooManyTags: "Too many tags."
+  cannotBeEmpty: "Данное поле не может быть пустым."
+  tooLong: "Данное поле слишком длинное."
+  variantNotFound: "Не удалось найти чарт выбранным как вариация."
+  tooManyTags: "Слишком много тэгов."
 admin:
-  title: "Admin"
+  title: "Админ"
   stats:
-    title: "Stats"
+    title: "Статы"
     users:
-      title: "Users"
-      total: "Total"
-      original: "Original"
-      alt: "Alt"
-      discord: "With Discord"
+      title: "Пользователи"
+      total: "Всего"
+      original: "Оригинал"
+      alt: "Альт"
+      discord: "С Discord'ом"
     charts:
-      title: "Charts"
-      public: "Public"
-      private: "Private"
-    files: "Files"
-    storage: "Storage"
+      title: "Чарты"
+      public: "Публичные"
+      private: "Приватные"
+    files: "Файлы"
+    storage: "Память"
     db:
-      title: "Database"
-      connections: "{busy} busy, {waiting} waiting / {size} max"
+      title: "База данных"
+      connections: "{busy} занят, {waiting} в ожидании / {size} макс"
   sidekiq:
-    title: "Jobs (Sidekiq)"
-    description: "You can see the status of background jobs here."
+    title: "Работы (Sidekiq)"
+    description: "Вы можете увидеть статут работ заднего фона здесь."
   actions:
-    title: "Commands"
+    title: "Команды"
     expireData:
-      title: "Expire chart data"
+      title: "Истечь данные чарта"
       description: |
-        Expire all chart data. They will be regenerated on the next update or play.
-        Use this when the engine is updated.
-      button: "Expire"
-      success: "{count} chart data expired."
+        Истечь все данные чарта. Они будут восстановлены при следующем обновлении или же игре.
+        Используйте это когда движок обновлён.
+      button: "Истечь"
+      success: "{count} данных чартов истекло."
 myAlts:
-  title: My alts
-  description: Your alt users are listed below.
-  mobileDescription: "Due to technical limitations, you cannot edit your alt users on mobile devices.\nPlease use a desktop browser to edit your alt users."
-  empty: You haven't registered any alt users yet.
-  add: Add
-  delete: Delete
-  edit: Edit
-  save: Save
-  cancel: Cancel
-  namePlaceholder: Type name here... (4-16 characters)
+  title: Мои альты
+  description: Ваши альт аккаунты указаны ниже.
+  mobileDescription: "Из-за технических ограничений, вы не можете изменить ваши альт аккаунты на телефоне.\nПожалуйста используйте компьютер чтобы изменить ваши альт аккаунты."
+  empty: Вы не зарегистрировали альт аккаунты.
+  add: Добавить
+  delete: Удалить
+  edit: Изменить
+  save: Сохранить
+  cancel: Отмена
+  namePlaceholder: Введите имя здесь... (4-16 символов)
   deletionModal:
-    title: Delete this alt user?
-    description: Deleted alt users cannot be restored!
-    nameChangeWarning: "You have {count, plural, one {1 chart} other {# charts} which belong to this alt user.\nIf you delete this alt user, the chart will be changed to your main user."
-    ok: Delete
+    title: Удалить данный альт аккаунт?
+    description: Удалённые альт аккаунты не могут быть восстановлены!
+    nameChangeWarning: "Вы имеете {count, plural, one {1 чарт} other {# чарта} которые принадлежат этому альт аккаунту.\nЕсли вы удалите этот альт аккаунт, чарты будут переведены на ваш основной аккаунт."
+    ok: Удалить
   errors:
-    tooShort: The name is too short.
-    tooLong: The name is too long.
+    tooShort: Имя слишком короткое.
+    tooLong: Имя слишком длинное.
 discordError:
-  title: Integration failed
-  description: Failed to integrate with Discord. ({code})
+  title: Интеграция провалена
+  description: Не удалось интегрировать с Discord'ом. ({code})
   error:
-    discordError: Discord API error
-    notInGuild: You are not in the server
-    unknown: Unknown error
+    discordError: Ошибка Discord API
+    notInGuild: Вы не на сервере
+    unknown: Неизвестная ошибка
 login:
-  title: "Sign in"
+  title: "Войти"

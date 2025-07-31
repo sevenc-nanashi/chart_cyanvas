@@ -127,7 +127,7 @@ searchCharts:
     rating: "Difficulté"
     sort: "Trier par"
   description:
-    rating: "Vous pouvez sélectionner la difficulté entre 1 et 99. Utilisez la zone de saisie à côté du curseur pour définir une difficulté supérieure à 40."
+    rating: "Vous pouvez sélectionner une difficulté entre 1 et 99. Utilisez la zone de saisie à côté du curseur pour définir une difficulté supérieure à 40."
     authorHandles: "Séparez les suffixes (par exemple 1234, x567) par des espaces."
   sort:
     publishedAt: "Date de publication"
