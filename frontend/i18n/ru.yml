@@ -1,4 +1,4 @@
-language: "русский"
+language: "Русский"
 name: "Chart Cyanvas"
 gotIt: "Понял"
 close: "Закрыть"
@@ -281,7 +281,7 @@ myAlts:
   namePlaceholder: Введите имя здесь... (4-16 символов)
   deletionModal:
     title: Удалить данный альт аккаунт?
-    description: Удалённые альт аккаунты не могут быть восстановлены!
+    description: 削除した名義は復元できません！
     nameChangeWarning: "Вы имеете {count, plural, one {1 чарт} other {# чарта} которые принадлежат этому альт аккаунту.\nЕсли вы удалите этот альт аккаунт, чарты будут переведены на ваш основной аккаунт."
     ok: Удалить
   errors:
