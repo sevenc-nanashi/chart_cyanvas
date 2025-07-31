@@ -281,7 +281,7 @@ myAlts:
   namePlaceholder: Type name here... (4-16 characters)
   deletionModal:
     title: Delete this alt user?
-    description: Deleted alt users cannot be restored!
+    description: 削除した名義は復元できません！
     nameChangeWarning: "You have {count, plural, one {1 chart} other {# charts} which belong to this alt user.\nIf you delete this alt user, the chart will be changed to your main user."
     ok: Delete
   errors:
