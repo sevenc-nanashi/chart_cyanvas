@@ -2,10 +2,10 @@ import { reactRouter } from "@react-router/dev/vite";
 import yaml from "@rollup/plugin-yaml";
 import { config } from "dotenv";
 import unocss from "unocss/vite";
+import macros from "unplugin-macros/vite";
 import { defineConfig } from "vite";
 import { cjsInterop } from "vite-plugin-cjs-interop";
 import svgr from "vite-plugin-svgr";
-import macros from "unplugin-macros/vite";
 
 config({ path: "../.env" });
 

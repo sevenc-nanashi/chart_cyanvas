@@ -5,8 +5,8 @@
   "description": "",
   "scripts": {
     "dev": "react-router dev --port 3100",
-    "lint": "biome check app components lib styles",
-    "lint:fix": "biome check --write --unsafe app components lib styles",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write --unsafe .",
     "typecheck": "tsc --noEmit",
     "build": "react-router build",
     "start": "dotenv -- cross-env HOST=0.0.0.0 PORT=3100 NODE_ENV=production react-router-serve build/server/index.js"
