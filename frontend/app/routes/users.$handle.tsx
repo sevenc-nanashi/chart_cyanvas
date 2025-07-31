@@ -195,7 +195,7 @@ const UserPage = () => {
                                 date: new Date(
                                   warning.createdAt,
                                 ).toLocaleDateString(),
-                                reason: warning.reason.split("\n")[0],
+                                reason: (warning.reason || "-").split("\n")[0],
                                 moderator: `${warning.moderator.name}#${warning.moderator.handle}`,
                               }}
                               components={[

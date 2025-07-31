@@ -61,7 +61,7 @@ export type Warning = {
   id: number;
   createdAt: string;
   updatedAt: string;
-  reason: string;
+  reason: string | null;
   level: "low" | "medium" | "high" | "ban";
   seen: boolean;
   endsAt: string | null;
