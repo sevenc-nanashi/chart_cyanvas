@@ -26,7 +26,7 @@ notFound:
   description: "The page you are looking for does not exist."
 warning:
   title: "Warning"
-  description: "You have received {count, plural, one {1 warning} other {# warnings}:"
+  description: "You have received {count, plural, one {1 warning} other {# warnings}}:"
   target:
     title: "Target: {target}"
     chart: "Chart \"{title}\""
@@ -281,8 +281,8 @@ myAlts:
   namePlaceholder: Type name here... (4-16 characters)
   deletionModal:
     title: Delete this alt user?
-    description: 削除した名義は復元できません！
-    nameChangeWarning: "You have {count, plural, one {1 chart} other {# charts} which belong to this alt user.\nIf you delete this alt user, the chart will be changed to your main user."
+    description: Deleted alt users cannot be restored!
+    nameChangeWarning: "You have {count, plural, one {1 chart} other {# charts}} which belong to this alt user.\nIf you delete this alt user, the chart will be changed to your main user."
     ok: Delete
   errors:
     tooShort: The name is too short.
