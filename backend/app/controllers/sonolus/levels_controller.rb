@@ -285,6 +285,12 @@ module Sonolus
 
       charts = Chart.sonolus_listed
 
+      cacheable =
+        self.class.search_options.all? do |option|
+          %i[q_sort q_genres].include?(option[:query]) ||
+            params[option[:query]].blank?
+        end
+
       charts =
         charts.where(charts: { rating: (params[:q_rating_min]).. }) if params[
         :q_rating_min
@@ -412,12 +418,9 @@ module Sonolus
             end
           end
           .compact
-      charts =
-        if genres.empty?
-          charts.where(genre: user_genres)
-        else
-          charts.where(genre: genres)
-        end
+      genres = user_genres if genres.empty?
+
+      charts = charts.where(genre: genres) unless genres != Chart::GENRES.keys
 
       charts =
         case params[:q_sort]&.to_sym
@@ -427,18 +430,10 @@ module Sonolus
           charts.order(likes_count: :desc)
         when :random
           # TODO(maybe): use more low-cost and low-randomness method for anonymous users
-          cacheable =
-            self.class.search_options.all? do |option|
-              %i[q_sort q_genres].include?(option[:query]) ||
-                params[option[:query]].blank?
-            end
           random_ids =
             if cacheable
               Rails.logger.debug "Fetching random charts from cache"
-              get_random_chart_ids(
-                20,
-                genres: genres.empty? ? user_genres : genres
-              )
+              get_random_chart_ids(20, genres:)
             else
               charts.pluck(:id).sample(20)
             end
@@ -463,7 +458,14 @@ module Sonolus
                  cursor: ""
                }
       else
-        page_count = (charts.unscope(:group, :having).count / 20.0).ceil
+        num_charts =
+          if cacheable
+            Rails.logger.debug "Fetching number of charts from cache"
+            get_num_charts_with_cache(genres: genres)
+          else
+            charts.unscope(:group, :having).count
+          end
+        page_count = (num_charts / 20.0).ceil
 
         charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
@@ -648,6 +650,16 @@ module Sonolus
         randoms += chart_ids
       end
       randoms.sample(count)
+    end
+
+    def get_num_charts_with_cache(genres: Chart::GENRES.keys)
+      genres.sum do |genre|
+        Rails
+          .cache
+          .fetch("sonolus:num_charts:#{genre}", expires_in: 5.minutes) do
+            Chart.where(genre:, visibility: :public).sonolus_listed.count
+          end
+      end
     end
   end
 end

@@ -352,6 +352,7 @@ module Api
           charts.order(published_at: :desc)
         end
 
+      num_charts = charts.unscope(:group, :having).count
       charts =
         charts.preload(
           :author,
@@ -360,7 +361,6 @@ module Api
             file_attachment: :blob
           }
         ).select("charts.*")
-      num_charts = charts.unscope(:group, :having).count
 
       charts = charts.offset(validator.offset || 0).limit(length)
 
