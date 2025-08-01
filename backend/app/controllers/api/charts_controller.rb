@@ -139,13 +139,6 @@ class SearchValidator
               message: "invalid"
             }
 
-  validates :author_handles,
-            length: {
-              minimum: 4,
-              message: "invalid"
-            },
-            allow_blank: true
-
   validates :tags,
             allow_blank: true,
             length: {
@@ -156,7 +149,9 @@ class SearchValidator
   def validate_genres
     if genres.present?
       genres.each do |genre|
-        errors.add(:genres, "invalid") unless Chart::GENRES.keys.include?(genre.to_sym)
+        unless Chart::GENRES.keys.include?(genre.to_sym)
+          errors.add(:genres, "invalid")
+        end
       end
     end
   end
@@ -169,13 +164,13 @@ class SearchValidator
 
   validates :liked,
             inclusion: {
-              in: %w[true false],
+              in: [true, false],
               message: "invalid"
             },
             allow_blank: true
   validates :include_non_public,
             inclusion: {
-              in: %w[true false],
+              in: [true, false],
               message: "invalid"
             },
             allow_blank: true
@@ -183,17 +178,19 @@ class SearchValidator
   def initialize(params)
     @sort = params[:sort]
     @author_name = params[:authorName]
-    @author_handles = params[:authorHandles]
-    @genres = params[:genres]&.then { it.split(",").map(&:strip).compact_blank }
-    @tags = params[:tags]&.then { it.split(",").map(&:strip).compact_blank }
+    @author_handles =
+      params[:authorHandles]&.then { it.split.map(&:strip).compact_blank }
+    @genres = params[:genres]&.then { it.split.map(&:strip).compact_blank }
+    @tags = params[:tags]&.then { it.split.map(&:strip).compact_blank }
     @rating_max = params[:ratingMax]
     @rating_min = params[:ratingMin]
     @artist = params[:artist]
     @composer = params[:composer]
     @title = params[:title]
-    @liked = params[:liked]
+    @liked = params[:liked]&.eql?("true")
     @offset = params[:offset]
     @count = params[:count]
+    @include_non_public = params[:includeNonPublic]&.eql?("true")
   end
 end
 
@@ -225,12 +222,12 @@ module Api
                status: :bad_request
         return
       end
-      length = params[:count].to_i
+      length = validator.count.to_i
 
       length = 20 if length <= 0 || length > 20
       charts = Chart.preload(%i[author co_authors tags])
 
-      if params[:liked] == "true"
+      if validator.liked == "true"
         unless (user_id = session[:user_id])
           render json: {
                    code: "not_authorized",
@@ -242,7 +239,7 @@ module Api
         charts = charts.where(id: Like.where(user_id:).select(:chart_id))
       end
 
-      if params[:title].present?
+      if validator.title
         charts =
           charts.where(
             "LOWER(charts.title) LIKE ?",
@@ -250,7 +247,7 @@ module Api
           )
       end
 
-      if params[:composer]
+      if validator.composer
         charts =
           charts.where(
             "LOWER(charts.composer) LIKE ?",
@@ -258,7 +255,7 @@ module Api
           )
       end
 
-      if params[:artist]
+      if validator.artist
         charts =
           charts.where(
             "LOWER(charts.artist) LIKE ?",
@@ -266,27 +263,20 @@ module Api
           )
       end
 
-      if params[:ratingMin]
-        charts = charts.where(charts: { rating: params[:ratingMin].to_i.. })
+      if validator.rating_min
+        charts = charts.where(charts: { rating: validator.rating_min.to_i.. })
       end
 
-      if params[:ratingMax]
-        charts = charts.where(charts: { rating: ..params[:ratingMax].to_i })
+      if validator.rating_max
+        charts = charts.where(charts: { rating: ..validator.rating_max.to_i })
       end
 
-      if params[:genres].present?
-        genres = params[:genres].split(",").map(&:strip).compact_blank.uniq
-        charts = charts.where(charts: { genre: genres.map(&:to_sym) })
+      if validator.genres.present?
+        charts = charts.where(charts: { genre: validator.genres.map(&:to_sym) })
       end
 
-      if params[:tags].present?
-        tags =
-          params[:tags]
-            .split(",")
-            .map(&:strip)
-            .map(&:downcase)
-            .compact_blank
-            .uniq
+      if validator.tags.present?
+        tags = validator.tags.uniq
 
         charts =
           Chart
@@ -296,9 +286,9 @@ module Api
             .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
       end
 
-      if params[:authorHandles].present?
+      if validator.author_handles.present?
         authors =
-          params[:authorHandles].split.map do |author|
+          validator.author_handles.map do |author|
             user =
               if author.start_with?("x")
                 User.find_by(handle: author[1..])
@@ -318,15 +308,15 @@ module Api
         end
         charts = charts.where(author_id: authors)
       end
-      if params[:authorName].present?
+      if validator.author_name
         charts =
           charts.where(
             "LOWER(charts.author_name) LIKE ?",
-            "%#{params[:authorName].downcase}%"
+            "%#{validator.author_name.downcase}%"
           )
       end
 
-      if params[:includeNonPublic] == "true"
+      if validator.include_non_public
         unless (user_id = session[:user_id])
           render json: {
                    code: "not_authorized",
@@ -345,7 +335,7 @@ module Api
       end
 
       charts =
-        case params[:sort]
+        case validator.sort
         when "updatedAt"
           charts.order(updated_at: :desc)
         when "likes"
@@ -357,7 +347,7 @@ module Api
       num_charts =
         Chart.from(charts.except(:limit, :offset).select(:id), :charts).count
       # rubocop:disable Lint/RedundantSafeNavigation
-      charts = charts.limit(length).offset(params[:offset]&.to_i || 0)
+      charts = charts.limit(length).offset(validator.offset&.to_i || 0)
       # rubocop:enable Lint/RedundantSafeNavigation
       chart_ids = charts.map(&:id)
       file_resources =

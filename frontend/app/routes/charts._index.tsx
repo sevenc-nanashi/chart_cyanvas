@@ -80,9 +80,9 @@ const Search = () => {
       composer: params.get("composer") || "",
       artist: params.get("artist") || "",
       authorName: params.get("authorName") || "",
-      authorHandles: params.get("authorHandles")?.split(",") || [],
-      genres: params.get("genres")?.split(",") || serverSettings.genres,
-      tags: params.get("tags")?.split(",") || [],
+      authorHandles: params.get("authorHandles")?.split(/[, ]/) || [],
+      genres: params.get("genres")?.split(/[, ]/) || serverSettings.genres,
+      tags: params.get("tags")?.split(/[, ]/) || [],
       ratingMin: Number.parseInt(params.get("ratingMin") || "1"),
       ratingMax: Number.parseInt(params.get("ratingMax") || "99"),
       sort: sorts.includes(params.get("sort") as Sort)
@@ -104,6 +104,9 @@ const Search = () => {
       tags,
       sort,
     } = form.getValues();
+    const allGenreSelected =
+      genres.length === serverSettings.genres.length &&
+      serverSettings.genres.every((g) => genres.includes(g));
     const newParams = {
       title: title || undefined,
       composer: composer || undefined,
@@ -111,9 +114,9 @@ const Search = () => {
       ratingMin: ratingMin === 1 ? undefined : ratingMin.toString(),
       ratingMax: ratingMax === 99 ? undefined : ratingMax.toString(),
       authorName: authorName || undefined,
-      authorHandles: authorHandles.join(",") || undefined,
-      genres: genres.join(",") || undefined,
-      tags: tags.join(",") || undefined,
+      authorHandles: authorHandles.join(" ") || undefined,
+      genres: allGenreSelected ? undefined : genres.join(" ") || undefined,
+      tags: tags.join(" ") || undefined,
       sort: sort || undefined,
     };
 
@@ -126,7 +129,7 @@ const Search = () => {
     );
     setErrors({});
     setSearchCount((c) => c + 1);
-  }, [form, setParams]);
+  }, [form, setParams, serverSettings.genres]);
 
   const fetchCharts = useCallback(
     async (page: number) => {
@@ -141,9 +144,9 @@ const Search = () => {
               composer: form.watch("composer"),
               artist: form.watch("artist"),
               authorName: form.watch("authorName"),
-              authorHandles: form.watch("authorHandles").join(","),
-              genres: form.watch("genres").join(","),
-              tags: form.watch("tags").join(","),
+              authorHandles: form.watch("authorHandles").join(" "),
+              genres: form.watch("genres").join(" "),
+              tags: form.watch("tags").join(" "),
               ratingMin: form.watch("ratingMin"),
               ratingMax: form.watch("ratingMax"),
               sort: form.watch("sort"),
