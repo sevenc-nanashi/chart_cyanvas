@@ -13,7 +13,7 @@ default: &default
   database: <%= ENV['POSTGRES_DATABASE'] %>
   host: <%= ENV['POSTGRES_HOST'] %>
   port: <%= ENV['POSTGRES_PORT'] %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 10 } %>
   checkout_timeout: <%= ENV.fetch("RAILS_DB_TIMEOUT") { 5 } %>
 
 development:
