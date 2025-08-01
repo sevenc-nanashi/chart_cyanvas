@@ -13,6 +13,7 @@ en:
       external_done: "Login successful! Please return to the web page."
     info:
       description: "Chart Cyanvas is a certain Sekai custom chart platform for Sonolus."
+      overloaded: "過負荷のため、ログインなしのアクセスを制限しています。アクセスするにはSonolusアカウントにログインしてください。"
       logged_in: "Logged in as %{name}#%{handle}."
     backgrounds:
       title: "%{name}: %{version}"

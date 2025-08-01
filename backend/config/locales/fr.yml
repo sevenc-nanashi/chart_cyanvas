@@ -13,6 +13,7 @@ fr:
       external_done: "Connexion réussie ! Veuillez revenir à la page Web."
     info:
       description: "Chart Cyanvas est une plateforme Sonolus pour les niveaux non officiels de Sekai."
+      overloaded: "過負荷のため、ログインなしのアクセスを制限しています。アクセスするにはSonolusアカウントにログインしてください。"
       logged_in: "Connecté en tant que %{name}#%{handle}."
     backgrounds:
       title: "%{name}: %{version}"
