@@ -472,7 +472,7 @@ module Sonolus
             charts.offset([params[:page].to_i * 20, 0].max).limit(20)
           end
         charts =
-          if cacheable && params[:page].to_i.zero?
+          if cacheable && params[:page].to_i.zero? && genres == Chart::GENRES.keys
             Rails.logger.debug "Fetching charts from cache"
             Rails
               .cache
