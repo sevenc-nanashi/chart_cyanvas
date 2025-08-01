@@ -203,16 +203,7 @@ module Sonolus
       }
       random_charts =
         begin
-          chart_ids =
-            Rails
-              .cache
-              .fetch("sonolus:random_charts", expires_in: 1.hour) do
-                Chart
-                  .where(visibility: :public, genre: user_genres)
-                  .sonolus_listed
-                  .pluck(:id)
-              end
-              .sample(5)
+          chart_ids = get_random_chart_ids(5, genres: user_genres)
           Chart
             .includes(:author)
             .eager_load(:tags, file_resources: { file_attachment: :blob })
@@ -448,18 +439,18 @@ module Sonolus
           charts.order(likes_count: :desc)
         when :random
           # TODO(maybe): use more low-cost and low-randomness method for anonymous users
-          is_vanilla_search =
+          cacheable =
             self.class.search_options.all? do |option|
-              option[:query] == :q_sort || params[option[:query]].blank?
+              %i[q_sort q_genres].include?(option[:query]) ||
+                params[option[:query]].blank?
             end
           random_ids =
-            if is_vanilla_search
+            if cacheable
               Rails.logger.debug "Fetching random charts from cache"
-              Rails
-                .cache
-                .fetch("sonolus:random_charts", expires_in: 1.hour) do
-                  charts.pluck(:id).sample(20)
-                end
+              get_random_chart_ids(
+                20,
+                genres: genres.empty? ? user_genres : genres
+              )
             else
               charts.pluck(:id).sample(20)
             end
@@ -640,6 +631,27 @@ module Sonolus
 
     def result_info
       render json: { submits: [] }
+    end
+
+    RANDOM_CHARTS_CACHE_COUNT = 100
+    def get_random_chart_ids(count, genres: Chart::GENRES.keys)
+      randoms = []
+      genres.each do |genre|
+        chart_ids =
+          Rails
+            .cache
+            .fetch("sonolus:random_charts:#{genre}", expires_in: 1.hour) do
+              chart_ids =
+                Chart
+                  .where(genre:)
+                  .where(visibility: :public)
+                  .sonolus_listed
+                  .pluck(:id)
+              chart_ids.sample(RANDOM_CHARTS_CACHE_COUNT)
+            end
+        randoms += chart_ids
+      end
+      randoms.sample(count)
     end
   end
 end
