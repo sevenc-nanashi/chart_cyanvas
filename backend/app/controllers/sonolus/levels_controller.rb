@@ -187,18 +187,22 @@ module Sonolus
         itemType: "level",
         searchValues: "type=newest",
         items:
-          Chart
-            .order(published_at: :desc)
-            .limit(5)
-            .includes(:author)
-            .eager_load(:tags, file_resources: [:file_attachment])
-            .where(visibility: :public, genre: user_genres)
-            .sonolus_listed
-            .map { it.to_sonolus(background_version:) }
+          Rails
+            .cache
+            .fetch("sonolus:newest_charts", expires_in: 5.minutes) do
+              Chart
+                .order(published_at: :desc)
+                .limit(5)
+                .includes(:author)
+                .eager_load(:tags, file_resources: [:file_attachment])
+                .where(visibility: :public, genre: user_genres)
+                .sonolus_listed
+                .map { it.to_sonolus(background_version:) }
+            end
       }
       random_charts =
         begin
-          chart_ids = get_random_chart_ids(5, genres: user_genres)
+          chart_ids = Chart.get_random_chart_ids(5, genres: user_genres)
           Chart
             .includes(:author)
             .eager_load(:tags, file_resources: [:file_attachment])
@@ -434,7 +438,7 @@ module Sonolus
           random_ids =
             if cacheable
               Rails.logger.debug "Fetching random charts from cache"
-              get_random_chart_ids(20, genres:)
+              Chart.get_random_chart_ids(20, genres:)
             else
               charts.pluck(:id).sample(20)
             end
@@ -462,13 +466,26 @@ module Sonolus
         num_charts =
           if cacheable
             Rails.logger.debug "Fetching number of charts from cache"
-            get_num_charts_with_cache(genres: genres)
+            Chart.get_num_charts_with_cache(genres: genres)
           else
             charts.unscope(:group, :having).count
+            charts.offset([params[:page].to_i * 20, 0].max).limit(20)
+          end
+        charts =
+          if cacheable && params[:page].to_i.zero?
+            Rails.logger.debug "Fetching charts from cache"
+            Rails
+              .cache
+              .fetch("sonolus:charts", expires_in: 5.minutes) do
+                charts.unscope(:group, :having).limit(20)
+              end
+          else
+            charts
+              .unscope(:group, :having)
+              .offset([params[:page].to_i * 20, 0].max)
+              .limit(20)
           end
         page_count = (num_charts / 20.0).ceil
-
-        charts = charts.offset([params[:page].to_i * 20, 0].max).limit(20)
 
         render json: {
                  items: charts.map { it.to_sonolus(background_version:) },
@@ -630,37 +647,6 @@ module Sonolus
 
     def result_info
       render json: { submits: [] }
-    end
-
-    RANDOM_CHARTS_CACHE_COUNT = 100
-    def get_random_chart_ids(count, genres: Chart::GENRES.keys)
-      randoms = []
-      genres.each do |genre|
-        chart_ids =
-          Rails
-            .cache
-            .fetch("sonolus:random_charts:#{genre}", expires_in: 1.hour) do
-              chart_ids =
-                Chart
-                  .where(genre:)
-                  .where(visibility: :public)
-                  .sonolus_listed
-                  .pluck(:id)
-              chart_ids.sample(RANDOM_CHARTS_CACHE_COUNT)
-            end
-        randoms += chart_ids
-      end
-      randoms.sample(count)
-    end
-
-    def get_num_charts_with_cache(genres: Chart::GENRES.keys)
-      genres.sum do |genre|
-        Rails
-          .cache
-          .fetch("sonolus:num_charts:#{genre}", expires_in: 5.minutes) do
-            Chart.where(genre:, visibility: :public).sonolus_listed.count
-          end
-      end
     end
   end
 end

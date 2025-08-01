@@ -192,4 +192,35 @@ class Chart < ApplicationRecord
         )
     }
   end
+
+  RANDOM_CHARTS_CACHE_COUNT = 100
+  def self.get_random_chart_ids(count, genres: Chart::GENRES.keys)
+    randoms = []
+    genres.each do |genre|
+      chart_ids =
+        Rails
+          .cache
+          .fetch("sonolus:random_charts:#{genre}", expires_in: 1.hour) do
+            chart_ids =
+              Chart
+                .where(genre:)
+                .where(visibility: :public)
+                .sonolus_listed
+                .pluck(:id)
+            chart_ids.sample(RANDOM_CHARTS_CACHE_COUNT)
+          end
+      randoms += chart_ids
+    end
+    randoms.sample(count)
+  end
+
+  def self.get_num_charts_with_cache(genres: Chart::GENRES.keys)
+    genres.sum do |genre|
+      Rails
+        .cache
+        .fetch("sonolus:num_charts:#{genre}", expires_in: 5.minutes) do
+          Chart.where(genre:, visibility: :public).sonolus_listed.count
+        end
+    end
+  end
 end

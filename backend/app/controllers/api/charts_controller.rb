@@ -352,15 +352,46 @@ module Api
           charts.order(published_at: :desc)
         end
 
-      num_charts = charts.unscope(:group, :having).count
-      charts =
-        charts.preload(
-          :author,
-          :tags,
-          file_resources: {
-            file_attachment: :blob
-          }
-        ).select("charts.*")
+      cacheable =
+        [
+          validator.title,
+          validator.composer,
+          validator.artist,
+          validator.rating_min,
+          validator.rating_max,
+          validator.author_name,
+          validator.author_handles,
+          validator.tags,
+          # validator.genres,
+          validator.include_non_public
+        ].none?(&:present?) && validator.sort.nil? && validator.offset.nil? &&
+          validator.count.nil?
+
+      if cacheable
+        num_charts = Chart.get_num_charts_with_cache(genres: validator.genres)
+        charts =
+          Rails
+            .cache
+            .fetch("charts:all", expires_in: 5.minutes) do
+              charts.preload(
+                :author,
+                :tags,
+                file_resources: {
+                  file_attachment: :blob
+                }
+              ).select("charts.*")
+            end
+      else
+        num_charts = charts.unscope(:group, :having).count
+        charts =
+          charts.preload(
+            :author,
+            :tags,
+            file_resources: {
+              file_attachment: :blob
+            }
+          ).select("charts.*")
+      end
 
       charts = charts.offset(validator.offset || 0).limit(length)
 
