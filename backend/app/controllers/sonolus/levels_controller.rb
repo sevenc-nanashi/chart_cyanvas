@@ -142,6 +142,7 @@ module Sonolus
     end
 
     def info
+      require_login!
       private_section =
         if current_user
           alt_users = User.where(owner_id: current_user.id)
