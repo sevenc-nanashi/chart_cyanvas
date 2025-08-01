@@ -204,10 +204,14 @@ module Sonolus
       random_charts =
         begin
           chart_ids =
-            Chart
-              .where(visibility: :public, genre: user_genres)
-              .sonolus_listed
-              .pluck(:id)
+            Rails
+              .cache
+              .fetch("sonolus:random_charts", expires_in: 1.hour) do
+                Chart
+                  .where(visibility: :public, genre: user_genres)
+                  .sonolus_listed
+                  .pluck(:id)
+              end
               .sample(5)
           Chart
             .includes(:author)
@@ -444,7 +448,21 @@ module Sonolus
           charts.order(likes_count: :desc)
         when :random
           # TODO(maybe): use more low-cost and low-randomness method for anonymous users
-          random_ids = charts.pluck(:id).sample(20)
+          is_vanilla_search =
+            self.class.search_options.all? do |option|
+              option[:query] == :q_sort || params[option[:query]].blank?
+            end
+          random_ids =
+            if is_vanilla_search
+              Rails.logger.debug "Fetching random charts from cache"
+              Rails
+                .cache
+                .fetch("sonolus:random_charts", expires_in: 1.hour) do
+                  charts.pluck(:id).sample(20)
+                end
+            else
+              charts.pluck(:id).sample(20)
+            end
           charts.where(id: random_ids).in_order_of(:id, random_ids)
         else
           charts.order(published_at: :desc)
