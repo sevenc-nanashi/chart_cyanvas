@@ -16,6 +16,7 @@ ja:
       external_done: "ログインに成功しました！Webページに戻って下さい。"
     info:
       description: "Chart Cyanvas は Sonolus 用の某セカイ創作譜面プラットフォームです。"
+      overloaded: "過負荷のため、ログインなしのアクセスを制限しています。アクセスするにはSonolusアカウントにログインしてください。"
       logged_in: "%{name}#%{handle} としてログインしています。"
     backgrounds:
       title: "%{name}：%{version}"
