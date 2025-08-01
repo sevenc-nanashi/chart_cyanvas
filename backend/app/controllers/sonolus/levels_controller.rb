@@ -153,13 +153,7 @@ module Sonolus
               Chart
                 .order(updated_at: :desc)
                 .limit(5)
-                .eager_load(
-                  :tags,
-                  :_variants,
-                  file_resources: {
-                    file_attachment: :blob
-                  }
-                )
+                .eager_load(:tags, file_resources: [:file_attachment])
                 .where(
                   visibility: :private,
                   author_id: [current_user.id] + alt_users.map(&:id)
@@ -196,7 +190,7 @@ module Sonolus
             .order(published_at: :desc)
             .limit(5)
             .includes(:author)
-            .eager_load(:tags, file_resources: { file_attachment: :blob })
+            .eager_load(:tags, file_resources: [:file_attachment])
             .where(visibility: :public, genre: user_genres)
             .sonolus_listed
             .map { it.to_sonolus(background_version:) }
@@ -206,7 +200,7 @@ module Sonolus
           chart_ids = get_random_chart_ids(5, genres: user_genres)
           Chart
             .includes(:author)
-            .eager_load(:tags, file_resources: { file_attachment: :blob })
+            .eager_load(:tags, file_resources: [:file_attachment])
             .where(id: chart_ids)
             .in_order_of(:id, chart_ids)
         end
@@ -289,17 +283,7 @@ module Sonolus
         *self.class.search_options.pluck(:query)
       )
 
-      charts =
-        Chart
-          .includes(:author)
-          .eager_load(
-            :tags,
-            :_variants,
-            file_resources: {
-              file_attachment: :blob
-            }
-          )
-          .sonolus_listed
+      charts = Chart.sonolus_listed
 
       charts =
         charts.where(charts: { rating: (params[:q_rating_min]).. }) if params[
@@ -341,19 +325,23 @@ module Sonolus
       end
       if params[:q_tags].present?
         tags =
-          params[:q_tags]
-            .split(",")
-            .map(&:strip)
-            .map(&:downcase)
-            .compact_blank
-            .uniq
+          params[:q_tags].split.map(&:strip).map(&:downcase).compact_blank.uniq
 
         charts =
-          Chart
-            .joins(:tags)
-            .where("LOWER(tags.name) IN (?)", tags)
-            .group("charts.id")
-            .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
+          if tags.length == 1
+            charts
+              .joins(:tags)
+              .where("LOWER(tags.name) = ?", tags.first)
+              .distinct
+          else
+            require_login!
+            charts
+              .joins(:tags)
+              .where("LOWER(tags.name) IN (?)", tags)
+              .group("charts.id")
+              .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
+              .distinct
+          end
       end
 
       if params[:q_author].present?
@@ -459,6 +447,14 @@ module Sonolus
           charts.order(published_at: :desc)
         end
 
+      charts =
+        charts.preload(
+          :author,
+          :tags,
+          file_resources: {
+            file_attachment: :blob
+          }
+        ).select("charts.*")
       if params[:q_sort] == "random"
         render json: {
                  items: charts.map { it.to_sonolus(background_version:) },

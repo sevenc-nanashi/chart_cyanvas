@@ -276,14 +276,22 @@ module Api
       end
 
       if validator.tags.present?
-        tags = validator.tags.uniq
+        tags = validator.tags.map(&:strip).map(&:downcase).compact_blank.uniq
 
         charts =
-          Chart
-            .joins(:tags)
-            .where("LOWER(tags.name) IN (?)", tags)
-            .group("charts.id")
-            .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
+          if tags.length == 1
+            charts
+              .joins(:tags)
+              .where("LOWER(tags.name) = ?", tags.first)
+              .distinct
+          else
+            charts
+              .joins(:tags)
+              .where("LOWER(tags.name) IN (?)", tags)
+              .group("charts.id")
+              .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
+              .distinct
+          end
       end
 
       if validator.author_handles.present?
@@ -344,25 +352,23 @@ module Api
           charts.order(published_at: :desc)
         end
 
-      num_charts =
-        Chart.from(charts.except(:limit, :offset).select(:id), :charts).count
-      # rubocop:disable Lint/RedundantSafeNavigation
-      charts = charts.limit(length).offset(validator.offset&.to_i || 0)
-      # rubocop:enable Lint/RedundantSafeNavigation
-      chart_ids = charts.map(&:id)
-      file_resources =
-        FileResource
-          .where(chart_id: chart_ids)
-          .eager_load(file_attachment: :blob)
-          .to_a
-      file_resources_by_chart_id = file_resources.group_by(&:chart_id)
       charts =
-        charts.map do |chart|
-          file_resources = file_resources_by_chart_id[chart.id] || []
-          chart.define_singleton_method(:file_resources) { file_resources }
-          chart.to_frontend(user: session_data && session_data[:user])
-        end
-      render json: { code: "ok", charts:, total: num_charts }
+        charts.preload(
+          :author,
+          :tags,
+          file_resources: {
+            file_attachment: :blob
+          }
+        ).select("charts.*")
+      num_charts = charts.unscope(:group, :having).count
+
+      charts = charts.offset(validator.offset || 0).limit(length)
+
+      render json: {
+               code: "ok",
+               charts: charts.map(&:to_frontend),
+               total: num_charts
+             }
     end
 
     def show
