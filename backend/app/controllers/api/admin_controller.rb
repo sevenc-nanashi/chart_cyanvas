@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 module Api
   class AdminController < FrontendController
-    def data
+    def db_stat
+      render json: { code: "ok", data: ActiveRecord::Base.connection_pool.stat }
+    end
+    def item_stat
       render json: {
                code: "ok",
                data: {
-                 stats: {
-                   charts: {
-                     public: Chart.where(visibility: :public).count,
-                     scheduled: Chart.where(visibility: :scheduled).count,
-                     private: Chart.where(visibility: :private).count
-                   },
-                   users: {
-                     original: User.where(owner_id: nil).count,
-                     alt: User.where.not(owner_id: nil).count,
-                     discord: User.where.not(discord_id: nil).count
-                   },
-                   files:
-                     FileResource.kinds.transform_values do |kind|
-                       FileResource.where(kind:).count
-                     end,
-                   db: ActiveRecord::Base.connection_pool.stat
-                 }
+                 charts: {
+                   public: Chart.where(visibility: :public).count,
+                   scheduled: Chart.where(visibility: :scheduled).count,
+                   private: Chart.where(visibility: :private).count
+                 },
+                 users: {
+                   original: User.where(owner_id: nil).count,
+                   alt: User.where.not(owner_id: nil).count,
+                   discord: User.where.not(discord_id: nil).count
+                 },
+                 files:
+                   FileResource.kinds.transform_values do |kind|
+                     FileResource.where(kind:).count
+                   end
                }
              }
     end

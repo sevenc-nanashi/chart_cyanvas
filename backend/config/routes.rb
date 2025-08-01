@@ -42,7 +42,8 @@ Rails.application.routes.draw do
     get "/my/warnings", to: "api/my#warnings"
     put "/my/warnings/seen", to: "api/my#acknowledge_warnings"
 
-    get "/admin", to: "api/admin#data"
+    get "/admin/db-stat", to: "api/admin#db_stat"
+    get "/admin/item-stat", to: "api/admin#item_stat"
     get "/admin/users/:handle", to: "api/admin#show_user"
     post "/admin/expire-data", to: "api/admin#expire_data"
     post "/admin/warn", to: "api/admin#create_warn"
