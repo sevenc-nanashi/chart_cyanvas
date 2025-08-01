@@ -294,7 +294,7 @@ module Sonolus
         self.class.search_options.all? do |option|
           %i[q_sort q_genres].include?(option[:query]) ||
             params[option[:query]].blank?
-        end
+        end && params[:type] == "advanced"
 
       charts =
         charts.where(charts: { rating: (params[:q_rating_min]).. }) if params[
@@ -469,15 +469,21 @@ module Sonolus
             Chart.get_num_charts_with_cache(genres: genres)
           else
             charts.unscope(:group, :having).count
-            charts.offset([params[:page].to_i * 20, 0].max).limit(20)
           end
         charts =
-          if cacheable && params[:page].to_i.zero? && genres == Chart::GENRES.keys
+          if cacheable && params[:page].to_i.zero? &&
+               genres == Chart::GENRES.keys
             Rails.logger.debug "Fetching charts from cache"
             Rails
               .cache
               .fetch("sonolus:charts", expires_in: 5.minutes) do
-                charts.unscope(:group, :having).limit(20)
+                Chart.preload(
+                  :author,
+                  :tags,
+                  file_resources: {
+                    file_attachment: :blob
+                  }
+                ).where(visibility: :public)
               end
           else
             charts
