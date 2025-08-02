@@ -157,3 +157,24 @@ properties:
     oneOf:
       - type: "null"
       - type: "string"
+  otel:
+    description: "OpenTelemetry configuration, null to disable."
+    anyOf:
+      - type: "null"
+      - type: "object"
+        properties:
+          traces_exporter:
+            type: "string"
+            description: "OpenTelemetry traces exporter."
+          exporter:
+            type: "object"
+            description: "OpenTelemetry exporter configuration."
+            properties:
+              endpoint:
+                type: "string"
+                description: "OpenTelemetry exporter endpoint."
+              headers:
+                type: "object"
+                additionalProperties:
+                  type: "string"
+                description: "OpenTelemetry exporter headers."
