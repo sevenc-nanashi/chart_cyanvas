@@ -47,44 +47,44 @@ class SonolusController < ApplicationController
     self.user_genres = (genres.empty? ? Chart::GENRES.keys : genres)
   end
 
-  around_action do |_, action|
-    unless request.headers["Sonolus-Session"]
-      action.call
-      next
-    end
-    session_id = request.headers["Sonolus-Session"]
-    begin
-      unless user_profile =
-               $redis
-                 .with { |c| c.get("sonolus_session/#{session_id}") }
-                 &.then { |json| JSON.parse(json, symbolize_names: true) }
-        logger.warn "Invalid session id: #{session_id}"
-        render json: { message: "Session expired" }, status: :unauthorized
-        next
-      end
-      user =
-        Rails
-          .cache
-          .fetch(
-            "sonolus:auth:#{user_profile[:handle]}",
-            expires_in: 30.minutes
-          ) do
-            Rails.logger.debug do
-              "Fetching user #{user_profile[:handle]} from DB"
-            end
-            User.find_by(handle: user_profile[:handle], owner_id: nil)
-          end
-
-      self.current_user = user
-    rescue StandardError => e
-      logger.warn "Invalid session data:"
-      logger.warn [e, *e.backtrace].join("\n")
-      render json: { message: "Invalid session" }, status: :unauthorized
-      next
-    else
-      action.call
-    end
-  end
+  # around_action do |_, action|
+  #   unless request.headers["Sonolus-Session"]
+  #     action.call
+  #     next
+  #   end
+  #   session_id = request.headers["Sonolus-Session"]
+  #   begin
+  #     unless user_profile =
+  #              $redis
+  #                .with { |c| c.get("sonolus_session/#{session_id}") }
+  #                &.then { |json| JSON.parse(json, symbolize_names: true) }
+  #       logger.warn "Invalid session id: #{session_id}"
+  #       render json: { message: "Session expired" }, status: :unauthorized
+  #       next
+  #     end
+  #     user =
+  #       Rails
+  #         .cache
+  #         .fetch(
+  #           "sonolus:auth:#{user_profile[:handle]}",
+  #           expires_in: 30.minutes
+  #         ) do
+  #           Rails.logger.debug do
+  #             "Fetching user #{user_profile[:handle]} from DB"
+  #           end
+  #           User.find_by(handle: user_profile[:handle], owner_id: nil)
+  #         end
+  #
+  #     self.current_user = user
+  #   rescue StandardError => e
+  #     logger.warn "Invalid session data:"
+  #     logger.warn [e, *e.backtrace].join("\n")
+  #     render json: { message: "Invalid session" }, status: :unauthorized
+  #     next
+  #   else
+  #     action.call
+  #   end
+  # end
 
   def session_data
     RequestLocals.store[:sonolus_auth_session]
@@ -95,6 +95,39 @@ class SonolusController < ApplicationController
   end
 
   def current_user
+    return nil unless request.headers["Sonolus-Session"]
+    if RequestLocals.store[:sonolus_auth_user].nil?
+      session_id = request.headers["Sonolus-Session"]
+      begin
+        unless user_profile =
+                 $redis
+                   .with { |c| c.get("sonolus_session/#{session_id}") }
+                   &.then { |json| JSON.parse(json, symbolize_names: true) }
+          logger.warn "Invalid session id: #{session_id}"
+          render json: { message: "Session expired" }, status: :unauthorized
+          return
+        end
+        user =
+          Rails
+            .cache
+            .fetch(
+              "sonolus:auth:#{user_profile[:handle]}",
+              expires_in: 30.minutes
+            ) do
+              Rails.logger.debug do
+                "Fetching user #{user_profile[:handle]} from DB"
+              end
+              User.find_by(handle: user_profile[:handle], owner_id: nil)
+            end
+
+        self.current_user = user
+      rescue StandardError => e
+        logger.warn "Invalid session data:"
+        logger.warn [e, *e.backtrace].join("\n")
+        render json: { message: "Invalid session" }, status: :unauthorized
+        return
+      end
+    end
     RequestLocals.store[:sonolus_auth_user]
   end
 
