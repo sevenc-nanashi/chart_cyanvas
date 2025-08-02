@@ -7,8 +7,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: postgres
-  password: postgres
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
 
   database: <%= ENV['POSTGRES_DATABASE'] %>
   host: <%= ENV['POSTGRES_HOST'] %>
