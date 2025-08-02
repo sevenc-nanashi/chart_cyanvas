@@ -17,9 +17,8 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 pjsekai-background-gen-core = { git = "https://github.com/sevenc-nanashi/pjsekai-background-gen-rust", branch = "main" }
 reqwest.workspace = true
-image = "0.24.7"
+image = "0.24.9"
 tempfile.workspace = true
-once_cell.workspace = true
 uuid.workspace = true
 dotenv.workspace = true
 rstest.workspace = true

@@ -1,7 +1,6 @@
 use std::{collections::HashMap, sync::Arc};
 
 use axum::{extract::Path, Json};
-use once_cell::sync::Lazy;
 use tempfile::NamedTempFile;
 use tokio::{io::AsyncReadExt, sync::Mutex};
 use tracing::{info, warn};
@@ -11,8 +10,8 @@ use crate::{
     result::Result,
 };
 
-static FILES: Lazy<Arc<Mutex<HashMap<String, NamedTempFile>>>> =
-    Lazy::new(|| Arc::new(Mutex::new(HashMap::new())));
+static FILES: std::sync::LazyLock<Arc<Mutex<HashMap<String, NamedTempFile>>>> =
+    std::sync::LazyLock::new(|| Arc::new(Mutex::new(HashMap::new())));
 
 pub async fn root_get() -> Json<RootResponse> {
     Json(RootResponse {

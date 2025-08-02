@@ -44,6 +44,9 @@ properties:
       sub_chart:
         type: "string"
         description: "sub-chart host."
+      sub_temp_storage:
+        type: "string"
+        description: "sub-temp-storage host."
   s3:
     type: "object"
     description: "S3 configuration."
