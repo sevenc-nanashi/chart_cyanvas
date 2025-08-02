@@ -10,5 +10,4 @@ echo "Starting sidekiq"
 sidekiq &
 
 echo "Starting rails server"
-# rails s -u puma -p 3000
-falcon host
+rails s -u puma -p 3000
