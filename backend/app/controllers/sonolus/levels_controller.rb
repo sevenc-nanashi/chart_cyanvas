@@ -182,23 +182,30 @@ module Sonolus
         ]
       }
 
+      newest_by_genre =
+        user_genres
+          .flat_map do |genre|
+            Rails
+              .cache
+              .fetch("sonolus:newest_charts:#{genre}", expires_in: 5.minutes) do
+                Chart
+                  .order(published_at: :desc)
+                  .limit(5)
+                  .preload(:author, :tags, file_resources: [:file_attachment])
+                  .where(visibility: :public, genre:)
+                  .sonolus_listed
+              end
+          end
+          .sort_by(&:published_at)
+          .reverse
+          .take(5)
+
       newest_section = {
         title: "#NEWEST",
         itemType: "level",
         searchValues: "type=newest",
         items:
-          Rails
-            .cache
-            .fetch("sonolus:newest_charts", expires_in: 5.minutes) do
-              Chart
-                .order(published_at: :desc)
-                .limit(5)
-                .includes(:author)
-                .eager_load(:tags, file_resources: [:file_attachment])
-                .where(visibility: :public, genre: user_genres)
-                .sonolus_listed
-                .map { it.to_sonolus(background_version:) }
-            end
+          newest_by_genre.map { |chart| chart.to_sonolus(background_version:) }
       }
       random_charts =
         begin
