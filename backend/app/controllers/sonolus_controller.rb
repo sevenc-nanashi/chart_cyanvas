@@ -59,16 +59,27 @@ class SonolusController < ApplicationController
                  .with { |c| c.get("sonolus_session/#{session_id}") }
                  &.then { |json| JSON.parse(json, symbolize_names: true) }
         logger.warn "Invalid session id: #{session_id}"
-        render json: { error: "Session expired" }, status: :unauthorized
+        render json: { message: "Session expired" }, status: :unauthorized
         next
       end
-      user = User.find_by(handle: user_profile[:handle], owner_id: nil)
+      user =
+        Rails
+          .cache
+          .fetch(
+            "sonolus:auth:#{user_profile[:handle]}",
+            expires_in: 30.minutes
+          ) do
+            Rails.logger.debug do
+              "Fetching user #{user_profile[:handle]} from DB"
+            end
+            User.find_by(handle: user_profile[:handle], owner_id: nil)
+          end
 
       self.current_user = user
     rescue StandardError => e
       logger.warn "Invalid session data:"
       logger.warn [e, *e.backtrace].join("\n")
-      render json: { error: "Invalid session" }, status: :unauthorized
+      render json: { message: "Invalid session" }, status: :unauthorized
       next
     else
       action.call
@@ -162,6 +173,8 @@ class SonolusController < ApplicationController
     end
 
     User.sync_profile(params[:userProfile])
+
+    Rails.cache.delete("sonolus:auth:#{params[:userProfile][:handle]}")
 
     render json: {
              session: session_id,
