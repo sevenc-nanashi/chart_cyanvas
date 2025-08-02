@@ -180,7 +180,8 @@ GEM
     fiber-storage (1.0.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    hiredis (0.6.3)
+    hiredis-client (0.25.0)
+      redis-client (= 0.25.0)
     http (5.3.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -316,6 +317,8 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
+    redis (5.4.0)
+      redis-client (>= 0.22.0)
     redis-client (0.25.0)
       connection_pool
     regexp_parser (2.10.0)
@@ -427,7 +430,7 @@ DEPENDENCIES
   debug
   dotenv-rails (~> 3.1)
   falcon (~> 0.48)
-  hiredis (~> 0.6.3)
+  hiredis-client (~> 0.25.0)
   http (~> 5.2)
   jwt (~> 2.10)
   net-smtp (= 0.5.0)
@@ -437,6 +440,7 @@ DEPENDENCIES
   rails (~> 8.0)
   rails-i18n (~> 8.0)
   rbnacl (~> 7.1)
+  redis (~> 5.3)
   request_store_rails (~> 2.0)
   rspec (~> 3.13)
   rspec-rails (~> 7.1)

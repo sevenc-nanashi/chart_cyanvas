@@ -45,7 +45,7 @@ Rails.application.configure do
   end
   config.cache_store =
     :redis_cache_store,
-    { url: ENV.fetch("REDIS_URL", nil), expires_in: 1.week }
+    { url: ENV.fetch("REDIS_URL", nil), expires_in: 1.week, driver: :hiredis }
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :s3
