@@ -174,7 +174,5 @@ properties:
                 type: "string"
                 description: "OpenTelemetry exporter endpoint."
               headers:
-                type: "object"
-                additionalProperties:
-                  type: "string"
+                type: "string"
                 description: "OpenTelemetry exporter headers."

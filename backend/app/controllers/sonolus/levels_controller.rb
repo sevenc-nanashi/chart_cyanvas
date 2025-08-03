@@ -154,7 +154,7 @@ module Sonolus
               Chart
                 .order(updated_at: :desc)
                 .limit(5)
-                .preload(:author, :co_authors, :_variants, :tags, file_resources: [:file_attachment])
+                .preload(:author, :tags, file_resources: [:file_attachment])
                 .where(
                   visibility: :private,
                   author_id: [current_user.id] + alt_users.map(&:id)
@@ -191,7 +191,7 @@ module Sonolus
                 Chart
                   .order(published_at: :desc)
                   .limit(5)
-                  .preload(:author, :co_authors, :_variants, :tags, file_resources: [:file_attachment])
+                  .preload(:author, :tags, file_resources: [:file_attachment])
                   .where(visibility: :public, genre:)
                   .sonolus_listed
               end
@@ -211,8 +211,8 @@ module Sonolus
         begin
           chart_ids = Chart.get_random_chart_ids(5, genres: user_genres)
           Chart
-            .includes(:author, :co_authors, :_variants, :tags)
-            .preload(file_resources: [:file_attachment])
+            .includes(:author, :tags)
+            .preload(file_resources: { file_attachment: :blob })
             .where(id: chart_ids)
             .in_order_of(:id, chart_ids)
         end
@@ -301,7 +301,7 @@ module Sonolus
         self.class.search_options.all? do |option|
           %i[q_sort q_genres].include?(option[:query]) ||
             params[option[:query]].blank?
-        end && params[:type] == "advanced"
+        end && params[:keywords].blank?
 
       charts =
         charts.where(charts: { rating: (params[:q_rating_min]).. }) if params[
@@ -437,9 +437,12 @@ module Sonolus
           # TODO(maybe): use more low-cost and low-randomness method for anonymous users
           random_ids =
             if cacheable
-              Rails.logger.debug "Fetching random charts from cache"
+              Rails.logger.debug do
+                "Fetching random charts from cache for genres: #{genres}"
+              end
               Chart.get_random_chart_ids(20, genres:)
             else
+              Rails.logger.debug "Uncached random charts"
               charts.pluck(:id).sample(20)
             end
           charts.where(id: random_ids).in_order_of(:id, random_ids)
@@ -448,16 +451,13 @@ module Sonolus
         end
 
       charts =
-        charts =
-          charts.preload(
-            :author,
-            :co_authors,
-            :_variants,
-            :tags,
-            file_resources: {
-              file_attachment: :blob
-            }
-          ).select("charts.*")
+        charts.preload(
+          :author,
+          :tags,
+          file_resources: {
+            file_attachment: :blob
+          }
+        ).select("charts.*")
       if params[:q_sort] == "random"
         render json: {
                  items: charts.map { it.to_sonolus(background_version:) },
@@ -507,9 +507,10 @@ module Sonolus
     def show
       params.require(:name)
       chart =
-        Chart.eager_load(file_resources: { file_attachment: :blob }).preload(:variants).find_by(
-          name: params[:name]
-        )
+        Chart
+          .eager_load(file_resources: [:file_attachment])
+          .preload(:_variants)
+          .find_by(name: params[:name])
       if chart
         user_faved =
           current_user &&
