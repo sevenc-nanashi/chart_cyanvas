@@ -7,7 +7,7 @@ pub struct RootResponse {
 
 #[derive(Serialize, Debug)]
 pub struct UploadResponse {
-    // pub code: String,
+    pub code: String,
     pub url: String,
 }
 

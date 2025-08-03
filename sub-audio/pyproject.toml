@@ -11,6 +11,7 @@ dependencies = [
   "redis>=5.0.8",
   "sentry-sdk>=2.14.0",
   "taskipy>=1.14.1",
+  "aiohttp>=3.12.15",
 ]
 requires-python = ">= 3.12"
 
