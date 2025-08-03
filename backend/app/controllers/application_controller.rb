@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
   def not_found
     render json: { code: "not_found" }, status: :not_found
   end
-  after_action do
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-  end
+  # after_action do
+  #   response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+  # end
 end

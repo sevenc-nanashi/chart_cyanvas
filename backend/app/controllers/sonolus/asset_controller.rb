@@ -3,6 +3,11 @@ require "yaml"
 
 module Sonolus
   class AssetController < SonolusController
+    before_action do
+      response.headers["Cache-Control"] = "public, max-age=3600"
+      response.headers["CDN-Cache-Control"] = "public, max-age=3600"
+    end
+
     def info
       params.permit(:type)
       type = params[:type]
