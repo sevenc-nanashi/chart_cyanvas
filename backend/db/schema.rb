@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_01_111809) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_03_011237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -64,6 +63,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_01_111809) do
     t.datetime "scheduled_at"
     t.integer "chart_type", default: 0
     t.integer "genre", default: 0, null: false
+    t.index "lower((artist)::text)", name: "index_charts_on_lower_artist"
+    t.index "lower((author_name)::text)", name: "index_charts_on_lower_author_name"
+    t.index "lower((composer)::text)", name: "index_charts_on_lower_composer"
+    t.index "lower((title)::text)", name: "index_charts_on_lower_title"
     t.index ["author_id"], name: "index_charts_on_author_id"
     t.index ["name"], name: "index_charts_on_name"
     t.index ["published_at"], name: "index_charts_on_published_at"
@@ -105,6 +108,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_01_111809) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "lower((name)::text)", name: "index_tags_on_lower_name"
     t.index ["chart_id"], name: "index_tags_on_chart_id"
     t.index ["name"], name: "index_tags_on_name"
   end

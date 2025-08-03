@@ -45,7 +45,7 @@ class Chart < ApplicationRecord
   enum :genre, GENRES, prefix: true
 
   def self.include_all
-    preload(%i[author co_authors _variants tags file_resources]).merge(
+    preload(%i[author co_authors _variants tags file_resources likes]).merge(
       FileResource.with_attached_file
     )
   end

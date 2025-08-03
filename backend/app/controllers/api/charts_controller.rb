@@ -225,7 +225,7 @@ module Api
       length = validator.count.to_i
 
       length = 20 if length <= 0 || length > 20
-      charts = Chart.preload(%i[author co_authors tags])
+      charts = Chart.preload(%i[author co_authors tags likes])
 
       if validator.liked == "true"
         unless (user_id = session[:user_id])
@@ -242,24 +242,24 @@ module Api
       if validator.title
         charts =
           charts.where(
-            "LOWER(charts.title) LIKE ?",
-            "%#{Chart.sanitize_sql_like(params[:title].downcase)}%"
+            "charts.title ILIKE ?",
+            "%#{Chart.sanitize_sql_like(params[:title])}%"
           )
       end
 
       if validator.composer
         charts =
           charts.where(
-            "LOWER(charts.composer) LIKE ?",
-            "%#{Chart.sanitize_sql_like(params[:composer].downcase)}%"
+            "charts.composer ILIKE ?",
+            "%#{Chart.sanitize_sql_like(params[:composer])}%"
           )
       end
 
       if validator.artist
         charts =
           charts.where(
-            "LOWER(charts.artist) LIKE ?",
-            "%#{Chart.sanitize_sql_like(params[:artist].downcase)}%"
+            "charts.artist ILIKE ?",
+            "%#{Chart.sanitize_sql_like(params[:artist])}%"
           )
       end
 
@@ -282,14 +282,14 @@ module Api
           if tags.length == 1
             charts
               .joins(:tags)
-              .where("LOWER(tags.name) = ?", tags.first)
+              .where("tags.name ILIKE ?", tags.first)
               .distinct
           else
             charts
               .joins(:tags)
-              .where("LOWER(tags.name) IN (?)", tags)
+              .where("tags.name ILIKE ANY (ARRAY[?])", tags)
               .group("charts.id")
-              .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
+              .having("COUNT(DISTINCT tags.name) = ?", tags.size)
               .distinct
           end
       end
@@ -319,8 +319,8 @@ module Api
       if validator.author_name
         charts =
           charts.where(
-            "LOWER(charts.author_name) LIKE ?",
-            "%#{validator.author_name.downcase}%"
+            "charts.author_name ILIKE ?",
+            "%#{validator.author_name}%"
           )
       end
 
@@ -376,6 +376,7 @@ module Api
               charts.preload(
                 :author,
                 :tags,
+                :likes,
                 file_resources: {
                   file_attachment: :blob
                 }
@@ -387,6 +388,7 @@ module Api
           charts.preload(
             :author,
             :tags,
+            :likes,
             file_resources: {
               file_attachment: :blob
             }

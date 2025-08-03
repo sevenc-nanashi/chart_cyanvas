@@ -154,7 +154,7 @@ module Sonolus
               Chart
                 .order(updated_at: :desc)
                 .limit(5)
-                .eager_load(:tags, file_resources: [:file_attachment])
+                .preload(:author, :co_authors, :_variants, :tags, file_resources: [:file_attachment])
                 .where(
                   visibility: :private,
                   author_id: [current_user.id] + alt_users.map(&:id)
@@ -191,7 +191,7 @@ module Sonolus
                 Chart
                   .order(published_at: :desc)
                   .limit(5)
-                  .preload(:author, :tags, file_resources: [:file_attachment])
+                  .preload(:author, :co_authors, :_variants, :tags, file_resources: [:file_attachment])
                   .where(visibility: :public, genre:)
                   .sonolus_listed
               end
@@ -211,8 +211,8 @@ module Sonolus
         begin
           chart_ids = Chart.get_random_chart_ids(5, genres: user_genres)
           Chart
-            .includes(:author)
-            .eager_load(:tags, file_resources: [:file_attachment])
+            .includes(:author, :co_authors, :_variants, :tags)
+            .preload(file_resources: [:file_attachment])
             .where(id: chart_ids)
             .in_order_of(:id, chart_ids)
         end
@@ -314,31 +314,31 @@ module Sonolus
       if params[:type] == "quick" && params[:keywords].present?
         charts =
           charts.where(
-            "LOWER(charts.title) LIKE ? OR LOWER(charts.composer) LIKE ? OR LOWER(charts.artist) LIKE ?",
-            "%#{Chart.sanitize_sql_like(params[:keywords].downcase)}%",
-            "%#{Chart.sanitize_sql_like(params[:keywords].downcase)}%",
-            "%#{Chart.sanitize_sql_like(params[:keywords].downcase)}%"
+            "charts.title ILIKE ? OR charts.composer ILIKE ? OR charts.artist ILIKE ?",
+            "%#{Chart.sanitize_sql_like(params[:keywords])}%",
+            "%#{Chart.sanitize_sql_like(params[:keywords])}%",
+            "%#{Chart.sanitize_sql_like(params[:keywords])}%"
           )
       end
       if params[:q_title].present?
         charts =
           charts.where(
-            "LOWER(charts.title) LIKE ?",
-            "%#{Chart.sanitize_sql_like(params[:q_title].downcase)}%"
+            "charts.title ILIKE ?",
+            "%#{Chart.sanitize_sql_like(params[:q_title])}%"
           )
       end
       if params[:q_composer].present?
         charts =
           charts.where(
-            "LOWER(charts.composer) LIKE ?",
-            "%#{Chart.sanitize_sql_like(params[:q_composer].downcase)}%"
+            "charts.composer ILIKE ?",
+            "%#{Chart.sanitize_sql_like(params[:q_composer])}%"
           )
       end
       if params[:q_artist].present?
         charts =
           charts.where(
-            "LOWER(charts.artist) LIKE ?",
-            "%#{Chart.sanitize_sql_like(params[:q_artist].downcase)}%"
+            "charts.artist ILIKE ?",
+            "%#{Chart.sanitize_sql_like(params[:q_artist])}%"
           )
       end
       if params[:q_tags].present?
@@ -347,17 +347,14 @@ module Sonolus
 
         charts =
           if tags.length == 1
-            charts
-              .joins(:tags)
-              .where("LOWER(tags.name) = ?", tags.first)
-              .distinct
+            charts.joins(:tags).where("tags.name ILIKE ?", tags.first).distinct
           else
             require_login!
             charts
               .joins(:tags)
-              .where("LOWER(tags.name) IN (?)", tags)
+              .where("tags.name ILIKE ANY (ARRAY[?])", tags)
               .group("charts.id")
-              .having("COUNT(DISTINCT LOWER(tags.name)) = ?", tags.size)
+              .having("COUNT(DISTINCT tags.name) = ?", tags.size)
               .distinct
           end
       end
@@ -385,8 +382,8 @@ module Sonolus
       if params[:q_author_name].present?
         charts =
           charts.where(
-            "LOWER(charts.author_name) LIKE ?",
-            "%#{params[:q_author_name].downcase}%"
+            "charts.author_name ILIKE ?",
+            "%#{params[:q_author_name]}%"
           )
       end
       case params[:type]
@@ -411,11 +408,7 @@ module Sonolus
         charts = charts.where(visibility: :public)
       end
       if params[:q_id].present?
-        charts =
-          charts.where(
-            "LOWER(charts.name) LIKE ?",
-            "%#{params[:q_id].downcase}%"
-          )
+        charts = charts.where("charts.name ILIKE ?", "%#{params[:q_id]}%")
       end
       genres =
         (params[:q_genres] || "")
@@ -455,13 +448,16 @@ module Sonolus
         end
 
       charts =
-        charts.preload(
-          :author,
-          :tags,
-          file_resources: {
-            file_attachment: :blob
-          }
-        ).select("charts.*")
+        charts =
+          charts.preload(
+            :author,
+            :co_authors,
+            :_variants,
+            :tags,
+            file_resources: {
+              file_attachment: :blob
+            }
+          ).select("charts.*")
       if params[:q_sort] == "random"
         render json: {
                  items: charts.map { it.to_sonolus(background_version:) },
@@ -511,7 +507,7 @@ module Sonolus
     def show
       params.require(:name)
       chart =
-        Chart.eager_load(file_resources: { file_attachment: :blob }).find_by(
+        Chart.eager_load(file_resources: { file_attachment: :blob }).preload(:variants).find_by(
           name: params[:name]
         )
       if chart
