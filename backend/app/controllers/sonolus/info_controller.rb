@@ -4,10 +4,7 @@ module Sonolus
     def info
       title = I18n.t("sonolus.title")
       title += " (dev)" if ENV["RAILS_ENV"] != "production"
-      description =
-        I18n.t("sonolus.info.description") +
-          "\n\nDue to many, many requests, you must login to get access. Please login to your Sonolus account to continue." \
-            "\n過負荷のため、ログインなしのアクセスを制限しています。アクセスするにはSonolusアカウントにログインしてください。"
+      description = I18n.t("sonolus.info.description")
       if current_user
         description +=
           "\n\n" +
