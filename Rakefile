@@ -52,14 +52,14 @@ end
 
 task "install" do
   sh "cd backend && bundle install"
-  sh "cd sub-audio && poetry install"
-  sh "cd sub-chart && pnpm install"
+  sh "cd sub-audio && uv sync"
+  sh "pnpm install"
 end
 
 task "format" do
   sh "cd frontend && pnpm run lint:fix"
   sh "cd backend && bundle exec rubocop -a"
-  sh "cd sub-audio && poetry run black ."
+  sh "cd sub-audio && uv run task lint"
   sh "cd sub-chart && pnpm run lint:fix"
   sh "cd sub-image && cargo fmt"
 end
