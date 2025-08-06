@@ -376,7 +376,6 @@ module Api
               charts.preload(
                 :author,
                 :tags,
-                :likes,
                 file_resources: {
                   file_attachment: :blob
                 }
@@ -388,7 +387,6 @@ module Api
           charts.preload(
             :author,
             :tags,
-            :likes,
             file_resources: {
               file_attachment: :blob
             }
