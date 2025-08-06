@@ -190,14 +190,21 @@ module Sonolus
                 Chart
                   .order(published_at: :desc)
                   .limit(5)
-                  .preload(:author, :tags, file_resources: [:file_attachment])
                   .where(visibility: :public, genre:)
                   .sonolus_listed
+                  .pluck(:id, :published_at)
               end
           end
-          .sort_by(&:published_at)
+          .sort_by(&:last)
           .reverse
           .take(5)
+          .then do |chart|
+            Chart.preload(
+              :author,
+              :tags,
+              file_resources: { file_attachment: :blob }
+            ).in_order_of(:id, chart.map(&:first))
+          end
 
       newest_section = {
         title: "#NEWEST",
