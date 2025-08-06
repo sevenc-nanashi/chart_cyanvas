@@ -479,27 +479,10 @@ module Sonolus
           else
             charts.unscope(:group, :having).count
           end
-        charts =
-          if cacheable && params[:page].to_i.zero? &&
-               genres == Chart::GENRES.keys
-            Rails.logger.debug "Fetching charts from cache"
-            Rails
-              .cache
-              .fetch("sonolus:charts", expires_in: 5.minutes) do
-                Chart.preload(
-                  :author,
-                  :tags,
-                  file_resources: {
-                    file_attachment: :blob
-                  }
-                ).where(visibility: :public)
-              end
-          else
-            charts
-              .unscope(:group, :having)
-              .offset([params[:page].to_i * 20, 0].max)
-              .limit(20)
-          end
+        charts = charts
+                   .unscope(:group, :having)
+                   .offset([params[:page].to_i * 20, 0].max)
+                   .limit(20)
         page_count = (num_charts / 20.0).ceil
 
         render json: {
