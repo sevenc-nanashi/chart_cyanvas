@@ -6,9 +6,12 @@ RUN apt-get update && apt-get install -y build-essential libpq-dev libyaml-dev c
 
 COPY backend/Gemfile backend/Gemfile.lock ./
 
-RUN bundle config set deployment 'true' \
+RUN --mount=type=cache,target=/root/.cache/bundle \
+    bundle config set deployment 'true' \
     && bundle config set with 'production' \
     && bundle config set without 'development test' \
+    && bundle config set app_config .bundle \
+    && bundle config set path .cache/bundle \
     && bundle install
 
 COPY backend/. .

@@ -1,95 +1,4 @@
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
-
-    depends_on:
-      - postgres
-      - sub-chart
-      - sub-audio
-      - sub-image
-    volumes:
-      - ./.env:/app/.env
-    profiles:
-      - prod
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  frontend:
-    build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
-
-    volumes:
-      - ./.env:/app/.env
-    profiles:
-      - prod
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3100"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  wiki:
-    build:
-      context: .
-      dockerfile: ./wiki/Dockerfile
-    profiles:
-      - prod
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3101"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  sub-chart:
-    build:
-      context: .
-      dockerfile: ./sub-chart/Dockerfile
-
-    volumes:
-      - ./.env:/app/.env
-    profiles:
-      - prod
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3201"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  sub-audio:
-    build:
-      context: .
-      dockerfile: ./sub-audio/Dockerfile
-    volumes:
-      - ./.env:/app/.env
-    profiles:
-      - prod
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3202"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  sub-image:
-    build:
-      context: .
-      dockerfile: ./sub-image/Dockerfile
-
-    volumes:
-      - ./.env:/app/.env
-    profiles:
-      - prod
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3203"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
   nginx:
     image: nginx:latest
     ports:
@@ -101,8 +10,6 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./backend/public:/app/backend-public
       - ./backend/assets:/app/backend-assets
-    profiles:
-      - prod
 
   postgres:
     image: postgres:15
@@ -114,10 +21,6 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
-    profiles:
-      - prod
-      - dev
-      - test
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
       interval: 10s
@@ -130,10 +33,6 @@ services:
       - "6379:6379"
     volumes:
       - "./data/redis:/data"
-    profiles:
-      - prod
-      - dev
-      - test
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -151,9 +50,6 @@ services:
     environment:
       MINIO_ROOT_USER: "${S3_USER}"
       MINIO_ROOT_PASSWORD: "${S3_PASSWORD}"
-    profiles:
-      - dev
-      - test
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 10s
@@ -170,10 +66,24 @@ services:
       mc mb minio/${S3_BUCKET} &&
       mc policy set public minio/${S3_BUCKET}
       '
-    profiles:
-      - "init"
-      - test
     environment:
       S3_USER: "${S3_USER}"
       S3_PASSWORD: "${S3_PASSWORD}"
       S3_BUCKET: "${S3_BUCKET}"
+
+  openobserve:
+    image: public.ecr.aws/zinclabs/openobserve:v0.15.0-rc4-debug
+    ports:
+      - "5080:5080"
+    environment:
+      ZO_ROOT_USER_EMAIL: "admin@localhost.local"
+      ZO_ROOT_USER_PASSWORD: "admin"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

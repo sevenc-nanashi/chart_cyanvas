@@ -1,5 +1,20 @@
 # Hosting
 
+## Docker compose configurations
+
+### `./docker-compose.dev.yml`
+Docker compose configuration for development.
+It includes all external services like Redis, PostgreSQL, MinIO, but does not include backend, frontend, and other sub-services.
+### `./docker-compose.prod.yml`
+Docker compose configuration for production.
+It includes all external services like Redis, PostgreSQL, and also backend, frontend, and other sub-services, from ghcr.io.
+
+### `./docker-compose.build.yml` 
+Docker compose configuration for building the images.
+It includes all sub-services, but does not include external services like Redis, PostgreSQL, MinIO. 
+> [!WARNING]
+> Do not use this configuration for production or development, as it runs on `network_mode: host`, which is not suitable for production environments.
+
 ## Hosting for development
 
 1. Copy `./config.dev.yml` to `./config.yml` and modify it.

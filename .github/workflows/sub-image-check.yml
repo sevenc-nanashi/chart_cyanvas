@@ -62,18 +62,6 @@ jobs:
       - name: Cache target
         uses: Swatinem/rust-cache@v2
 
-      - name: Setup rust
-        run: |
-          rustup component add clippy
-          rustup target add x86_64-unknown-linux-gnu
-          rustup target add aarch64-unknown-linux-gnu
-
-      - name: Build binary
-        run: |
-          cargo build --release
-          mkdir ./tmp
-          cp target/release/sub-image ./tmp/sub-image
-
       - name: Build image
         uses: ./.github/actions/build
         with:

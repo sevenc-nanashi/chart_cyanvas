@@ -73,11 +73,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "pnpm"
-      - name: Build production
-        working-directory: ./sub-chart
-        run: |
-          pnpm i
-          pnpm build
 
       - name: Build image
         uses: ./.github/actions/build

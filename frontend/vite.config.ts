@@ -7,7 +7,7 @@ import { defineConfig } from "vite";
 import { cjsInterop } from "vite-plugin-cjs-interop";
 import svgr from "vite-plugin-svgr";
 
-config({ path: "../.env" });
+config({ path: "../.env", quiet: true });
 
 const finalHost =
   process.env.FINAL_HOST && new URL(process.env.FINAL_HOST).hostname;

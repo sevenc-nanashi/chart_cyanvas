@@ -72,11 +72,6 @@ jobs:
           node-version-file: .node-version
           cache: "pnpm"
 
-      - name: Build frontend
-        working-directory: ./frontend
-        run: |
-          pnpm i
-          pnpm build
       - name: Build image
         uses: ./.github/actions/build
         with:

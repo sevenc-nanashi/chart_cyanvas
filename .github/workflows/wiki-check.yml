@@ -66,11 +66,6 @@ jobs:
           node-version-file: .node-version
           cache: "pnpm"
 
-      - name: Build wiki
-        working-directory: ./wiki
-        run: |
-          pnpm i
-          pnpm build
       - name: Build image
         uses: ./.github/actions/build
         with:

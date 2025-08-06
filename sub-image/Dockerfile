@@ -1,10 +1,19 @@
-FROM ubuntu:22.04
-ARG TARGETARCH
-RUN apt-get update && apt-get install -y curl
+FROM debian:bookworm-slim AS builder
+RUN apt-get update && apt-get install -y curl build-essential
 
-COPY ./tmp/sub-image /app/sub-image
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y --default-toolchain stable --profile minimal
+ENV PATH="/root/.cargo/bin:${PATH}"
 
+WORKDIR /build
+COPY toolchain.toml Cargo.toml Cargo.lock ./
+COPY sub-image/. ./sub-image/
+RUN --mount=type=cache,target=/root/.cargo/registry \
+    --mount=type=cache,target=/root/.cargo/git \
+    cargo build --release
+
+FROM debian:bookworm-slim
 WORKDIR /app
 
+COPY --from=builder /build/target/release/sub-image /app/sub-image
 EXPOSE 3203
 ENTRYPOINT ["/app/sub-image"]
