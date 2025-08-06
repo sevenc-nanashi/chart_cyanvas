@@ -123,7 +123,7 @@ module Sonolus
                 type
               )
             when :data
-              ChartConvertJob.perform_now(chart.resources[:chart])
+              ChartConvertJob.perform_now(chart.name, chart.resources[:chart])
             else
               return(
                 render json: {

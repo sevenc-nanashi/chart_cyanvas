@@ -59,16 +59,22 @@ class FileResource < ApplicationRecord
   def to_frontend
     if ENV["S3_PUBLIC_ROOT"].present?
       "#{ENV["S3_PUBLIC_ROOT"]}/#{file.key}"
-    elsif ENV["HOSTS_BACKEND"].blank?
-      file.url
-    else
-      Rails.application.routes.url_helpers.rails_blob_path(
+    elsif ENV["FINAL_HOST"].present?
+      Rails.application.routes.url_helpers.rails_blob_url(
+        file,
+        host: ENV["FINAL_HOST"]
+      )
+    elsif ENV["HOSTS_BACKEND"].present?
+      if Rails.env.production?
+        raise "FINAL_HOST or S3_PUBLIC_ROOT must be set in production"
+      end
+      Rails.application.routes.url_helpers.rails_blob_url(
         file,
         host: ENV["HOSTS_BACKEND"]
       )
+    else
+      raise "No host configured for file resources"
     end
-  rescue StandardError
-    nil
   end
 
   alias url to_frontend

@@ -46,12 +46,22 @@ async def convert(param: ConvertParam):
     dist_preview_file = NamedTemporaryFile(delete=False, suffix=".mp3")
     dist_preview_file.close()
 
+    dist_base_file = NamedTemporaryFile(delete=False)
+    with open(dist_base_file.name, "wb") as f:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                if response.status != 200:
+                    raise Exception(f"Failed to download file: {response.status}")
+                content = await response.read()
+                f.write(content)
+    logger.info(f"convert: downloaded file to {dist_base_file.name}")
+
     bgm_process = subprocess.Popen(
         [
             "ffmpeg",
             "-y",
             "-i",
-            url,
+            dist_base_file.name,
             "-c:a",
             "libmp3lame",
             "-b:a",
@@ -68,7 +78,7 @@ async def convert(param: ConvertParam):
             "ffmpeg",
             "-y",
             "-i",
-            url,
+            dist_base_file.name,
             "-c:a",
             "libmp3lame",
             "-b:a",
@@ -112,6 +122,7 @@ async def convert(param: ConvertParam):
     logger.info(f"convert: bgm_url={bgm_url}, preview_url={preview_url}")
     os.remove(dist_bgm_file.name)
     os.remove(dist_preview_file.name)
+    os.remove(dist_base_file.name)
     return {
         "code": "ok",
         "bgm_url": bgm_url,

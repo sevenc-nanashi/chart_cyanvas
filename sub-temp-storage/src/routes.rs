@@ -50,17 +50,28 @@ pub async fn upload(
     }))
 }
 
+pub async fn download_head(Path(id): Path<String>) -> Result<impl IntoResponse> {
+    info!("Download HEAD: {}", id);
+    let files = FILES.lock().await;
+    if files.contains_key(&id) {
+        Ok(axum::http::StatusCode::OK)
+    } else {
+        warn!("Not found: {}", id);
+        Ok(axum::http::StatusCode::NOT_FOUND)
+    }
+}
+
 pub async fn download_get(Path(id): Path<String>) -> Result<impl IntoResponse> {
     info!("Download: {}", id);
     let mut files = FILES.lock().await;
-    let file = files.remove(&id).ok_or_else(|| {
+    let Some(file) = files.remove(&id) else {
         warn!("Not found: {}", id);
-        anyhow::anyhow!("not found")
-    })?;
+        return Ok(axum::http::StatusCode::NOT_FOUND.into_response());
+    };
     let file = tokio::fs::File::open(file.path()).await?;
     let stream = tokio_util::io::ReaderStream::new(file);
     let body = axum::body::StreamBody::new(stream);
-    Ok(body)
+    Ok(body.into_response())
 }
 
 #[cfg(test)]

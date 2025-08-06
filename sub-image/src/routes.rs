@@ -15,8 +15,8 @@ pub async fn root_get() -> Json<RootResponse> {
 pub async fn convert_post(
     body: Json<crate::models::ConvertRequest>,
 ) -> Result<Json<ConvertResponse>> {
-    let sub_file_storage_host = std::env::var("SUB_FILE_STORAGE_HOST")
-        .unwrap_or_else(|_| "http://localhost:3204".to_string());
+    let sub_file_storage_host =
+        std::env::var("HOSTS_SUB_TEMP_STORAGE").expect("HOSTS_SUB_TEMP_STORAGE must be set");
     info!("Convert: {:?}", body);
     let base_image = reqwest::get(&if body.url.starts_with('/') {
         return Err(anyhow::anyhow!("Invalid URL: {}. URLs must be absolute.", body.url).into());
@@ -110,7 +110,7 @@ pub async fn convert_post(
     result_image.save(temp_file.path())?;
 
     let response = reqwest::Client::new()
-        .post(format!("{}/upload", sub_file_storage_host))
+        .post(format!("{sub_file_storage_host}/upload"))
         .header("Content-Type", "application/octet-stream")
         .body(tokio::fs::read(temp_file.path()).await?)
         .send()
@@ -184,11 +184,8 @@ mod test {
             .bytes()
             .await
             .unwrap();
-        tokio::fs::write(
-            format!("../test_results/test_cover_{dist}.png"),
-            downloaded,
-        )
-        .await
-        .unwrap();
+        tokio::fs::write(format!("../test_results/test_cover_{dist}.png"), downloaded)
+            .await
+            .unwrap();
     }
 }

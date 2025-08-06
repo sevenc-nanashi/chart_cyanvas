@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   get "/admin/sidekiq/*path" => redirect("/")
 
   # Internal
-  get "/tempfile/:id", to: "temporary_file#read"
   get "/meta", to: "frontend#meta"
 
   scope "/api" do

@@ -29,7 +29,7 @@ pub struct ConvertResponse {
 
 #[derive(Deserialize, Debug)]
 pub struct UploadResponse {
-    pub code: String,
+    // pub code: String,
     pub url: String,
 }
 

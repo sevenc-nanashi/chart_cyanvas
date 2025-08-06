@@ -33,6 +33,8 @@ services:
         condition: service_healthy
       sub-image:
         condition: service_healthy
+      sub-temp-storage:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 10s
@@ -56,6 +58,9 @@ services:
     volumes:
       - ./.env:/app/.env
     depends_on:
+      sub-temp-storage:
+        condition: service_healthy
+    depends_on:
       - redis
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3202/"]
@@ -69,6 +74,9 @@ services:
     restart: always
     volumes:
       - ./.env:/app/.env
+    depends_on:
+      sub-temp-storage:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3203/"]
       interval: 10s
@@ -81,8 +89,23 @@ services:
     restart: always
     volumes:
       - ./.env:/app/.env
+    depends_on:
+      sub-temp-storage:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3201/"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  sub-temp-storage:
+    image: "ghcr.io/sevenc-nanashi/chart_cyanvas/sub-temp-storage:latest"
+    pull_policy: always
+    restart: always
+    volumes:
+      - ./.env:/app/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3204/"]
       interval: 10s
       timeout: 10s
       retries: 3

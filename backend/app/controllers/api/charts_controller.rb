@@ -280,10 +280,7 @@ module Api
 
         charts =
           if tags.length == 1
-            charts
-              .joins(:tags)
-              .where("tags.name ILIKE ?", tags.first)
-              .distinct
+            charts.joins(:tags).where("tags.name ILIKE ?", tags.first).distinct
           else
             charts
               .joins(:tags)
@@ -532,15 +529,16 @@ module Api
         )
       chart.tags.create!(data_parsed[:tags].map { |t| { name: t } })
       ChartConvertJob.perform_later(
-        FileResource.upload(chart, :chart, params[:chart])
+        chart.name,
+        FileResource.upload(chart, :chart, params[:chart]).url
       )
       BgmConvertJob.perform_later(
         chart.name,
-        TemporaryFile.new(params[:bgm]).id
+        TemporaryFile.upload(params[:bgm])
       )
       ImageConvertJob.perform_now(
         chart.name,
-        TemporaryFile.new(params[:cover]).id,
+        TemporaryFile.upload(params[:cover]),
         :cover
       )
 
@@ -637,19 +635,20 @@ module Api
       chart.tags.create!(data_parsed[:tags].map { |t| { name: t } })
       if params[:chart]
         ChartConvertJob.perform_later(
-          FileResource.upload(chart, :chart, params[:chart])
+          chart.name,
+          FileResource.upload(chart, :chart, params[:chart]).url
         )
       end
       if params[:bgm]
         BgmConvertJob.perform_later(
           chart.name,
-          TemporaryFile.new(params[:bgm]).id
+          TemporaryFile.upload(params[:bgm])
         )
       end
       if params[:cover]
         ImageConvertJob.perform_now(
           chart.name,
-          TemporaryFile.new(params[:cover]).id,
+          TemporaryFile.upload(params[:cover]),
           :cover
         )
       end

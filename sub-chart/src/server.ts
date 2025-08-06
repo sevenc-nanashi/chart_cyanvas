@@ -1,23 +1,16 @@
-import { randomUUID } from "node:crypto";
-import fs from "node:fs";
-import { Readable } from "node:stream";
 import { promisify } from "node:util";
 import { gzip as gzipBase } from "node:zlib";
 import { sentry } from "@hono/sentry";
 import { zValidator } from "@hono/zod-validator";
-import axios from "axios";
 import dotenv from "dotenv";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
-import { stream } from "hono/streaming";
 import { uscToLevelData } from "sonolus-pjsekai-engine-extended/dist/convert.js";
-import { temporaryWrite } from "tempy";
-import urlJoin from "url-join";
 import { anyToUSC } from "usctool";
 import * as z from "zod";
 
-dotenv.config({ path: ".env" });
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: ".env", quiet: true });
+dotenv.config({ path: "../.env", quiet: true });
 
 const sentryEnabled = !!process.env.SENTRY_DSN_SUB_CHART;
 
@@ -29,9 +22,10 @@ if (sentryEnabled) {
   app.use("*", sentry({ dsn: process.env.SENTRY_DSN_SUB_CHART }));
 }
 
-const files = new Map<string, { path: string; date: Date }>();
-
-const HOSTS_BACKEND = process.env.HOSTS_BACKEND!;
+const HOSTS_SUB_TEMP_STORAGE = process.env.HOSTS_SUB_TEMP_STORAGE;
+if (!HOSTS_SUB_TEMP_STORAGE) {
+  throw new Error("HOSTS_SUB_STORAGE is not defined");
+}
 
 app.use(logger());
 app.get("/", (c) => {
@@ -47,17 +41,12 @@ app.post(
     }),
   ),
   async (c) => {
-    const { url: originalUrl } = c.req.valid("json");
-    const url = originalUrl.startsWith("http")
-      ? originalUrl
-      : urlJoin(HOSTS_BACKEND, originalUrl);
+    const { url } = c.req.valid("json");
 
     try {
       console.log("Converting", url);
-      const chart = await axios.get(url, {
-        responseType: "arraybuffer",
-      });
-      if (chart.status !== 200) {
+      const chart = await fetch(url);
+      if (!chart.ok) {
         return c.json(
           {
             code: "invalid_request",
@@ -66,45 +55,40 @@ app.post(
           400,
         );
       }
-      const { format, usc } = anyToUSC(chart.data);
+      const { format, usc } = anyToUSC(
+        new Uint8Array(await chart.arrayBuffer()),
+      );
       console.log(`Converted from ${format} to USC`);
 
       const baseJson = uscToLevelData(usc);
       const json = JSON.stringify(baseJson);
       const buffer = Buffer.from(json);
       const compressed = await gzip(buffer);
-      const tempFile = await temporaryWrite(compressed);
+      const uploadResponse = await fetch(`${HOSTS_SUB_TEMP_STORAGE}/upload`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "Content-Encoding": "gzip",
+        },
+        body: compressed,
+      });
+      if (!uploadResponse.ok) {
+        return c.json(
+          {
+            code: "internal_server_error",
+            message: "Failed to upload converted chart",
+          },
+          500,
+        );
+      }
+      const { url: dataUrl } = await uploadResponse.json();
 
-      const id = randomUUID();
-      files.set(id, { path: tempFile, date: new Date() });
-
-      console.log("Registered as", id);
-
-      return c.json({ code: "ok", id, type: format });
+      return c.json({ code: "ok", url: dataUrl, type: format });
     } catch (e) {
       console.error("Failed to convert", e);
       return c.json({ code: "internal_server_error", error: String(e) }, 500);
     }
   },
 );
-
-app.get("/download/:id", async (c) => {
-  const id = c.req.param("id");
-
-  const file = files.get(id);
-  if (!file) {
-    return c.json({ code: "not_found", message: "File not found" }, 404);
-  }
-
-  return stream(c, async (stream) => {
-    const fileStream = fs.createReadStream(file.path);
-    const webStream = Readable.toWeb(fileStream) as ReadableStream;
-    await stream.pipe(webStream);
-
-    files.delete(id);
-    await fs.promises.unlink(file.path);
-    console.log("Deleted", id);
-  });
-});
 
 export default app;

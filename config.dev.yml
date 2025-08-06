@@ -12,6 +12,7 @@ hosts:
   sub_chart: "http://localhost:3201"
   sub_audio: "http://localhost:3202"
   sub_image: "http://localhost:3203"
+  sub_temp_storage: "http://localhost:3204"
 s3:
   user: "minio"
   password: "secretkey"

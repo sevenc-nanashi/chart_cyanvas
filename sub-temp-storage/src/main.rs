@@ -1,6 +1,6 @@
-mod routes;
-mod result;
 mod models;
+mod result;
+mod routes;
 
 use axum::{
     routing::{get, post},
@@ -17,7 +17,10 @@ async fn main() {
     let app = Router::new()
         .route("/", get(routes::root_get))
         .route("/upload", post(routes::upload))
-        .route("/download/:id", get(routes::download_get))
+        .route(
+            "/download/:id",
+            get(routes::download_get).head(routes::download_head),
+        )
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(trace::DefaultMakeSpan::new().level(Level::INFO))
