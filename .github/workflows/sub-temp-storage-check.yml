@@ -1,0 +1,79 @@
+name: "[sub-temp-storage] Lint and build"
+
+on:
+  push:
+    paths:
+      - "sub-temp-storage/**"
+      - ".github/workflows/sub-temp-storage-*.yml"
+      - ".github/actions/**"
+      - "Rakefile"
+      - "config.test.yml"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "sub-temp-storage/**"
+      - ".github/workflows/sub-temp-storage-*.yml"
+      - ".github/actions/**"
+      - "Rakefile"
+      - "config.test.yml"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+      - name: Setup .env
+        run: |
+          cp ./config.test.yml ./config.yml
+          rake configure
+      - name: Setup rust
+        run: |
+          rustup component add clippy
+          rustup target add x86_64-unknown-linux-gnu
+          rustup target add aarch64-unknown-linux-gnu
+      - name: Cache target
+        uses: Swatinem/rust-cache@v2
+      - name: Run check
+        working-directory: ./sub-temp-storage
+        run: |
+          cargo clippy
+          cargo fmt -- --check
+          cargo test
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
+    needs:
+      - check
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache target
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build image
+        uses: ./.github/actions/build
+        with:
+          directory-name: sub-temp-storage
+  merge:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Merge image
+        uses: ./.github/actions/merge
+        with:
+          directory-name: sub-temp-storage
