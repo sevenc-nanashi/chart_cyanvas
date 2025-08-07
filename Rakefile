@@ -41,7 +41,7 @@ task "configure" do
   end
   search_env(config_env, YAML.load_file("./config.yml"))
 
-  if config_env["SECRET_KEY_BASE"].nil?
+  if config_env["SECRET_KEY_BASE"].nil? || config_env["SECRET_KEY_BASE"].empty?
     raise "Error: SECRET_KEY_BASE is not set in config.yml. Please run `rake secret` to generate a new secret key, and add it to config.yml."
   end
 
