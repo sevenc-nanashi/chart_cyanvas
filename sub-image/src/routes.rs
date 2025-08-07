@@ -134,6 +134,11 @@ mod test {
     use super::*;
     use rstest::rstest;
 
+    fn load_env() {
+        let _ = dotenv::from_path("../.env");
+        let _ = dotenv::dotenv();
+    }
+
     #[tokio::test]
     async fn test_root_get() {
         let response = root_get().await;
@@ -172,6 +177,7 @@ mod test {
         #[case] r#type: crate::models::ConvertType,
         #[case] url: &str,
     ) {
+        load_env();
         let response = convert_post(Json(crate::models::ConvertRequest {
             r#type,
             url: url.to_string(),
