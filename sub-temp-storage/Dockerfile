@@ -11,11 +11,17 @@ COPY sub-temp-storage/. ./sub-temp-storage/
 # required for cargo workspaces
 COPY sub-image/. ./sub-image/
 
-# --mount=type=cache,target=/root/.cargo/registry \
-# --mount=type=cache,target=/root/.cargo/git \
-RUN --mount=type=cache,target=/build/target \
+# NOTE: using --mount=type=cache to cache .cargo/{git,registry} directories causes many issues with the build cache, so we copy them manually
+RUN --mount=type=cache,target=/tmp/cargo_registry \
+    --mount=type=cache,target=/tmp/cargo_git \
+    --mount=type=cache,target=/build/target \
+    cp -rp /tmp/cargo_registry /root/.cargo/registry && \
+    cp -rp /tmp/cargo_git /root/.cargo/git && \
     cargo build --release -p sub-temp-storage && \
+    cp -rp /root/.cargo/registry/. /tmp/cargo_registry && \
+    cp -rp /root/.cargo/git/. /tmp/cargo_git && \
     cp /build/target/release/sub-temp-storage /build/sub-temp-storage/entrypoint
+
 
 FROM debian:bookworm-slim
 WORKDIR /app
