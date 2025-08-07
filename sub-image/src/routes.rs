@@ -1,18 +1,10 @@
-use std::{collections::HashMap, sync::Arc};
-
-use axum::{extract::Path, Json};
-use once_cell::sync::Lazy;
-use tempfile::NamedTempFile;
-use tokio::{io::AsyncReadExt, sync::Mutex};
+use axum::Json;
 use tracing::{info, warn};
 
 use crate::{
-    models::{ConvertResponse, RootResponse},
+    models::{ConvertResponse, RootResponse, UploadResponse},
     result::Result,
 };
-
-static FILES: Lazy<Arc<Mutex<HashMap<String, NamedTempFile>>>> =
-    Lazy::new(|| Arc::new(Mutex::new(HashMap::new())));
 
 pub async fn root_get() -> Json<RootResponse> {
     Json(RootResponse {
@@ -23,13 +15,15 @@ pub async fn root_get() -> Json<RootResponse> {
 pub async fn convert_post(
     body: Json<crate::models::ConvertRequest>,
 ) -> Result<Json<ConvertResponse>> {
-    let backend_host =
-        std::env::var("HOSTS_BACKEND").unwrap_or_else(|_| "http://localhost:3000".to_string());
+    let sub_file_storage_host =
+        std::env::var("HOSTS_SUB_TEMP_STORAGE").expect("HOSTS_SUB_TEMP_STORAGE must be set");
     info!("Convert: {:?}", body);
-    let base_image = reqwest::get(&if body.url.starts_with('/') {
-        format!("{}{}", backend_host, body.url)
-    } else {
+    let base_image = reqwest::get(&if body.url.starts_with("http://")
+        || body.url.starts_with("https://")
+    {
         body.url.clone()
+    } else {
+        return Err(anyhow::anyhow!("Invalid URL: {}. URLs must be absolute.", body.url).into());
     })
     .await?
     .bytes()
@@ -117,33 +111,33 @@ pub async fn convert_post(
     let temp_file = tempfile::Builder::new().suffix(".jpg").tempfile().unwrap();
     result_image.save(temp_file.path())?;
 
-    let id = uuid::Uuid::new_v4().to_string();
-    FILES.lock().await.insert(id.clone(), temp_file);
-    info!("Download ID: {}", id);
+    let response = reqwest::Client::new()
+        .post(format!("{sub_file_storage_host}/upload"))
+        .header("Content-Type", "application/octet-stream")
+        .body(tokio::fs::read(temp_file.path()).await?)
+        .send()
+        .await?;
+    if !response.status().is_success() {
+        warn!("Failed to upload image: {}", response.status());
+        return Err(anyhow::anyhow!("Failed to upload image").into());
+    }
+    let upload_response: UploadResponse = serde_json::from_str(&response.text().await?)?;
 
     Ok(Json(ConvertResponse {
         code: "ok".to_string(),
-        id,
+        url: upload_response.url,
     }))
-}
-
-pub async fn download_get(Path(id): Path<String>) -> Result<Vec<u8>> {
-    info!("Download: {}", id);
-    let mut files = FILES.lock().await;
-    let file = files.remove(&id).ok_or_else(|| {
-        warn!("Not found: {}", id);
-        anyhow::anyhow!("not found")
-    })?;
-    let mut file = tokio::fs::File::open(file.path()).await?;
-    let mut bytes = Vec::new();
-    file.read_to_end(&mut bytes).await?;
-    Ok(bytes)
 }
 
 #[cfg(test)]
 mod test {
     use super::*;
     use rstest::rstest;
+
+    fn load_env() {
+        let _ = dotenv::from_path("../.env");
+        let _ = dotenv::dotenv();
+    }
 
     #[tokio::test]
     async fn test_root_get() {
@@ -183,6 +177,7 @@ mod test {
         #[case] r#type: crate::models::ConvertType,
         #[case] url: &str,
     ) {
+        load_env();
         let response = convert_post(Json(crate::models::ConvertRequest {
             r#type,
             url: url.to_string(),
@@ -190,14 +185,15 @@ mod test {
         .await
         .unwrap();
         assert_eq!(response.0.code, "ok");
-        assert!(!response.0.id.is_empty());
 
-        let downloaded = download_get(Path(response.0.id)).await.unwrap();
-        tokio::fs::write(
-            format!("../test_results/test_cover_{}.png", dist),
-            downloaded,
-        )
-        .await
-        .unwrap();
+        let downloaded = reqwest::get(&response.0.url)
+            .await
+            .unwrap()
+            .bytes()
+            .await
+            .unwrap();
+        tokio::fs::write(format!("../test_results/test_cover_{dist}.png"), downloaded)
+            .await
+            .unwrap();
     }
 }

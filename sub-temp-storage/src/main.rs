@@ -16,7 +16,11 @@ async fn main() {
     let _ = dotenv::dotenv();
     let app = Router::new()
         .route("/", get(routes::root_get))
-        .route("/convert", post(routes::convert_post))
+        .route("/upload", post(routes::upload))
+        .route(
+            "/download/:id",
+            get(routes::download_get).head(routes::download_head),
+        )
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(trace::DefaultMakeSpan::new().level(Level::INFO))
@@ -25,9 +29,9 @@ async fn main() {
 
     tracing_subscriber::fmt().init();
 
-    info!("Listening on port 3203");
+    info!("Listening on port 3204");
 
-    axum::Server::bind(&SocketAddr::from(([0, 0, 0, 0], 3203)))
+    axum::Server::bind(&SocketAddr::from(([0, 0, 0, 0], 3204)))
         .serve(app.into_make_service())
         .await
         .unwrap();

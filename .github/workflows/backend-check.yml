@@ -50,6 +50,9 @@ jobs:
           bundle config path vendor/bundle
           bundle config set frozen 'true'
           bundle install --jobs 4 --retry 3
+      - name: Setup other sub services
+        run: |
+          docker compose -f docker-compose.build.yml up -d sub-audio sub-chart sub-image sub-temp-storage
 
       - name: Run backend lint
         working-directory: ./backend

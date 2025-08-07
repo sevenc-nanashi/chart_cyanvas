@@ -48,6 +48,9 @@ jobs:
           key: ${{ runner.os }}-uv-${{ hashFiles('./sub-audio/*.lock') }}
           restore-keys: |
             ${{ runner.os }}-uv-
+      - name: Setup sub-temp-storage
+        run: |
+          docker compose -f docker-compose.build.yml up -d sub-temp-storage
 
       - name: Install dependencies
         working-directory: ./sub-audio

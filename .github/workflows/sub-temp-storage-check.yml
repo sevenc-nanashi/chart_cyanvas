@@ -1,26 +1,28 @@
-name: "[sub-chart] Lint, Test, Typecheck"
+name: "[sub-temp-storage] Lint and build"
 
 on:
   push:
     paths:
-      - "sub-chart/**"
-      - ".github/workflows/sub-chart-*.yml"
+      - "sub-temp-storage/**"
+      - ".github/workflows/sub-temp-storage-*.yml"
       - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
-      - "package.json"
-      - "pnpm-lock.yaml"
+      - "rust-toolchain.toml"
+      - "Cargo.toml"
+      - "Cargo.lock"
     branches:
       - main
   pull_request:
     paths:
-      - "sub-chart/**"
-      - ".github/workflows/sub-chart-*.yml"
+      - "sub-temp-storage/**"
+      - ".github/workflows/sub-temp-storage-*.yml"
       - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
-      - "package.json"
-      - "pnpm-lock.yaml"
+      - "rust-toolchain.toml"
+      - "Cargo.toml"
+      - "Cargo.lock"
   workflow_dispatch:
 
 jobs:
@@ -35,30 +37,19 @@ jobs:
         run: |
           cp ./config.test.yml ./config.yml
           rake configure
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: .node-version
-          cache: "pnpm"
-      - name: Setup sub-temp-storage
+      - name: Setup rust
         run: |
-          docker compose -f docker-compose.build.yml up -d sub-temp-storage
-
-      - name: Run sub-chart check
-        working-directory: ./sub-chart
+          rustup component add clippy
+          rustup target add x86_64-unknown-linux-gnu
+          rustup target add aarch64-unknown-linux-gnu
+      - name: Cache target
+        uses: Swatinem/rust-cache@v2
+      - name: Run check
+        working-directory: ./sub-temp-storage
         run: |
-          pnpm i
-          pnpm lint
-      - name: Run sub-chart test
-        working-directory: ./sub-chart
-        run: |
-          pnpm test
-      - name: Run sub-chart typecheck
-        working-directory: ./sub-chart
-        run: |
-          pnpm typecheck
+          cargo clippy
+          cargo fmt -- --check
+          cargo test
   build:
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
     strategy:
@@ -74,10 +65,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache target
+        uses: Swatinem/rust-cache@v2
+
       - name: Build image
         uses: ./.github/actions/build
         with:
-          directory-name: sub-chart
+          directory-name: sub-temp-storage
   merge:
     runs-on: ubuntu-latest
     needs:
@@ -88,4 +82,4 @@ jobs:
       - name: Merge image
         uses: ./.github/actions/merge
         with:
-          directory-name: sub-chart
+          directory-name: sub-temp-storage

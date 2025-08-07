@@ -1,42 +1,50 @@
 # frozen_string_literal: true
-require "securerandom"
-
-class TemporaryFile
-  attr_reader :path, :id
+module TemporaryFile
+  module_function
 
   # @param [ActionDispatch::Http::UploadedFile, String] content
-  def initialize(content)
-    if content.is_a?(String)
-      @id = content
-
-      @path = $redis.with { |conn| conn.get("tempfile/#{@id}") }
-    else
-      @path = Dir.tmpdir + "/chcy-temp-#{SecureRandom.uuid}"
-      File.open(@path, "wb") do |file|
-        until (buffer = content.read(8192)).nil?
-          file.write(buffer)
-        end
+  def upload(content)
+    host =
+      ENV.fetch("HOSTS_SUB_TEMP_STORAGE") do
+        raise "HOSTS_SUB_TEMP_STORAGE not set"
       end
 
-      @id = SecureRandom.uuid
+    response =
+      HTTP.post(
+        "#{host}/upload",
+        body:
+          (
+            if content.is_a?(ActionDispatch::Http::UploadedFile)
+              content.tempfile
+            else
+              content
+            end
+          ),
+        headers: {
+          "Content-Type" => "application/octet-stream"
+        }
+      )
+    raise "Failed to upload temporary file!" unless response.status.success?
 
-      $redis.with { |conn| conn.set("tempfile/#{@id}", @path, ex: 60 * 5) }
+    body = JSON.parse(response.body.to_s, symbolize_names: true)
+    raise "Failed to parse response!" unless body[:code] == "ok"
 
-      Rails.logger.info "TemporaryFile: #{@id} created at #{@path}"
+    body[:url]
+  end
+
+  def from_url(url)
+    host =
+      ENV.fetch("HOSTS_SUB_TEMP_STORAGE") do
+        raise "HOSTS_SUB_TEMP_STORAGE not set"
+      end
+    unless url.start_with?(host)
+      raise "URL does not match HOSTS_SUB_TEMP_STORAGE (#{host})"
     end
-  end
+    response = HTTP.head(url)
+    unless response.status.success?
+      raise "Validation failed for temporary file!"
+    end
 
-  def url
-    "/tempfile/#{@id}"
-  end
-
-  def delete
-    File.delete(@path)
-    $redis.with { |conn| conn.del("tempfile/#{@id}") }
-    Rails.logger.info "TemporaryFile: #{@id} deleted"
-  end
-
-  def self.find(id)
-    new(id)
+    url
   end
 end

@@ -1,15 +1,13 @@
+import aiohttp
 import asyncio
 import logging
 import os
 import subprocess
-import urllib.parse
-from secrets import token_urlsafe
 from tempfile import NamedTemporaryFile
 
 import fastapi
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from redis import asyncio as aioredis
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -17,10 +15,9 @@ logging.basicConfig(level=logging.INFO)
 load_dotenv()
 load_dotenv(dotenv_path="../.env")
 
-HOSTS_BACKEND = os.getenv("HOSTS_BACKEND")
-if HOSTS_BACKEND is None:
-    raise Exception("HOSTS_BACKEND is not set")
-print(f"HOSTS_BACKEND = {HOSTS_BACKEND}")
+HOSTS_SUB_TEMP_STORAGE = os.getenv("HOSTS_SUB_TEMP_STORAGE")
+if not HOSTS_SUB_TEMP_STORAGE:
+    raise Exception("HOSTS_SUB_TEMP_STORAGE environment variable is not set")
 
 if sentry_dsn := os.getenv("SENTRY_DSN_SUB_AUDIO"):
     import sentry_sdk
@@ -29,7 +26,6 @@ if sentry_dsn := os.getenv("SENTRY_DSN_SUB_AUDIO"):
     sentry_sdk.init(sentry_dsn, traces_sample_rate=traits_sample_rate)
 
 app = fastapi.FastAPI()
-redis = aioredis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
 
 
 @app.get("/")
@@ -43,20 +39,29 @@ class ConvertParam(BaseModel):
 
 @app.post("/convert")
 async def convert(param: ConvertParam):
-    url = urllib.parse.urljoin(HOSTS_BACKEND, param.url)
-
+    url = param.url.strip()
     logger.info(f"convert: url={url}")
     dist_bgm_file = NamedTemporaryFile(delete=False, suffix=".mp3")
     dist_bgm_file.close()
     dist_preview_file = NamedTemporaryFile(delete=False, suffix=".mp3")
     dist_preview_file.close()
 
+    dist_base_file = NamedTemporaryFile(delete=False)
+    with open(dist_base_file.name, "wb") as f:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                if response.status != 200:
+                    raise Exception(f"Failed to download file: {response.status}")
+                content = await response.read()
+                f.write(content)
+    logger.info(f"convert: downloaded file to {dist_base_file.name}")
+
     bgm_process = subprocess.Popen(
         [
             "ffmpeg",
             "-y",
             "-i",
-            url,
+            dist_base_file.name,
             "-c:a",
             "libmp3lame",
             "-b:a",
@@ -73,7 +78,7 @@ async def convert(param: ConvertParam):
             "ffmpeg",
             "-y",
             "-i",
-            url,
+            dist_base_file.name,
             "-c:a",
             "libmp3lame",
             "-b:a",
@@ -97,35 +102,32 @@ async def convert(param: ConvertParam):
             f"ffmpeg failed: bgm_process={bgm_process.returncode}, preview_process={preview_process.returncode}"
         )
 
-    nonce = token_urlsafe(16)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            f"{HOSTS_SUB_TEMP_STORAGE}/upload",
+            data=open(dist_bgm_file.name, "rb"),
+        ) as response:
+            if response.status != 200:
+                raise Exception(f"Failed to upload BGM file: {response.status}")
+            bgm_url = (await response.json())["url"]
 
-    await redis.set(f"audio:{nonce}:bgm", dist_bgm_file.name)
-    await redis.set(f"audio:{nonce}:preview", dist_preview_file.name)
+        async with session.post(
+            f"{HOSTS_SUB_TEMP_STORAGE}/upload",
+            data=open(dist_preview_file.name, "rb"),
+        ) as response:
+            if response.status != 200:
+                raise Exception(f"Failed to upload preview file: {response.status}")
+            preview_url = (await response.json())["url"]
 
+    logger.info(f"convert: bgm_url={bgm_url}, preview_url={preview_url}")
+    os.remove(dist_bgm_file.name)
+    os.remove(dist_preview_file.name)
+    os.remove(dist_base_file.name)
     return {
         "code": "ok",
-        "id": nonce,
+        "bgm_url": bgm_url,
+        "preview_url": preview_url,
     }
-
-
-@app.get("/download/{nonce}:{type}")
-async def download(nonce: str, type: str):
-    if path := await redis.get(f"audio:{nonce}:{type}"):
-        logger.info(f"download: nonce={nonce}, type={type}")
-        return fastapi.responses.FileResponse(path)
-    else:
-        return {"code": "error"}, 404
-
-
-@app.delete("/download/{nonce}:{type}")
-async def delete(nonce: str, type: str):
-    if path := await redis.get(f"audio:{nonce}:{type}"):
-        logger.info(f"delete: nonce={nonce}, type={type}")
-        os.remove(path)
-        await redis.delete("image:" + nonce)
-        return {"code": "ok"}
-    else:
-        return {"code": "error"}, 404
 
 
 @app.exception_handler(Exception)

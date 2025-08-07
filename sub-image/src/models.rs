@@ -24,7 +24,13 @@ pub enum ConvertType {
 #[derive(Serialize, Debug)]
 pub struct ConvertResponse {
     pub code: String,
-    pub id: String,
+    pub url: String,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct UploadResponse {
+    // pub code: String,
+    pub url: String,
 }
 
 #[derive(Serialize, Debug)]

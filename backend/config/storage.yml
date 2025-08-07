@@ -17,6 +17,16 @@ s3:
   force_path_style: true
   public: <%= ENV["S3_PUBLIC"] == "true" %>
 
+temp_s3:
+  service: S3
+  access_key_id: <%= ENV["TMP_S3_USER"] %>
+  secret_access_key: <%= ENV["TMP_S3_PASSWORD"] %>
+  endpoint: <%= ENV["TMP_S3_ENDPOINT"] %>
+  region: <%= ENV["TMP_S3_REGION"] %>
+  bucket: <%= ENV["TMP_S3_BUCKET"] %>
+  force_path_style: true
+  public: <%= ENV["TMP_S3_PUBLIC"] == "true" %>
+
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

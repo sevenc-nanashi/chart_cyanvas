@@ -6,18 +6,18 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 
 WORKDIR /build
 COPY toolchain.toml Cargo.toml Cargo.lock ./
-COPY sub-image/. ./sub-image/
+COPY sub-temp-storage/. ./sub-temp-storage/
 
 # required for cargo workspaces
-COPY sub-temp-storage/. ./sub-temp-storage/
+COPY sub-image/. ./sub-image/
 
 RUN --mount=type=cache,target=/root/.cargo/registry \
     --mount=type=cache,target=/root/.cargo/git \
-    cargo build --release -p sub-image
+    cargo build --release -p sub-temp-storage
 
 FROM debian:bookworm-slim
 WORKDIR /app
 
-COPY --from=builder /build/target/release/sub-image /app/sub-image
+COPY --from=builder /build/target/release/sub-temp-storage /app/sub-temp-storage
 EXPOSE 3203
-ENTRYPOINT ["/app/sub-image"]
+ENTRYPOINT ["/app/sub-temp-storage"]

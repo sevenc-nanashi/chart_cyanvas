@@ -1,5 +1,5 @@
 [package]
-name = "sub-image"
+name = "sub-temp-storage"
 version.workspace = true
 edition.workspace = true
 
@@ -10,14 +10,12 @@ anyhow.workspace = true
 axum.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
+tokio-util.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 tower-http.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
-pjsekai-background-gen-core = { git = "https://github.com/sevenc-nanashi/pjsekai-background-gen-rust", branch = "main" }
-reqwest.workspace = true
-image = "0.24.9"
 tempfile.workspace = true
 uuid.workspace = true
 dotenv.workspace = true

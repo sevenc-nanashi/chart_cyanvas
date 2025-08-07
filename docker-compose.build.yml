@@ -80,3 +80,16 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
+  sub-temp-storage:
+    build:
+      context: .
+      dockerfile: ./sub-temp-storage/Dockerfile
+    network_mode: "host"
+    volumes:
+      - ./.env:/app/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3204"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
