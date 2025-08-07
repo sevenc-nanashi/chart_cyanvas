@@ -18,7 +18,6 @@ class ChartConvertJob < ApplicationJob
         )
         .then { JSON.parse(it.body.to_s, symbolize_names: true) }
     logger.info "ChartConvertJob: #{chart_resource} done"
-    pp response
     raise "Failed to convert level data!" if response[:code] != "ok"
     chart_data = HTTP.get(response[:url])
     raise "Failed to download level data!" if chart_data.status != 200
