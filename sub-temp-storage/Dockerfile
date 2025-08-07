@@ -15,11 +15,11 @@ RUN --mount=type=cache,target=/root/.cargo/registry \
     --mount=type=cache,target=/root/.cargo/git \
     --mount=type=cache,target=/build/target \
     cargo build --release -p sub-temp-storage && \
-    cp /build/target/release/sub-temp-storage /build/sub-temp-storage
+    cp /build/target/release/sub-temp-storage /build/sub-temp-storage/entrypoint
 
 FROM debian:bookworm-slim
 WORKDIR /app
 
-COPY --from=builder /build/sub-temp-storage /app/sub-temp-storage
+COPY --from=builder /build/sub-temp-storage/entrypoint /app/sub-temp-storage
 EXPOSE 3203
 ENTRYPOINT ["/app/sub-temp-storage"]

@@ -60,3 +60,9 @@ runs:
         elif [ "${{ runner.arch }}" = "ARM64" ]; then
           echo arm64 >> $GITHUB_OUTPUT
         fi
+    - name: "Get temporary directory"
+      shell: bash
+      id: "temp"
+      run: |
+        echo -n "temp=" >> $GITHUB_OUTPUT
+        echo ${{ github.temp }} >> $GITHUB_OUTPUT
