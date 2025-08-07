@@ -202,7 +202,9 @@ module Sonolus
             Chart.preload(
               :author,
               :tags,
-              file_resources: { file_attachment: :blob }
+              file_resources: {
+                file_attachment: :blob
+              }
             ).in_order_of(:id, chart.map(&:first))
           end
 
@@ -304,10 +306,12 @@ module Sonolus
       charts = Chart.sonolus_listed
 
       cacheable =
-        self.class.search_options.all? do |option|
-          %i[q_sort q_genres].include?(option[:query]) ||
-            params[option[:query]].blank?
-        end && params[:keywords].blank?
+        %w[quick advanced].include?(params[:type]) &&
+          params[:keywords].blank? &&
+          self.class.search_options.all? do |option|
+            %i[q_sort q_genres].include?(option[:query]) ||
+              params[option[:query]].blank?
+          end
 
       charts =
         charts.where(charts: { rating: (params[:q_rating_min]).. }) if params[
@@ -479,10 +483,11 @@ module Sonolus
           else
             charts.unscope(:group, :having).count
           end
-        charts = charts
-                   .unscope(:group, :having)
-                   .offset([params[:page].to_i * 20, 0].max)
-                   .limit(20)
+        charts =
+          charts
+            .unscope(:group, :having)
+            .offset([params[:page].to_i * 20, 0].max)
+            .limit(20)
         page_count = (num_charts / 20.0).ceil
 
         render json: {
