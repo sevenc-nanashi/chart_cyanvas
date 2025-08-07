@@ -12,7 +12,7 @@ COPY sub-temp-storage/. ./sub-temp-storage/
 COPY sub-image/. ./sub-image/
 
 RUN --mount=type=cache,target=/root/.cargo/registry \
-    --mount=type=cache,target=/root/.cargo/git \
+    # --mount=type=cache,target=/root/.cargo/git \
     --mount=type=cache,target=/build/target \
     cargo build --release -p sub-temp-storage && \
     cp /build/target/release/sub-temp-storage /build/sub-temp-storage/entrypoint
