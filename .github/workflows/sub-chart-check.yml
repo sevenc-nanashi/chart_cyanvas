@@ -42,6 +42,9 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "pnpm"
+      - name: Setup sub-temp-storage
+        run: |
+          docker compose -f docker-compose.build.yml up -d sub-temp-storage
 
       - name: Run sub-chart check
         working-directory: ./sub-chart
