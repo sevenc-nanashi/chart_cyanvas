@@ -7,6 +7,8 @@ on:
       - ".github/workflows/wiki-*.yml"
       - ".github/actions/**"
       - "Rakefile"
+      - "package.json"
+      - "pnpm-lock.yaml"
     branches:
       - main
   pull_request:
@@ -15,6 +17,8 @@ on:
       - ".github/workflows/wiki-*.yml"
       - ".github/actions/**"
       - "Rakefile"
+      - "package.json"
+      - "pnpm-lock.yaml"
   workflow_dispatch:
 
 jobs:
