@@ -7,6 +7,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 WORKDIR /build
 COPY toolchain.toml Cargo.toml Cargo.lock ./
 COPY sub-temp-storage/. ./sub-temp-storage/
+COPY sub-image/. ./sub-image/ # required for cargo workspaces
 RUN --mount=type=cache,target=/root/.cargo/registry \
     --mount=type=cache,target=/root/.cargo/git \
     cargo build --release
