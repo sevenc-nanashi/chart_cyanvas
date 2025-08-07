@@ -62,7 +62,8 @@ jobs:
         run: |
           pwd
           cp ../docker-compose.dev.yml ../docker-compose.yml
-          docker compose --env-file ../.env --profile test up -d
+          docker compose --env-file ../.env up -d
+          docker compose --env-file ../.env up mc
           export CONSOLE_OUTPUT=XTerm
           bundle exec rake db:setup
           bundle exec rake db:migrate
