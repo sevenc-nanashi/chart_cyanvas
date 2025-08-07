@@ -13,7 +13,7 @@ COPY sub-image/. ./sub-image/
 
 RUN --mount=type=cache,target=/root/.cargo/registry \
     --mount=type=cache,target=/root/.cargo/git \
-    cargo build --release
+    cargo build --release -p sub-temp-storage
 
 FROM debian:bookworm-slim
 WORKDIR /app
