@@ -73,7 +73,7 @@ musics.each_with_index do |(file_name, title), index|
       title: title_parsed[2],
       composer: title_parsed[1],
       artist: "Dummy Artist",
-      description: "This is a dummy chart for #{title_parsed[2]}.",
+      description: "This is a dummy chart. Index: #{index}",
       genre: :others,
       rating: 20 + index,
       author_name: user.name,
