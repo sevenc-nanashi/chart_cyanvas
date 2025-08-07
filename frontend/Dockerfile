@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/root/.cache/pnpm \
 
 COPY frontend/. ./frontend/
 
-WORKDIR /app/wiki
+WORKDIR /app/frontend
 RUN pnpm run build
 
 FROM node:22-slim AS runner
