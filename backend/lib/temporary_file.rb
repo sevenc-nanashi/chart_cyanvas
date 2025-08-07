@@ -45,8 +45,6 @@ module TemporaryFile
       raise "Validation failed for temporary file!"
     end
 
-    instance = allocate
-    instance.instance_variable_set(:@url, url)
-    instance
+    url
   end
 end
