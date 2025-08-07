@@ -27,5 +27,5 @@ FROM debian:bookworm-slim
 WORKDIR /app
 
 COPY --from=builder /build/sub-temp-storage/entrypoint /app/sub-temp-storage
-EXPOSE 3203
+EXPOSE 3204
 ENTRYPOINT ["/app/sub-temp-storage"]
