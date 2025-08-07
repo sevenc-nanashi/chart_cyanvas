@@ -73,14 +73,21 @@ pub async fn download_get(Path(id): Path<String>) -> Result<impl IntoResponse> {
 mod test {
     use super::*;
 
+    fn setup() {
+        let _ = dotenv::from_path("../.env");
+        let _ = dotenv::dotenv();
+    }
+
     #[tokio::test]
     async fn test_root_get() {
+        setup();
         let response = root_get().await;
         assert_eq!(response.0.code, "ok");
     }
 
     #[tokio::test]
     async fn test_upload() {
+        setup();
         let body = axum::http::Request::builder()
             .body(axum::body::Body::from("test data"))
             .unwrap();
@@ -91,6 +98,7 @@ mod test {
 
     #[tokio::test]
     async fn test_download() {
+        setup();
         let body = axum::http::Request::builder()
             .body(axum::body::Body::from("test data"))
             .unwrap();
