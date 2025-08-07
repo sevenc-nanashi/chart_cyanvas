@@ -41,7 +41,7 @@ runs:
       id: cache
       with:
         path: ${{ github.temp }}/docker-build-cache-${{ inputs.directory-name }}
-        key: cache-mount-${{ hashFiles( inputs.directory-name + '/Dockerfile' ) }}-${{ steps.meta.outputs.cache }}
+        key: cache-mount-${{ steps.meta.outputs.cache }}
 
     - name: Restore Docker cache mounts
       uses: reproducible-containers/buildkit-cache-dance@v3
