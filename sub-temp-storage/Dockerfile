@@ -25,6 +25,7 @@ RUN --mount=type=cache,target=/tmp/cargo_registry \
 
 FROM debian:bookworm-slim
 WORKDIR /app
+RUN apt-get update && apt-get install -y curl
 
 COPY --from=builder /build/sub-temp-storage/entrypoint /app/sub-temp-storage
 EXPOSE 3204
