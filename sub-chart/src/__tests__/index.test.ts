@@ -55,13 +55,13 @@ describe("POST /convert", () => {
       expect(response.status).toBe(200);
       expect(await response.json()).toEqual({
         code: "ok",
-        id: expect.any(String),
+        url: expect.any(String),
         type,
       });
     });
   }
 
-  test("GET /download/:id can download converted file", async () => {
+  test("POST /convert returns valid url", async () => {
     const convertResponse = await app.request("/convert", {
       method: "POST",
       body: JSON.stringify({
@@ -71,36 +71,14 @@ describe("POST /convert", () => {
         "Content-Type": "application/json",
       },
     });
-    const { id } = await convertResponse.json();
+    const { url } = await convertResponse.json();
 
-    const response = await app.request(`/download/${id}`);
+    const response = await fetch(url);
 
     expect(response.status).toBe(200);
 
     const buffer = await gunzip(await response.arrayBuffer());
 
     expect(() => JSON.parse(buffer.toString())).not.toThrow();
-  });
-
-  test("GET /download/:id deletes file after download", async () => {
-    const convertResponse = await app.request("/convert", {
-      method: "POST",
-      body: JSON.stringify({
-        url: `http://127.0.0.1:${port}/test.sus`,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { id } = await convertResponse.json();
-
-    const response = await app.request(`/download/${id}`);
-
-    await response.arrayBuffer();
-    expect(response.status).toBe(200);
-
-    const response2 = await app.request(`/download/${id}`);
-
-    expect(response2.status).toBe(404);
   });
 });
