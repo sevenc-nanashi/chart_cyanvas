@@ -14,3 +14,14 @@ task format: :environment do
   sh "stree write ./**/*.rb"
   sh "rubocop -a"
 end
+
+task "dev:stackprof" do # rubocop:disable Rails/RakeEnvironment
+  path = Rails.root.join("tmp/stackprof-dev.txt")
+  if path.exist?
+    puts "StackProf disabled for development mode."
+    path.delete
+  else
+    puts "StackProf enabled for development mode."
+    path.write("")
+  end
+end

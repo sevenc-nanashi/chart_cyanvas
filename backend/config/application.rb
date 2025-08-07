@@ -41,6 +41,17 @@ module Backend
     config.middleware.use ActionDispatch::Session::CacheStore
     config.middleware.use ActionDispatch::Flash
 
+    enable_stackprof =
+      Rails.env.development? && Rails.root.join("tmp/stackprof-dev.txt").exist?
+
+    config.middleware.use StackProf::Middleware,
+                          enabled: enable_stackprof,
+                          mode: :wall,
+                          interval: 1000,
+                          save_every: 1,
+                          raw: true,
+                          path: Rails.root.join("tmp/stackprof/").to_s
+
     config.paths.add "lib", eager_load: true
 
     config.active_job.queue_adapter = :sidekiq

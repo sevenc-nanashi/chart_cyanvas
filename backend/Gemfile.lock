@@ -617,6 +617,7 @@ GEM
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
     spring (4.3.0)
+    stackprof (0.2.27)
     stringio (3.1.7)
     syntax_tree (6.2.0)
       prettier_print (>= 1.2.0)
@@ -682,6 +683,7 @@ DEPENDENCIES
   shortuuid (~> 0.6.0)
   sidekiq (~> 7.3)
   spring
+  stackprof (~> 0.2.27)
   syntax_tree (~> 6.2)
   tzinfo-data
 

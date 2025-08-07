@@ -157,7 +157,10 @@ services:
     image: public.ecr.aws/zinclabs/openobserve:v0.15.0-rc4-debug
     ports:
       - "5080:5080"
+    volumes:
+      - ./data/openobserve:/data
     environment:
+      ZO_DATA_DIR: "/data"
       ZO_ROOT_USER_EMAIL: "admin@localhost.local"
       ZO_ROOT_USER_PASSWORD: "admin"
 

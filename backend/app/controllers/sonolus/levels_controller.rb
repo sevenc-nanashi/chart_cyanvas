@@ -219,7 +219,6 @@ module Sonolus
           Chart
             .eager_load(:author)
             .preload(:tags, file_resources: { file_attachment: :blob })
-            .where(id: chart_ids)
             .in_order_of(:id, chart_ids)
         end
       random_section = {

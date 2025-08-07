@@ -2,7 +2,7 @@ FROM ruby:3.4.4-slim-bullseye
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y build-essential libpq-dev libyaml-dev curl libssl-dev libsodium-dev
+RUN apt-get update && apt-get install -y build-essential libpq-dev libyaml-dev curl libssl-dev libsodium-dev libjemalloc2
 
 COPY backend/Gemfile backend/Gemfile.lock ./
 
@@ -20,4 +20,5 @@ ENV RAILS_ENV production
 ENV RUBY_YJIT_ENABLE 1
 EXPOSE 3000
 ENV CONSOLE_OUTPUT XTerm
+ENV LD_PRELOAD=libjemalloc.so.2
 CMD ["bundle", "exec", "./start.sh"]

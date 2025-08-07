@@ -10,4 +10,4 @@ echo "Starting sidekiq"
 sidekiq &
 
 echo "Starting rails server"
-ruby falcon.rb
+./falcon.rb

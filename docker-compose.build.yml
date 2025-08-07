@@ -6,10 +6,6 @@ services:
       network: host
 
     network_mode: "host"
-    depends_on:
-      - sub-chart
-      - sub-audio
-      - sub-image
     volumes:
       - ./.env:/app/.env
     healthcheck:
