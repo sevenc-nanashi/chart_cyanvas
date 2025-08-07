@@ -187,7 +187,7 @@ module Sonolus
           .flat_map do |genre|
             Rails
               .cache
-              .fetch("sonolus:newest_charts:#{genre}", expires_in: 5.minutes) do
+              .fetch("sonolus:newest_charts:#{genre}", expires_in: 1.minute) do
                 Chart
                   .order(published_at: :desc)
                   .limit(5)
