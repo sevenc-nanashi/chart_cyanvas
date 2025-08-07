@@ -225,7 +225,7 @@ module Api
       length = validator.count.to_i
 
       length = 20 if length <= 0 || length > 20
-      charts = Chart.preload(%i[author co_authors tags likes])
+      charts = Chart.eager_load(:author).preload(:tags)
 
       if validator.liked == "true"
         unless (user_id = session[:user_id])
@@ -236,7 +236,7 @@ module Api
                  status: :unauthorized
           return
         end
-        charts = charts.where(id: Like.where(user_id:).select(:chart_id))
+        charts = charts.joins(:likes).where(likes: { user_id: })
       end
 
       if validator.title
@@ -370,24 +370,18 @@ module Api
           Rails
             .cache
             .fetch("charts:all", expires_in: 5.minutes) do
-              charts.preload(
-                :author,
-                :tags,
-                file_resources: {
-                  file_attachment: :blob
-                }
-              ).select("charts.*")
+              charts
+                .eager_load(:author)
+                .preload(:tags, file_resources: { file_attachment: :blob })
+                .select("charts.*")
             end
       else
         num_charts = charts.unscope(:group, :having).count
         charts =
-          charts.preload(
-            :author,
-            :tags,
-            file_resources: {
-              file_attachment: :blob
-            }
-          ).select("charts.*")
+          charts
+            .eager_load(:author)
+            .preload(:tags, file_resources: { file_attachment: :blob })
+            .select("charts.*")
       end
 
       charts = charts.offset(validator.offset || 0).limit(length)

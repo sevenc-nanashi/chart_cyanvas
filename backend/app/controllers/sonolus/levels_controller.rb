@@ -153,7 +153,8 @@ module Sonolus
               Chart
                 .order(updated_at: :desc)
                 .limit(5)
-                .preload(:author, :tags, file_resources: [:file_attachment])
+                .eager_load(:author)
+                .preload(:tags, file_resources: { file_attachment: :blob })
                 .where(
                   visibility: :private,
                   author_id: [current_user.id] + alt_users.map(&:id)
@@ -199,13 +200,10 @@ module Sonolus
           .reverse
           .take(5)
           .then do |chart|
-            Chart.preload(
-              :author,
-              :tags,
-              file_resources: {
-                file_attachment: :blob
-              }
-            ).in_order_of(:id, chart.map(&:first))
+            Chart
+              .eager_load(:author)
+              .preload(:tags, file_resources: { file_attachment: :blob })
+              .in_order_of(:id, chart.map(&:first))
           end
 
       newest_section = {
@@ -219,8 +217,8 @@ module Sonolus
         begin
           chart_ids = Chart.get_random_chart_ids(5, genres: user_genres)
           Chart
-            .includes(:author, :tags)
-            .preload(file_resources: { file_attachment: :blob })
+            .eager_load(:author)
+            .preload(:tags, file_resources: { file_attachment: :blob })
             .where(id: chart_ids)
             .in_order_of(:id, chart_ids)
         end
@@ -279,8 +277,8 @@ module Sonolus
       maybe_popular_charts =
         Chart
           .where(id: popular_ids)
-          .includes(:author)
-          .eager_load(:tags, file_resources: { file_attachment: :blob })
+          .eager_load(:author)
+          .preload(:tags, file_resources: { file_attachment: :blob })
           .where(visibility: :public)
           .sonolus_listed
 
@@ -461,13 +459,10 @@ module Sonolus
         end
 
       charts =
-        charts.preload(
-          :author,
-          :tags,
-          file_resources: {
-            file_attachment: :blob
-          }
-        ).select("charts.*")
+        charts
+          .eager_load(:author)
+          .preload(:tags, file_resources: { file_attachment: :blob })
+          .select("charts.*")
       if params[:q_sort] == "random"
         render json: {
                  items: charts.map { it.to_sonolus(background_version:) },
@@ -501,10 +496,12 @@ module Sonolus
     def show
       params.require(:name)
       chart =
-        Chart
-          .eager_load(file_resources: [:file_attachment])
-          .preload(:_variants)
-          .find_by(name: params[:name])
+        Chart.preload(
+          :_variants,
+          file_resources: {
+            file_attachment: :blob
+          }
+        ).find_by(name: params[:name])
       if chart
         user_faved =
           current_user &&
