@@ -3,6 +3,7 @@ require "yaml"
 
 module Sonolus
   class AssetController < SonolusController
+    CACHE_DURATION = 1.minute
     before_action do
       response.headers["Cache-Control"] = "public, max-age=3600"
       response.headers["CDN-Cache-Control"] = "public, max-age=3600"
@@ -191,40 +192,49 @@ module Sonolus
     end
 
     def self.asset_get(type, name)
-      begin
-        data =
-          YAML.load_file(
-            Rails.root.join(
-              "assets",
-              "#{type}s",
-              "#{name.sub("chcy-", "")}.yml"
-            )
-          )
-      rescue Errno::ENOENT
-        return nil
-      end
-      data
-        .to_h do |k, v|
-          next k, v unless v.is_a?(String)
+      Rails
+        .cache
+        .fetch("sonolus:asset:#{type}:#{name}", expires_in: CACHE_DURATION) do
+          begin
+            data =
+              YAML.load_file(
+                Rails.root.join(
+                  "assets",
+                  "#{type}s",
+                  "#{name.sub("chcy-", "")}.yml"
+                )
+              )
+          rescue Errno::ENOENT
+            return nil
+          end
+          data
+            .to_h do |k, v|
+              next k, v unless v.is_a?(String)
 
-          v =
-            if k == "name"
-              "chcy-#{v}"
-            elsif v.start_with?("!asset:")
-              asset_get(k, v.delete_prefix("!asset:"))
-            elsif v.start_with?("!file:")
-              name = v.delete_prefix("!file:")
-              asset_get_static("#{type}s/#{name}")
-            else
-              v
+              v =
+                if k == "name"
+                  "chcy-#{v}"
+                elsif v.start_with?("!asset:")
+                  asset_get(k, v.delete_prefix("!asset:"))
+                elsif v.start_with?("!file:")
+                  name = v.delete_prefix("!file:")
+                  asset_get_static("#{type}s/#{name}")
+                else
+                  v
+                end
+              [k, v]
             end
-          [k, v]
+            .merge({ source: ENV.fetch("FINAL_HOST", nil), tags: [] })
         end
-        .merge({ source: ENV.fetch("FINAL_HOST", nil), tags: [] })
     end
 
     def self.asset_get_static(path)
-      hash = Digest::SHA1.file(Rails.root.join("assets", path)).hexdigest
+      hash =
+        Rails
+          .cache
+          .fetch("sonolus:asset:#{path}", expires_in: CACHE_DURATION) do
+            Digest::SHA1.file(Rails.root.join("assets", path)).hexdigest
+          end
       { hash:, url: "/sonolus/assets/#{path}?hash=#{hash}" }
     end
   end
