@@ -79,7 +79,8 @@ musics.each_with_index do |(file_name, title), index|
       author_name: user.name,
       variant_of: nil,
       is_chart_public: true,
-      visibility: :public
+      visibility: :public,
+      published_at: Time.current + (index * 10).seconds
     )
   ChartConvertJob.perform_later(
     chart.name,
