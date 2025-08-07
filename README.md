@@ -16,7 +16,7 @@ Chart Cyanvas is a sekai custom charts platform.
 
 ## Architecture
 
-![Architecture](./architecture.svg)
+![Architecture](./architecture.drawio.svg)
 
 - `frontend/` - Frontend. Built with Remix and Tailwind CSS.
 - `backend/` - Backend. Built with Rails.
