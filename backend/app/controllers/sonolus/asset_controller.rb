@@ -119,11 +119,14 @@ module Sonolus
                  :background_tablet_v3
               ImageConvertJob.perform_now(
                 chart.name,
-                chart.resources[:cover],
+                chart.resources[:cover].url,
                 type
               )
             when :data
-              ChartConvertJob.perform_now(chart.name, chart.resources[:chart])
+              ChartConvertJob.perform_now(
+                chart.name,
+                chart.resources[:chart].url
+              )
             else
               return(
                 render json: {

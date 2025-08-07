@@ -76,7 +76,7 @@ musics.each_with_index do |(file_name, title), index|
       description: "This is a dummy chart. Index: #{index}",
       genre: :others,
       rating: 20 + index,
-      author_name: user.name,
+      author_name: author.name,
       variant_of: nil,
       is_chart_public: true,
       visibility: :public,
