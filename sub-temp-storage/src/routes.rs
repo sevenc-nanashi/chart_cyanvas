@@ -20,12 +20,12 @@ pub async fn root_get() -> Json<RootResponse> {
 }
 
 pub async fn upload(
-    mut body: axum::http::Request<axum::body::Body>,
+    mut request: axum::http::Request<axum::body::Body>,
 ) -> Result<Json<UploadResponse>> {
     info!("Upload request received");
 
     let mut file = NamedTempFile::new()?;
-    while let Some(chunk) = body.data().await {
+    while let Some(chunk) = request.data().await {
         let chunk = chunk?;
         if !chunk.is_empty() {
             file.write_all(&chunk)?;
@@ -38,13 +38,8 @@ pub async fn upload(
     Ok(Json(UploadResponse {
         code: "ok".to_string(),
         url: format!(
-            "{}://{}/download/{}",
-            body.uri()
-                .scheme()
-                .map_or_else(|| "http".to_string(), |s| s.as_str().to_string()),
-            body.uri()
-                .authority()
-                .map_or_else(|| "localhost:3204".to_string(), |a| a.as_str().to_string()),
+            "{}/download/{}",
+            std::env::var("HOSTS_SUB_TEMP_STORAGE").expect("HOSTS_SUB_TEMP_STORAGE must be set"),
             id
         ),
     }))
