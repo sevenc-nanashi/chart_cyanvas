@@ -4,13 +4,14 @@ module Api
     def start
       uuid = SecureRandom.uuid
       host =
-        ENV.fetch("FINAL_HOST") do
-          if Rails.env.development?
-            request.host_with_port
-          else
-            raise "FINAL_HOST must be set in production"
+        ENV.fetch("FINAL_HOST", nil)&.sub(%r{https?://}, "") ||
+          begin
+            if Rails.env.development?
+              request.host_with_port
+            else
+              raise "FINAL_HOST must be set in production"
+            end
           end
-        end
       url =
         "https://open.sonolus.com/external-login/#{host}/api/login/callback?uuid=#{uuid}"
       render json: { url:, uuid: }
