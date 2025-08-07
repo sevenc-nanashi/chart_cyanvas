@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
+      network: host
 
     network_mode: "host"
     depends_on:
@@ -21,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
+      network: host
 
     volumes:
       - ./.env:/app/.env
@@ -34,6 +36,7 @@ services:
     build:
       context: .
       dockerfile: ./wiki/Dockerfile
+      network: host
     network_mode: "host"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3101/wiki/logo.svg"]
@@ -45,6 +48,7 @@ services:
     build:
       context: .
       dockerfile: ./sub-chart/Dockerfile
+      network: host
 
     network_mode: "host"
     volumes:
@@ -59,6 +63,7 @@ services:
     build:
       context: .
       dockerfile: ./sub-audio/Dockerfile
+      network: host
     network_mode: "host"
     volumes:
       - ./.env:/app/.env
@@ -72,6 +77,7 @@ services:
     build:
       context: .
       dockerfile: ./sub-image/Dockerfile
+      network: host
     network_mode: "host"
     volumes:
       - ./.env:/app/.env
@@ -85,6 +91,7 @@ services:
     build:
       context: .
       dockerfile: ./sub-temp-storage/Dockerfile
+      network: host
     network_mode: "host"
     volumes:
       - ./.env:/app/.env
