@@ -496,6 +496,8 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
+    puma (6.6.1)
+      nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.0)
     rack-session (2.1.1)
@@ -668,6 +670,7 @@ DEPENDENCIES
   opentelemetry-instrumentation-all (~> 0.78.0)
   opentelemetry-sdk (~> 1.8)
   pg (~> 1.5)
+  puma (~> 6.6)
   rails (~> 8.0)
   rails-i18n (~> 8.0)
   rbnacl (~> 7.1)
