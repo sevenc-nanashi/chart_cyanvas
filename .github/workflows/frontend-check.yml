@@ -8,6 +8,8 @@ on:
       - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
     branches:
       - main
   pull_request:
@@ -17,6 +19,8 @@ on:
       - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
   workflow_dispatch:
 
 jobs:

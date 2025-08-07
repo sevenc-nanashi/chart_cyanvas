@@ -8,6 +8,9 @@ on:
       - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
+      - "rust-toolchain.toml"
+      - "Cargo.toml"
+      - "Cargo.lock"
     branches:
       - main
   pull_request:
@@ -17,6 +20,9 @@ on:
       - ".github/actions/**"
       - "Rakefile"
       - "config.test.yml"
+      - "rust-toolchain.toml"
+      - "Cargo.toml"
+      - "Cargo.lock"
   workflow_dispatch:
 
 jobs:
