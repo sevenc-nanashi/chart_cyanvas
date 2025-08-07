@@ -1,5 +1,6 @@
 # yaml-language-server: $schema=./config.schema.yml
 # Configuration template for production environment.
+# REMINDER: Run `rake configure` after editing this file!
 
 admin_handle: "1073"
 final_port: 8080
@@ -29,3 +30,16 @@ postgres:
   database: "chcy"
   host: "postgres"
   port: 5432
+# Uncomment to require Discord link to post a chart.
+# discord:
+#   guild_id: "123456789012345678"
+#   client_id: "123456789012345678"
+#   client_secret: "cl1ent53cr3t"
+#   bot_token: "D1dY0uR34llyTh1nk.1W0uldPutTh3B0tT0k3nH3r3.10l"
+#   warning_channel_id: "123456789012345678"
+
+# Launch OpenObserve first to get the authorization header
+# otel:
+#   exporter:
+#     endpoint: "http://openobserve:5080/api/default"
+#     headers: "Authorization=Basic ..."
