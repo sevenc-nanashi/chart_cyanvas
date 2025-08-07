@@ -18,10 +18,12 @@ pub async fn convert_post(
     let sub_file_storage_host =
         std::env::var("HOSTS_SUB_TEMP_STORAGE").expect("HOSTS_SUB_TEMP_STORAGE must be set");
     info!("Convert: {:?}", body);
-    let base_image = reqwest::get(&if body.url.starts_with('/') {
-        return Err(anyhow::anyhow!("Invalid URL: {}. URLs must be absolute.", body.url).into());
-    } else {
+    let base_image = reqwest::get(&if body.url.starts_with("http://")
+        || body.url.starts_with("https://")
+    {
         body.url.clone()
+    } else {
+        return Err(anyhow::anyhow!("Invalid URL: {}. URLs must be absolute.", body.url).into());
     })
     .await?
     .bytes()
