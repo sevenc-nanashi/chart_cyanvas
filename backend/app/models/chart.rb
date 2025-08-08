@@ -47,7 +47,7 @@ class Chart < ApplicationRecord
   def self.include_all
     preload(%i[author co_authors _variants tags file_resources likes]).merge(
       FileResource.with_attached_file
-    )
+    ).preload(:variant_of)
   end
 
   scope :sonolus_listed, -> { where(variant_id: nil) }
@@ -103,7 +103,7 @@ class Chart < ApplicationRecord
       scheduledAt: scheduled_at&.iso8601,
       variantOf:
         with_variants && variant_id &&
-          Chart.find(variant_id).to_frontend(with_variants: false)
+          variant_of.to_frontend(with_variants: false)
     }
   end
 

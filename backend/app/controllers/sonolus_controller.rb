@@ -96,39 +96,34 @@ class SonolusController < ApplicationController
 
   def current_user
     return nil unless request.headers["Sonolus-Session"]
-    if RequestLocals.store[:sonolus_auth_user].nil?
+    RequestLocals.store[:sonolus_auth_user] ||= begin
       session_id = request.headers["Sonolus-Session"]
       begin
-        unless user_profile =
-                 $redis
-                   .with { |c| c.get("sonolus_session/#{session_id}") }
-                   &.then { |json| JSON.parse(json, symbolize_names: true) }
+        user_profile =
+          $redis
+            .with { |c| c.get("sonolus_session/#{session_id}") }
+            &.then { |json| JSON.parse(json, symbolize_names: true) }
+        unless user_profile
           logger.warn "Invalid session id: #{session_id}"
-          render json: { message: "Session expired" }, status: :unauthorized
           return
         end
-        user =
-          Rails
-            .cache
-            .fetch(
-              "sonolus:auth:#{user_profile[:handle]}",
-              expires_in: 30.minutes
-            ) do
-              Rails.logger.debug do
-                "Fetching user #{user_profile[:handle]} from DB"
-              end
-              User.find_by(handle: user_profile[:handle], owner_id: nil)
+        Rails
+          .cache
+          .fetch(
+            "sonolus:auth:#{user_profile[:handle]}",
+            expires_in: 30.minutes
+          ) do
+            Rails.logger.debug do
+              "Fetching user #{user_profile[:handle]} from DB"
             end
-
-        self.current_user = user
+            User.find_by(handle: user_profile[:handle], owner_id: nil)
+          end
       rescue StandardError => e
         logger.warn "Invalid session data:"
         logger.warn [e, *e.backtrace].join("\n")
-        render json: { message: "Invalid session" }, status: :unauthorized
-        return
+        nil
       end
     end
-    RequestLocals.store[:sonolus_auth_user]
   end
 
   def current_user=(value)

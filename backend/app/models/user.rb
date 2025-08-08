@@ -103,8 +103,8 @@ class User < ApplicationRecord
   end
 
   def self.sync_profile(user_profile)
-    table_contents = {
-      handle: user_profile[:handle],
+    user = User.find_or_initialize_by(handle: user_profile[:handle], owner_id: nil)
+    user.assign_attributes({
       name: user_profile[:name],
       about_me: user_profile[:aboutMe],
       avatar_type: user_profile[:avatarType],
@@ -112,19 +112,14 @@ class User < ApplicationRecord
       avatar_fg_color: user_profile[:avatarForegroundColor],
       avatar_bg_type: user_profile[:avatarBackgroundType],
       avatar_bg_color: user_profile[:avatarBackgroundColor]
-    }
+    })
 
-    if (u = User.find_by(handle: user_profile[:handle], owner_id: nil))
-      if table_contents.each_pair.any? { |k, v| u[k] != v }
-        logger.info "User #{u.handle} updated, updating table"
-        u.update!(table_contents)
-      else
-        logger.info "User #{u.handle} not updated, skipping table update"
-      end
-      u
+    if user.changed?
+      logger.info "User #{user.handle} #{user.new_record? ? "created" : "updated"}, saving"
+      user.save!
     else
-      logger.info "User #{user_profile[:handle]} not found, creating"
-      User.create(table_contents)
+      logger.info "User #{user.handle} not changed, skipping save"
     end
+    user
   end
 end
