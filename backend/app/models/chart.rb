@@ -59,8 +59,10 @@ class Chart < ApplicationRecord
       cover: base.find(&:cover?),
       preview: base.find(&:preview?),
       data: base.find(&:data?),
+      background_v1: base.find(&:background_v1?),
       background_v3: base.find(&:background_v3?),
-      background_v1: base.find(&:background_v1?)
+      background_tablet_v1: base.find(&:background_tablet_v1?),
+      background_tablet_v3: base.find(&:background_tablet_v3?)
     }
   end
 
