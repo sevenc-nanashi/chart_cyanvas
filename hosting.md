@@ -92,10 +92,13 @@ docker compose up -d
 > This is not exhaustive, so I may have missed some files.
 
 - `config.yml` - Modify the configuration file to suit your needs.
-- `./frontend/i18n/` - Replace `Chart Cyanvas` with your own instance name, and edit other translations as needed.
+- `./frontend/i18n/`, `./backend/config/locales/` - Replace `Chart Cyanvas` with your own instance name, and edit other translations as needed.
+- `./frontend/app/routes/charts.$name._index.tsx` - Replace `Chart Cyanvas` with your own instance name.
 - `./frontend/assets/favicon.svg` - Replace the favicon with your own instance logo.
 - `./frontend/assets/logo-cf.svg` - Replace the logo with your own instance logo.
 - `./frontend/unocss.config.ts` - Replace `.colors.theme` with your own instance theme colors.
+- `./frontend/components/Header.tsx` - Replace the instance name and logo in the header.
 - `./frontend/components/Footer.tsx` - Replace the footer with your own instance information.
 - `./backend/public/assets` - Replace the assets, especially the banner.
+- `./backend/app/controllers/api/discord_controller.rb` - Replace the Discord server link with your own instance Discord server.
 - `./wiki` - Replace the wiki with your own instance documentation.
