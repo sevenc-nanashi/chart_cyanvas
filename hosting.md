@@ -76,3 +76,26 @@ you have to modify the url to use your own image.
 ```
 docker compose up -d
 ```
+
+## Things You should Replace when You Fork and Host Your Own Instance
+
+### Keywords
+
+- `#83ccd2` - Theme Color.
+- `#2ac3d1` - Theme Color for dark mode.
+- `Chart Cyanvas` - Instance name.
+- `chcy-` - Instance short name, used in Sonolus.
+
+### Files
+
+> [!NOTE]
+> This is not exhaustive, so I may have missed some files.
+
+- `config.yml` - Modify the configuration file to suit your needs.
+- `./frontend/i18n/` - Replace `Chart Cyanvas` with your own instance name, and edit other translations as needed.
+- `./frontend/assets/favicon.svg` - Replace the favicon with your own instance logo.
+- `./frontend/assets/logo-cf.svg` - Replace the logo with your own instance logo.
+- `./frontend/unocss.config.ts` - Replace `.colors.theme` with your own instance theme colors.
+- `./frontend/components/Footer.tsx` - Replace the footer with your own instance information.
+- `./backend/public/assets` - Replace the assets, especially the banner.
+- `./wiki` - Replace the wiki with your own instance documentation.
